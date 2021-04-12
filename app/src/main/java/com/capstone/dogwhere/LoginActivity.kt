@@ -8,9 +8,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_join_id.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var auth:FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +20,10 @@ class MainActivity : AppCompatActivity() {
 
 
         auth= FirebaseAuth.getInstance()
+
+        btn_going_to_join.setOnClickListener {
+            startActivity(Intent(this,joinId::class.java))
+        }
 
 
         btn_login.setOnClickListener {
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("성공", "signInWithEmail:success")
 
-                            val intent = Intent(this, example::class.java)
+                            val intent = Intent(this, BBSActivity::class.java)
                             intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)

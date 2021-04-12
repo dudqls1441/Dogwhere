@@ -16,6 +16,8 @@ class joinId : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_id)
 
+
+
         auth= FirebaseAuth.getInstance()
         btn_join_in_Join.setOnClickListener {
             val join_userid=findViewById<EditText>(R.id.join_id_et).getText().toString()
@@ -44,7 +46,7 @@ class joinId : AppCompatActivity() {
                                 .addOnFailureListener {
                                     Log.w("데이터베이스 실패", "데이터베이스:failure")
                                 }
-                            val intent = Intent(this,MainActivity::class.java)
+                            val intent = Intent(this,LoginActivity::class.java)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
 

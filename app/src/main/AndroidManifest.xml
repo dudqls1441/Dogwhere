@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.capstone.dogwhere">
+    package="com.capstone.dogwhere" >
 
     <application
         android:allowBackup="true"
@@ -8,21 +8,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Dogwhere">
-        <activity android:name=".SplashActivity">
+        android:theme="@style/Theme.Dogwhere" >
+        <activity android:name=".RegisterDogProfileActivity" >
+        </activity>
+        <activity android:name=".RegisterUserProfileActivity" />
+        <activity android:name=".SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".WalkActivity" />
         <activity android:name=".MatchingActivity" />
         <activity android:name=".ChattingActivity" />
         <activity android:name=".BBSActivity" />
         <activity android:name=".MainMenuActivity" />
-        <activity android:name=".joinId">
+        <activity android:name=".joinId" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".example" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>
