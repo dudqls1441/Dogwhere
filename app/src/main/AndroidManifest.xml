@@ -9,6 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere">
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".WalkActivity" />
+        <activity android:name=".MatchingActivity" />
+        <activity android:name=".ChattingActivity" />
+        <activity android:name=".BBSActivity" />
+        <activity android:name=".MainMenuActivity" />
         <activity android:name=".joinId">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".example" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
