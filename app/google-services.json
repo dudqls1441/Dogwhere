@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "914802691595",
+    "firebase_url": "https://dogwhere-ea26c-default-rtdb.firebaseio.com",
+    "project_id": "dogwhere-ea26c",
+    "storage_bucket": "dogwhere-ea26c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914802691595:android:0d84f0bea7b77fd6b7c10e",
+        "android_client_info": {
+          "package_name": "com.capstone.dogwhere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914802691595-65sblbfkb6f7cluo4guad4fnsr084rgo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAy5OjdrPZRieHG9IsxZ1eWV5Xd3lbGto"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914802691595-65sblbfkb6f7cluo4guad4fnsr084rgo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
