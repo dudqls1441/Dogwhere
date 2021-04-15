@@ -6,28 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MatchingActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:id="@+id/topBar"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
+
         <ImageView
+            android:id="@+id/menuBar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_menu"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
-            android:id="@+id/menuBar"></ImageView>
+            android:src="@drawable/ic_menu"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DogWhere"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
+            android:text="DogWhere"
+            android:textColor="#BD3131"
             android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="#BD3131"></TextView>
+            android:textStyle="bold"></TextView>
 
     </RelativeLayout>
 
@@ -38,15 +41,31 @@
         android:orientation="horizontal">
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topBar"
+        android:layout_above="@+id/bottomBar">
+
+        <FrameLayout
+            android:name="com.example.dogwhere.matchingfragment"
+            android:id="@+id/matchingFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
             android:id="@+id/btn_allList"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -56,29 +75,30 @@
 
 
         <TextView
+            android:id="@+id/btn_upload"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:text="마칭"
-            android:id="@+id/btn_upload"
             android:textColor="#000000"
             android:textSize="20dp"></TextView>
 
         <TextView
+            android:id="@+id/btn_user_info"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/btn_user_info"
             android:gravity="center"
             android:text="산책"
             android:textColor="#3F51B5"
             android:textSize="20dp"></TextView>
+
         <TextView
+            android:id="@+id/myinformation"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/myinformation"
             android:gravity="center"
             android:text="채팅"
             android:textColor="#3F51B5"

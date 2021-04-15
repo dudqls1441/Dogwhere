@@ -1,9 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".RegisterUserProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="유저 프로필 등록"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textStyle="bold"></TextView>
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/userProfilePhoto"
+        android:src="@drawable/ic_menu"></ImageView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="사진올리기"
+        android:id="@+id/btn_selectPhoto"></Button>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp">
+
+        </TextView>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:id="@+id/userprofileName"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="나이"
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp">
+
+        </TextView>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:id="@+id/userprofileAge"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="성별"
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp">
+
+        </TextView>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:id="@+id/userprofileSex"
+            ></EditText>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="취미"
+            android:textSize="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="20dp">
+
+        </TextView>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:id="@+id/userprofileHobby"
+            ></EditText>
+    </LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_margin="10dp"
+       android:gravity="center">
+       <Button
+           android:layout_width="0dp"
+           android:layout_height="40dp"
+           android:layout_weight="2"
+           android:text="등록"
+           android:id="@+id/btn_upload"></Button>
+       <Button
+           android:layout_width="0dp"
+           android:layout_height="40dp"
+           android:layout_weight="2"
+           android:text="취소"
+           android:id="@+id/btn_cancel"></Button>
+   </LinearLayout>
+
+</LinearLayout>

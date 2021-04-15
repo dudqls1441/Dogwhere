@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import com.capstone.dogwhere.DTO.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_join_id.*
@@ -25,8 +26,6 @@ class joinId : AppCompatActivity() {
             val join_userPassword2=findViewById<EditText>(R.id.join_passwordC_ed).getText().toString()
             val join_userPhone=findViewById<EditText>(R.id.join_phone_et).getText().toString()
             val join_userName=findViewById<EditText>(R.id.join_name_et).getText().toString()
-            val join_userAddress=findViewById<EditText>(R.id.join_address_et).getText().toString()
-
             if(join_userPassword==join_userPassword2) {
                 auth.createUserWithEmailAndPassword(join_userid, join_userPassword)
                     .addOnCompleteListener(this) { task ->
@@ -35,7 +34,7 @@ class joinId : AppCompatActivity() {
                             Log.d("성공", "signInWithEmail:success")
 
                             val uid = FirebaseAuth.getInstance().uid?:""
-                            val user = User(uid,join_userid,join_userName,join_userPhone,join_userAddress)
+                            val user = User(uid, join_userid, join_userName, join_userPhone, false)
 
                             val db = FirebaseFirestore.getInstance().collection("users")
                             db.document(uid)
