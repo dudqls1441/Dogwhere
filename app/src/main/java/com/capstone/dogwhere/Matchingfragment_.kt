@@ -1,6 +1,8 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +28,10 @@ class Matchingfragment_ : Fragment() {
         btn_matching_chart.setOnClickListener {
 
         }
+
         btn_matching_map.setOnClickListener {
+            startActivity(Intent(context,GeoActivity::class.java))
+            Log.d("지도 누름","지도 누름")
 
         }
     }

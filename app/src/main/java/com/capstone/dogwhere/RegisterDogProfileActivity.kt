@@ -31,6 +31,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private lateinit var rdb: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var ImagePath: String
+    private var dogsex :String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,18 +98,22 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val downloadUri = task.result
                 val uid = auth.currentUser.uid
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
-                val dogsex = findViewById<EditText>(R.id.dogprofilensex).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
+                dogprofilesex.setOnCheckedChangeListener { group, i ->
+                    when(i){
+                        R.id.sex_male -> dogsex="수컷"
+                        R.id.sex_female -> dogsex ="암컷"
+                    }
+                    Log.d(TAG,dogsex)
+                }
+                Log.d(TAG,dogsex)
 
                 val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex)
 
                 val db = Firebase.firestore
 
-                // rdb.getReference(uid).child("userprofiles").setValue()
-
-                db.collection("dogprofiles")
-                    .add(dog)
+                db.collection("users").document(uid).collection("dogprofiles").add(dog)
                     .addOnSuccessListener { documentReference ->
                         Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                     }
@@ -116,11 +121,20 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                         Log.w(TAG, "Error adding document", e)
                     }
 
-//                rdb.getReference().child("dogprofiles").setValue(dog)
-                //       rdb.getReference().child("userprofiles").child(uid).setValue(dog)
 
-                val profileRef = rdb.getReference("userprofiles")
-                profileRef.child(uid).child(uid).child("dogprofiles").push().setValue(dog)
+
+
+//                db.collection("dogprofiles")
+//                    .add(dog)
+//                    .addOnSuccessListener { documentReference ->
+//                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                    }
+//                    .addOnFailureListener { e ->
+//                        Log.w(TAG, "Error adding document", e)
+//                    }
+
+//                val profileRef = rdb.getReference("userprofiles").child(uid)
+//                profileRef.child(uid).child(uid).child("dogprofiles").push().setValue(dog)
 
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)

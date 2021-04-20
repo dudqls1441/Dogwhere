@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/free_bbs_item"
+    android:layout_height="130dp"
+    android:layout_margin="8dp">
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:autoSizeMaxTextSize="150dp"
+        android:text="게시판 제목"
+        android:padding="15dp"
+        android:id="@+id/free_bbs_title"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:maxWidth="300dp"
+        android:text="게시판 내용입니다. 게시판 내용입니다."
+        android:padding="10dp"
+        android:layout_below="@+id/free_bbs_title"
+        android:id="@+id/free_bbs_content"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="몇 분 전"
+        android:padding="8dp"
+        android:layout_below="@+id/free_bbs_content"
+        android:id="@+id/free_bbs_time"></TextView>
+    <TextView
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:id="@+id/l"
+        android:layout_toRightOf="@+id/free_bbs_time"
+        android:layout_below="@+id/free_bbs_content"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="글쓴이"
+        android:padding="8dp"
+        android:layout_toRightOf="@+id/l"
+        android:layout_below="@+id/free_bbs_content"
+        android:id="@+id/free_bbs_name"></TextView>
+
+
+</RelativeLayout>

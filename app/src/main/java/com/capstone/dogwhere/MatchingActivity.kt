@@ -1,7 +1,9 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kotlinx.android.synthetic.main.activity_matching.*
 
 class MatchingActivity : AppCompatActivity() {
@@ -17,7 +19,8 @@ class MatchingActivity : AppCompatActivity() {
         fragmentTransaction.commit()
 
         menuBar.setOnClickListener {
-
+            startActivity(Intent(this,GeoActivity::class.java))
+            Log.d("지도 누름","지도 누름")
         }
     }
 

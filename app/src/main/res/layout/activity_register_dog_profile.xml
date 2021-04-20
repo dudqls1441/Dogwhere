@@ -28,6 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/btn_shape"
         android:gravity="center"
         android:text="사진올리기"></Button>
 
@@ -53,6 +54,7 @@
         <EditText
             android:id="@+id/dogprofilename"
             android:layout_width="0dp"
+            android:background="@drawable/edit_text_shape"
             android:layout_height="wrap_content"
             android:layout_marginRight="30dp"
             android:layout_weight="3"></EditText>
@@ -81,6 +83,7 @@
             android:id="@+id/dogprofileage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
             android:layout_marginRight="30dp"
             android:layout_weight="3"></EditText>
     </LinearLayout>
@@ -104,12 +107,28 @@
 
         </TextView>
 
-        <EditText
-            android:id="@+id/dogprofilensex"
+        <RadioGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_weight="3"></EditText>
+            android:layout_weight="3"
+            android:id="@+id/dogprofilesex"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="수컷"
+                android:id="@+id/sex_male"></RadioButton>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="암컷"
+                android:id="@+id/sex_female"></RadioButton>
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
@@ -135,6 +154,7 @@
             android:id="@+id/dogprofilebreed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
             android:layout_marginRight="30dp"
             android:layout_weight="3"></EditText>
     </LinearLayout>
@@ -150,12 +170,14 @@
             android:id="@+id/btn_upload"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:background="@drawable/btn_shape"
             android:layout_weight="2"
             android:text="등록"></Button>
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
+            android:background="@drawable/btn_shape"
             android:layout_height="40dp"
             android:layout_weight="2"
             android:text="취소"></Button>
@@ -165,6 +187,7 @@
         android:id="@+id/adddog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_shape"
         android:text="강아지 추가하기"></Button>
 
 

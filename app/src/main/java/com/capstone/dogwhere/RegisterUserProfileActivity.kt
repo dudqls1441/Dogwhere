@@ -14,7 +14,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.capstone.dogwhere.DTO.UserProfile
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -28,8 +30,10 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private val RECORD_REQUEST_CODE = 1000
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
+    private lateinit var database: DatabaseReference
     private lateinit var storage: FirebaseStorage
     private lateinit var ImagePath: String
+    private var usersex: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,14 +42,12 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         setupPermissions()
 
         auth = FirebaseAuth.getInstance()
-        rdb = FirebaseDatabase.getInstance()
         storage = FirebaseStorage.getInstance()
-
-
 
         btn_selectPhoto.setOnClickListener {
             selectPhoto()
         }
+
         btn_upload.setOnClickListener {
             upload(ImagePath)
         }
@@ -67,8 +69,6 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
             var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
             userProfilePhoto.setImageURI(file)
-
-
         }
     }
 
@@ -123,24 +123,59 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 val uid = auth.currentUser.uid
                 val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
                 val userage = findViewById<EditText>(R.id.userprofileAge).getText().toString()
-                val usersex = findViewById<EditText>(R.id.userprofileSex).getText().toString()
+
+                userprofilesex.setOnCheckedChangeListener { radioGroup, i ->
+
+                    when (i) {
+                        R.id.sex_man -> usersex = sex_man.text.toString()
+                        R.id.sex_woman -> usersex = sex_woman.text.toString()
+
+                    }
+                    Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
+                }
+
+
+//                userprofilesex.setOnCheckedChangeListener { group, i ->
+//                    Log.d(TAG, sex_man.text.toString() + " < -- 값 ")
+//                    if (i == R.id.sex_male) {
+//                        usersex = "남자"
+//                    } else {
+//                        usersex = "여자"
+//                    }
+//                    Log.d(TAG, usersex + " < -- 값1 ")
+//                    Toast.makeText(this, usersex    , Toast.LENGTH_LONG).show()
+//                }
+                Log.d(TAG, usersex + " < -- 값2 ")
+                Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
+
+
                 val userhobby = findViewById<EditText>(R.id.userprofileHobby).getText().toString()
 
                 Toast.makeText(this, uid + "랑" + username, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, uid + "---" + username)
 
-                val user = UserProfile(uid,downloadUri.toString(),username,userage,usersex)
+                val user = UserProfile(uid, downloadUri.toString(), username, userage, usersex)
 
                 Log.d(
                     TAG,
                     uid + "랑" + downloadUri + "랑" + username + "랑" + userage + "랑" + usersex + "랑" + userhobby
                 )
-
-//                rdb.getReference(uid).child("userprofiles").setValue(user)
+//
 
                 val db = Firebase.firestore
-                db.collection("userprofiles")
-                    .add(user)
+//                db.collection("userprofiles")
+//                    .add(user)
+//                    .addOnSuccessListener { documentReference ->
+//                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                    }
+//                    .addOnFailureListener { e ->
+//                        Log.w(TAG, "Error adding document", e)
+//                    }
+
+
+
+
+                db.collection("users").document(uid).collection("userprofiles").add(user)
                     .addOnSuccessListener { documentReference ->
                         Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                     }
@@ -148,10 +183,10 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                         Log.w(TAG, "Error adding document", e)
                     }
 
-                val profileRef=rdb.getReference("userprofiles")
-
-              //  rdb.getReference().child("userprofiles").push().child(uid).setValue(user)
-                profileRef.child(uid).push().setValue(user)
+//                val profileRef = rdb.getReference("userprofiles").child(uid)
+//
+//                //  rdb.getReference().child("userprofiles").push().child(uid).setValue(user)
+//                profileRef.child(uid).push().setValue(user)
 
                 val intent = Intent(this, RegisterDogProfileActivity::class.java)
                 startActivity(intent)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GeoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="구글 지도"
+        android:layout_margin="8dp"
+        android:id="@+id/map_top_name"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        ></TextView>
+
+    <fragment
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/map_top_name"
+        android:layout_height="match_parent"
+        android:id="@+id/mapfragment" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round"
+        android:text="위치가져오기"
+        android:textStyle="bold"
+        android:textSize="14dp"
+        android:id="@+id/btn_mylocation"
+        android:layout_below="@+id/map_top_name">
+
+    </Button>
+
+</RelativeLayout>
