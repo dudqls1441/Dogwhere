@@ -30,7 +30,9 @@ class BBS_Writing : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var ImagePath: String
-    private lateinit var name: String
+    lateinit var name: String
+    private lateinit var name1: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s__writing)
@@ -43,7 +45,7 @@ class BBS_Writing : AppCompatActivity() {
         btn_post.setOnClickListener {
             post(ImagePath)
             Thread.sleep(8000)
-            upload()
+
         }
 
     }
@@ -76,9 +78,15 @@ class BBS_Writing : AppCompatActivity() {
     }
 
     private fun post(uri: String) {
+        auth = FirebaseAuth.getInstance()
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val ref = storageRef.child("images/")
+        val ref = storageRef.child("images/${file.lastPathSegment}")
+        val uid = auth.currentUser.uid
+        val title = edit_title.text.toString()
+        val content = edit_content.text.toString()
+        val db = Firebase.firestore
+        val time = 122
 
         val uploadTask = ref.putFile(file)
 
@@ -108,11 +116,13 @@ class BBS_Writing : AppCompatActivity() {
                         val result = result.toObjects<User>()
                         for (document in result) {
                             name = document.userName
-                            Log.d(TAG, "name1 " + name)
+                            Log.d("joo", "name1 " + name)
                         }
-                        Log.d(TAG, "name2 " + name)
+                        val post = BBS_Free(uid, title, content, name, time.toString())
+                        upload(post)
+                        Log.d("joo", "name2 " + name)
                     }
-                Log.d(TAG, "name3 =" + name)
+                Log.d("joo", "name3 =" + name)
             } else {
                 it.exception
             }
@@ -121,23 +131,22 @@ class BBS_Writing : AppCompatActivity() {
         }
     }
 
-    private fun upload() {
+    private fun upload(post : BBS_Free) {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser.uid
         val title = edit_title.text.toString()
         val content = edit_content.text.toString()
         val db = Firebase.firestore
         val time = 122
-        Log.d(TAG, "name0 " + name)
 
 
-        val post = BBS_Free(uid, title, content, name, time.toString())
+        Log.d("joo", "name0 =" + name)
 
 
         db.collection("free_bbs").add(post)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                Log.d(TAG, name)
+                Log.d("joo", "hello : "+name)
                 val intent = Intent(this, BBSActivity::class.java)
                 startActivity(intent)
                 finish()
