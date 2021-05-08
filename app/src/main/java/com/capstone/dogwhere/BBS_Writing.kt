@@ -2,27 +2,20 @@ package com.capstone.dogwhere
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Log
 import com.capstone.dogwhere.DTO.BBS_Free
 import com.capstone.dogwhere.DTO.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_b_b_s__writing.*
-import kotlinx.android.synthetic.main.activity_register_user_profile.*
 import java.io.File
-import java.time.LocalDateTime
 
 class BBS_Writing : AppCompatActivity() {
     private val FLAG_GALLERY_CODE: Int = 10
@@ -118,7 +111,7 @@ class BBS_Writing : AppCompatActivity() {
                             name = document.userName
                             Log.d("joo", "name1 " + name)
                         }
-                        val post = BBS_Free(uid, title, content, name, time.toString())
+                        val post = BBS_Free(uid, title, content,downloadURL.toString(), name, time.toString())
                         upload(post)
                         Log.d("joo", "name2 " + name)
                     }
