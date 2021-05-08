@@ -82,7 +82,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private fun upload(uri: String) {
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val ref = storageRef.child("images/")
+        val ref = storageRef.child("DogProfile/${file.lastPathSegment}")
 
         val uploadTask = ref.putFile(file)
 

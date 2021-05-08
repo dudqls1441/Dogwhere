@@ -106,7 +106,8 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private fun upload(uri: String) {
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val riversRef = storageRef.child("images/")
+        val riversRef = storageRef.child("UserProfile/${file.lastPathSegment}")
+        Log.d("123", riversRef.toString())
         val uploadTask = riversRef.putFile(file)
 
         val urlTask = uploadTask.continueWithTask { task ->

@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import com.capstone.dogwhere.DTO.Walk_Record
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -81,6 +82,10 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             finish()
         }
 
+        btn_user_walk.setOnClickListener {
+            startActivity(Intent(this, Stop_watchActivity::class.java))
+            finish()
+        }
         menuBar.setOnClickListener {
             layout_drawer.openDrawer(GravityCompat.START)
         }
