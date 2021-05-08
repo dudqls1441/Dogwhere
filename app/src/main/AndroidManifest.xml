@@ -14,13 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere">
-<<<<<<< HEAD
+
         <activity android:name=".Stop_watchActivity">
         </activity>
-=======
         <activity android:name=".BBS_post"></activity>
         <activity android:name=".BBS_Writing_Imformation" />
->>>>>>> ec3fcc9ef7953d2fd184c61df6621aa8b87a2683
+
         <activity android:name=".BBS_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
