@@ -124,7 +124,9 @@ class Stop_watchActivity : AppCompatActivity() {
     private fun upload() {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser.uid
+        Log.e("123", uid)
         val time = last_str
+        Log.e("123", time)
         val distance = "123"
 
         val db = Firebase.firestore

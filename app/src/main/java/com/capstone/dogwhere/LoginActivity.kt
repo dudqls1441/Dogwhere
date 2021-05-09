@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_join_id.*
@@ -42,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
         btn_login.setOnClickListener {
             val userId = findViewById<EditText>(R.id.login_id).getText().toString()
             val userPwd = findViewById<EditText>(R.id.login_password).getText().toString()
-
             val user :User
 
             auth.signInWithEmailAndPassword(userId, userPwd)
@@ -63,10 +63,12 @@ class LoginActivity : AppCompatActivity() {
 //                                    .addOnFailureListener { exception ->
 //                                        Log.w("데이터베이스읽기실패","Error getting document",exception)
 //                                    }
+
                             val uid = auth.currentUser.uid
-                            db.collection("users").document(uid).collection("userprofiles").whereEqualTo("uid", uid).get()
+                            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                               .addOnSuccessListener { result ->
-                                  if (!result.isEmpty) {
+                                  val result=result.toObject<com.capstone.dogwhere.DTO.User>()
+                                  if(result!=null){
                                       val intent = Intent(this, MainMenuActivity::class.java)
                                       intent.flags =
                                           Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

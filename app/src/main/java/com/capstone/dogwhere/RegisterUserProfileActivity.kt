@@ -176,9 +176,9 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
 
 
-                db.collection("users").document(uid).collection("userprofiles").add(user)
+                db.collection("users").document(uid).collection("userprofiles").document(uid).set(user)
                     .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
