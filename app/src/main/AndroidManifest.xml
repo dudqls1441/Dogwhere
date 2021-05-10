@@ -14,17 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere">
+
+        <activity android:name=".Stop_watchActivity">
+        </activity>
         <activity android:name=".BBS_post"></activity>
         <activity android:name=".BBS_Writing_Imformation" />
+
         <activity android:name=".BBS_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
-        <activity android:name=".fgdfSplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity android:name=".SplashActivity">
         </activity>
         <activity android:name=".GeoActivity" />
 
@@ -38,14 +37,14 @@
         <activity android:name=".BBSActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".joinId">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".example" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -33,6 +33,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private lateinit var ImagePath: String
     private var dogsex :String = ""
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_dog_profile)
@@ -82,7 +83,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private fun upload(uri: String) {
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val ref = storageRef.child("images/")
+        val ref = storageRef.child("DogProfile/${file.lastPathSegment}")
 
         val uploadTask = ref.putFile(file)
 
@@ -108,14 +109,12 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                     Log.d(TAG,dogsex)
                 }
                 Log.d(TAG,dogsex)
-
                 val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex)
-
                 val db = Firebase.firestore
 
-                db.collection("users").document(uid).collection("dogprofiles").add(dog)
+                db.collection("users").document(uid).collection("dogprofiles").document(uid).set(dog)
                     .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)

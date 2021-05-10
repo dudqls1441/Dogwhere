@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import com.capstone.dogwhere.DTO.BBS_Free
+import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -16,16 +17,18 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_b_b_s__writing.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BBS_Writing : AppCompatActivity() {
     private val FLAG_GALLERY_CODE: Int = 10
     private val TAG = BBS_Writing::class.java.simpleName
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private lateinit var ImagePath: String
+    private  var ImagePath ="null"
     lateinit var name: String
     private lateinit var name1: String
-
+    private var photoselect=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s__writing)
@@ -44,6 +47,7 @@ class BBS_Writing : AppCompatActivity() {
     }
 
     private fun selectPhoto() {
+
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
 
@@ -54,7 +58,6 @@ class BBS_Writing : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == FLAG_GALLERY_CODE) {
             Log.d(TAG, getImageFilePath(data!!.data!!))
-
             ImagePath = getImageFilePath(data!!.data!!)
 
         }
@@ -72,66 +75,69 @@ class BBS_Writing : AppCompatActivity() {
 
     private fun post(uri: String) {
         auth = FirebaseAuth.getInstance()
-        var file = Uri.fromFile(File(uri))
-        val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val ref = storageRef.child("images/${file.lastPathSegment}")
         val uid = auth.currentUser.uid
         val title = edit_title.text.toString()
         val content = edit_content.text.toString()
         val db = Firebase.firestore
-        val time = 122
+        val time = currenttime()
 
-        val uploadTask = ref.putFile(file)
+        if(uri=="null"){
+            db.collection("users").whereEqualTo("uid", uid).get()
+                .addOnSuccessListener { result ->
+                    val result = result.toObjects<User>()
+                    for (document in result) {
+                        name = document.userName
+                    }
+                    val post = BBS_Free(uid, title, content,"null", name, time.toString())
+                    upload(post)
+                }
 
+        }else{
+            var file = Uri.fromFile(File(uri))
+            val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
+            val ref = storageRef.child("images/${file.lastPathSegment}")
+            val uploadTask = ref.putFile(file)
 //        uploadTask.addOnFailureListener {
 //
 //        }.addOnSuccessListener {uploadTask ->
 //            @SuppressWarnings("VisibleForTests")
 //            val downloadURL = uploadTask.uploadSessionUri
 //        }
-
-
-        uploadTask.continueWith { taskSnapshot ->
-            if (taskSnapshot.isSuccessful) {
-                taskSnapshot.exception?.let {
-                    throw it
-                }
-            }
-            return@continueWith ref.downloadUrl
-        }.addOnCompleteListener { it ->
-            @SuppressWarnings
-            if (it.isSuccessful) {
-                val downloadURL = it.result
-                val uid = auth.currentUser.uid
-                val db = Firebase.firestore
-                db.collection("users").whereEqualTo("uid", uid).get()
-                    .addOnSuccessListener { result ->
-                        val result = result.toObjects<User>()
-                        for (document in result) {
-                            name = document.userName
-                            Log.d("joo", "name1 " + name)
-                        }
-                        val post = BBS_Free(uid, title, content,downloadURL.toString(), name, time.toString())
-                        upload(post)
-                        Log.d("joo", "name2 " + name)
+            uploadTask.continueWith { taskSnapshot ->
+                if (taskSnapshot.isSuccessful) {
+                    taskSnapshot.exception?.let {
+                        throw it
                     }
-                Log.d("joo", "name3 =" + name)
-            } else {
-                it.exception
+                }
+                return@continueWith ref.downloadUrl
+            }.addOnCompleteListener { it ->
+                @SuppressWarnings
+                if (it.isSuccessful) {
+                    val downloadURL = it.result
+                    val uid = auth.currentUser.uid
+                    val db = Firebase.firestore
+                    db.collection("users").whereEqualTo("uid", uid).get()
+                        .addOnSuccessListener { result ->
+                            val result = result.toObjects<User>()
+                            for (document in result) {
+                                name = document.userName
+                            }
+                            val post = BBS_Free(uid, title, content,downloadURL.toString(), name, time.toString())
+                            upload(post)
+                        }
+                } else {
+                    it.exception
+                }
+            }.addOnFailureListener {
+                it.localizedMessage
             }
-        }.addOnFailureListener {
-            it.localizedMessage
         }
     }
 
-    private fun upload(post : BBS_Free) {
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
-        val title = edit_title.text.toString()
-        val content = edit_content.text.toString()
-        val db = Firebase.firestore
-        val time = 122
 
+
+    private fun upload(post : BBS_Free) {
+        val db = Firebase.firestore
 
         Log.d("joo", "name0 =" + name)
 
@@ -148,6 +154,25 @@ class BBS_Writing : AppCompatActivity() {
                 Log.w(TAG,  "Error adding document", e)
             }
     }
+    private fun currenttime(): String? {
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+        val curTime = dateFormat.format(Date(time))
+        Log.d("check",curTime)
+
+//    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        LocalDateTime.now()
+//    } else {
+//
+//    }
+//    val now = LocalDate.now()
+//    var formatter = DateTimeFormatter.ISO_DATE
+//    val formatted = current.format(formatter)
+
+        return curTime
+    }
+
 
 }
 

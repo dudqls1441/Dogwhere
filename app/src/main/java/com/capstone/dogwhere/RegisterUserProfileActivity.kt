@@ -106,7 +106,8 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private fun upload(uri: String) {
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val riversRef = storageRef.child("images/")
+        val riversRef = storageRef.child("UserProfile/${file.lastPathSegment}")
+        Log.d("123", riversRef.toString())
         val uploadTask = riversRef.putFile(file)
 
         val urlTask = uploadTask.continueWithTask { task ->
@@ -154,7 +155,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, uid + "랑" + username, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, uid + "---" + username)
 
-                val user = UserProfile(uid, downloadUri.toString(), username, userage, usersex)
+                val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex)
 
                 Log.d(
                     TAG,
@@ -175,9 +176,9 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
 
 
-                db.collection("users").document(uid).collection("userprofiles").add(user)
+                db.collection("users").document(uid).collection("userprofiles").document(uid).set(user)
                     .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)

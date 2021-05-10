@@ -15,6 +15,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_join_id.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,7 +29,6 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //test123
 
 
         auth= FirebaseAuth.getInstance()
@@ -42,35 +43,43 @@ class LoginActivity : AppCompatActivity() {
         btn_login.setOnClickListener {
             val userId = findViewById<EditText>(R.id.login_id).getText().toString()
             val userPwd = findViewById<EditText>(R.id.login_password).getText().toString()
-
             val user :User
-
 
             auth.signInWithEmailAndPassword(userId, userPwd)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("성공", "signInWithEmail:success")
-                            var registeredUserProfile :Boolean
-                            db.collection("user")
-                                    .get().addOnSuccessListener { result->
-                                        for (document  in result){
-                                            registeredUserProfile = document.get("registeredUserProfile") as Boolean
-                                            Log.d("읽기",document.get("registeredUserProfile").toString())
-                                            Log.d("읽기", registeredUserProfile.toString())
-                                            Log.d("데이터베이스읽기성공","${document.id}=>${document.data}")
-                                        }
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        Log.w("데이터베이스읽기실패","Error getting document",exception)
-                                    }
+                            //var registeredUserProfile :Boolean
+//                            db.collection("users")
+//                                    .get().addOnSuccessListener { result->
+//                                        for (document  in result){
+//                                            registeredUserProfile = document.get("registeredUserProfile") as Boolean
+//                                            Log.d("읽기",document.get("registeredUserProfile").toString())
+//                                            Log.d("읽기", registeredUserProfile.toString())
+//                                            Log.d("데이터베이스읽기성공","${document.id}=>${document.data}")
+//                                        }
+//                                    }
+//                                    .addOnFailureListener { exception ->
+//                                        Log.w("데이터베이스읽기실패","Error getting document",exception)
+//                                    }
 
-
-                            val intent = Intent(this, RegisterUserProfileActivity::class.java)
-                            intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
-
+                            val uid = auth.currentUser.uid
+                            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
+                              .addOnSuccessListener { result ->
+                                  val result=result.toObject<com.capstone.dogwhere.DTO.User>()
+                                  if(result!=null){
+                                      val intent = Intent(this, MainMenuActivity::class.java)
+                                      intent.flags =
+                                          Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                      startActivity(intent)
+                                  }else{
+                                      val intent = Intent(this, RegisterUserProfileActivity::class.java)
+                                      intent.flags =
+                                          Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                      startActivity(intent)
+                                  }
+                             }
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("실패", "signInWithEmail:failure", task.exception)
