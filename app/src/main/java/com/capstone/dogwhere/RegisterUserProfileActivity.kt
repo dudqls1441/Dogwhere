@@ -124,14 +124,17 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 val uid = auth.currentUser.uid
                 val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
                 val userage = findViewById<EditText>(R.id.userprofileAge).getText().toString()
+                if(sex_man.isChecked){
+                    usersex = "남자"
+                }else if (sex_woman.isChecked){
+                    usersex = "여자"
+                }else{
+
+                }
 
                 userprofilesex.setOnCheckedChangeListener { radioGroup, i ->
 
-                    when (i) {
-                        R.id.sex_man -> usersex = sex_man.text.toString()
-                        R.id.sex_woman -> usersex = sex_woman.text.toString()
 
-                    }
                     Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
                 }
 
