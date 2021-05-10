@@ -13,6 +13,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_stop_watch.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 
@@ -84,14 +86,14 @@ class Stop_watchActivity : AppCompatActivity() {
                 Log.e("123", last_str)
                 myCount++ //카운트 증가
             }
-            Pause -> { //리셋
+            Pause -> { //리셋, 저장
                 //핸들러를 멈춤
                 myTimer.removeMessages(0)
                 btn_start.setText("시작")
                 btn_rec.setText("기록")
+                last_str=getTimeOut().toString()
                 upload()
                 time_out.setText("00:00:00")
-
                 cur_Status = Init
                 myCount = 1
                 record.setText("")
@@ -128,9 +130,9 @@ class Stop_watchActivity : AppCompatActivity() {
         val time = last_str
         Log.e("123", time)
         val distance = "123"
-
+        val date=currenttime()
         val db = Firebase.firestore
-        db.collection("Walk_Record").add(Walk_Record(uid, time, distance))
+        db.collection("Walk_Record").document(uid).collection(date.toString()).add(Walk_Record(uid, time, date.toString(), distance))
             .addOnSuccessListener { documentReference ->
                 Log.e("123", "성공ㅇㅇ")
 //                val intent = Intent(this, BBSActivity::class.java)
@@ -140,6 +142,25 @@ class Stop_watchActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
 
             }
+    }
+
+    private fun currenttime(): String? {
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
+        val curTime = dateFormat.format(Date(time))
+        Log.d("check",curTime)
+
+//    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        LocalDateTime.now()
+//    } else {
+//
+//    }
+//    val now = LocalDate.now()
+//    var formatter = DateTimeFormatter.ISO_DATE
+//    val formatted = current.format(formatter)
+
+        return curTime
     }
 
 

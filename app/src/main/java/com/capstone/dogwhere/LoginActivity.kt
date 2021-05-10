@@ -50,20 +50,6 @@ class LoginActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("성공", "signInWithEmail:success")
-                            //var registeredUserProfile :Boolean
-//                            db.collection("users")
-//                                    .get().addOnSuccessListener { result->
-//                                        for (document  in result){
-//                                            registeredUserProfile = document.get("registeredUserProfile") as Boolean
-//                                            Log.d("읽기",document.get("registeredUserProfile").toString())
-//                                            Log.d("읽기", registeredUserProfile.toString())
-//                                            Log.d("데이터베이스읽기성공","${document.id}=>${document.data}")
-//                                        }
-//                                    }
-//                                    .addOnFailureListener { exception ->
-//                                        Log.w("데이터베이스읽기실패","Error getting document",exception)
-//                                    }
-
                             val uid = auth.currentUser.uid
                             db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                               .addOnSuccessListener { result ->
