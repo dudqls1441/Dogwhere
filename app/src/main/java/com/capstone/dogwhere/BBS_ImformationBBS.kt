@@ -1,4 +1,11 @@
-package com.capstone.dogwhere
+import com.capstone.dogwhere.BBS_Writing_Imformation
+import com.capstone.dogwhere.BBS_post
+import com.capstone.dogwhere.R
+
+//package com.capstone.dogwhere
+
+
+
 
 import android.app.SearchManager
 import android.content.Context
@@ -44,6 +51,18 @@ class BBS_ImformationBBS : Fragment() {
         recyclerView.adapter = adapter1
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        adapter1.setOnItemClickListener(object :RecyclerViewAdapter.OnItemClickListener{
+            override fun onItemClick(v: View, data: ArrayList<BBS_Imformation>, position: Int) {
+                Toast.makeText(context!!,"넘어가나?",Toast.LENGTH_LONG).show()
+                Intent(context,BBS_post::class.java).apply {
+                    putExtra("data",data)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run{startActivity(this)}
+            }
+        })
+
+
+
 
 
         return view
@@ -79,21 +98,25 @@ class BBS_ImformationBBS : Fragment() {
         btn_imformation_writing.setOnClickListener {
             startActivity(Intent(context, BBS_Writing_Imformation::class.java))
         }
+
         btnserch.setOnClickListener {
             (recyclerView.adapter as RecyclerViewAdapter).search(
                 searchword.text.toString(),
             )
         }
 
+
         recyclerView.setOnClickListener { object :RecyclerViewAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: ArrayList<BBS_Imformation>, position: Int) {
-                Intent(context,BBS_post::class.java).apply {
+                Intent(context, BBS_post::class.java).apply {
                     putExtra("data",data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { startActivity(this) }
             }
 
         } }
+
+
 
 //        var searchOption = "name"
 //        imformation_bbs_spinner.onItemSelectedListener =
@@ -172,7 +195,16 @@ class BBS_ImformationBBS : Fragment() {
 //                }
 //                notifyDataSetChanged()
 //            }
-            db.collection("impormation_bbs")
+            db.collection("impormation_bbs").get()
+                .addOnSuccessListener {
+                    for (document in it){
+                        if(document!!.contains(serchword)){
+                            val item = document.toObject(BBS_Imformation::class.java)
+                            imformationitem.add((item!!))
+                        }
+                    }
+                    notifyDataSetChanged()
+                }
         }
 
         override fun onBindViewHolder(holder: Holder, position: Int) {
