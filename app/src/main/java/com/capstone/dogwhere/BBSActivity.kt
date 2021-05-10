@@ -1,5 +1,7 @@
 package com.capstone.dogwhere
 
+import BBS_ImformationBBS
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TableLayout
@@ -37,6 +39,11 @@ class BBSActivity : AppCompatActivity() {
 
         })
         view_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
+
+        btn_matching_map.setOnClickListener {
+            startActivity(Intent(this,GeoActivity::class.java))
+            finish()
+        }
 
 
     }

@@ -40,6 +40,7 @@ class BBS_Writing_Imformation : AppCompatActivity() {
         }
         btn_postImformation.setOnClickListener {
             post(ImagePath)
+//            startActivity(Intent(this,BBSActivity::class.java))
         }
 
     }
@@ -100,8 +101,10 @@ class BBS_Writing_Imformation : AppCompatActivity() {
                     db.collection("users").whereEqualTo("uid", uid).get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
+                                Log.d(TAG,document.get("userName").toString())
+                                Log.d(TAG,document["userName1"].toString())
                                 name = document.get("userName").toString()
-                                Log.d("joo", "name1 " + name)
+                                Log.d("joo.", "name1111 " + name)
                             }
                             val post = BBS_Imformation(
                                 uid,
@@ -113,6 +116,11 @@ class BBS_Writing_Imformation : AppCompatActivity() {
                             )
                             upload(post)
                             Log.d("joo", "name2 " + name)
+                        }
+                        .addOnFailureListener{
+                            it.localizedMessage
+                            it.cause
+                            Log.d("dbfail","미션 ~~실패~~")
                         }
                 }
             }
