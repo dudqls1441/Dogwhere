@@ -46,7 +46,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val result = result.toObject<UserProfile>()
                 Log.e("joo",result.toString())
                 Glide.with(this).load(result?.profilePhoto).into(impormation_img)
-                impormation_name.setText(result?.UserName)
+                impormation_name.setText(result?.userName)
             }
 
     }

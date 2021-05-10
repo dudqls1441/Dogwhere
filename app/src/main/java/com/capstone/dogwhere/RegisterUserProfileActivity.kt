@@ -155,7 +155,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 Toast.makeText(this, uid + "랑" + username, Toast.LENGTH_SHORT).show()
                 Log.d(TAG, uid + "---" + username)
 
-                val user = UserProfile(uid, downloadUri.toString(), username, userage, usersex)
+                val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex)
 
                 Log.d(
                     TAG,
