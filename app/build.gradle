@@ -75,4 +75,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
 
+
+    implementation 'com.squareup.retrofit2:retrofit:2.8.0'    //HTTP 통신을 쉽게 하기 위한 라이브러리
+    implementation 'com.squareup.retrofit2:converter-gson:2.8.0'    //JSON과 JAVA Object 간 변환을 도와주는 라이브러리
+
 }
