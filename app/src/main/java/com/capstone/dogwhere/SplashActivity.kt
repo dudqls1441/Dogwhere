@@ -20,23 +20,25 @@ class SplashActivity : AppCompatActivity() {
 
         auth= FirebaseAuth.getInstance()
         val user = auth.currentUser
-        val uid = auth.currentUser.uid
+//        val uid= auth.currentUser.uid
+
         Handler().postDelayed({
-            db.collection("users").whereEqualTo("uid", uid).get()
-                .addOnSuccessListener { result ->
-                    val result = result.toObjects<User>()
-                    if(result!=null){
-                        val intent = Intent(this, MainMenuActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }else{
-                        val intent = Intent(this, LoginActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }
-                }
+
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags =
+                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+//            db.collection("users").whereEqualTo("uid", uid).get()
+//                .addOnSuccessListener { result ->
+//                    val result = result.toObjects<User>()
+//                    if(result!=null){
+//                        val intent = Intent(this, MainMenuActivity::class.java)
+//                        intent.flags =
+//                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                        startActivity(intent)
+//                    }else{
+//                    }
+//                }
             finish()
         },SPLASH_VIEW_TIME)
     }
