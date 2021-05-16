@@ -1,4 +1,3 @@
-import com.capstone.dogwhere.BBS_Writing_Imformation
 import com.capstone.dogwhere.BBS_post
 import com.capstone.dogwhere.R
 
@@ -15,44 +14,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.dogwhere.DTO.BBS_Imformation
+import com.capstone.dogwhere.BBS_Common_Writing
+import com.capstone.dogwhere.DTO.BBS_Common
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_imformation_bbs.*
+import kotlinx.android.synthetic.main.fragment_common_bbs.*
 import kotlinx.android.synthetic.main.imformation_bbs_item.view.*
-import java.util.*
 import kotlin.collections.ArrayList
 
-class BBS_ImformationBBS : Fragment() {
+class BBS_CommonBBS(var tab:String) : Fragment() {
 
-    // firebase 정보게시판 db명 "impormation_bbs" -> "bbs_imformation"으로 변견해야 한다.
-    
-    lateinit var imformation: ArrayList<BBS_Imformation>
-    private val TAG = BBS_ImformationBBS::class.java.simpleName
+    lateinit var information: ArrayList<BBS_Common>
+    private val TAG = BBS_CommonBBS::class.java.simpleName
     private lateinit var recyclerView: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_imformation_bbs, container, false)
+        val view = inflater.inflate(R.layout.fragment_common_bbs, container, false)
         recyclerView =
             view.findViewById<RecyclerView>(R.id.bbs_imformation_recyclerview) as RecyclerView
         initData()
-        Log.d("imformation==", imformation.size.toString())
-        val adapter1 = RecyclerViewAdapter(context!!, imformation)
+        Log.d("imformation==", information.size.toString())
+        val adapter1 = RecyclerViewAdapter(context!!, information)
         recyclerView.adapter = adapter1
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         adapter1.setOnItemClickListener(object :RecyclerViewAdapter.OnItemClickListener{
-            override fun onItemClick(v: View, data: ArrayList<BBS_Imformation>, position: Int) {
+            override fun onItemClick(v: View, data: ArrayList<BBS_Common>, position: Int) {
                 Toast.makeText(context!!,"넘어가나?",Toast.LENGTH_LONG).show()
                 Intent(context,BBS_post::class.java).apply {
                     putExtra("data",data)
@@ -61,26 +55,22 @@ class BBS_ImformationBBS : Fragment() {
             }
         })
 
-
-
-
-
         return view
     }
 
 
     private fun initData() {
         val db = Firebase.firestore
-        imformation = arrayListOf()
-        imformation.clear()
+        information = arrayListOf()
+        information.clear()
 
-        db.collection("impormation_bbs").get()
+        db.collection(tab).get()
             .addOnSuccessListener {
                 for (document in it) {
-                    val item = document.toObject(BBS_Imformation::class.java)
-                    imformation.add(item)
+                    val item = document.toObject(BBS_Common::class.java)
+                    information.add(item)
 
-                    Log.d("imformation=", imformation.toString())
+                    Log.d("imformation=", information.toString())
                     Log.d(TAG, "addImformationSuccees")
                 }
 
@@ -96,7 +86,10 @@ class BBS_ImformationBBS : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_imformation_writing.setOnClickListener {
-            startActivity(Intent(context, BBS_Writing_Imformation::class.java))
+            startActivity(Intent(context, BBS_Common_Writing()::class.java).apply {putExtra("tab", tab)})
+
+            Log.d("joo", "tab0:"+tab)
+
         }
 
         btnserch.setOnClickListener {
@@ -107,7 +100,7 @@ class BBS_ImformationBBS : Fragment() {
 
 
         recyclerView.setOnClickListener { object :RecyclerViewAdapter.OnItemClickListener{
-            override fun onItemClick(v: View, data: ArrayList<BBS_Imformation>, position: Int) {
+            override fun onItemClick(v: View, data: ArrayList<BBS_Common>, position: Int) {
                 Intent(context, BBS_post::class.java).apply {
                     putExtra("data",data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -153,7 +146,7 @@ class BBS_ImformationBBS : Fragment() {
 
     class RecyclerViewAdapter(
         val context: Context,
-        val imformationitem: ArrayList<BBS_Imformation>
+        val imformationitem: ArrayList<BBS_Common>
     ) :
         RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -165,7 +158,7 @@ class BBS_ImformationBBS : Fragment() {
 
 
         interface OnItemClickListener : SearchManager.OnCancelListener {
-            fun onItemClick(v:View,data: ArrayList<BBS_Imformation>,position: Int)
+            fun onItemClick(v:View, data: ArrayList<BBS_Common>, position: Int)
             override fun onCancel() {
 
             }
@@ -199,7 +192,7 @@ class BBS_ImformationBBS : Fragment() {
                 .addOnSuccessListener {
                     for (document in it){
                         if(document!!.contains(serchword)){
-                            val item = document.toObject(BBS_Imformation::class.java)
+                            val item = document.toObject(BBS_Common::class.java)
                             imformationitem.add((item!!))
                         }
                     }

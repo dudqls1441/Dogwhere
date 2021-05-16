@@ -8,4 +8,6 @@ class BBS_post : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s_post)
     }
+
+
 }
