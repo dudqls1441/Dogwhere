@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BBS_Writing_Imformation">
+    tools:context=".BBS_Common_Writing">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:padding="10dp"
-            android:text="정보 게시판"
+            android:text="글쓰기"
             android:textSize="20dp"
             android:textStyle="bold"></TextView>
         <Button
@@ -33,14 +33,14 @@
             android:background="@drawable/round_shape"
             android:text="올리기"
             android:layout_alignParentRight="true"
-            android:id="@+id/btn_postImformation"></Button>
+            android:id="@+id/btn_post"></Button>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="게시글 제목"
@@ -52,9 +52,10 @@
             android:background="@drawable/edit_text_shape"
             android:padding="12dp"
             android:text=""
-            android:id="@+id/edit_title_imformation"
+            android:id="@+id/edit_title"
             android:textStyle="bold"
             android:textSize="18dp"></EditText>
+
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -67,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
-        android:id="@+id/edit_content_imformation"
+        android:id="@+id/edit_content"
         android:hint="내용을 입력해주세요"
         android:gravity="start"></EditText>
     <LinearLayout
@@ -80,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="갤러리"
-            android:id="@+id/btn_gallaryImformation"
+            android:id="@+id/btn_gallary"
             android:layout_margin="8dp"
             android:background="@drawable/btn_shape"></Button>
         <Button

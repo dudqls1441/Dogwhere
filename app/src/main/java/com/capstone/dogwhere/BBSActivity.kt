@@ -1,10 +1,10 @@
 package com.capstone.dogwhere
 
-import BBS_ImformationBBS
+import BBS_CommonBBS
+import BBS_TransactionBBS
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TableLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -17,7 +17,7 @@ class BBSActivity : AppCompatActivity() {
         setContentView(R.layout.activity_b_b_s)
 
         tab_layout.addTab(tab_layout.newTab().setText("자유게시판"))
-        tab_layout.addTab(tab_layout.newTab().setText("중고고래"))
+        tab_layout.addTab(tab_layout.newTab().setText("중고거래"))
         tab_layout.addTab(tab_layout.newTab().setText("정보게시판"))
         tab_layout.addTab(tab_layout.newTab().setText("분양게시판"))
 
@@ -59,11 +59,11 @@ class PagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         when (position) {
-            0 -> return BBS_freeBBS()
-            1 -> return BBS_TransactionBBS()
-            2 -> return BBS_ImformationBBS()
-            3 -> return BBS_PuppySaleBBS()
-            else -> return BBS_freeBBS()
+            0 -> return BBS_CommonBBS("free_bbs")
+            1 -> return BBS_TransactionBBS("transaction_bbs")
+            2 -> return BBS_CommonBBS("information_bbs")
+            3 -> return BBS_TransactionBBS("puppy_bbs")
+            else -> return BBS_CommonBBS("free_bbs")
         }
 
     }

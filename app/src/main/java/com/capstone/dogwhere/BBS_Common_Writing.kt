@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import com.capstone.dogwhere.DTO.BBS_Free
-import com.capstone.dogwhere.DTO.DogProfile
+import com.capstone.dogwhere.DTO.BBS_Common
 import com.capstone.dogwhere.DTO.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -15,14 +14,15 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_b_b_s__writing.*
+import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BBS_Writing : AppCompatActivity() {
+class BBS_Common_Writing : AppCompatActivity() {
+
     private val FLAG_GALLERY_CODE: Int = 10
-    private val TAG = BBS_Writing::class.java.simpleName
+    private val TAG = BBS_Common_Writing::class.java.simpleName
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private  var ImagePath ="null"
@@ -31,7 +31,7 @@ class BBS_Writing : AppCompatActivity() {
     private var photoselect=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_b_b_s__writing)
+        setContentView(R.layout.activity_b_b_s__common_writing)
         storage = FirebaseStorage.getInstance()
         name = ""
 
@@ -88,8 +88,10 @@ class BBS_Writing : AppCompatActivity() {
                     for (document in result) {
                         name = document.userName
                     }
-                    val post = BBS_Free(uid, title, content,"null", name, time.toString())
+                    val post = BBS_Common(uid, title, content,"null", name, time.toString())
+                    Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)
+                    Log.d("joo", "tab1 : "+intent.getStringExtra("tab"))
                 }
 
         }else{
@@ -122,7 +124,7 @@ class BBS_Writing : AppCompatActivity() {
                             for (document in result) {
                                 name = document.userName
                             }
-                            val post = BBS_Free(uid, title, content,downloadURL.toString(), name, time.toString())
+                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString())
                             upload(post)
                         }
                 } else {
@@ -136,16 +138,16 @@ class BBS_Writing : AppCompatActivity() {
 
 
 
-    private fun upload(post : BBS_Free) {
+    private fun upload(post : BBS_Common) {
         val db = Firebase.firestore
 
         Log.d("joo", "name0 =" + name)
 
 
-        db.collection("free_bbs").add(post)
+        db.collection(intent.getStringExtra("tab").toString()).add(post)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                Log.d("joo", "hello : "+name)
+                Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
                 val intent = Intent(this, BBSActivity::class.java)
                 startActivity(intent)
                 finish()

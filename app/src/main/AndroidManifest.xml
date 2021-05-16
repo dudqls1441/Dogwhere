@@ -5,12 +5,17 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<<<<<<< HEAD
     //ACCESS_COARSE_LOCATION을 요청할 때 제공되는 위치보다 더 정확한 위치를 제공한다. 이 권한은  저전력 불루투스를 통해
     //근처 기기에 연결과 같은 일부 연결 작업에 필요하다.
     //-> 정확한 위치 제공
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     //도시 블록 내에 위치 정확성을 제공
     //대략적인 위치 제공
+=======
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+>>>>>>> 6d24d7c519f268676985b7a3c783ece7df045bbb
 
     <application
         android:allowBackup="true"
@@ -18,19 +23,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
+
         android:theme="@style/Theme.Dogwhere">
+        <activity android:name=".BBS_Transaction_Writing"></activity>
+        <activity android:name=".Stop_watchActivity"></activity>
+        <activity android:name=".BBS_post" />
+        <activity android:name=".BBS_Common_Writing" />
 
-        <activity android:name=".Stop_watchActivity">
-        </activity>
-        <activity android:name=".BBS_post"></activity>
-        <activity android:name=".BBS_Writing_Imformation" />
-
-        <activity android:name=".BBS_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,12 +51,9 @@
         <activity android:name=".ChattingActivity" />
         <activity android:name=".BBSActivity" />
         <activity android:name=".MainMenuActivity" />
-        <activity android:name=".joinId">
-        </activity>
+        <activity android:name=".joinId"></activity>
         <activity android:name=".example" />
-        <activity android:name=".LoginActivity" >
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
