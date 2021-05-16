@@ -45,10 +45,9 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
                 Log.e("joo",result.toString())
-                Glide.with(this).load(result?.profilePhoto).into(impormation_img)
-                impormation_name.setText(result?.userName)
+                Glide.with(this).load(result?.profilePhoto).into(user_photo_img)
+                user_name_text.setText(result?.userName)
             }
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -5,7 +5,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 사용 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,19 +14,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Dogwhere">
+        android:theme="@style/Theme.Dogwhere"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".WeatherActivity">
 
-        <activity android:name=".Stop_watchActivity">
         </activity>
-        <activity android:name=".BBS_post"></activity>
+        <activity android:name=".Stop_watchActivity"></activity>
+        <activity android:name=".BBS_post" />
         <activity android:name=".BBS_Writing_Imformation" />
-
         <activity android:name=".BBS_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,13 +42,12 @@
         <activity android:name=".MatchingActivity" />
         <activity android:name=".ChattingActivity" />
         <activity android:name=".BBSActivity" />
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".joinId">
-        </activity>
-        <activity android:name=".example" />
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".MainMenuActivity">
 
         </activity>
+        <activity android:name=".joinId"></activity>
+        <activity android:name=".example" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
