@@ -29,8 +29,9 @@ import kotlinx.android.synthetic.main.activity_geo.*
 
 class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
     private val TAG = GeoActivity::class.java.simpleName
-    private val gps_request_code=1000
+    private val gps_request_code = 1000
     private lateinit var mMap: GoogleMap
+    private lateinit var mapFragment: SupportMapFragment
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     //위치 요청 메소드 담고 있는 객체
@@ -47,7 +48,7 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_geo)
 
 
-        val mapFragment =
+        mapFragment =
             supportFragmentManager.findFragmentById(R.id.mapfragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -79,16 +80,24 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
                     0
                 )
             } else {
+
                 when {
                     isNetworkEnabled -> {
                         val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                        val getLongtitude = location?.longitude
-                        val getLatitude = location?.latitude
+                        val getLongtitude = location!!.longitude
+                        val getLatitude = location.latitude
+                        Log.d("chechLocation", "Lat : ${getLongtitude}, lon  : ${getLatitude}")
                         Toast.makeText(
                             this,
                             "현재위치를 불러옵니다." + getLongtitude.toString() + "<-위도 경도 ->" + getLatitude.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
+                        var currentLocation = LatLng(getLongtitude, getLatitude)
+                        mMap!!.addMarker(
+                            MarkerOptions().position(currentLocation).title(
+                                "현위치")
+                        )
+                        mMap!!.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,16f))
                     }
                     isGPSEnabled -> {
                         val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -121,11 +130,11 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when(requestCode){
-            1000 ->{
-                if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+        when (requestCode) {
+            1000 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     addLocationListener()
-                else{
+                else {
                     Toast.makeText(this, "권한거부", Toast.LENGTH_SHORT).show()
                     finish()
                 }
@@ -147,9 +156,9 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
     //googleMap을 이용하여 마커나 카메라, 선 등을 조정하는 것이다.
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
-        val seoul = LatLng(37.5134380, 126.7073128)
-        mMap.addMarker(MarkerOptions().position(seoul).title("우리집"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul))
+        val house = LatLng(37.5134380, 126.7073128)
+        mMap.addMarker(MarkerOptions().position(house).title("우리집"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(house))
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10f))
 
     }
@@ -183,7 +192,6 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-
     @SuppressLint("MissingPermisson")
     private fun addLocationListener() {
         //위치 정보 요청
@@ -212,13 +220,20 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
 
             if (locationResult == null) {
                 //gps가 꺼져있을 때는 null을 반환 -> gps가 켜져 있고 위치 정보를 찾을 수 있을 때
-                //다음ㅊ함수를 호출한다 -> <? .: 안전한 호출 >
+                //다음 함수를 호출한다 -> <? .: 안전한 호출 >
+                Log.d(TAG, "locationResult가 null이다.")
                 return
             } else {
                 location?.run {
-                    val latLng = LatLng(latitude, longitude)
+                    val getLongtitude = location!!.longitude
+                    val getLatitude = location.latitude
+
+                    val latLng = LatLng(getLatitude, getLongtitude)
+
+                    Log.d("chechLocation", "Lat : ${getLongtitude}, lon  : ${getLatitude}")
+
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
-                    mMap.addMarker(MarkerOptions().position(latLng).title("changedLocation"))
+                    mMap.addMarker(MarkerOptions().position(latLng).title("내 위치"))
                     polyLineOptions.add(latLng)
                     //선 그리기
                     mMap.addPolyline(polyLineOptions)
@@ -230,6 +245,26 @@ class GeoActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapFragment.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapFragment.onStop()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapFragment.onLowMemory()
+    }
+
+    override fun onDestroy() {
+        mapFragment.onDestroy()
+        super.onDestroy()
     }
 
     //    private val REQUEST_ACCESS_FIND_LOCATION=1000

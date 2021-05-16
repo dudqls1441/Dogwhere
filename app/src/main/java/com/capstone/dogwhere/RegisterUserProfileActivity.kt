@@ -44,7 +44,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        btn_selectPhoto.setOnClickListener {
+        userProfilePhoto.setOnClickListener {
             selectPhoto()
         }
 

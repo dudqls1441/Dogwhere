@@ -19,7 +19,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_register_dog_profile.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.*
-import kotlinx.android.synthetic.main.activity_register_user_profile.btn_selectPhoto
+//import kotlinx.android.synthetic.main.activity_register_user_profile.btn_selectPhoto
 import kotlinx.android.synthetic.main.activity_register_user_profile.btn_upload
 import kotlinx.android.synthetic.main.activity_register_user_profile.userProfilePhoto
 import java.io.File

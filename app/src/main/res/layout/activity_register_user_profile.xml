@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,73 +7,80 @@
     android:orientation="vertical"
     tools:context=".RegisterUserProfileActivity">
 
-    <TextView
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="유저 프로필 등록"
-        android:textSize="30dp"
-        android:textStyle="bold"></TextView>
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/userProfilePhoto"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_menu"></ImageView>
-
-    <Button
-        android:id="@+id/btn_selectPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/btn_shape"
-        android:gravity="center"
-        android:text="사진올리기"></Button>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="horizontal">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:id="@+id/btn_back"
+            android:background="@drawable/btn_round"
+            android:padding="8dp"
+            android:text="뒤로"></Button>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:text="프로필등록"
+            android:textSize="35dp"
+            android:textStyle="bold"></TextView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/top_layout">
+
+
+        <ImageView
+            android:id="@+id/userProfilePhoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_perm_identity"></ImageView>
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@+id/userProfilePhoto"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:text="이름"
+            android:text="닉네임"
             android:textSize="20dp">
 
         </TextView>
 
         <EditText
             android:id="@+id/userprofileName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/nickname"
+            android:hint="닉네임을 입력해주세요"
             android:layout_marginRight="30dp"
-            android:layout_weight="3"
-            android:background="@drawable/edit_text_shape"></EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="horizontal">
+            android:background="@drawable/edittext_round"></EditText>
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textbox_age"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@+id/userprofileName"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
             android:text="나이"
             android:textSize="20dp">
 
@@ -81,78 +88,82 @@
 
         <EditText
             android:id="@+id/userprofileAge"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textbox_age"
+            android:hint="0"
+            android:gravity="center"
             android:layout_marginRight="30dp"
-            android:layout_weight="3"
-            android:background="@drawable/edit_text_shape"></EditText>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="horizontal">
+            android:background="@drawable/edittext_round"></EditText>
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/userprofileAge"
+            android:text="세"
+            android:layout_below="@id/textbox_age"
+            android:layout_margin="8dp"
+            android:textSize="18dp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/textbox_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@+id/userprofileAge"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
             android:text="성별"
             android:textSize="20dp">
 
         </TextView>
 
+
+
         <RadioGroup
             android:id="@+id/userprofilesex"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="3"
+            android:layout_below="@+id/textbox_sex"
             android:gravity="center"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/sex_man"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="#5BD560"
                 android:layout_weight="1"
                 android:text="남자"></RadioButton>
 
             <RadioButton
                 android:id="@+id/sex_woman"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="#5BD560"
                 android:layout_weight="1"
                 android:text="여자"></RadioButton>
-        </RadioGroup>
-        <!--        <EditText-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_weight="3"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginRight="30dp"-->
-        <!--            android:id="@+id/userprofileSex"-->
-        <!--            ></EditText>-->
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/Nondisclosure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="#5BD560"
+                android:layout_weight="1"
+                android:text="비공개"></RadioButton>
+        </RadioGroup>
+
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/textbox_hobby"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@+id/userprofilesex"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
             android:text="취미"
             android:textSize="20dp">
 
@@ -160,35 +171,27 @@
 
         <EditText
             android:id="@+id/userprofileHobby"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:layout_margin="8dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textbox_hobby"
+            android:hint="취미를 입력해주세요"
+            android:gravity="center"
             android:layout_marginRight="30dp"
-            android:layout_weight="3"
-            android:background="@drawable/edit_text_shape"></EditText>
-    </LinearLayout>
+            android:background="@drawable/edittext_round"></EditText>
 
-    <LinearLayout
+    </RelativeLayout>
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:text="등록"
+        android:id="@+id/btn_upload"
+        android:layout_alignParentBottom="true"
+        android:background="#5BD560"></Button>
 
-        <Button
-            android:id="@+id/btn_upload"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="2"
-            android:background="@drawable/btn_shape"
-            android:text="등록"></Button>
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="2"
-            android:background="@drawable/btn_shape"
-            android:text="취소"></Button>
-    </LinearLayout>
 
-</LinearLayout>
+
+
+</RelativeLayout>

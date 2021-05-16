@@ -19,7 +19,9 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_join_id.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.btn_login
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth:FirebaseAuth
@@ -28,15 +30,16 @@ class LoginActivity : AppCompatActivity() {
     private val TAG =LoginActivity::class.java.simpleName
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
 
         auth= FirebaseAuth.getInstance()
         database = Firebase.database.reference
         db = FirebaseFirestore.getInstance()
 
-        btn_going_to_join.setOnClickListener {
-            startActivity(Intent(this,joinId::class.java))
+
+        btn_join.setOnClickListener {
+            startActivity(Intent(this, joinId::class.java))
         }
 
 
