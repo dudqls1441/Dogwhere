@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Chatting_Room_Activity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/chatting_room_top"
+        android:layout_alignParentTop="true"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="사용자이름"
+            android:fontFamily="@font/sebanggothic"
+            android:layout_centerInParent="true"
+            android:textSize="24dp"
+            android:id="@+id/chatting_room_other"></TextView>
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_round"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:text="Back"
+            android:id="@+id/chatting_room_btn_back"></Button>
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chatting_room_top"
+        android:layout_above="@+id/chatting_room_bottom"
+        android:id="@+id/chatting_room_recyclerview"></androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/chatting_room_bottom"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="img"
+            android:layout_centerVertical="true"
+            android:id="@+id/chatting_room_btn_img"
+            android:layout_alignParentLeft="true">
+
+        </Button>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/chatting_room_btn_img"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/edittext_round"
+            android:layout_toLeftOf="@+id/chatting_room_btn_send"
+            android:id="@+id/chatting_room_messagebox"
+            ></EditText>
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="전송"
+            android:background="@drawable/btn_round"
+            android:id="@+id/chatting_room_btn_send"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"></Button>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

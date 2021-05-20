@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:layout_height="match_parent"
-    tools:context=".Matchingfragment_">
+    tools:context=".MatchingHomeFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:gravity="center"

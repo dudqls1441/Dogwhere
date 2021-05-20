@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_matching.*
 
-class Matchingfragment_ : Fragment() {
+class MatchingHomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,8 @@ class Matchingfragment_ : Fragment() {
         return inflater.inflate(R.layout.fragment_matching, container, false)
 
         btn_matching_chart.setOnClickListener {
-
+            startActivity(Intent(context,GeoActivity::class.java))
+            Log.d("지도 누름","지도 누름")
         }
 
         btn_matching_map.setOnClickListener {

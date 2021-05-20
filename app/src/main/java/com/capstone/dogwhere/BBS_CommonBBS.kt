@@ -51,10 +51,9 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
                 Intent(context,BBS_post::class.java).apply {
                     putExtra("data",data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }.run{startActivity(this)}
+                }.run{startActivity(this)   }
             }
         })
-
         return view
     }
 

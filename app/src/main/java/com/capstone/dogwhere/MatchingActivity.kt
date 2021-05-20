@@ -13,14 +13,13 @@ class MatchingActivity : AppCompatActivity() {
 
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = Matchingfragment_()
+        val fragment = MatchingHomeFragment()
 
         fragmentTransaction.add(R.id.matchingFragment,fragment)
         fragmentTransaction.commit()
 
         menuBar.setOnClickListener {
-            startActivity(Intent(this,GeoActivity::class.java))
-            Log.d("지도 누름","지도 누름")
+
         }
     }
 

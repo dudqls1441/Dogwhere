@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/chatting_receive_charimg"
+        android:src="@drawable/selected_woman"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        ></ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="안녕하세요 ):반가워요."
+        android:textStyle="bold"
+        android:fontFamily="@font/sebanggothic"
+        android:textSize="15dp"
+        android:background="@drawable/seceive_text_round"
+        android:maxWidth="250dp"
+        android:layout_margin="16dp"
+        android:padding="12dp"
+        android:layout_toRightOf="@+id/chatting_receive_charimg"
+        android:id="@+id/chatting_receive_text"></TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chatting_receive_time"
+        android:textSize="15dp"
+        android:layout_toRightOf="@+id/chatting_receive_text"
+        android:text="18:36"
+        android:layout_alignBottom="@+id/chatting_receive_text"
+        android:fontFamily="@font/sebanggothic"></TextView>
+
+
+</RelativeLayout>

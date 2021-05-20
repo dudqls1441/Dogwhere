@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="24dp"
+    android:layout_height="80dp">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/selected_woman"
+        android:id="@+id/chat_list_userimg"
+        android:layout_alignParentLeft="true"></ImageView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자명"
+        android:fontFamily="@font/sebanggothic"
+        android:paddingLeft="16dp"
+        android:textSize="28dp"
+        android:id="@+id/chat_list_username"
+        android:layout_toRightOf="@+id/chat_list_userimg"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="250dp"
+        android:text="안녕하세요 짜리 아빠 김영빈입니다. 다음에 봐요~"
+        android:fontFamily="@font/sebanggothic"
+        android:paddingTop="8dp"
+        android:paddingLeft="16dp"
+        android:textSize="16dp"
+        android:id="@+id/chat_list_message"
+        android:layout_below="@+id/chat_list_username"
+        android:layout_toRightOf="@+id/chat_list_userimg"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="16:23"
+        android:fontFamily="@font/sebanggothic"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:id="@+id/chat_list_time"
+        android:layout_margin="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#AD515151"
+        android:layout_alignParentBottom="true"
+        android:padding="4dp"></TextView>
+
+
+
+
+
+</RelativeLayout>

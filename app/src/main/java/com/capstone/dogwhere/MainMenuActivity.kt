@@ -33,6 +33,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(R.layout.activity_main_menu)
 
         initLayout()
+        setFragment()
 
         auth = FirebaseAuth.getInstance()
         rdb = FirebaseDatabase.getInstance()
@@ -82,6 +83,10 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(Intent(this, BBSActivity::class.java))
             finish()
         }
+        btn_chatting.setOnClickListener {
+            startActivity(Intent(this,ChattingActivity::class.java))
+            finish()
+        }
 
         btn_user_walk.setOnClickListener {
             startActivity(Intent(this, Stop_watchActivity::class.java))
@@ -91,7 +96,17 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             layout_drawer.openDrawer(GravityCompat.START)
         }
         naviView.setNavigationItemSelectedListener(this)
+
     }
+    private fun setFragment(){
+        val transaction =supportFragmentManager.beginTransaction()
+        val fragment = WorkIndexFragment()
+
+        transaction.add(R.id.layout_today_workIndex,fragment)
+        transaction.commit()
+
+    }
+
 
 
 }

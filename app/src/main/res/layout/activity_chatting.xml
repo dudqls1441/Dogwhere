@@ -9,38 +9,42 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:id="@+id/matching_top_layout"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_menu"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:id="@+id/menuBar"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DogWhere"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
+            android:text="채팅"
+            android:fontFamily="@font/bazzi"
             android:textSize="30dp"
-            android:textStyle="bold"
-            android:textColor="#BD3131"></TextView>
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:textColor="#00C09F"></TextView>
 
     </RelativeLayout>
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:layout_below="@+id/matching_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:id="@+id/matching_tab_layout">
 
-    </LinearLayout>
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:layout_below="@+id/matching_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/matching_bottom_layout"
+        android:id="@+id/matching_pager">
+
+    </androidx.viewpager.widget.ViewPager>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:id="@+id/matching_bottom_layout"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
