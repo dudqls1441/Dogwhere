@@ -71,6 +71,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun initLayout() {
         btn_logout.setOnClickListener {
             auth.signOut()
+            MySharedPreferences.clearUser(this)
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }

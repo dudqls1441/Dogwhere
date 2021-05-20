@@ -41,7 +41,8 @@
         android:id="@+id/bbs_imformation_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/spinnerlayout"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/spinnerlayout"
+        android:layout_marginTop="12dp"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btn_imformation_writing"

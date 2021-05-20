@@ -1,9 +1,4 @@
-import com.capstone.dogwhere.BBS_post
-import com.capstone.dogwhere.R
-
 //package com.capstone.dogwhere
-
-
 
 
 import android.app.SearchManager
@@ -19,14 +14,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.capstone.dogwhere.BBS_Common_Writing
+import com.capstone.dogwhere.BBS_Common_Post
 import com.capstone.dogwhere.DTO.BBS_Common
+import com.capstone.dogwhere.R
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_common_bbs.*
-import kotlinx.android.synthetic.main.imformation_bbs_item.view.*
-import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.common_bbs_item.view.*
 
-class BBS_CommonBBS(var tab:String) : Fragment() {
+
+class BBS_CommonBBS(var tab: String) : Fragment() {
 
     lateinit var information: ArrayList<BBS_Common>
     private val TAG = BBS_CommonBBS::class.java.simpleName
@@ -45,15 +42,16 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
         recyclerView.adapter = adapter1
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter1.setOnItemClickListener(object :RecyclerViewAdapter.OnItemClickListener{
+        adapter1.setOnItemClickListener(object : RecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(v: View, data: ArrayList<BBS_Common>, position: Int) {
-                Toast.makeText(context!!,"넘어가나?",Toast.LENGTH_LONG).show()
-                Intent(context,BBS_post::class.java).apply {
-                    putExtra("data",data)
+                Toast.makeText(context!!, "넘어가나?", Toast.LENGTH_LONG).show()
+                Intent(context, BBS_Common_Post::class.java).apply {
+                    putExtra("data", data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }.run{startActivity(this)   }
+                }.run { startActivity(this) }
             }
         })
+
         return view
     }
 
@@ -85,9 +83,14 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_imformation_writing.setOnClickListener {
-            startActivity(Intent(context, BBS_Common_Writing()::class.java).apply {putExtra("tab", tab)})
+            startActivity(Intent(context, BBS_Common_Writing()::class.java).apply {
+                putExtra(
+                    "tab",
+                    tab
+                )
+            })
 
-            Log.d("joo", "tab0:"+tab)
+            Log.d("joo", "tab0:" + tab)
 
         }
 
@@ -100,8 +103,8 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
 
         recyclerView.setOnClickListener { object :RecyclerViewAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: ArrayList<BBS_Common>, position: Int) {
-                Intent(context, BBS_post::class.java).apply {
-                    putExtra("data",data)
+                Intent(context, BBS_Common_Post::class.java).apply {
+                    putExtra("data", data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { startActivity(this) }
             }
@@ -150,14 +153,14 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
         RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
             val view =
-                LayoutInflater.from(context).inflate(R.layout.imformation_bbs_item, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.common_bbs_item, parent, false)
 
             return Holder(view)
         }
 
 
         interface OnItemClickListener : SearchManager.OnCancelListener {
-            fun onItemClick(v:View, data: ArrayList<BBS_Common>, position: Int)
+            fun onItemClick(v: View, data: ArrayList<BBS_Common>, position: Int)
             override fun onCancel() {
 
             }
@@ -202,10 +205,22 @@ class BBS_CommonBBS(var tab:String) : Fragment() {
         override fun onBindViewHolder(holder: Holder, position: Int) {
             var viewholder = (holder as RecyclerView.ViewHolder).itemView
 
-            viewholder.imformation_bbs_title.text = imformationitem[position].title
-            viewholder.imformation_bbs_content.text = imformationitem[position].content
-            viewholder.imformation_bbs_name.text = imformationitem[position].username
-            viewholder.imformation_bbs_time.text = imformationitem[position].time
+            viewholder.free_bbs_title.text = imformationitem[position].title
+            viewholder.free_bbs_content.text = imformationitem[position].content
+            viewholder.free_bbs_name.text = imformationitem[position].username
+            viewholder.free_bbs_time.text = imformationitem[position].time
+
+            viewholder.setOnClickListener {
+                Intent(context, BBS_Common_Post::class.java).apply {
+                    putExtra("uid",  imformationitem[position].uid)
+                    putExtra("title", viewholder.free_bbs_title.text)
+                    putExtra("content", viewholder.free_bbs_content.text)
+                    putExtra("name", viewholder.free_bbs_name.text)
+                    putExtra("time", viewholder.free_bbs_time.text)
+
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run { context.startActivity(this) }
+            }
         }
 
 

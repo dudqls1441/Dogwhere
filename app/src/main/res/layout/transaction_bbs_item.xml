@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/imformation_bbs_item"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:layout_margin="16dp">
+    android:id="@+id/imformation_bbs_item"
+    android:layout_height="170dp"
+    android:layout_margin="8dp">
 
     <TextView
         android:id="@+id/imformation_bbs_title"
@@ -12,14 +12,23 @@
         android:autoSizeMaxTextSize="150dp"
         android:padding="8dp"
         android:text="게시판 제목"
-        android:textSize="20dp"
-        android:textStyle="bold"></TextView>
+        android:textSize="20dp"></TextView>
+
+    <TextView
+        android:id="@+id/imformation_bbs_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_title"
+        android:autoSizeMaxTextSize="80dp"
+        android:padding="8dp"
+        android:text="가격"
+        android:textSize="18dp"></TextView>
 
     <TextView
         android:id="@+id/imformation_bbs_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imformation_bbs_title"
+        android:layout_below="@+id/imformation_bbs_price"
         android:maxWidth="300dp"
         android:padding="10dp"
         android:text="게시판 내용입니다. 게시판 내용입니다."
@@ -30,31 +39,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imformation_bbs_content"
+        android:layout_marginTop="0dp"
         android:padding="8dp"
         android:text="몇 분 전"></TextView>
-
     <TextView
-        android:id="@+id/l"
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:layout_below="@+id/imformation_bbs_content"
+        android:background="#000000"
+        android:id="@+id/l"
         android:layout_toRightOf="@+id/imformation_bbs_time"
-        android:background="#000000"></TextView>
+        android:layout_below="@+id/imformation_bbs_content"></TextView>
 
     <TextView
         android:id="@+id/imformation_bbs_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imformation_bbs_content"
+        android:layout_toEndOf="@+id/imformation_bbs_time"
         android:layout_toRightOf="@+id/l"
         android:padding="8dp"
         android:text="글쓴이"></TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
-        android:background="#000000"></TextView>
 
 
 </RelativeLayout>
