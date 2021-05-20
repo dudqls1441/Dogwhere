@@ -1,4 +1,4 @@
-import com.capstone.dogwhere.BBS_post
+import com.capstone.dogwhere.BBS_Common_Post
 import com.capstone.dogwhere.R
 
 //package com.capstone.dogwhere
@@ -18,13 +18,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.dogwhere.BBS_Common_Writing
+import com.capstone.dogwhere.BBS_Transaction_Post
 import com.capstone.dogwhere.BBS_Transaction_Writing
 import com.capstone.dogwhere.DTO.BBS_Transaction
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_transaction_bbs.*
-import kotlinx.android.synthetic.main.imformation_bbs_item.view.*
+import kotlinx.android.synthetic.main.transaction_bbs_item.view.*
 import kotlin.collections.ArrayList
 
 class BBS_TransactionBBS(var tab:String) : Fragment() {
@@ -49,7 +49,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
         adapter1.setOnItemClickListener(object :RecyclerViewAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: ArrayList<BBS_Transaction>, position: Int) {
                 Toast.makeText(context!!,"넘어가나?",Toast.LENGTH_LONG).show()
-                Intent(context,BBS_post::class.java).apply {
+                Intent(context,BBS_Common_Post::class.java).apply {
                     putExtra("data",data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run{startActivity(this)}
@@ -102,7 +102,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
 
         recyclerView.setOnClickListener { object :RecyclerViewAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: ArrayList<BBS_Transaction>, position: Int) {
-                Intent(context, BBS_post::class.java).apply {
+                Intent(context, BBS_Common_Post::class.java).apply {
                     putExtra("data",data)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 }.run { startActivity(this) }
@@ -152,7 +152,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
         RecyclerView.Adapter<RecyclerViewAdapter.Holder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
             val view =
-                LayoutInflater.from(context).inflate(R.layout.imformation_bbs_item, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.transaction_bbs_item, parent, false)
 
             return Holder(view)
         }
@@ -203,11 +203,23 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
 
         override fun onBindViewHolder(holder: Holder, position: Int) {
             var viewholder = (holder as RecyclerView.ViewHolder).itemView
-
             viewholder.imformation_bbs_title.text = imformationitem[position].title
             viewholder.imformation_bbs_content.text = imformationitem[position].content
             viewholder.imformation_bbs_name.text = imformationitem[position].username
             viewholder.imformation_bbs_time.text = imformationitem[position].time
+            viewholder.imformation_bbs_price.text = imformationitem[position].price
+
+            viewholder.setOnClickListener {
+                Intent(context, BBS_Transaction_Post::class.java).apply {
+                    putExtra("uid",  imformationitem[position].uid)
+                    putExtra("title", viewholder.imformation_bbs_title.text)
+                    putExtra("content", viewholder.imformation_bbs_content.text)
+                    putExtra("name", viewholder.imformation_bbs_name.text)
+                    putExtra("time", viewholder.imformation_bbs_time.text)
+                    putExtra("price", viewholder.imformation_bbs_price.text)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run { context.startActivity(this) }
+            }
         }
 
 

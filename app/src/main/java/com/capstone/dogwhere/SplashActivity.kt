@@ -28,6 +28,7 @@ class SplashActivity : AppCompatActivity() {
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+
 //            db.collection("users").whereEqualTo("uid", uid).get()
 //                .addOnSuccessListener { result ->
 //                    val result = result.toObjects<User>()
