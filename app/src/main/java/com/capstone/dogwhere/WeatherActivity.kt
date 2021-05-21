@@ -1,9 +1,7 @@
 package com.capstone.dogwhere
 
 import android.Manifest
-import android.R.id.button1
 import android.annotation.SuppressLint
-import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.*
 import android.os.Build
@@ -14,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import kotlinx.android.synthetic.main.activity_weather.*
 import retrofit2.Call
 import retrofit2.Response
@@ -26,70 +23,20 @@ import java.io.IOException
 import java.util.*
 
 
+var TO_GRID = 0
+var TO_GPS = 1
 val num_of_rows = 10
 val page_no = 1
 val data_type = "JSON"
 val base_time = 1100
-val base_data = 20210519
-val nx = "59"
-val ny = "123"
+val base_data = 20210521
+var nx = ""
+var ny = ""
 
 
 var POP : String? = null
 var SKY : String? = null
 var T3H : String? = null
-
-
-//////////////////////////////////
-//
-//var locationManager : LocationManager? = null
-//private val REQUEST_CODE_LOCATION : Int = 2
-//var currentLocation : String = ""
-//var latitude : Double? = null
-//var longitude : Double? = null
-//
-//private fun getCurrentLoc() {
-//    locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-//    var userLocation: Location = getLatLng()
-//    if (userLocation != null) {
-//        latitude = userLocation.latitude
-//        longitude = userLocation.longitude
-//        Log.d("CheckCurrentLocation", "현재 내 위치 값: $latitude, $longitude")
-//
-//        var mGeocoder = Geocoder(applicationContext, Locale.KOREAN)
-//        var mResultList: List<Address>? = null
-//        try {
-//            mResultList = mGeocoder.getFromLocation(
-//                latitude!!, longitude!!, 1
-//            )
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-//        if (mResultList != null) {
-//            Log.d("CheckCurrentLocation", mResultList[0].getAddressLine(0))
-//            currentLocation = mResultList[0].getAddressLine(0)
-//            currentLocation = currentLocation.substring(11)
-//        }
-//    }
-//}
-//
-//private fun getLatLng() : Location {
-//    var currentLatLng: Location? = null
-//    if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//        && ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), this.REQUEST_CODE_LOCATION)
-//        getLatLng()
-//    } else {
-//        val locationProvider = LocationManager.GPS_PROVIDER
-//        currentLatLng = locationManager?.getLastKnownLocation(locationProvider)
-//    }
-//    return currentLatLng!!
-//}
-
-////////////////////////////////
-
-
-
 
 
 
@@ -145,29 +92,37 @@ object ApiObject {
 
 @SuppressLint("MissingPermission")
 class WeatherActivity : AppCompatActivity() {
-//    val lm : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//    val location : Location? = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//
-//    val gpsLocationListener: LocationListener = object : LocationListener {
-//        override fun onLocationChanged(location: Location) {
-//            val provider = location.provider
-//            val longitude = location.longitude
-//            val latitude = location.latitude
-//            val altitude = location.altitude
-//            testtext1.setText(
-//                """
-//                위치정보 : $provider
-//                위도 : $longitude
-//                경도 : $latitude
-//                고도  : $altitude
-//                """.trimIndent()
-//            )
-//        }
-//
-//        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-//
-//    }
 
+fun getCurrentAddress(latitude: Double, longitude: Double): String? {
+
+    //지오코더... GPS를 주소로 변환
+    val geocoder = Geocoder(this, Locale.getDefault())
+    val addresses: List<Address>?
+    addresses = try {
+        geocoder.getFromLocation(
+            latitude,
+            longitude,
+            7
+        )
+    } catch (ioException: IOException) {
+        //네트워크 문제
+        Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+        return "지오코더 서비스 사용불가"
+    } catch (illegalArgumentException: IllegalArgumentException) {
+        Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+        return "잘못된 GPS 좌표"
+    }
+    if (addresses == null || addresses.size == 0) {
+        Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show()
+        return "주소 미발견"
+    }
+    val address = addresses[0]
+    val splitaddress = address.getAddressLine(0).split(" ")
+    return """
+        ${splitaddress[2]} ${splitaddress[3]}
+
+        """.trimIndent()
+}
 
     val gpsLocationListener: LocationListener = object : LocationListener{
         override fun onLocationChanged(location: Location) {
@@ -175,14 +130,7 @@ class WeatherActivity : AppCompatActivity() {
             val longitude: Double = location.getLongitude()
             val latitude: Double = location.getLatitude()
             val altitude: Double = location.getAltitude()
-            testtext1.setText(
-                """
-                위치정보 : $provider
-                위도 : $longitude
-                경도 : $latitude
-                고도  : $altitude
-                """.trimIndent()
-            )
+
         }
 
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
@@ -192,53 +140,62 @@ class WeatherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
+
+
+        //GPS 좌표 가져오기
         val lm: LocationManager? = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        testbtn1.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                if (Build.VERSION.SDK_INT >= 23 &&
-                    ContextCompat.checkSelfPermission(
-                        applicationContext,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        this@WeatherActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        0
-                    )
-                } else {
-                    val location = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    val provider = location!!.provider
-                    val longitude = location!!.longitude
-                    val latitude = location!!.latitude
-                    val altitude = location!!.altitude
-                    Log.e("api",                        """
+        if (Build.VERSION.SDK_INT >= 23 &&
+            ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this@WeatherActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                0
+            )
+        } else {
+            val location = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val provider = location!!.provider
+            val longitude = location!!.longitude
+            val latitude = location!!.latitude
+            val altitude = location!!.altitude
+            val tmp = convertGRID_GPS(TO_GRID, latitude, longitude)
+            nx = tmp.x.toInt().toString()
+            ny = tmp.y.toInt().toString()
+            Log.e(
+                "api", """
                     위치정보 : $provider
-                    위도 : $longitude
-                    경도 : $latitude
-                    고도  : $altitude
-                    """.trimIndent())
-                    testtext1.setText(
-                        """
-                    위치정보 : $provider
-                    위도 : $longitude
-                    경도 : $latitude
+                    위도 : $longitude  x : $nx
+                    경도 : $latitude  y : $ny
                     고도  : $altitude
                     """.trimIndent()
-                    )
-                    lm!!.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        1000, 1f,
-                        gpsLocationListener
-                    )
-                    lm!!.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        1000, 1f,
-                        gpsLocationListener
-                    )
-                }
-            }
-        })
+            )
+
+            Log.e("api", "x = " + tmp.y + ", y = " + tmp.y)
+            val area = getCurrentAddress(latitude.toDouble(), longitude.toDouble())
+            testtext1.setText(
+                """
+                    위치정보 : $provider
+                    위도 : $latitude  x : $nx
+                    경도 : $longitude  y : $ny
+                    고도  : $altitude
+                    위치 : $area
+                    """.trimIndent()
+            )
+            lm.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                1000, 1f,
+                gpsLocationListener
+            )
+            lm.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER,
+                1000, 1f,
+                gpsLocationListener
+            )
+        }
+
 
         val call = ApiObject.retrofitService.GetWeather(
             data_type,
@@ -257,10 +214,19 @@ class WeatherActivity : AppCompatActivity() {
                     Log.d("api", response.body()!!.response.body.items.item[0].category)
                     Log.d("api", response.body()!!.response.body.items.item[0].fcstValue)
                     val res = response.body()!!.response.body.items.item[1].fcstValue
-                    POP = response.body()!!.response.body.items.item[0].fcstValue.toString()
-                    SKY = response.body()!!.response.body.items.item[3].fcstValue.toString()
-                    T3H = response.body()!!.response.body.items.item[4].fcstValue.toString()
+                    POP = response.body()!!.response.body.items.item[0].fcstValue
+                    SKY = response.body()!!.response.body.items.item[3].fcstValue
+                    T3H = response.body()!!.response.body.items.item[4].fcstValue
                     Log.d("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + T3H)
+                    if(SKY.equals("1")){
+                        SKY = "맑음"
+                    }else if(SKY.equals("3")){
+                        SKY = "구름많음"
+                    }else{
+                        SKY = "흐림"
+                    }
+                    testtext.setText("강수확률=" + POP + "%  SKY=" + SKY + "  기온=" + T3H + "°c  X=" + nx + "  Y=" + ny)
+
                 }
             }
 
@@ -269,23 +235,96 @@ class WeatherActivity : AppCompatActivity() {
             }
         })
 
-        testbtn.setOnClickListener {
-            if(SKY.equals("1")){
-                SKY = "맑음"
-            }else if(SKY.equals("3")){
-                SKY = "구름많음"
-            }else{
-                SKY = "흐림"
-            }
-            testtext.setText("강수확률=" + POP + "%  SKY=" + SKY + "  기온=" + T3H + "°c")
-            Toast.makeText(
-                this.applicationContext,
-                "강수확률 = " + POP + "% SKY = " + SKY + " 기온 = " + T3H,
-                Toast.LENGTH_LONG
-            ).show()
-        }
+
+
+
 
 
     }
 }
 
+
+
+
+
+
+//
+
+
+
+
+
+private fun convertGRID_GPS(mode: Int, lat_X: Double, lng_Y: Double): LatXLngY {
+    val RE = 6371.00877 // 지구 반경(km)
+    val GRID = 5.0 // 격자 간격(km)
+    val SLAT1 = 30.0 // 투영 위도1(degree)
+    val SLAT2 = 60.0 // 투영 위도2(degree)
+    val OLON = 126.0 // 기준점 경도(degree)
+    val OLAT = 38.0 // 기준점 위도(degree)
+    val XO = 43.0 // 기준점 X좌표(GRID)
+    val YO = 136.0 // 기1준점 Y좌표(GRID)
+
+    //
+    // LCC DFS 좌표변환 ( code : "TO_GRID"(위경도->좌표, lat_X:위도,  lng_Y:경도), "TO_GPS"(좌표->위경도,  lat_X:x, lng_Y:y) )
+    //
+    val DEGRAD = Math.PI / 180.0
+    val RADDEG = 180.0 / Math.PI
+    val re = RE / GRID
+    val slat1 = SLAT1 * DEGRAD
+    val slat2 = SLAT2 * DEGRAD
+    val olon = OLON * DEGRAD
+    val olat = OLAT * DEGRAD
+    var sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5)
+    sn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn)
+    var sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5)
+    sf = Math.pow(sf, sn) * Math.cos(slat1) / sn
+    var ro = Math.tan(Math.PI * 0.25 + olat * 0.5)
+    ro = re * sf / Math.pow(ro, sn)
+    val rs = LatXLngY()
+    if (mode == TO_GRID) {
+        rs.lat = lat_X
+        rs.lng = lng_Y
+        var ra = Math.tan(Math.PI * 0.25 + lat_X * DEGRAD * 0.5)
+        ra = re * sf / Math.pow(ra, sn)
+        var theta = lng_Y * DEGRAD - olon
+        if (theta > Math.PI) theta -= 2.0 * Math.PI
+        if (theta < -Math.PI) theta += 2.0 * Math.PI
+        theta *= sn
+        rs.x = Math.floor(ra * Math.sin(theta) + XO + 0.5)
+        rs.y = Math.floor(ro - ra * Math.cos(theta) + YO + 0.5)
+    } else {
+        rs.x = lat_X
+        rs.y = lng_Y
+        val xn = lat_X - XO
+        val yn = ro - lng_Y + YO
+        var ra = Math.sqrt(xn * xn + yn * yn)
+        if (sn < 0.0) {
+            ra = -ra
+        }
+        var alat = Math.pow(re * sf / ra, 1.0 / sn)
+        alat = 2.0 * Math.atan(alat) - Math.PI * 0.5
+        var theta = 0.0
+        if (Math.abs(xn) <= 0.0) {
+            theta = 0.0
+        } else {
+            if (Math.abs(yn) <= 0.0) {
+                theta = Math.PI * 0.5
+                if (xn < 0.0) {
+                    theta = -theta
+                }
+            } else theta = Math.atan2(xn, yn)
+        }
+        val alon = theta / sn + olon
+        rs.lat = alat * RADDEG
+        rs.lng = alon * RADDEG
+    }
+    return rs
+}
+
+
+internal class LatXLngY {
+    var lat = 0.0
+    var lng = 0.0
+    var x = 0.0
+    var y = 0.0
+}
