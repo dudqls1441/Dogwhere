@@ -10,7 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        Z<ImageView
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentLeft="true"
+            android:background="#ffffff"
+            android:text="Logout"
+            android:textStyle="bold"></Button>
+
+        <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"

@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="채팅"
-            android:fontFamily="@font/bazzi"
+            android:fontFamily="@font/sebanggothic"
             android:textSize="30dp"
             android:layout_centerVertical="true"
             android:paddingLeft="16dp"
