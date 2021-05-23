@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_weather.*
+import kotlinx.android.synthetic.main.fragment_home_work_index.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -29,9 +30,9 @@ val num_of_rows = 10
 val page_no = 1
 val data_type = "JSON"
 val base_time = 1100
-val base_data = 20210521
-var nx = ""
-var ny = ""
+val base_data = 20210523
+var nx = "60"
+var ny = "127"
 
 
 var POP : String? = null
@@ -90,39 +91,40 @@ object ApiObject {
     }
 }
 
-@SuppressLint("MissingPermission")
+
 class WeatherActivity : AppCompatActivity() {
 
-fun getCurrentAddress(latitude: Double, longitude: Double): String? {
 
-    //지오코더... GPS를 주소로 변환
-    val geocoder = Geocoder(this, Locale.getDefault())
-    val addresses: List<Address>?
-    addresses = try {
-        geocoder.getFromLocation(
-            latitude,
-            longitude,
-            7
-        )
-    } catch (ioException: IOException) {
-        //네트워크 문제
-        Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
-        return "지오코더 서비스 사용불가"
-    } catch (illegalArgumentException: IllegalArgumentException) {
-        Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
-        return "잘못된 GPS 좌표"
-    }
-    if (addresses == null || addresses.size == 0) {
-        Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show()
-        return "주소 미발견"
-    }
-    val address = addresses[0]
-    val splitaddress = address.getAddressLine(0).split(" ")
-    return """
+    fun getCurrentAddress(latitude: Double, longitude: Double): String? {
+
+        //지오코더... GPS를 주소로 변환
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses: List<Address>?
+        addresses = try {
+            geocoder.getFromLocation(
+                latitude,
+                longitude,
+                7
+            )
+        } catch (ioException: IOException) {
+            //네트워크 문제
+            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            return "지오코더 서비스 사용불가"
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            return "잘못된 GPS 좌표"
+        }
+        if (addresses == null || addresses.size == 0) {
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show()
+            return "주소 미발견"
+        }
+        val address = addresses[0]
+        val splitaddress = address.getAddressLine(0).split(" ")
+        return """
         ${splitaddress[2]} ${splitaddress[3]}
 
         """.trimIndent()
-}
+    }
 
     val gpsLocationListener: LocationListener = object : LocationListener{
         override fun onLocationChanged(location: Location) {
@@ -140,62 +142,6 @@ fun getCurrentAddress(latitude: Double, longitude: Double): String? {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather)
-
-
-        //GPS 좌표 가져오기
-        val lm: LocationManager? = getSystemService(LOCATION_SERVICE) as LocationManager
-
-        if (Build.VERSION.SDK_INT >= 23 &&
-            ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this@WeatherActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                0
-            )
-        } else {
-            val location = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            val provider = location!!.provider
-            val longitude = location!!.longitude
-            val latitude = location!!.latitude
-            val altitude = location!!.altitude
-            val tmp = convertGRID_GPS(TO_GRID, latitude, longitude)
-            nx = tmp.x.toInt().toString()
-            ny = tmp.y.toInt().toString()
-            Log.e(
-                "api", """
-                    위치정보 : $provider
-                    위도 : $longitude  x : $nx
-                    경도 : $latitude  y : $ny
-                    고도  : $altitude
-                    """.trimIndent()
-            )
-
-            Log.e("api", "x = " + tmp.y + ", y = " + tmp.y)
-            val area = getCurrentAddress(latitude.toDouble(), longitude.toDouble())
-            testtext1.setText(
-                """
-                    위치정보 : $provider
-                    위도 : $latitude  x : $nx
-                    경도 : $longitude  y : $ny
-                    고도  : $altitude
-                    위치 : $area
-                    """.trimIndent()
-            )
-            lm.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
-                1000, 1f,
-                gpsLocationListener
-            )
-            lm.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER,
-                1000, 1f,
-                gpsLocationListener
-            )
-        }
-
 
         val call = ApiObject.retrofitService.GetWeather(
             data_type,
@@ -225,20 +171,111 @@ fun getCurrentAddress(latitude: Double, longitude: Double): String? {
                     }else{
                         SKY = "흐림"
                     }
-                    testtext.setText("강수확률=" + POP + "%  SKY=" + SKY + "  기온=" + T3H + "°c  X=" + nx + "  Y=" + ny)
-
+                    dust_text1.setText(POP)
+                    weather_text1.setText(SKY)
+                    temp_text1.setText(T3H)
                 }
             }
 
 
             override fun onFailure(call: Call<WEATHER>, t: Throwable) {
+                Log.e("api", "hello")
             }
         })
+        //GPS 좌표 가져오기
 
 
 
+            if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this@WeatherActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    0
+                )
+            } else {
+                val lm: LocationManager? = getSystemService(LOCATION_SERVICE) as LocationManager
+                val location = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val provider = location!!.provider
+                val longitude = location!!.longitude
+                val latitude = location!!.latitude
+                val altitude = location!!.altitude
+                val tmp = convertGRID_GPS(TO_GRID, latitude, longitude)
+                nx = tmp.x.toInt().toString()
+                ny = tmp.y.toInt().toString()
 
 
+
+                Log.e("api", "x = " + tmp.x + ", y = " + tmp.y)
+                val area = getCurrentAddress(latitude, longitude)
+                Log.e(
+                    "api", """
+                    위치정보 : $provider
+                    위도 : $latitude  x : $nx
+                    경도 : $longitude  y : $ny
+                    고도  : $altitude 
+                    위치 : $area
+                    """.trimIndent()
+                )
+                area_text1.setText(area)
+
+                lm.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    1000, 1f,
+                    gpsLocationListener
+                )
+                lm.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    1000, 1f,
+                    gpsLocationListener
+                )
+            }
+
+
+
+            Log.e("api", nx+ny)
+//        val call = ApiObject.retrofitService.GetWeather(
+//            data_type,
+//            num_of_rows,
+//            page_no,
+//            base_data,
+//            base_time,
+//            nx,
+//            ny
+//        )
+//        call.enqueue(object : retrofit2.Callback<WEATHER> {
+//            override fun onResponse(call: Call<WEATHER>, response: Response<WEATHER>) {
+//                if (response.isSuccessful) {
+//                    Log.d("api", response.body().toString())
+//                    Log.d("api", response.body()!!.response.body.items.item.toString())
+//                    Log.d("api", response.body()!!.response.body.items.item[0].category)
+//                    Log.d("api", response.body()!!.response.body.items.item[0].fcstValue)
+//                    val res = response.body()!!.response.body.items.item[1].fcstValue
+//                    POP = response.body()!!.response.body.items.item[0].fcstValue
+//                    SKY = response.body()!!.response.body.items.item[3].fcstValue
+//                    T3H = response.body()!!.response.body.items.item[4].fcstValue
+//                    Log.d("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + T3H)
+//                    if(SKY.equals("1")){
+//                        SKY = "맑음"
+//                    }else if(SKY.equals("3")){
+//                        SKY = "구름많음"
+//                    }else{
+//                        SKY = "흐림"
+//                    }
+//                    dust_text1.setText(POP)
+//                    weather_text1.setText(SKY)
+//                    temp_text1.setText(T3H)
+//                }
+//            }
+//
+//
+//            override fun onFailure(call: Call<WEATHER>, t: Throwable) {
+//                Log.e("api", "hello")
+//            }
+//        })
 
     }
 }

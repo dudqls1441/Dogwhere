@@ -27,7 +27,7 @@
             android:text="인천시 부평구"
             android:fontFamily="@font/sebanggothic"
             android:textColor="#ffffff"
-            android:id="@+id/workindex_Area"
+            android:id="@+id/area_text"
             android:layout_below="@+id/workindex_title"
             android:paddingLeft="16dp"
             android:textSize="24dp"></TextView>
@@ -76,6 +76,7 @@
                     android:textSize="15dp"
                     android:gravity="center"></TextView>
                 <TextView
+                    android:id="@+id/dust_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="상태"
@@ -99,6 +100,7 @@
                     android:textSize="15dp"
                     android:gravity="center"></TextView>
                 <TextView
+                    android:id="@+id/weather_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="상태"
@@ -123,6 +125,7 @@
                     android:textSize="15dp"
                     android:gravity="center"></TextView>
                 <TextView
+                    android:id="@+id/temp_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="상태"
