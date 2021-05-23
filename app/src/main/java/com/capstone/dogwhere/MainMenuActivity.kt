@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.User
@@ -19,8 +20,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.LogoutResponseCallback
+import com.kakao.util.helper.Utility.getKeyHash
 import kotlinx.android.synthetic.main.activity_main_menu.*
 import kotlinx.android.synthetic.main.navi_header.*
+
+
 
 class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var auth: FirebaseAuth
@@ -30,7 +36,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_menu)
+        var hash_key = getKeyHash(this)
+        Log.i("Loggm",hash_key) // 확인
 
         initLayout()
         setFragment()
@@ -70,6 +77,23 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun initLayout() {
         btn_logout.setOnClickListener {
+//            val builder = AlertDialog.Builder(this)
+//            builder.setMessage("로그아웃 하시겠습니까?")
+//            builder.setPositiveButton("확인") { dialogInterface, i ->
+//                UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+//                    override fun onCompleteLogout() {
+//
+//                    }
+//                })
+//                dialogInterface.dismiss()
+//            }
+//            builder.setNegativeButton("취소") { dialogInterface, i ->
+//                dialogInterface.dismiss()
+//            }
+//            val dialog: AlertDialog = builder.create()
+//            dialog.show()
+
+
             auth.signOut()
             MySharedPreferences.clearUser(this)
             startActivity(Intent(this, LoginActivity::class.java))

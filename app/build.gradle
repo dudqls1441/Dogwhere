@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.capstone.dogwhere"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    allprojects {
+        repositories {
+            google()
+            jcenter()
+            mavenCentral()
+            maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        }
+
     }
 }
 
@@ -82,4 +91,5 @@ dependencies {
     implementation 'com.xwray:groupie:2.7.0'
     //groupieRecyclerview
 
+    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 }
