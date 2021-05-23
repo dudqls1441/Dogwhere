@@ -32,6 +32,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
+
+//        btn_logout.setOnClickListener {
+//            auth.signOut()
+//            MySharedPreferences.clearUser(this)
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
+
         initLayout()
         setFragment()
 
@@ -55,6 +63,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         when (item.itemId) {
             R.id.account -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.itme2 -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.btn_logout -> clicklogut()
         }
         layout_drawer.closeDrawers()
         return false
@@ -69,12 +78,6 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun initLayout() {
-        btn_logout.setOnClickListener {
-            auth.signOut()
-            MySharedPreferences.clearUser(this)
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
         btn_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
             finish()
@@ -94,7 +97,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             finish()
         }
         menuBar.setOnClickListener {
-            layout_drawer.openDrawer(GravityCompat.START)
+            layout_drawer.openDrawer(GravityCompat.END)
         }
         naviView.setNavigationItemSelectedListener(this)
 
@@ -106,6 +109,12 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         transaction.add(R.id.layout_today_workIndex,fragment)
         transaction.commit()
 
+    }
+    private fun clicklogut(){
+        auth.signOut()
+        MySharedPreferences.clearUser(this)
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
 

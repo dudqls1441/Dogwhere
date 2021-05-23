@@ -1,7 +1,5 @@
-import com.capstone.dogwhere.BBS_post
-import com.capstone.dogwhere.R
 
-//package com.capstone.dogwhere
+import com.capstone.dogwhere.R
 
 
 import android.app.SearchManager
@@ -21,7 +19,6 @@ import com.capstone.dogwhere.DTO.BBS_Common
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_common_bbs.*
-import kotlinx.android.synthetic.main.imformation_bbs_item.view.*
 import kotlin.collections.ArrayList
 
 class MatchingChatFragment : Fragment() {

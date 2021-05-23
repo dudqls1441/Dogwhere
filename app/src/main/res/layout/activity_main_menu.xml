@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context=".MainMenuActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,6 +24,7 @@
                 android:id="@+id/menuBar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_menu"></ImageView>
@@ -30,31 +32,154 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
                 android:gravity="center_horizontal"
                 android:src="@drawable/splashimg"
                 android:textColor="#BD3131"
-                android:textSize="30dp"
                 android:textStyle="bold"></ImageView>
 
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="#ffffff"
-                android:text="Logout"
-                android:textStyle="bold"></Button>
 
         </RelativeLayout>
-
         <RelativeLayout
-            android:id="@+id/layout_today_workIndex"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_below="@id/layout_top">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/layout_top"
+            android:layout_above="@+id/bottom_layout"
+            android:id="@+id/scrollLayout">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:fillViewport="true"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/InscrollLayout">
+
+                    <RelativeLayout
+                        android:id="@+id/layout_today_workIndex"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp">
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_today_hot_post"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="4dp"
+                        android:padding="16dp"
+                        android:layout_height="300dp"
+                        android:layout_below="@+id/layout_today_workIndex">
+                        <TextView
+                            android:id="@+id/texttoday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="오늘의"
+                            android:fontFamily="@font/sebanggothic"
+                            android:textSize="20dp"></TextView>
+                        <TextView
+                            android:id="@+id/texthotpost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/texttoday"
+                            android:text="핫 게시물"
+                            android:textColor="#00C09F"
+                            android:layout_marginBottom="8dp"
+                            android:fontFamily="@font/sebanggothic"
+                            android:textSize="20dp"></TextView>
+                        
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerview_today_hot_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/texttoday"
+                            android:paddingTop="8dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/layout_recommendation_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_below="@+id/layout_today_hot_post"
+                        android:padding="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="oo"
+                            android:fontFamily="@font/sebanggothic"
+                            android:id="@+id/recommendation_gu"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_toRightOf="@+id/recommendation_gu"
+                            android:text="구"
+                            android:fontFamily="@font/sebanggothic"
+                            android:id="@+id/text_gu"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="oo"
+                            android:fontFamily="@font/sebanggothic"
+                            android:layout_toRightOf="@+id/text_gu"
+                            android:id="@+id/recommendation_dong"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp"
+                            android:layout_toRightOf="@+id/recommendation_dong"
+                            android:text="동"
+                            android:fontFamily="@font/sebanggothic"
+                            android:id="@+id/text_dong"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="산책 모임"
+                            android:fontFamily="@font/sebanggothic"
+                            android:id="@+id/text_work"
+                            android:layout_marginTop="8dp"
+                            android:textSize="18dp"
+                            android:textColor="#00C09F"
+                            android:layout_below="@+id/recommendation_dong"></TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="18dp"
+                            android:layout_below="@+id/recommendation_dong"
+                            android:layout_toRightOf="@+id/text_work"
+                            android:text="에 방문해보세요"
+                            android:fontFamily="@font/sebanggothic"></TextView>
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/text_work"
+                            android:fillViewport="true">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerview_recommendation_place"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingTop="8dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+
+                        </HorizontalScrollView>
 
 
+
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </ScrollView>
         </RelativeLayout>
 
         <LinearLayout
@@ -66,6 +191,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
@@ -123,7 +249,7 @@
         android:id="@+id/naviView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="right"
         app:headerLayout="@layout/navi_header"
         app:menu="@menu/drawer_navigation">
 

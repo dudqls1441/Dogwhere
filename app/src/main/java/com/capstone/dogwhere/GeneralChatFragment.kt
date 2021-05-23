@@ -1,4 +1,4 @@
-import com.capstone.dogwhere.BBS_post
+
 import com.capstone.dogwhere.R
 
 //package com.capstone.dogwhere
@@ -23,7 +23,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.chat_list_item.*
 import kotlinx.android.synthetic.main.fragment_common_bbs.*
 import kotlinx.android.synthetic.main.general_chat_fragment.*
-import kotlinx.android.synthetic.main.imformation_bbs_item.view.*
+
 
 
 class GeneralChatFragment : Fragment() {

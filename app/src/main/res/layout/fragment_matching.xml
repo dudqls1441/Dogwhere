@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
+    android:layout_margin="20dp"
+    android:gravity="center"
     android:layout_height="match_parent"
     tools:context=".MatchingHomeFragment">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_margin="20dp"
-        android:layout_height="match_parent">
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:text="표료찾기"
             android:padding="16dp"
             android:background="#DCB0B0"
@@ -25,7 +21,7 @@
             android:id="@+id/btn_matching_chart"></Button>
         <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:text="지도에서 찾기"
             android:padding="16dp"
             android:layout_below="@+id/btn_matching_chart"
@@ -38,7 +34,7 @@
             android:id="@+id/btn_matching_map"></Button>
         <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="140dp"
             android:text="매칭등록하기"
             android:padding="16dp"
             android:gravity="start"
@@ -49,7 +45,6 @@
             android:textColor="#ffffff"
             android:textSize="20dp"
             android:id="@+id/btn_registration_matching"></Button>
-    </RelativeLayout>
 
 
-</FrameLayout>
+</RelativeLayout>

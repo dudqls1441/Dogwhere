@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MatchingRegistrationActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="4dp"
+        android:layout_margin="8dp"
+        android:layout_height="40dp"
+        android:id="@+id/top_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="매칭 등록하기"
+            android:fontFamily="@font/sebanggothic"
+            android:textSize="20dp"
+            android:layout_centerInParent="true"></TextView>
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="뒤로"
+            android:id="@+id/btn_back"
+            android:fontFamily="@font/sebanggothic"
+            android:background="@drawable/btn_shape"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"></Button>
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="등록"
+            android:id="@+id/btn_registration"
+            android:fontFamily="@font/sebanggothic"
+            android:background="@drawable/btn_shape"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"></Button>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registration_place_layout"
+        android:padding="16dp"
+        android:layout_below="@+id/top_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="장소"
+            android:textSize="16dp"
+            android:fontFamily="@font/sebanggothic"
+            android:textStyle="bold"></TextView>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/line1"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_below="@id/registration_place_layout"
+        android:layout_margin="16dp"></TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/registration_content_layout"
+        android:padding="16dp"
+        android:layout_below="@+id/line1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목"
+            android:id="@+id/registration_title"
+            android:textSize="16dp"
+            android:fontFamily="@font/sebanggothic"
+            android:textStyle="bold"></TextView>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_shape"
+            android:hint="ㅋㅋㅋ"
+            android:layout_below="@id/registration_title"
+            android:layout_marginTop="8dp"
+            android:id="@+id/edittext_registration_title"></EditText>
+
+    </RelativeLayout>
+
+</RelativeLayout>

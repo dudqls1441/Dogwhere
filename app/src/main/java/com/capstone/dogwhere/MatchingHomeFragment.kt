@@ -15,6 +15,7 @@ class MatchingHomeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
 
+
         }
     }
 
@@ -23,18 +24,23 @@ class MatchingHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_matching, container, false)
 
         btn_matching_chart.setOnClickListener {
-            startActivity(Intent(context,GeoActivity::class.java))
-            Log.d("지도 누름","지도 누름")
+            startActivity(Intent(context, GeoActivity::class.java))
+            Log.d("지도 누름", "지도 누름")
         }
 
         btn_matching_map.setOnClickListener {
-            startActivity(Intent(context,GeoActivity::class.java))
-            Log.d("지도 누름","지도 누름")
-
+            startActivity(Intent(context, GeoActivity::class.java))
+            Log.d("지도 누름", "지도 누름")
         }
+        btn_registration_matching.setOnClickListener {
+            startActivity(Intent(context, MainMenuActivity::class.java))
+        }
+
+
     }
 
 

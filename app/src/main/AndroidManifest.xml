@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BBS_Transaction_Post"></activity>
+        <activity android:name=".MatchingRegistrationActivity"></activity>
+        <activity android:name=".BBS_Transaction_Post" />
         <activity android:name=".BBS_Transaction_Writing" />
         <activity android:name=".Stop_watchActivity" />
         <activity android:name=".BBS_Common_Post" />

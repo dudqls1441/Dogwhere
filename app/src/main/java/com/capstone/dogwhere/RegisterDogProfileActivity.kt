@@ -31,7 +31,8 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private lateinit var rdb: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var ImagePath: String
-    private var dogsex :String = ""
+    private var dogsex: String = ""
+    private var dogneneutralization: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +45,13 @@ class RegisterDogProfileActivity : AppCompatActivity() {
 
 
 
-        btn_selectPhoto.setOnClickListener {
+        DogProfilePhoto.setOnClickListener {
             selectPhoto()
         }
         btn_upload.setOnClickListener {
             upload(ImagePath)
         }
+
     }
 
     private fun selectPhoto() {
@@ -66,7 +68,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
             ImagePath = getImageFilePath(data!!.data!!)
 
             var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-            userProfilePhoto.setImageURI(file)
+            DogProfilePhoto.setImageURI(file)
         }
     }
 
@@ -102,25 +104,32 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
                 dogprofilesex.setOnCheckedChangeListener { group, i ->
-                    when(i){
-                        R.id.sex_male -> dogsex="수컷"
-                        R.id.sex_female -> dogsex ="암컷"
+                    when (i) {
+                        R.id.neutralization_T -> dogneneutralization = "예"
+                        R.id.neutralization_F -> dogneneutralization = "아니요"
                     }
-                    Log.d(TAG,dogsex)
+                    Log.d(TAG, dogsex)
                 }
-                Log.d(TAG,dogsex)
+                dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
+                    when (i) {
+                        R.id.sex_male -> dogsex = "수컷"
+                        R.id.sex_female -> dogsex = "암컷"
+                    }
+                    Log.d(TAG, dogsex)
+                }
+
+                Log.d(TAG, dogsex)
                 val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex)
                 val db = Firebase.firestore
 
-                db.collection("users").document(uid).collection("dogprofiles").document(uid).set(dog)
+                db.collection("users").document(uid).collection("dogprofiles").document(uid)
+                    .set(dog)
                     .addOnSuccessListener { documentReference ->
 
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
-
-
 
 
 //                db.collection("dogprofiles")
