@@ -14,6 +14,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_b_b_s.*
 import kotlinx.android.synthetic.main.activity_chatting.*
+import kotlinx.android.synthetic.main.activity_chatting.layout_chatting
+import kotlinx.android.synthetic.main.activity_chatting.layout_matching
+import kotlinx.android.synthetic.main.activity_chatting.layout_home
+import kotlinx.android.synthetic.main.activity_chatting.layout_post
+import kotlinx.android.synthetic.main.activity_chatting.layout_work
+import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class ChattingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +48,25 @@ class ChattingActivity : AppCompatActivity() {
 
         })
         matching_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(matching_tab_layout))
+
+
+        layout_matching.setOnClickListener {
+            startActivity(Intent(this, MatchingActivity::class.java))
+            finish()
+        }
+
+        layout_post.setOnClickListener {
+            startActivity(Intent(this, BBSActivity::class.java))
+            finish()
+        }
+        layout_home.setOnClickListener {
+            startActivity(Intent(this,MainMenuActivity::class.java))
+            finish()
+        }
+        layout_work.setOnClickListener {
+            startActivity(Intent(this,Stop_watchActivity::class.java))
+            finish()
+        }
 
     }
 }
