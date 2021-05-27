@@ -3,24 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.capstone.dogwhere">
 
+    <uses-sdk tools:overrideLibrary="com.kakao.sdk.user" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 사용 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-sdk tools:overrideLibrary="com.kakao.sdk.user"/>
+
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
-        android:usesCleartextTraffic="true"
-        android:name=".GlobalApplication">
-
-        <activity android:name=".BBS_Transaction_Post"></activity>
-        <activity android:name=".MatchingRegistrationActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".MatchingDetailActivity"></activity>
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".BBS_Transaction_Post" />
+        <activity android:name=".MatchingRegistrationActivity" />
         <activity android:name=".BBS_Transaction_Writing" />
         <activity android:name=".Stop_watchActivity" />
         <activity android:name=".BBS_Common_Post" />
@@ -46,8 +49,9 @@
         <activity android:name=".WalkActivity" />
         <activity android:name=".MatchingActivity" />
         <activity android:name=".ChattingActivity" />
-        <activity android:name=".BBSActivity" />
+        <activity android:name=".Chatting_Room_Activity" />
         <activity android:name=".MainMenuActivity" />
+        <activity android:name="com.capstone.dogwheredss.BBSActivity" />
         <activity android:name=".joinId" />
         <activity android:name=".example" />
         <activity android:name=".LoginActivity" />

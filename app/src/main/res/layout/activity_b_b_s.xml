@@ -4,35 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
-    tools:context=".BBSActivity">
+    tools:context="com.capstone.dogwheredss.BBSActivity">
 
     <RelativeLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="로그아웃"
-            android:id="@+id/btn_logoutInmainactivty"
-            android:background="@drawable/btn_shape"
-            android:layout_toLeftOf="@+id/menuBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:fontFamily="@font/sebanggothic"
-            android:textSize="20dp"></Button>
-
-        <ImageView
-            android:id="@+id/menuBar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
             android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_round"
+            android:padding="4dp"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/r210beachofnight"
+            android:id="@+id/btn_search"
+            android:text="검색"></Button>
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_menu"></ImageView>
+            android:layout_toLeftOf="@+id/btn_search"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_round"
+            android:padding="4dp"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/r210beachofnight"
+            android:id="@+id/btn_refresh"
+            android:text="새로고침"></Button>
+
 
         <ImageView
             android:layout_width="100dp"
@@ -51,12 +62,52 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_below="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:tabTextColor="#000000"
+        app:tabSelectedTextColor="#00C09F"
+        android:background="#ffffff"
+        app:tabRippleColor="#00C09F"
+        android:layout_height="40dp"
         android:id="@+id/tab_layout">
 
     </com.google.android.material.tabs.TabLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/layoutorderby"
+        android:background="#D8D8D8"
+        android:layout_below="@+id/tab_layout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="최신순"
+            android:padding="4dp"
+            android:layout_toLeftOf="@+id/linevertical"
+            android:fontFamily="@font/r210beachofnight"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"></TextView>
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:id="@+id/linevertical"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:layout_toLeftOf="@+id/orderbypop"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/orderbypop"
+            android:padding="4dp"
+            android:layout_marginRight="8dp"
+            android:text="인기순"
+            android:fontFamily="@font/r210beachofnight"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"></TextView>
+
+    </RelativeLayout>
     <androidx.viewpager.widget.ViewPager
-        android:layout_below="@+id/tab_layout"
+        android:layout_below="@+id/layoutorderby"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_bar"

@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.capstone.dogwhere.DTO.BBS_Transaction
 import com.capstone.dogwhere.DTO.User
+import com.capstone.dogwheredss.BBSActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects

@@ -23,12 +23,7 @@ class Chatting_Room_Activity : AppCompatActivity() {
         val senderid=""
 
         val adapter=GroupAdapter<GroupieViewHolder>()
-
-
-
-
     }
-
 
     fun hideKeyboard() {
         val hide = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

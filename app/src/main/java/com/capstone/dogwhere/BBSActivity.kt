@@ -1,4 +1,4 @@
-package com.capstone.dogwhere
+package com.capstone.dogwheredss
 
 import BBS_CommonBBS
 import BBS_TransactionBBS
@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.capstone.dogwhere.*
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_b_b_s.*
 import kotlinx.android.synthetic.main.activity_b_b_s.layout_chatting
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_b_b_s.layout_matching
 import kotlinx.android.synthetic.main.activity_b_b_s.layout_post
 import kotlinx.android.synthetic.main.activity_b_b_s.layout_work
 import kotlinx.android.synthetic.main.activity_b_b_s.layout_home
-import kotlinx.android.synthetic.main.activity_main_menu.*
+
 
 class BBSActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,20 +49,16 @@ class BBSActivity : AppCompatActivity() {
 
         layout_home.setOnClickListener {
             startActivity(Intent(this, MainMenuActivity::class.java))
-            finish()
         }
         layout_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
-            finish()
         }
 
         layout_post.setOnClickListener {
             startActivity(Intent(this, BBSActivity::class.java))
-            finish()
         }
         layout_chatting.setOnClickListener {
-            startActivity(Intent(this,ChattingActivity::class.java))
-            finish()
+            startActivity(Intent(this, ChattingActivity::class.java))
         }
 
         layout_work.setOnClickListener {
