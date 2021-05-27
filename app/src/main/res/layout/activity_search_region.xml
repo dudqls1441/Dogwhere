@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Search_Region"
+    android:orientation="vertical">
+    
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center">-->
+<!--        <Button-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:background="@drawable/btn_round"-->
+<!--            android:textSize="10dp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:text="뒤로"></Button>-->
+<!--        <TextView-->
+<!--            android:layout_width="240dp"-->
+<!--            android:layout_height="24dp"-->
+<!--        <Button-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:background="@drawable/btn_round"-->
+<!--            android:textSize="10dp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:text="뒤로"></Button>-->
+<!--    </LinearLayout>-->
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="로그아웃"
+            android:id="@+id/btn_logoutInmainactivty"
+            android:background="@drawable/btn_shape"
+            android:layout_toLeftOf="@+id/menuBar"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/sebanggothic"
+            android:textSize="20dp"></Button>
+
+        <ImageView
+            android:id="@+id/menuBar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_menu"></ImageView>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitCenter"
+            android:gravity="center_horizontal"
+            android:src="@drawable/ic_splash"
+            android:textColor="#BD3131"
+            android:textStyle="bold"></ImageView>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/ScrollView1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="20dp"
+                    android:gravity=""
+                    android:text="서울"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="60dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="60dp"/>
+            </LinearLayout>
+
+        </ScrollView>
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/ScrollView2"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+        </ScrollView>
+    </LinearLayout>
+
+
+</LinearLayout>
