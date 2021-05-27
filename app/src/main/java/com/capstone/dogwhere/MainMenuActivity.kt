@@ -120,21 +120,21 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 //            finish()
 //        }
 
-        btn_matching.setOnClickListener {
+        layout_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
             finish()
         }
 
-        btn_bbs.setOnClickListener {
+        layout_post.setOnClickListener {
             startActivity(Intent(this, BBSActivity::class.java))
             finish()
         }
-        btn_chatting.setOnClickListener {
+        layout_chatting.setOnClickListener {
             startActivity(Intent(this,ChattingActivity::class.java))
             finish()
         }
 
-        btn_user_walk.setOnClickListener {
+        layout_work.setOnClickListener {
             startActivity(Intent(this, Stop_watchActivity::class.java))
             finish()
         }

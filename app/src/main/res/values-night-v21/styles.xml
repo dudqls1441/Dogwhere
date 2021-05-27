@@ -10,5 +10,17 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- 상태바 색상-->
         <item name="android:statusBarColor">#33D59F9F</item>
+
+
     </style>
+    <style name="textviewstyle" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/r210beachofnight</item>
+    </style>
+    <style name="btnstyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:fontFamily">@font/r210beachofnight</item>
+    </style>
+    <style name="edittextstyle" parent="Widget.AppCompat.EditText">
+        <item name="android:fontFamily">@font/r210beachofnight</item>
+    </style>
+
 </resources>
