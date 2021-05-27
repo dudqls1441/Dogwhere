@@ -41,6 +41,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(R.layout.activity_main_menu)
 
 
+
         initLayout()
         setFragment()
 
@@ -60,11 +61,13 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
     }
 
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.account -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.itme2 -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
-//            R.id.btn_logout -> clicklogut()
+
+            R.id.btn_logout-> clicklogut()
         }
         layout_drawer.closeDrawers()
         return false
@@ -86,22 +89,46 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+//        btn_logout.setOnClickListener {
+//
+////            val builder = AlertDialog.Builder(this)
+////            builder.setMessage("로그아웃 하시겠습니까?")
+////            builder.setPositiveButton("확인") { dialogInterface, i ->
+////                UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
+////                    override fun onCompleteLogout() {
+////
+////                    }
+////                })
+////                dialogInterface.dismiss()
+////            }
+////            builder.setNegativeButton("취소") { dialogInterface, i ->
+////                dialogInterface.dismiss()
+////            }
+////            val dialog: AlertDialog = builder.create()
+////            dialog.show()
+//
+//
+//            auth.signOut()
+//            MySharedPreferences.clearUser(this)
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
 
-        btn_matching.setOnClickListener {
+        layout_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
             finish()
         }
 
-        btn_bbs.setOnClickListener {
+        layout_post.setOnClickListener {
             startActivity(Intent(this, BBSActivity::class.java))
             finish()
         }
-        btn_chatting.setOnClickListener {
+        layout_chatting.setOnClickListener {
             startActivity(Intent(this,ChattingActivity::class.java))
             finish()
         }
 
-        btn_user_walk.setOnClickListener {
+        layout_work.setOnClickListener {
             startActivity(Intent(this, Stop_watchActivity::class.java))
             finish()
         }
@@ -125,6 +152,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
+
+
 
 
 

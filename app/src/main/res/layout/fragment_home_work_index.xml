@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="280dp"
         android:background="#00C09F">
 
         <TextView
@@ -17,9 +17,11 @@
             android:text="오늘의 산책지수"
             android:textColor="#ffffff"
             android:fontFamily="@font/sebanggothic"
-            android:padding="16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="14dp"
             android:textStyle="bold"
-            android:textSize="30dp"></TextView>
+            android:textSize="18dp"></TextView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,23 +31,23 @@
             android:textColor="#ffffff"
             android:id="@+id/area_text"
             android:layout_below="@+id/workindex_title"
-            android:paddingLeft="16dp"
-            android:textSize="24dp"></TextView>
+            android:layout_marginLeft="20dp"
+            android:textSize="12dp"></TextView>
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/workindex_img"
             android:src="@drawable/selected_woman"
             android:layout_centerHorizontal="true"
             android:padding="8dp"
-            android:layout_centerInParent="true">
+            android:layout_marginTop="80dp">
         </ImageView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="산책지수"
-            android:textSize="24dp"
+            android:textSize="18dp"
             android:id="@+id/workindex_context"
             android:fontFamily="@font/sebanggothic"
             android:textColor="#ffffff"
@@ -60,12 +62,18 @@
             android:gravity="center"
             android:layout_alignParentBottom="true">
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="6dp"
+                android:src="@color/white"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,7 +81,7 @@
                     android:text="미세먼지"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:gravity="center"></TextView>
                 <TextView
                     android:id="@+id/dust_text"
@@ -82,12 +90,16 @@
                     android:text="상태"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:gravity="center"></TextView>
             </LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="6dp"
+                android:src="@color/white"/>
             <LinearLayout
                 android:layout_width="0dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -97,7 +109,7 @@
                     android:text="날씨"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:gravity="center"></TextView>
                 <TextView
                     android:id="@+id/weather_text"
@@ -106,15 +118,18 @@
                     android:text="상태"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:gravity="center"></TextView>
             </LinearLayout>
-
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="6dp"
+                android:src="@color/white"/>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,7 +137,7 @@
                     android:text="온도"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:gravity="center"></TextView>
                 <TextView
                     android:id="@+id/temp_text"
@@ -131,7 +146,7 @@
                     android:text="상태"
                     android:fontFamily="@font/sebanggothic"
                     android:textColor="#ffffff"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:gravity="center"></TextView>
             </LinearLayout>
         </LinearLayout>
