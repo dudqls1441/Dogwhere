@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
         <activity android:name=".Walk_Calendar"></activity>
+        <activity android:name=".MatchingDetailActivity"></activity>
+        <activity android:name=".UserProfileActivity" />
+        <activity android:name=".Search_Region"></activity>
         <activity android:name=".BBS_Transaction_Post" />
         <activity android:name=".MatchingRegistrationActivity" />
         <activity android:name=".BBS_Transaction_Writing" />
@@ -48,8 +51,9 @@
         <activity android:name=".WalkActivity" />
         <activity android:name=".MatchingActivity" />
         <activity android:name=".ChattingActivity" />
-        <activity android:name=".BBSActivity" />
+        <activity android:name=".Chatting_Room_Activity" />
         <activity android:name=".MainMenuActivity" />
+        <activity android:name="com.capstone.dogwheredss.BBSActivity" />
         <activity android:name=".joinId" />
         <activity android:name=".example" />
         <activity android:name=".LoginActivity" />

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.User
 import com.capstone.dogwhere.DTO.UserProfile
 import com.capstone.dogwhere.DTO.Walk_Record
+import com.capstone.dogwheredss.BBSActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -39,9 +40,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
-
-
-
+        
         initLayout()
         setFragment()
 
@@ -116,21 +115,20 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         layout_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
-            finish()
         }
 
         layout_post.setOnClickListener {
             startActivity(Intent(this, BBSActivity::class.java))
-            finish()
         }
         layout_chatting.setOnClickListener {
             startActivity(Intent(this,ChattingActivity::class.java))
-            finish()
         }
 
         layout_work.setOnClickListener {
             startActivity(Intent(this, Stop_watchActivity::class.java))
-            finish()
+        }
+        btn_profile.setOnClickListener {
+            startActivity(Intent(this,UserProfileActivity::class.java))
         }
         menuBar.setOnClickListener {
             layout_drawer.openDrawer(GravityCompat.END)

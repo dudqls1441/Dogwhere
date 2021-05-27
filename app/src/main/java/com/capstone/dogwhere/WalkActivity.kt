@@ -3,6 +3,7 @@ package com.capstone.dogwhere
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.capstone.dogwheredss.BBSActivity
 import kotlinx.android.synthetic.main.activity_b_b_s.*
 
 class WalkActivity : AppCompatActivity() {

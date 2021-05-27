@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_drawer"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainMenuActivity">
@@ -27,6 +28,16 @@
                 android:id="@+id/btn_logoutInmainactivty"
                 android:background="@drawable/btn_shape"
                 android:layout_toLeftOf="@+id/menuBar"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/sebanggothic"
+                android:textSize="20dp"></Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필"
+                android:id="@+id/btn_profile"
+                android:background="@drawable/btn_shape"
+                android:layout_toLeftOf="@+id/btn_logoutInmainactivty"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/sebanggothic"
                 android:textSize="20dp"></Button>

@@ -27,6 +27,11 @@ class MatchingHomeFragment : Fragment() {
 
         return inflater.inflate(R.layout.fragment_matching, container, false)
 
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         btn_matching_chart.setOnClickListener {
             startActivity(Intent(context, GeoActivity::class.java))
             Log.d("지도 누름", "지도 누름")
@@ -37,10 +42,8 @@ class MatchingHomeFragment : Fragment() {
             Log.d("지도 누름", "지도 누름")
         }
         btn_registration_matching.setOnClickListener {
-            startActivity(Intent(context, MainMenuActivity::class.java))
+            startActivity(Intent(getActivity(), MatchingRegistrationActivity::class.java))
         }
-
-
     }
 
 

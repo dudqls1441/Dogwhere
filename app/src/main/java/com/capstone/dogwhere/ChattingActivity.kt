@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.capstone.dogwheredss.BBSActivity
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_b_b_s.*
 import kotlinx.android.synthetic.main.activity_chatting.*
@@ -52,20 +53,16 @@ class ChattingActivity : AppCompatActivity() {
 
         layout_matching.setOnClickListener {
             startActivity(Intent(this, MatchingActivity::class.java))
-            finish()
         }
 
         layout_post.setOnClickListener {
             startActivity(Intent(this, BBSActivity::class.java))
-            finish()
         }
         layout_home.setOnClickListener {
             startActivity(Intent(this,MainMenuActivity::class.java))
-            finish()
         }
         layout_work.setOnClickListener {
             startActivity(Intent(this,Stop_watchActivity::class.java))
-            finish()
         }
 
     }

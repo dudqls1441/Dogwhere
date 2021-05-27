@@ -22,7 +22,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_main.btn_login
 import com.kakao.auth.Session
 
 class LoginActivity : AppCompatActivity() {

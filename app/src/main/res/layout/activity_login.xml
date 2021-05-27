@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/splashimg"
+        android:src="@drawable/ic_splash"
         android:layout_centerHorizontal="true"
         android:paddingTop="100dp"
         android:id="@+id/img_logo"></ImageView>
@@ -63,6 +64,7 @@
         android:id="@+id/find_IdPW"
         android:layout_below="@+id/idPwLayout"
         android:layout_alignParentRight="true"
+
         ></TextView>
 
     <Button
@@ -122,7 +124,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_join"
             android:textSize="15dp"
-            android:textColor="#5BD560"
+            android:textColor="#00C09F"
             android:text="회원가입"></TextView>
 
 

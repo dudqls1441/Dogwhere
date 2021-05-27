@@ -54,11 +54,9 @@ class GeneralChatFragment : Fragment() {
             Log.d("이름", (item as MessageListItem).name)
             val name = (item).name
 
-            val intent = Intent(context, Chatting_Room_Activity::class.java)
+            val intent = Intent(context,Chatting_Room_Activity::class.java)
             intent.putExtra("name", name)
             startActivity(intent)
-
-
         }
         return view
     }
