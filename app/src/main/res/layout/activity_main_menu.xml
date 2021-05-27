@@ -28,6 +28,16 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_menu"></ImageView>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그아웃"
+                android:id="@+id/btn_logoutInmainactivty"
+                android:background="@drawable/btn_shape"
+                android:layout_toLeftOf="@+id/menuBar"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/sebanggothic"
+                android:textSize="20dp"></Button>
 
             <ImageView
                 android:layout_width="wrap_content"

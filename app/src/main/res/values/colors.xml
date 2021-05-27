@@ -10,4 +10,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="main_mint">#00C09F</color>
+    <color name="main_gray">#A6A1A1</color>
+    <color name="main_yellow">#FFC245</color>
 </resources>

@@ -7,6 +7,7 @@ import android.os.Message
 import android.os.SystemClock.*
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.capstone.dogwhere.DTO.Walk_Record
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,11 +23,9 @@ class Stop_watchActivity : AppCompatActivity() {
 
     val Init=0
     val Run=1
-    val Pause=2
     var cur_Status=Init
     var myCount=1
     private var myBaseTime by Delegates.notNull<Long>()
-    private var myPauseTime by Delegates.notNull<Long>()
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var last_str: String
@@ -34,12 +33,9 @@ class Stop_watchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop_watch)
-
+        date.setText(current())
         btn_start.setOnClickListener{
             start(cur_Status)
-        }
-        btn_rec.setOnClickListener {
-            rec(cur_Status)
         }
     }
 
@@ -51,56 +47,53 @@ class Stop_watchActivity : AppCompatActivity() {
         when (Status) {
             Init -> {
                 myBaseTime = elapsedRealtime()
+                time_out.setText("00:00:00")
                 println(myBaseTime)
+                btn_start.setImageResource(R.drawable.stop)
+                km.setTextColor(ContextCompat.getColor(this, R.color.main_mint))
+                date.setTextColor(ContextCompat.getColor(this, R.color.main_mint))
+                time_out.setTextColor(ContextCompat.getColor(this, R.color.main_mint))
+                line1.setBackgroundColor(ContextCompat.getColor(this, R.color.main_mint))
+                line2.setBackgroundColor(ContextCompat.getColor(this, R.color.main_mint))
+                message_point.setText("종료")
                 //myTimer이라는 핸들러를 빈 메세지를 보내서 호출
                 myTimer.sendEmptyMessage(0)
-                btn_start.setText("일시정지") //버튼의 문자"시작"을 "멈춤"으로 변경
-                btn_rec.setEnabled(true) //기록버튼 활성
                 cur_Status = Run //현재상태를 런상태로 변경
 
             }
             Run -> {
-                myTimer.removeMessages(0) //핸들러 메세지 제거
-                myPauseTime = elapsedRealtime()
-                btn_start.setText("시작")
-                btn_rec.setText("저장")
-                cur_Status = Pause
-            }
-            Pause -> {
-                val now: Long = elapsedRealtime()
-                myTimer.sendEmptyMessage(0)
-                myBaseTime += now - myPauseTime
-                btn_start.setText("일시정지")
-                btn_rec.setText("기록")
-                cur_Status = Run
-            }
-        }
-    }
-    fun rec(Status: Int){
-        when (Status) {
-            Run -> {
-                var str= record.getText().toString()
-                last_str=getTimeOut().toString()
-                str += String.format("%d. %s\n", myCount, getTimeOut())
-                record.setText(str)
-                Log.e("123", last_str)
-                myCount++ //카운트 증가
-            }
-            Pause -> { //리셋, 저장
-                //핸들러를 멈춤
                 myTimer.removeMessages(0)
-                btn_start.setText("시작")
-                btn_rec.setText("기록")
+                message_point.setText("시작")
+                btn_start.setImageResource(R.drawable.play)
                 last_str=getTimeOut().toString()
                 upload()
-                time_out.setText("00:00:00")
                 cur_Status = Init
                 myCount = 1
-                record.setText("")
-                btn_rec.setEnabled(false)
             }
         }
     }
+//    fun rec(Status: Int){
+//        when (Status) {
+//            Run -> {
+//                last_str=getTimeOut().toString()
+//                Log.e("123", last_str)
+//                myCount++ //카운트 증가
+//            }
+//            Pause -> { //리셋, 저장
+//                //핸들러를 멈춤
+//                myTimer.removeMessages(0)
+//                btn_start.setText("시작")
+//                btn_rec.setText("기록")
+//                last_str=getTimeOut().toString()
+//                upload()
+//                time_out.setText("00:00:00")
+//                cur_Status = Init
+//                myCount = 1
+//                record.setText("")
+//                btn_rec.setEnabled(false)
+//            }
+//        }
+//    }
 
     var myTimer: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
@@ -144,21 +137,21 @@ class Stop_watchActivity : AppCompatActivity() {
             }
     }
 
+    private fun current(): String? {
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-mm-dd")
+        val curTime = dateFormat.format(Date(time))
+        Log.d("check",curTime)
+
+        return curTime
+    }
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
         val curTime = dateFormat.format(Date(time))
         Log.d("check",curTime)
-
-//    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//        LocalDateTime.now()
-//    } else {
-//
-//    }
-//    val now = LocalDate.now()
-//    var formatter = DateTimeFormatter.ISO_DATE
-//    val formatted = current.format(formatter)
 
         return curTime
     }

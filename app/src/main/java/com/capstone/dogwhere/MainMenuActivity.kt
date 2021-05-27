@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
@@ -36,16 +38,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var hash_key = getKeyHash(this)
-        Log.i("Loggm",hash_key) // 확인
+        setContentView(R.layout.activity_main_menu)
 
-
-//        btn_logout.setOnClickListener {
-//            auth.signOut()
-//            MySharedPreferences.clearUser(this)
-//            startActivity(Intent(this, LoginActivity::class.java))
-//            finish()
-//        }
 
         initLayout()
         setFragment()
@@ -70,7 +64,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         when (item.itemId) {
             R.id.account -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.itme2 -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
-            R.id.btn_logout -> clicklogut()
+//            R.id.btn_logout -> clicklogut()
         }
         layout_drawer.closeDrawers()
         return false
@@ -86,24 +80,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun initLayout() {
 
-        btn_logout.setOnClickListener {
-//            val builder = AlertDialog.Builder(this)
-//            builder.setMessage("로그아웃 하시겠습니까?")
-//            builder.setPositiveButton("확인") { dialogInterface, i ->
-//                UserManagement.getInstance().requestLogout(object : LogoutResponseCallback() {
-//                    override fun onCompleteLogout() {
-//
-//                    }
-//                })
-//                dialogInterface.dismiss()
-//            }
-//            builder.setNegativeButton("취소") { dialogInterface, i ->
-//                dialogInterface.dismiss()
-//            }
-//            val dialog: AlertDialog = builder.create()
-//            dialog.show()
-
-
+        btn_logoutInmainactivty.setOnClickListener {
             auth.signOut()
             MySharedPreferences.clearUser(this)
             startActivity(Intent(this, LoginActivity::class.java))

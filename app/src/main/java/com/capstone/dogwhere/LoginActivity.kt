@@ -109,10 +109,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    @SuppressLint("MissingSuperCall")
-    override fun onDestroy() {
-        Session.getCurrentSession().removeCallback(callback);
-    }
+//    @SuppressLint("MissingSuperCall")
+//    override fun onDestroy() {
+//        Session.getCurrentSession().removeCallback(callback);
+//    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             Log.i("Log", "session get current session")
