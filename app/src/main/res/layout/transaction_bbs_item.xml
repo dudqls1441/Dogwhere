@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:layout_margin="20dp"
-    android:background="#ffffff">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/imformation_bbs_title"

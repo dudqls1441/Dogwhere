@@ -62,7 +62,7 @@ class BBSActivity : AppCompatActivity() {
         }
 
         layout_work.setOnClickListener {
-            startActivity(Intent(this, Stop_watchActivity::class.java))
+            startActivity(Intent(this, WalkActivity::class.java))
             finish()
         }
 

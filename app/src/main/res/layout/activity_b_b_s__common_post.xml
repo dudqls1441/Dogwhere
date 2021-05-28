@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#ffffff"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".BBS_Common_Post">
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="70dp">
 
         <ImageButton
             android:id="@+id/btn_back"
@@ -26,6 +26,7 @@
         <Button
             android:layout_width="50dp"
             android:layout_height="40dp"
+            android:layout_centerVertical="true"
             android:layout_margin="8dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/btn_shape"

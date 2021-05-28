@@ -125,7 +125,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         layout_work.setOnClickListener {
-            startActivity(Intent(this, Stop_watchActivity::class.java))
+            startActivity(Intent(this, WalkActivity::class.java))
         }
         btn_profile.setOnClickListener {
             startActivity(Intent(this,UserProfileActivity::class.java))

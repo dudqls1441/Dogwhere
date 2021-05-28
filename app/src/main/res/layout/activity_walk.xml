@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
+    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
         <TextView
@@ -19,6 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
             android:text="산책 캘린더"
+            android:id="@+id/walk_calendar"
             android:layout_marginTop="40dp"
             android:textSize="18dp"
             android:fontFamily="@font/sebanggothic"
@@ -157,15 +158,170 @@
         </LinearLayout>
     </RelativeLayout>
     <Button
-        android:id="@+id/btn_imformation_writing"
+        android:id="@+id/btn_stopwatch"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="50dp"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_margin="20dp"
         android:background="@drawable/btn_round_yello"
         android:gravity="center"
-        android:text="글쓰기"
+        android:text="스톱워치"
         android:textColor="@color/white"
         android:textSize="25dp"></Button>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/bottom_bar"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/layout_home_inwalk"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:id="@+id/text_home"
+                android:background="@drawable/bottombutton"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_home"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_home"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="홈"
+                android:textSize="14dp"></TextView>w
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/layout_work_inwalk"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:id="@+id/text_work"
+                android:background="@drawable/bottomclickedbutton"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_work"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_work"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="산책"
+                android:textColor="#00C09F"
+                android:textSize="14dp"></TextView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/layout_matching_inwalk"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:id="@+id/text_matching"
+                android:background="@drawable/bottombutton"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_matching"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_matching"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="매칭"
+                android:textColor="#000000"
+                android:textSize="14dp"></TextView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/layout_post_inwalk"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:id="@+id/text_post"
+                android:background="@drawable/bottombutton"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_post"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_post"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="게시판"
+                android:textColor="#000000"
+                android:textSize="14dp"></TextView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/layout_chatting_inwalk"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="4dp"
+                android:id="@+id/text_chatting"
+                android:background="@drawable/bottombutton"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_chatting"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/text_chatting"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="채팅"
+                android:textColor="#000000"
+                android:textSize="14dp"></TextView>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
 </RelativeLayout>

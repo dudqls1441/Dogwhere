@@ -62,7 +62,7 @@ class ChattingActivity : AppCompatActivity() {
             startActivity(Intent(this,MainMenuActivity::class.java))
         }
         layout_work.setOnClickListener {
-            startActivity(Intent(this,Stop_watchActivity::class.java))
+            startActivity(Intent(this,WalkActivity::class.java))
         }
 
     }
