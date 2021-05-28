@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:background="#00C09F">
+        android:background="@color/main_mint">
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             android:id="@+id/layout_state"
-            android:background="#00C09F"
+            android:background="@color/main_mint"
             android:gravity="center"
             android:layout_alignParentBottom="true">
 
