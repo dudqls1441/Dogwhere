@@ -7,14 +7,23 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.capstone.dogwheredss.BBSActivity">
-
     <RelativeLayout
-        android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:id="@+id/layout_top"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="산책 캘린더"
+            android:fontFamily="@font/sebanggothic"
+            android:textSize="18dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/walk_calendar"
+            android:paddingLeft="16dp"
+            android:textColor="#00C09F"></TextView>
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -43,26 +52,12 @@
             android:fontFamily="@font/r210beachofnight"
             android:id="@+id/btn_refresh"
             android:text="새로고침"></Button>
-
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:scaleType="fitCenter"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_splash"
-            android:textColor="#BD3131"
-            android:textStyle="bold"></ImageView>
-
-
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:layout_below="@+id/layout_top"
         android:layout_width="match_parent"
-        app:tabTextColor="#000000"
+        app:tabTextColor="#52443C3C"
         app:tabSelectedTextColor="#00C09F"
         android:background="#ffffff"
         app:tabRippleColor="#00C09F"
@@ -74,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/layoutorderby"
-        android:background="#D8D8D8"
+        android:background="#F8F8F7"
         android:layout_below="@+id/tab_layout">
         <TextView
             android:layout_width="wrap_content"
@@ -83,14 +78,16 @@
             android:padding="4dp"
             android:layout_toLeftOf="@+id/linevertical"
             android:fontFamily="@font/r210beachofnight"
+            android:textColor="#00C09F"
             android:layout_centerVertical="true"
-            android:textSize="20dp"></TextView>
+            android:textSize="14dp"></TextView>
         <TextView
             android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#000000"
+            android:layout_height="16dp"
+            android:background="#80443C3C"
             android:id="@+id/linevertical"
-            android:layout_margin="8dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
             android:padding="8dp"
             android:layout_toLeftOf="@+id/orderbypop"></TextView>
         <TextView
@@ -99,11 +96,12 @@
             android:layout_alignParentRight="true"
             android:id="@+id/orderbypop"
             android:padding="4dp"
+            android:textColor="#80443C3C"
             android:layout_marginRight="8dp"
             android:text="인기순"
             android:fontFamily="@font/r210beachofnight"
             android:layout_centerVertical="true"
-            android:textSize="20dp"></TextView>
+            android:textSize="14dp"></TextView>
 
     </RelativeLayout>
     <androidx.viewpager.widget.ViewPager

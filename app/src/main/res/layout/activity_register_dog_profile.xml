@@ -11,35 +11,55 @@
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft= "true"
             android:id="@+id/btn_back"
-            android:background="@drawable/btn_round"
-            android:padding="8dp"
-            android:text="뒤로"></Button>
-
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
             android:fontFamily="@font/sebanggothic"
-            android:text="반려견 프로필 등록"
-            android:textSize="26dp"
-            android:textStyle="bold"></TextView>
+            android:text="반려견 정보 입력"
 
+            android:textSize="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/main_labelText"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight = "true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_add"
+            android:background="@color/white"
+            android:src="@drawable/ic_check"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#52443C3C"
+        android:layout_below="@id/top_layout"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
         android:layout_below="@id/top_layout">
+
         <ImageView
             android:id="@+id/DogProfilePhoto"
             android:layout_width="120dp"
@@ -71,6 +91,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/dogname"
             android:hint="닉네임을 입력해주세요"
+            android:paddingStart="10dp"
+            android:padding="5dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/edittext_round"></EditText>
 
@@ -97,6 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/dogbreed"
             android:hint="견종을 입력해주세요"
+            android:paddingStart="10dp"
             android:layout_marginRight="30dp"
             android:background="@drawable/edittext_round"></EditText>
 

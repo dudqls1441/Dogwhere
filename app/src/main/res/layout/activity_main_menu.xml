@@ -27,7 +27,6 @@
                 android:text="프로필"
                 android:id="@+id/btn_profile"
                 android:background="@drawable/btn_shape"
-                android:layout_toLeftOf="@+id/btn_logoutInmainactivty"
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/sebanggothic"
                 android:textSize="20dp"></Button>

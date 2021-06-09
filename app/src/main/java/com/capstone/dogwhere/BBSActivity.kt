@@ -24,8 +24,8 @@ class BBSActivity : AppCompatActivity() {
         setContentView(R.layout.activity_b_b_s)
 
         tab_layout.addTab(tab_layout.newTab().setText("자유게시판"))
-        tab_layout.addTab(tab_layout.newTab().setText("중고거래"))
         tab_layout.addTab(tab_layout.newTab().setText("정보게시판"))
+        tab_layout.addTab(tab_layout.newTab().setText("중고거래"))
         tab_layout.addTab(tab_layout.newTab().setText("분양게시판"))
 
         val pagerAdapter = PagerAdapter(supportFragmentManager, 4)
@@ -82,8 +82,8 @@ class PagerAdapter(
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> return BBS_CommonBBS("free_bbs")
-            1 -> return BBS_TransactionBBS("transaction_bbs")
-            2 -> return BBS_CommonBBS("information_bbs")
+            1 -> return BBS_TransactionBBS("information_bbs")
+            2 -> return BBS_CommonBBS("transaction_bbs")
             3 -> return BBS_TransactionBBS("puppy_bbs")
             else -> return BBS_CommonBBS("free_bbs")
         }

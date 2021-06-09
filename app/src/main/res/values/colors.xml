@@ -13,4 +13,6 @@
     <color name="main_mint">#00C09F</color>
     <color name="main_gray">#A6A1A1</color>
     <color name="main_yellow">#FFC245</color>
+    <color name="main_labelText">#52443C3C</color>
+    <color name="text_gray">#8C8C8C</color>
 </resources>

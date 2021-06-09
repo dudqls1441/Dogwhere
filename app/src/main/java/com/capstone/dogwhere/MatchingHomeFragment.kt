@@ -33,7 +33,7 @@ class MatchingHomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_matching_chart.setOnClickListener {
-            startActivity(Intent(context, GeoActivity::class.java))
+            startActivity(Intent(context, Search_Region::class.java))
             Log.d("지도 누름", "지도 누름")
         }
 

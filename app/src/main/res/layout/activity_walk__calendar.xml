@@ -5,52 +5,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Walk_Calendar">
+
     <RelativeLayout
-        android:id="@+id/layout_top"
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
-        <Button
-            android:layout_marginTop="40dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="뒤로"
-            android:fontFamily="@font/sebanggothic"
-            android:textColor="@color/white"
             android:layout_marginLeft="20dp"
             android:layout_alignParentLeft= "true"
             android:id="@+id/btn_back"
-            android:background="@drawable/btn_round"
-            android:textSize="12dp"></Button>
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/sebanggothic"
             android:text="산책 캘린더"
+
+            android:textSize="14dp"
             android:layout_centerVertical="true"
-            android:textColor="@color/main_gray"
+            android:textColor="@color/main_labelText"
             android:layout_marginTop="40dp"
             android:layout_centerHorizontal="true"/>
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:text="..."
-            android:fontFamily="@font/sebanggothic"
-            android:textColor="@color/white"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_round"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight = "true"
-            android:id="@+id/btn_add"
             android:layout_marginTop="40dp"
-            android:textSize="12dp"></Button>
+            android:id="@+id/btn_registration"
+            android:background="@color/white"
+            android:src="@drawable/ic_check"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#52443C3C"
+        android:layout_below="@id/top_layout"/>
+
+
     <RelativeLayout
         android:id="@+id/layout_middle"
-        android:layout_below="@+id/layout_top"
+        android:layout_below="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="380dp">
     <CalendarView

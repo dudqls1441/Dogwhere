@@ -10,23 +10,48 @@
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/activitytitle"
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/r210beachofnight"
-            android:text="유저 프로필"
-            android:textSize="20dp"
-            android:textStyle="bold"></TextView>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft= "true"
+            android:id="@+id/btn_back"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="#878787"></TextView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sebanggothic"
+            android:text="반려견 정보 입력"
+
+            android:textSize="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/main_labelText"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight = "true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_add"
+            android:background="@color/white"
+            android:src="@drawable/ic_check"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#52443C3C"
+        android:layout_below="@id/top_layout"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

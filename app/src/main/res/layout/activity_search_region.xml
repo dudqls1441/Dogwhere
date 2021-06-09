@@ -7,32 +7,8 @@
     android:background="@color/white"
     tools:context=".Search_Region"
     android:orientation="vertical">
-    
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="80dp"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:gravity="center">-->
-<!--        <Button-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:background="@drawable/btn_round"-->
-<!--            android:textSize="10dp"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:text="뒤로"></Button>-->
-<!--        <TextView-->
-<!--            android:layout_width="240dp"-->
-<!--            android:layout_height="24dp"-->
-<!--        <Button-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:background="@drawable/btn_round"-->
-<!--            android:textSize="10dp"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:text="뒤로"></Button>-->
-<!--    </LinearLayout>-->
+
+
     <RelativeLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
@@ -40,38 +16,37 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="로그아웃"
-            android:id="@+id/btn_logoutInmainactivty"
-            android:background="@drawable/btn_shape"
-            android:layout_toLeftOf="@+id/menuBar"
             android:layout_centerVertical="true"
-            android:fontFamily="@font/sebanggothic"
-            android:textSize="20dp"></Button>
-
-        <ImageView
-            android:id="@+id/menuBar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_menu"></ImageView>
-
-        <ImageView
-            android:layout_width="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft= "true"
+            android:id="@+id/btn_back"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:scaleType="fitCenter"
-            android:gravity="center_horizontal"
-            android:src="@drawable/ic_splash"
-            android:textColor="#BD3131"
-            android:textStyle="bold"></ImageView>
+            android:fontFamily="@font/sebanggothic"
+            android:text="지역별로 찾기"
 
+            android:textSize="14dp"
+            android:layout_centerVertical="true"
+            android:textColor="@color/main_labelText"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"/>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight = "true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_add"
+            android:background="@color/white"
+            android:src="@drawable/ic_check"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,6 +56,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/ScrollView1"
+            android:scrollbarThumbVertical="@color/main_mint"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
@@ -92,17 +68,117 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:textSize="20dp"
-                    android:gravity=""
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:background="#5296DEB8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/main_mint"
                     android:text="서울"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="60dp"/>
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="경기"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="60dp"/>
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="인천"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="강원"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="대전"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="세종"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="충남"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="충북"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="전남"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="전북"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="광주"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="경남"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="경북"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="울산"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="부산"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="제주"/>
             </LinearLayout>
 
         </ScrollView>
@@ -110,9 +186,293 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/ScrollView2"
+            android:scrollbarThumbVertical="@color/main_mint"
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="전체"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="강남구"/>
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="강동구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="강북구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:background="#5296DEB8"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/main_mint"
+                        android:text="강서구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="관악구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="광진구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="구로구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="금천구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="노원구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="도봉구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="동대문구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="동작구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="마포구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="서대문구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="서초구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="성동구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="성북구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="송파구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="양천구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="영등포구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="용산구"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="은평구"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:textSize="16dp"
+                        android:paddingStart="20dp"
+                        android:gravity="center_vertical"
+                        android:text="종로구"/>
+                </LinearLayout>
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="중구"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:paddingStart="20dp"
+                    android:gravity="center_vertical"
+                    android:text="중랑구"/>
+                </LinearLayout>
+
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 

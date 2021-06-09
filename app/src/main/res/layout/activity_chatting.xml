@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="채팅"
             android:fontFamily="@font/sebanggothic"
-            android:textSize="30dp"
+            android:textSize="18dp"
             android:layout_centerVertical="true"
             android:paddingLeft="16dp"
             android:textColor="#00C09F"></TextView>

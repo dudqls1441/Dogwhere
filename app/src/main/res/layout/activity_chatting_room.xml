@@ -7,32 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".Chatting_Room_Activity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:id="@+id/chatting_room_top"
         android:layout_alignParentTop="true"
-        >
+        android:id="@+id/chatting_room_top"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft= "true"
+            android:id="@+id/chatting_room_btn_back"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="사용자이름"
             android:fontFamily="@font/sebanggothic"
-            android:layout_centerInParent="true"
-            android:textSize="24dp"
-            android:id="@+id/chatting_room_other"></TextView>
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/btn_round"
+            android:text="사용자 이름"
+            android:id="@+id/chatting_room_other"
+            android:textSize="14dp"
             android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:text="Back"
-            android:id="@+id/chatting_room_btn_back"></Button>
+            android:textColor="@color/main_labelText"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight = "true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_add"
+            android:background="@color/white"
+            android:src="@drawable/ic_check"/>
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
