@@ -82,12 +82,12 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun initLayout() {
 
-        btn_logoutInmainactivty.setOnClickListener {
-            auth.signOut()
-            MySharedPreferences.clearUser(this)
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+//        btn_logoutInmainactivty.setOnClickListener {
+//            auth.signOut()
+//            MySharedPreferences.clearUser(this)
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
 //        btn_logout.setOnClickListener {
 //
 ////            val builder = AlertDialog.Builder(this)
