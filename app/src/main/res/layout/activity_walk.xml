@@ -1,332 +1,597 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".WalkActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:id="@+id/layout_top"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="산책 캘린더"
-            android:fontFamily="@font/sebanggothic"
-            android:textSize="18dp"
-            android:layout_centerVertical="true"
-            android:id="@+id/walk_calendar"
-            android:paddingLeft="16dp"
-            android:textColor="#00C09F"></TextView>
-
-    </RelativeLayout>
 
 
 
     <RelativeLayout
-        android:layout_below="@+id/layout_top"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/main_mint">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/workindex_title"
-            android:text="오늘의 산책지수"
-            android:textColor="#ffffff"
-            android:fontFamily="@font/sebanggothic"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="30dp"></TextView>
+        <RelativeLayout
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="인천시 부평구"
-            android:fontFamily="@font/sebanggothic"
-            android:textColor="#ffffff"
-            android:id="@+id/area_text"
-            android:layout_below="@+id/workindex_title"
-            android:paddingLeft="16dp"
-            android:textSize="24dp"></TextView>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/workindex_img"
-            android:src="@drawable/selected_woman"
-            android:layout_centerHorizontal="true"
-            android:padding="8dp"
-            android:layout_centerInParent="true">
-        </ImageView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="산책지수"
-            android:textSize="24dp"
-            android:id="@+id/workindex_context"
-            android:fontFamily="@font/sebanggothic"
-            android:textColor="#ffffff"
-            android:layout_below="@+id/workindex_img"
-            android:layout_centerHorizontal="true"></TextView>
-        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:id="@+id/layout_state"
-            android:background="@color/main_mint"
-            android:gravity="center"
-            android:layout_alignParentBottom="true">
+            android:layout_height="70dp"
+            android:id="@+id/layout_top"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="미세먼지"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp"
-                    android:gravity="center"></TextView>
-                <TextView
-                    android:id="@+id/dust_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상태"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:gravity="center"></TextView>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="날씨"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp"
-                    android:gravity="center"></TextView>
-                <TextView
-                    android:id="@+id/weather_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상태"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:gravity="center"></TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="온도"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="15dp"
-                    android:gravity="center"></TextView>
-                <TextView
-                    android:id="@+id/temp_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="상태"
-                    android:fontFamily="@font/sebanggothic"
-                    android:textColor="#ffffff"
-                    android:textSize="20dp"
-                    android:gravity="center"></TextView>
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>
-    <Button
-        android:id="@+id/btn_stopwatch"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/bottom_bar"
-        android:layout_margin="20dp"
-        android:background="@drawable/btn_round_yello"
-        android:gravity="center"
-        android:text="스톱워치"
-        android:textColor="@color/white"
-        android:textSize="25dp"></Button>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/bottom_bar"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/layout_home_inwalk"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="4dp"
-                android:id="@+id/text_home"
-                android:background="@drawable/bottombutton"></TextView>
             <TextView
                 android:layout_width="wrap_content"
-                android:id="@+id/btn_home"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/text_home"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="홈"
-                android:textSize="14dp"></TextView>w
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:id="@+id/layout_work_inwalk"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="4dp"
-                android:id="@+id/text_work"
-                android:background="@drawable/bottomclickedbutton"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/btn_work"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/text_work"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:text="산책"
-                android:textColor="#00C09F"
-                android:textSize="14dp"></TextView>
+                android:fontFamily="@font/sebanggothic"
+                android:textSize="18dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/walk_calendar"
+                android:paddingLeft="16dp"
+                android:textColor="#00C09F"></TextView>
 
         </RelativeLayout>
+
+
         <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/layout_matching_inwalk"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="4dp"
-                android:id="@+id/text_matching"
-                android:background="@drawable/bottombutton"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/btn_matching"
+            android:id="@+id/scrollLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_bar"
+            android:layout_below="@+id/layout_top">
+
+            <ScrollView
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/text_matching"
-                android:layout_centerHorizontal="true"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/bottom_bar"
+                    android:layout_below="@+id/layout_top"
+                    android:background="@color/main_mint">
+
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/walk_background" />
+
+                    <RelativeLayout
+                        android:id="@+id/goal"
+                        android:layout_width="355dp"
+                        android:layout_height="380dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/walkgoal_backgroundbox">
+
+                        <TextView
+                            android:id="@+id/reset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="21dp"
+                            android:layout_marginTop="25dp"
+                            android:text="00월 00일에 리셋"
+                            android:textColor="@color/main_gray"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginRight="21dp"
+                            android:text="목표 수정하기>"
+                            android:textColor="@color/main_gray"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/reset"
+                            android:layout_marginLeft="21dp"
+                            android:layout_marginTop="25dp"
+                            android:text="일주일에 "
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_marginLeft="21dp"
+                            android:text="5번씩"
+                            android:textColor="@color/main_yellow"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/hour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_toRightOf="@id/count"
+                            android:text=" 7시간"
+                            android:textColor="@color/main_yellow"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_toRightOf="@id/hour"
+                            android:text=" 산책하기"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="24dp" />
+
+                        <ImageView
+                            android:id="@+id/bone1"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="21dp"
+                            android:layout_marginTop="12dp"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone2"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone1"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone3"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone2"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone4"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone3"
+                            android:src="@drawable/ic_bone"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone5"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone4"
+                            android:src="@drawable/ic_bone"></ImageView>
+
+                        <RelativeLayout
+                            android:id="@+id/goal_"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/calendar"
+                            android:layout_below="@+id/bone1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="36dp"
+                            android:layout_marginBottom="36dp">
+
+                            <RelativeLayout
+                                android:id="@+id/a"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true">
+
+                                <TextView
+                                    android:id="@+id/count_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="5번 중 "
+                                    android:textColor="@color/main_gray"
+                                    android:textSize="16dp" />
+
+                                <TextView
+                                    android:id="@+id/count_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toRightOf="@+id/count_1"
+                                    android:text="3번 "
+                                    android:textColor="@color/main_mint"
+                                    android:textSize="16dp" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:id="@+id/b"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/a"
+                                android:layout_centerHorizontal="true">
+
+                                <TextView
+                                    android:id="@+id/hour_1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="7시간 중 "
+                                    android:textColor="@color/main_gray"
+                                    android:textSize="16dp" />
+
+                                <TextView
+                                    android:id="@+id/hour_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toRightOf="@+id/hour_1"
+                                    android:text="3시간 30분 "
+                                    android:textColor="@color/main_mint"
+                                    android:textSize="16dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toRightOf="@+id/hour_2"
+                                    android:text="산책했어요"
+                                    android:textColor="@color/main_gray"
+                                    android:textSize="16dp" />
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/calendar"
+                            android:layout_width="310dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="28dp"
+                            android:background="@drawable/btn_round_mint"
+                            android:text="캘린더로 이동하기"
+                            android:textColor="@color/main_mint" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/text4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/goal"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="21dp"
+                        android:fontFamily="@font/b210beachofnight"
+                        android:text="오늘은 산책 안하시나요?"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"></TextView>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="200dp"
+                        android:layout_below="@id/text4"
+                        android:layout_marginTop="50dp">
+
+
+                        <TextView
+                            android:id="@+id/area_text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/sebanggothic"
+                            android:paddingLeft="16dp"
+                            android:text="인천시 부평구"
+                            android:textColor="#ffffff"
+                            android:textSize="24dp"></TextView>
+
+
+                        <TextView
+                            android:id="@+id/workindex_context"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/sebanggothic"
+                            android:text="산책지수"
+                            android:textColor="#ffffff"
+                            android:textSize="24dp"></TextView>
+
+                        <LinearLayout
+                            android:layout_marginTop="20dp"
+                            android:id="@+id/layout_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="미세먼지"
+                                    android:textColor="#ffffff"
+                                    android:textSize="15dp"></TextView>
+
+                                <TextView
+                                    android:id="@+id/dust_text1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="상태"
+                                    android:textColor="#ffffff"
+                                    android:textSize="20dp"></TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="날씨"
+                                    android:textColor="#ffffff"
+                                    android:textSize="15dp"></TextView>
+
+                                <TextView
+                                    android:id="@+id/weather_text1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="상태"
+                                    android:textColor="#ffffff"
+                                    android:textSize="20dp"></TextView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="온도"
+                                    android:textColor="#ffffff"
+                                    android:textSize="15dp"></TextView>
+
+                                <TextView
+                                    android:id="@+id/temp_text1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/sebanggothic"
+                                    android:gravity="center"
+                                    android:text="상태"
+                                    android:textColor="#ffffff"
+                                    android:textSize="20dp"></TextView>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </ScrollView>
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btn_stopwatch"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bottom_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:background="@drawable/btn_round_yello"
+            android:fontFamily="@font/sebanggothic"
+            android:gravity="center"
+            android:text="산책 시작하기"
+            android:textColor="@color/white"
+            android:textSize="14dp"></Button>
+
+
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/layout_home_inwalk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="매칭"
-                android:textColor="#000000"
-                android:textSize="14dp"></TextView>
+                android:orientation="vertical">
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/layout_post_inwalk"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="4dp"
-                android:id="@+id/text_post"
-                android:background="@drawable/bottombutton"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/btn_post"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/text_post"
-                android:layout_centerHorizontal="true"
+                <TextView
+                    android:id="@+id/text_home"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bottombutton"></TextView>
+
+                <TextView
+                    android:id="@+id/btn_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/text_home"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="홈"
+                    android:textSize="14dp"></TextView>w
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_work_inwalk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="게시판"
-                android:textColor="#000000"
-                android:textSize="14dp"></TextView>
+                android:orientation="vertical">
 
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/layout_chatting_inwalk"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="4dp"
-                android:id="@+id/text_chatting"
-                android:background="@drawable/bottombutton"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/btn_chatting"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/text_chatting"
-                android:layout_centerHorizontal="true"
+                <TextView
+                    android:id="@+id/text_work"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bottomclickedbutton"></TextView>
+
+                <TextView
+                    android:id="@+id/btn_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/text_work"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="산책"
+                    android:textColor="#00C09F"
+                    android:textSize="14dp"></TextView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_matching_inwalk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="채팅"
-                android:textColor="#000000"
-                android:textSize="14dp"></TextView>
+                android:orientation="vertical">
 
-        </RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/text_matching"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bottombutton"></TextView>
+
+                <TextView
+                    android:id="@+id/btn_matching"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/text_matching"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="매칭"
+                    android:textColor="#000000"
+                    android:textSize="14dp"></TextView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_post_inwalk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_post"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bottombutton"></TextView>
+
+                <TextView
+                    android:id="@+id/btn_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/text_post"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="게시판"
+                    android:textColor="#000000"
+                    android:textSize="14dp"></TextView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_chatting_inwalk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_chatting"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bottombutton"></TextView>
+
+                <TextView
+                    android:id="@+id/btn_chatting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/text_chatting"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="채팅"
+                    android:textColor="#000000"
+                    android:textSize="14dp"></TextView>
+
+            </RelativeLayout>
+        </LinearLayout>
 
 
+    </RelativeLayout>
 </RelativeLayout>
