@@ -36,7 +36,7 @@ class WalkActivity : AppCompatActivity() {
             startActivity(Intent(this, Stop_watchActivity::class.java))
             finish()
         }
-        walk_calendar.setOnClickListener {
+        calendar.setOnClickListener {
             startActivity(Intent(this, Walk_Calendar::class.java))
             finish()
         }

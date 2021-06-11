@@ -11,46 +11,64 @@
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/btn_back"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_shape"
-            android:src="@drawable/ic_arrow_back"></ImageButton>
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft= "true"
+            android:id="@+id/btn_back"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"/>
 
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:layout_alignParentRight="true"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_shape"
-            android:text="새로고침"
-            android:textSize="8dp"></Button>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:background="#878787"></TextView>
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_refresh"
+            android:background="@color/white"
+            android:layout_toLeftOf="@+id/btn_registration"
+            android:src="@drawable/ic_bone"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight = "true"
+            android:layout_marginTop="40dp"
+            android:id="@+id/btn_registration"
+            android:background="@color/white"
+            android:src="@drawable/ic_bone_full"/>
+
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F4F4F4"
+        android:layout_below="@id/top_layout"/>
 
     <RelativeLayout
         android:id="@+id/writerlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_below="@+id/top_layout"
         android:paddingTop="8dp">
 
         <ImageView
             android:id="@+id/writer_img"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:background="@drawable/btn_shape"
             android:src="@drawable/selected_woman"></ImageView>
 
@@ -58,25 +76,29 @@
             android:id="@+id/writer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_toRightOf="@+id/writer_img"
-            android:padding="8dp"
+            android:textColor="#DE443C3C"
             android:text="글쓴이"
-            android:textSize="20dp"
+            android:textSize="14dp"
             android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/writer_time"
+            android:textSize="12dp"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#52443C3C"
             android:layout_below="@+id/writer_name"
             android:layout_toRightOf="@+id/writer_img"
-            android:padding="8dp"
-            android:text="몇분"></TextView>
+            android:text="몇분 전"></TextView>
 
         <TextView
             android:id="@+id/writer_like"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/like_round"
@@ -90,8 +112,8 @@
 
         <TextView
             android:id="@+id/writer_chatting"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/writer_like"
             android:background="@drawable/edittext_round"
@@ -108,27 +130,54 @@
         android:id="@+id/contentlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_below="@+id/writerlayout">
 
         <TextView
             android:id="@+id/post_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:text="게시글 제목"
-            android:textSize="25dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="#DE443C3C"
+            android:fontFamily="@font/nanumsquarel"
+            android:textSize="16dp"
             android:textStyle="bold"></TextView>
 
         <TextView
             android:id="@+id/post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="10dp"
+            android:fontFamily="@font/nanumsquarel"
             android:layout_below="@+id/post_title"
-            android:layout_margin="8dp"
             android:text="인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 "
-            android:textSize="18dp"></TextView>
+            android:textSize="14dp"></TextView>
 
     </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/contentlayout"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layoutcomment">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center"
+                android:fontFamily="@font/r210beachofnight"
+                android:textSize="30dp"
+                android:text="댓글창">
+
+            </TextView>
+        </RelativeLayout>
+
+    </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
