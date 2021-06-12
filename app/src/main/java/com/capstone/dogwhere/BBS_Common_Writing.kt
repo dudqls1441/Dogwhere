@@ -16,6 +16,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.*
+import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.btn_gallary
+import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.edit_content
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*

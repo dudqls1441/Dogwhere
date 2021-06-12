@@ -63,8 +63,11 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.account -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
-            R.id.itme2 -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.matching_list -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.choker_buy -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.menu_list -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.notice -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.setting -> Toast.makeText(this, "rwerqwer", Toast.LENGTH_SHORT).show()
 
             R.id.btn_logout-> clicklogut()
         }
@@ -131,7 +134,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(Intent(this,UserProfileActivity::class.java))
         }
         menuBar.setOnClickListener {
-            layout_drawer.openDrawer(GravityCompat.END)
+            layout_drawer.openDrawer(GravityCompat.START)
         }
         naviView.setNavigationItemSelectedListener(this)
 
