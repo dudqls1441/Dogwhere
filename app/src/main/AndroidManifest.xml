@@ -14,9 +14,9 @@
     <application
         android:name=".GlobalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/dogwhere_launcher"
+        android:icon="@mipmap/dogwhere_launcher_img"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/dogwhere_launcher_round"
+        android:roundIcon="@mipmap/dogwhere_launcher_img_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
