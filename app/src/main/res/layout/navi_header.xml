@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/relative_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="80dp">
 
         <Button
             android:id="@+id/btn_logout"
@@ -22,14 +22,13 @@
             android:textStyle="bold"></Button>
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_arrow_back" />
+            android:layout_margin="15dp"
+            android:src="@drawable/ic_green_cancel" />
     </RelativeLayout>
 
     <View
@@ -46,11 +45,12 @@
 
         <ImageView
             android:id="@+id/user_photo_img"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+
             android:src="@drawable/dog11" />
 
         <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="이름"
-                android:textSize="25dp"/>
+                android:textSize="24dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,6 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="30dp"
+                    android:fontFamily="@font/r210beachofnight"
                     android:layout_margin="5dp"
                     android:text="2"
                     android:textColor="#FFC245"/>
@@ -81,7 +82,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="80dp"
+                    android:layout_marginStart="70dp"
+                    android:fontFamily="@font/r210beachofnight"
                     android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
                     android:text="15"
@@ -102,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="50dp"
+                    android:layout_marginStart="40dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
                     android:text="완료된 매칭"
@@ -111,9 +113,7 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
+
 
 <!--리사이클러뷰 강아지들 프로필 목록 보륲-->
 <!--        <androidx.recyclerview.widget.RecyclerView-->
@@ -146,6 +146,6 @@
 <!--                    android:textSize="15sp" />-->
 <!--            </LinearLayout>-->
 <!--        </androidx.recyclerview.widget.RecyclerView>-->
-    </LinearLayout>
+
 
 </LinearLayout>

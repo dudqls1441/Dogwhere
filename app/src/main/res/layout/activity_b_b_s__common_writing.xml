@@ -4,77 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".BBS_Common_Writing">
 
     <RelativeLayout
+        android:id="@+id/chatting_room_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:src="@drawable/ic_arrow_back"></ImageView>
+            android:layout_marginLeft="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:padding="10dp"
             android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/l210beachofnight"
             android:text="글쓰기"
-            android:textSize="20dp"
-            android:textStyle="bold"></TextView>
-        <Button
+            android:textColor="@color/main_labelText"
+            android:textSize="14dp" />
+
+        <ImageButton
+            android:id="@+id/btn_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/round_shape"
-            android:text="올리기"
             android:layout_alignParentRight="true"
-            android:id="@+id/btn_post"></Button>
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_check" />
     </RelativeLayout>
-    <LinearLayout
+
+
+    <EditText
+        android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="105dp"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:text="게시글 제목"
-            android:textStyle="bold"
-            android:textSize="15dp"></TextView>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:padding="12dp"
-            android:text=""
-            android:id="@+id/edit_title"
-            android:textStyle="bold"
-            android:textSize="18dp"></EditText>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#52443C3C"
+        android:fontFamily="@font/l210beachofnight"
+        android:hint="게시글 제목"
+        android:paddingBottom="20dp"
+        android:textColor="#52443C3C"
+        android:textColorHint="#52443C3C" />
 
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#CDCBCB"
-        android:padding="8dp"
-        android:layout_margin="8dp">
-    </TextView>
+
     <EditText
+        android:id="@+id/edit_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_weight="11"
-        android:id="@+id/edit_content"
+        android:background="@null"
+        android:backgroundTint="#52443C3C"
+        android:fontFamily="@font/l210beachofnight"
+        android:gravity="start"
         android:hint="내용을 입력해주세요"
-        android:gravity="start"></EditText>
+        android:paddingStart="5dp"
+        android:paddingBottom="20dp"
+        android:textColor="#52443C3C"
+        android:textColorHint="#52443C3C" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -82,19 +89,20 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="갤러리"
             android:id="@+id/btn_gallary"
-            android:layout_margin="8dp"
-            android:background="@drawable/btn_shape"></Button>
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="카메라"
             android:layout_margin="8dp"
+            android:background="@drawable/btn_shape"
+            android:text="갤러리"></Button>
+
+        <Button
             android:id="@+id/btn_camera"
-            android:background="@drawable/btn_shape"></Button>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/btn_shape"
+            android:text="카메라"></Button>
     </LinearLayout>
 
 </LinearLayout>

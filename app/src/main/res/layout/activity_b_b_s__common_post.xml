@@ -29,12 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginRight="30dp"
             android:id="@+id/btn_refresh"
             android:background="@color/white"
             android:layout_toLeftOf="@+id/btn_registration"
-            android:src="@drawable/ic_bone"/>
+            android:src="@drawable/ic_green_reload"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -42,10 +41,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight = "true"
-            android:layout_marginTop="40dp"
             android:id="@+id/btn_registration"
             android:background="@color/white"
-            android:src="@drawable/ic_bone_full"/>
+            android:src="@drawable/ic_green_more"/>
 
     </RelativeLayout>
     <TextView
@@ -95,35 +93,28 @@
             android:layout_toRightOf="@+id/writer_img"
             android:text="몇분 전"></TextView>
 
-        <TextView
+        <ImageView
             android:id="@+id/writer_like"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/like_round"
             android:layout_margin="8dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="#CD1F12"
-            android:textSize="12dp"
-            android:text="좋아요"
-            android:textStyle="bold"></TextView>
+            android:src="@drawable/ic_pink_like"
+            android:textColor="#CD1F12"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/writer_chatting"
             android:layout_width="21dp"
             android:layout_height="21dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/writer_like"
-            android:background="@drawable/edittext_round"
             android:layout_margin="8dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:textColor="#00C09F"
-            android:text="채팅"
-            android:textSize="12dp"
-            android:textStyle="bold"></TextView>
+            android:src="@drawable/ic_green_chatting"
+            />
+
     </RelativeLayout>
 
     <RelativeLayout

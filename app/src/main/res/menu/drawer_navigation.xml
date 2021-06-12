@@ -2,17 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/account"
-            android:icon="@drawable/dog11"
-            android:title="menu_account"></item>
+            android:id="@+id/matching_list"
+
+            android:title="매칭 리스트"></item>
         <item
-            android:id="@+id/itme2"
-            android:icon="@drawable/dog11"
-            android:title="menu_account"></item>
+            android:id="@+id/choker_buy"
+            android:title="목걸이 구매"></item>
         <item
-            android:id="@+id/item3"
-            android:icon="@drawable/dog11"
-            android:title="menu_account"></item>
+            android:id="@+id/menu_list"
+            android:title="메뉴"></item>
+        <item
+            android:id="@+id/notice"
+            android:title="공지사항"></item>
+        <item
+            android:id="@+id/setting"
+            android:title="환경설정"></item>
     </group>
 
 </menu>

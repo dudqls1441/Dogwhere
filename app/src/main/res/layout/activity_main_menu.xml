@@ -21,36 +21,35 @@
             android:layout_alignParentTop="true"
             android:orientation="horizontal">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="프로필"
-                android:id="@+id/btn_profile"
-                android:background="@drawable/btn_shape"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/sebanggothic"
-                android:textSize="20dp"></Button>
+
 
             <ImageView
                 android:id="@+id/menuBar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_menu"></ImageView>
-
-            <ImageView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/ic_g_hamburger"></ImageView>
+
+            <ImageView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_centerHorizontal="true"
                 android:scaleType="fitCenter"
-                android:gravity="center_horizontal"
                 android:src="@drawable/ic_splash"
                 android:textColor="#BD3131"
                 android:textStyle="bold"></ImageView>
 
+            <ImageView
+                android:id="@+id/btn_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_g_notice"></ImageView>
 
         </RelativeLayout>
         <RelativeLayout
@@ -356,7 +355,7 @@
         android:id="@+id/naviView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="left"
         app:headerLayout="@layout/navi_header"
         app:menu="@menu/drawer_navigation">
 

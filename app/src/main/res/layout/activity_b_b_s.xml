@@ -17,40 +17,30 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="산책 캘린더"
+            android:text="게시판"
             android:fontFamily="@font/b210beachofnight"
             android:textSize="18dp"
             android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
+            android:layout_marginStart="20dp"
             android:textColor="#00C09F"></TextView>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
-            android:background="@drawable/btn_round"
-            android:padding="4dp"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
-            android:fontFamily="@font/r210beachofnight"
+            android:src="@drawable/ic_green_search"
             android:id="@+id/btn_search"
-            android:text="검색"></Button>
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:text="검색"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btn_search"
             android:layout_margin="10dp"
-            android:background="@drawable/btn_round"
-            android:padding="4dp"
-            android:textSize="10dp"
-            android:textStyle="bold"
-            android:textColor="#ffffff"
-            android:fontFamily="@font/r210beachofnight"
+            android:src="@drawable/ic_green_reload"
             android:id="@+id/btn_refresh"
-            android:text="새로고침"></Button>
+            />
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout

@@ -18,7 +18,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:autoSizeMaxTextSize="150dp"
-        android:fontFamily="@font/nightb"
+        android:fontFamily="@font/nightl"
         android:text="게시판 제목"
         android:textColor="#DE443C3C"
         android:textSize="16dp"></TextView>
@@ -34,14 +34,15 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/nightr"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:maxWidth="300dp"
         android:text="게시판 내용입니다. 게시판 내용입니다."
         android:textColor="#80444443"
-        android:textSize="12dp"
-        android:textStyle="bold"></TextView>
+        android:textSize="12dp"/>
     <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/free_bbs_img"
         android:layout_margin="4dp"
         android:layout_alignParentRight="true"></ImageView>
@@ -54,7 +55,7 @@
         android:textColor="#52444443"
         android:layout_marginTop="8dp"
         android:layout_marginStart="4dp"
-        android:layout_below="@+id/free_bbs_content"
+        android:layout_below="@+id/free_bbs_img"
         android:id="@+id/free_bbs_time"></TextView>
     <TextView
         android:layout_width="wrap_content"
@@ -68,7 +69,7 @@
         android:fontFamily="@font/nightr"
         android:textColor="#52444443"
         android:layout_toRightOf="@+id/free_bbs_time"
-        android:layout_below="@+id/free_bbs_content"></TextView>
+        android:layout_below="@+id/free_bbs_img"></TextView>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,8 +79,15 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nightr"
         android:layout_toRightOf="@+id/l"
-        android:layout_below="@+id/free_bbs_content"
+        android:layout_below="@+id/free_bbs_img"
         android:id="@+id/free_bbs_name"></TextView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/free_bbs_img"
+        android:layout_alignParentRight="true">
+
 
     <ImageView
         android:layout_width="13dp"
@@ -144,7 +152,7 @@
         android:layout_toRightOf="@+id/free_bbs_ic3"
         android:layout_below="@+id/free_bbs_content"
         android:id="@+id/free_bbs_count3"/>
-
+    </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
