@@ -14,9 +14,9 @@
     <application
         android:name=".GlobalApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/dogwhere_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/dogwhere_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
@@ -25,6 +25,7 @@
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".Search_Region"></activity>
         <activity android:name=".BBS_Transaction_Post" />
+        <activity android:name=".MatchingRegistration_Choice_Dog_Activity" />
         <activity android:name=".MatchingRegistrationActivity" />
         <activity android:name=".BBS_Transaction_Writing" />
         <activity android:name=".Stop_watchActivity" />
@@ -55,7 +56,6 @@
         <activity android:name=".MainMenuActivity" />
         <activity android:name="com.capstone.dogwheredss.BBSActivity" />
         <activity android:name=".joinId" />
-        <activity android:name=".example" />
         <activity android:name=".LoginActivity" />
     </application>
 

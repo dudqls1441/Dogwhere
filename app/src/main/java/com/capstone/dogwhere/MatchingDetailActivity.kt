@@ -19,7 +19,7 @@ class MatchingDetailActivity : AppCompatActivity() {
         matching_tab_layout.addTab(matching_tab_layout.newTab().setText("모임설명"))
         matching_tab_layout.addTab(matching_tab_layout.newTab().setText("참여 명단"))
 
-        matching_view_pager.adapter = MatchingDetailActivity@ adapter
+        matching_view_pager.adapter = MatchingPagerAdapter(supportFragmentManager,2)
         matching_tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -55,9 +55,9 @@ class MatchingPagerAdapter(
     override fun getItem(position: Int): Fragment {
 
         when (position) {
-            0 -> return UserProfileFragment()
-            1 -> return BBS_CommonBBS("puppy_bbs")
-            else -> return UserProfileFragment()
+            0 -> return PartyexplanationFragment()
+            1 -> return PartyListFragment()
+            else -> return PartyexplanationFragment()
         }
     }
 
