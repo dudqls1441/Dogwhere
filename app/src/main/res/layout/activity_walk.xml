@@ -299,7 +299,7 @@
                             android:layout_marginLeft="60dp"
                             android:textSize="12dp"
                             android:fontFamily="@font/nanumsquarer"
-                            android:text="인천시 부평구 청천동의 산책지수"
+                            android:text="안양시 만안구 안양동의 산책지수"
                             android:textColor="@color/white"/>
                         <ImageView
                             android:id="@+id/bad"
