@@ -20,10 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Walk_Calendar"></activity>
-        <activity android:name=".MatchingDetailActivity"></activity>
+        <activity android:name=".Search_Region_Detail"></activity>
+        <activity android:name=".Walk_Calendar" />
+        <activity android:name=".MatchingDetailActivity" />
         <activity android:name=".UserProfileActivity" />
-        <activity android:name=".Search_Region"></activity>
+        <activity android:name=".Search_Region" />
         <activity android:name=".BBS_Transaction_Post" />
         <activity android:name=".MatchingRegistration_Choice_Dog_Activity" />
         <activity android:name=".MatchingRegistrationActivity" />

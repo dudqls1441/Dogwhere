@@ -61,13 +61,14 @@
             android:id="@+id/id_textbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="2dp"
-            android:text="아이디"
-            android:textSize="20dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="아이디"/>
 
-        </TextView>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,8 +76,8 @@
             android:layout_toEndOf="@id/id_textbox"
             android:text="*"
             android:textColor="@color/main_mint"
-            android:textSize="20dp">
-        </TextView>
+            android:textSize="12dp"/>
+
         <EditText
             android:id="@+id/join_id_et"
             android:layout_width="match_parent"
@@ -85,52 +86,60 @@
             android:layout_below="@+id/id_textbox"
             android:hint="아이디를 입력하세요"
             android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:background="@drawable/backgroundgray"></EditText>
 
         <TextView
             android:id="@+id/pw_textbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/join_id_et"
-            android:layout_marginLeft="30dp"
-            android:layout_margin="8dp"
-            android:layout_marginRight="20dp"
-            android:text="비밀번호"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="비밀번호"/>
 
-        </TextView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/pw_textbox"
+            android:layout_below="@id/join_id_et"
             android:text="*"
             android:textColor="@color/main_mint"
-            android:textSize="20dp">
-        </TextView>
+            android:textSize="12dp"/>
         <EditText
             android:id="@+id/join_password_et"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:hint="비밀번호를 입력하세요"
             android:layout_below="@+id/pw_textbox"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"
             android:inputType="textPassword"></EditText>
 
         <TextView
             android:id="@+id/check_pw_textbox"
             android:layout_width="wrap_content"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/join_password_et"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="비밀번호확인"
-            android:textSize="13dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="비밀번호확인"/>
 
-        </TextView>
+
+
 
         <EditText
             android:id="@+id/join_passwordC_ed"
@@ -138,9 +147,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/check_pw_textbox"
             android:hint="비밀번호를 확인하세요"
-            android:layout_margin="8dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"
             android:inputType="textPassword"></EditText>
 
 
@@ -149,11 +160,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/join_passwordC_ed"
-            android:layout_margin="8dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
             android:text="이름"
-            android:textSize="20dp">
+            >
 
         </TextView>
 
@@ -163,9 +177,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_textbox"
             android:hint="이름을 입력해주세요"
+            android:textSize="14dp"
+            android:paddingStart="20dp"
             android:layout_margin="8dp"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"
+            android:background="@drawable/backgroundgray"
             android:inputType="text"></EditText>
 
         <TextView
@@ -173,11 +188,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/join_name_et"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:layout_margin="8dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
             android:text="연락처"
-            android:textSize="20dp">
+            >
 
         </TextView>
 
@@ -185,34 +203,38 @@
             android:id="@+id/join_phone_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:hint="연락처를 입력하세요"
             android:layout_below="@+id/phone_textbox"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"></EditText>
 
         <TextView
             android:id="@+id/address_textbox"
             android:layout_width="wrap_content"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/join_phone_et"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="주소"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="주소">
 
         </TextView>
 
         <EditText
             android:id="@+id/join_address_et"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:hint="주소를 입력하세요"
             android:layout_below="@+id/address_textbox"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"></EditText>
 
 
     </RelativeLayout>
@@ -220,10 +242,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:text="회원가입"
         android:id="@+id/btn_join_in_Join"
         android:layout_alignParentBottom="true"
-        android:background="#5BD560"></Button>
+        android:background="@color/main_mint"></Button>
 
 
 </RelativeLayout>

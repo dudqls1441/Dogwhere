@@ -65,56 +65,63 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
+            android:padding="45dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_perm_identity"></ImageView>
+            android:background="@drawable/backgroundgraycircle1"
+            android:src="@drawable/ic_profileplus"></ImageView>
 
         <TextView
             android:id="@+id/nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_below="@+id/userProfilePhoto"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="닉네임"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="닉네임">
 
         </TextView>
 
         <EditText
             android:id="@+id/userprofileName"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nickname"
             android:hint="닉네임을 입력해주세요"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"></EditText>
 
         <TextView
             android:id="@+id/textbox_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_below="@+id/userprofileName"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="나이"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="나이">
 
         </TextView>
 
         <EditText
             android:id="@+id/userprofileAge"
             android:layout_width="100dp"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textbox_age"
             android:hint="0"
-            android:gravity="center"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgraymini"></EditText>
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +129,8 @@
             android:layout_toRightOf="@+id/userprofileAge"
             android:text="세"
             android:layout_below="@id/textbox_age"
-            android:layout_margin="8dp"
+            android:layout_marginTop="15dp"
+            android:textColor="#66443C3C"
             android:textSize="18dp"
             android:textStyle="bold"></TextView>
 
@@ -130,12 +138,14 @@
             android:id="@+id/textbox_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_below="@+id/userprofileAge"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="성별"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="성별">
 
         </TextView>
 
@@ -145,32 +155,45 @@
             android:id="@+id/userprofilesex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/textbox_sex"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/sex_man"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textColor="#5BD560"
-                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="#00C09F"
+                android:gravity="center"
+                android:button="@null"
+                android:textStyle="bold"
+                android:background="@drawable/backgroundgreencircle"
                 android:text="남자"></RadioButton>
 
             <RadioButton
                 android:id="@+id/sex_woman"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textColor="#5BD560"
-                android:layout_weight="1"
+                android:textColor="#52443C3C"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:button="@null"
+                android:background="@drawable/backgroundgraycircle"
                 android:text="여자"></RadioButton>
 
             <RadioButton
                 android:id="@+id/Nondisclosure"
-                android:layout_width="0dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:textColor="#5BD560"
-                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="#52443C3C"
+                android:gravity="center"
+                android:button="@null"
+                android:background="@drawable/backgroundgraycircle"
                 android:text="비공개"></RadioButton>
         </RadioGroup>
 
@@ -179,25 +202,27 @@
             android:id="@+id/textbox_hobby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_below="@+id/userprofilesex"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="20dp"
-            android:text="취미"
-            android:textSize="20dp">
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"
+            android:textColor="#80443C3C"
+            android:textSize="12dp"
+            android:text="취미">
 
         </TextView>
 
         <EditText
             android:id="@+id/userprofileHobby"
             android:layout_width="match_parent"
-            android:layout_margin="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textbox_hobby"
             android:hint="취미를 입력해주세요"
-            android:gravity="center"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/edittext_round"></EditText>
+            android:textSize="14dp"
+            android:paddingStart="20dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"></EditText>
 
     </RelativeLayout>
 
@@ -205,9 +230,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="등록"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16dp"
         android:id="@+id/btn_upload"
         android:layout_alignParentBottom="true"
-        android:background="#00C09F"></Button>
+        android:background="@color/main_mint"></Button>
 
 
 

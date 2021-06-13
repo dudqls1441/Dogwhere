@@ -8,9 +8,10 @@
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="@drawable/backgroundbox"
+    android:layout_height="220dp"
+    android:background="@drawable/backgrounddogprofile"
     android:layout_margin="30dp">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,8 +19,9 @@
         android:id="@+id/dogbreed"
         android:fontFamily="@font/r210beachofnight"
         android:layout_marginLeft="24dp"
-        android:layout_marginBottom="24dp"
-        android:textSize="16dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="14dp"
         android:layout_alignParentBottom="true"></TextView>
     <TextView
         android:layout_width="wrap_content"
@@ -28,10 +30,11 @@
         android:id="@+id/dogage"
         android:layout_marginLeft="8dp"
         android:layout_above="@+id/dogbreed"
+        android:textColor="@color/white"
         android:layout_toRightOf="@+id/dogbreed"
         android:fontFamily="@font/r210beachofnight"
-        android:layout_marginBottom="24dp"
-        android:textSize="16dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="14dp"
         android:layout_alignParentBottom="true"></TextView>
     <TextView
         android:layout_width="wrap_content"
@@ -41,8 +44,9 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/dogage"
         android:fontFamily="@font/r210beachofnight"
-        android:layout_marginBottom="24dp"
-        android:textSize="16dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="14dp"
         android:layout_alignParentBottom="true"></TextView>
     <TextView
         android:layout_width="wrap_content"
@@ -52,8 +56,9 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/dogsex"
         android:fontFamily="@font/r210beachofnight"
-        android:layout_marginBottom="24dp"
-        android:textSize="16dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="14dp"
         android:layout_alignParentBottom="true"></TextView>
 
     <TextView
@@ -67,7 +72,7 @@
         android:fontFamily="@font/r210beachofnight"
         android:layout_marginLeft="24dp"
         android:layout_marginBottom="8dp"
-        android:textSize="20dp"></TextView>
+        android:textSize="18dp"></TextView>
 
 
 </RelativeLayout>
