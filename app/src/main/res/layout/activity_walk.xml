@@ -80,7 +80,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="21dp"
                             android:layout_marginTop="25dp"
-                            android:text="00월 00일에 리셋"
+                            android:text="06월 13일에 리셋"
                             android:textColor="@color/main_gray"
                             android:textSize="12dp" />
 
@@ -299,7 +299,7 @@
                             android:layout_marginLeft="60dp"
                             android:textSize="12dp"
                             android:fontFamily="@font/nanumsquarer"
-                            android:text="인천시 부평구 청천동의 산책지수"
+                            android:text="안양시 만안구 안양동의 산책지수"
                             android:textColor="@color/white"/>
                         <ImageView
                             android:id="@+id/bad"
