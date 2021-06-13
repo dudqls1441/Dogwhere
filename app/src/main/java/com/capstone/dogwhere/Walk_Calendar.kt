@@ -12,9 +12,9 @@ class Walk_Calendar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walk__calendar)
 
-        calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
-            layout_bottom1.setVisibility(View.INVISIBLE)
-
-        })
+//        calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
+//            layout_bottom1.setVisibility(View.INVISIBLE)
+//
+//        })
     }
 }
