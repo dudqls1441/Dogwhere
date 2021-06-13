@@ -58,7 +58,7 @@
         android:id="@+id/mainlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:padding="8dp"
         android:layout_below="@+id/top_layout">
 
         <ScrollView
@@ -99,7 +99,7 @@
                     <TextView
                         android:id="@+id/textbox_place"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/textplace"
                         android:layout_margin="4dp"
                         android:background="@drawable/edittext_round_black"
@@ -112,7 +112,7 @@
                     <EditText
                         android:id="@+id/edittext_place"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/textbox_place"
                         android:layout_margin="4dp"
                         android:layout_marginHorizontal="12dp"
@@ -129,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@id/edittext_place"
-                        android:layout_margin="24dp"
+                        android:layout_marginLeft="4dp"
                         android:layout_marginVertical="24dp"
                         android:background="#808080"></TextView>
 
@@ -149,7 +149,7 @@
                     <EditText
                         android:id="@+id/edittext_registration_title"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="50dp"
                         android:layout_below="@id/registration_title"
                         android:layout_margin="4dp"
                         android:layout_marginHorizontal="16dp"
@@ -193,14 +193,14 @@
                         android:textStyle="bold"></TextView>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/text_time"
                         android:layout_margin="4dp"
                         android:id="@+id/party_year_layout">
                         <EditText
                             android:layout_width="100dp"
                             android:layout_marginLeft="4dp"
-                            android:layout_height="30dp"
+                            android:layout_height="50dp"
                             android:id="@+id/party_year"
                             android:gravity="center"
                             android:hint="2021"
@@ -219,7 +219,7 @@
                         <EditText
                             android:layout_width="60dp"
                             android:layout_marginLeft="8dp"
-                            android:layout_height="30dp"
+                            android:layout_height="50dp"
                             android:id="@+id/party_month"
                             android:layout_toRightOf="@id/text_year"
                             android:gravity="center"
@@ -239,7 +239,7 @@
                         <EditText
                             android:layout_width="60dp"
                             android:layout_marginLeft="8dp"
-                            android:layout_height="30dp"
+                            android:layout_height="50dp"
                             android:id="@+id/party_day"
                             android:layout_toRightOf="@id/text_month"
                             android:gravity="center"
@@ -260,14 +260,14 @@
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/party_year_layout"
                         android:layout_margin="4dp"
                         android:id="@+id/party_time_layout">
                         <EditText
                             android:layout_width="60dp"
                             android:layout_marginLeft="4dp"
-                            android:layout_height="30dp"
+                            android:layout_height="50dp"
                             android:id="@+id/party_hours"
                             android:gravity="center"
                             android:hint="01"
@@ -286,7 +286,7 @@
                         <EditText
                             android:layout_width="60dp"
                             android:layout_marginLeft="8dp"
-                            android:layout_height="30dp"
+                            android:layout_height="50dp"
                             android:id="@+id/party_minute"
                             android:layout_toRightOf="@id/text_hours"
                             android:gravity="center"
@@ -306,34 +306,41 @@
 
 
                     </RelativeLayout>
-                    <EditText
-                        android:layout_width="60dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_below="@id/party_time_layout"
-                        android:id="@+id/party_time"
-                        android:gravity="center"
-                        android:hint="5"
-                        android:background="@drawable/edittext_round_black"></EditText>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="분 부터"
-                        android:id="@+id/text_duration"
-                        android:fontFamily="@font/r210beachofnight"
-                        android:layout_marginLeft="4dp"
-                        android:textSize="18dp"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/party_time_layout"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/party_time"
-                        android:layout_margin="8dp"></TextView>
+                        android:layout_margin="4dp"
+                        android:id="@+id/party_duration_layout">
+                        <EditText
+                            android:layout_width="60dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="4dp"
+                            android:id="@+id/party_time"
+                            android:gravity="center"
+                            android:hint="5"
+                            android:background="@drawable/edittext_round_black"></EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="분 부터"
+                            android:id="@+id/text_duration"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:layout_marginLeft="4dp"
+                            android:textSize="18dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/party_time"
+                            android:layout_margin="8dp"></TextView>
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/registration_explain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/text_duration"
+                        android:layout_below="@+id/party_duration_layout"
                         android:fontFamily="@font/sebanggothic"
                         android:text="설명"
                         android:layout_marginTop="24dp"
@@ -342,7 +349,7 @@
 
                     <EditText
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="150dp"
                         android:id="@+id/edit_registration_explain"
                         android:layout_below="@+id/registration_explain"
                         android:layout_margin="4dp"

@@ -2,90 +2,197 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/imformation_bbs_item"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
-    android:layout_margin="20dp"
+    android:layout_height="110dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
     android:background="@color/white">
 
     <TextView
         android:id="@+id/imformation_bbs_title"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:autoSizeMaxTextSize="150dp"
-        android:fontFamily="@font/r210beachofnight"
-        android:padding="8dp"
+        android:fontFamily="@font/nightl"
         android:text="게시판 제목"
-        android:textSize="20dp"
-        android:textStyle="bold"></TextView>
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/selected_woman"
-        android:id="@+id/transaction_bbs_img"
-        android:layout_margin="4dp"
-        android:layout_alignParentRight="true"></ImageView>
-
-    <TextView
-        android:id="@+id/imformation_bbs_price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imformation_bbs_title"
-        android:autoSizeMaxTextSize="80dp"
-        android:fontFamily="@font/r210beachofnight"
-        android:padding="8dp"
-        android:text="가격"
-        android:textSize="18dp"
-        android:textStyle="bold"></TextView>
+        android:textColor="#DE443C3C"
+        android:textSize="16dp"></TextView>
 
     <TextView
         android:id="@+id/imformation_bbs_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imformation_bbs_price"
-        android:fontFamily="@font/r210beachofnight"
+        android:layout_below="@+id/imformation_bbs_title"
+        android:layout_alignParentStart="true"
+        android:layout_margin="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:fontFamily="@font/nightr"
         android:maxWidth="300dp"
-        android:padding="10dp"
         android:text="게시판 내용입니다. 게시판 내용입니다."
-        android:textSize="15dp"
-        android:textStyle="bold"></TextView>
+        android:textColor="#80444443"
+        android:textSize="12dp"
+        />
+    <TextView
+        android:id="@+id/imformation_bbs_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_content"
+        android:layout_alignParentStart="true"
+        android:layout_margin="4dp"
+        android:fontFamily="@font/nightr"
+        android:maxWidth="300dp"
+        android:text="₩ 10,000"
+        android:textColor="@color/main_mint"
+        android:textSize="18dp"
+        />
+    <ImageView
+        android:id="@+id/imformation_bbs_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="4dp"></ImageView>
 
     <TextView
         android:id="@+id/imformation_bbs_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imformation_bbs_content"
-        android:layout_marginTop="0dp"
-        android:fontFamily="@font/r210beachofnight"
-        android:padding="8dp"
-        android:text="몇 분 전"
-        android:textStyle="bold"></TextView>
+        android:layout_below="@+id/imformation_bbs_img"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/nightr"
+        android:text="0분 전"
+        android:textColor="#52444443"
+        android:textSize="12dp"></TextView>
 
     <TextView
-        android:layout_width="1dp"
-        android:layout_height="20dp"
-        android:background="#000000"
         android:id="@+id/l"
-        android:layout_margin="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_img"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="2dp"
         android:layout_toRightOf="@+id/imformation_bbs_time"
-        android:layout_below="@+id/imformation_bbs_content"></TextView>
+        android:fontFamily="@font/nightr"
+        android:text="|"
+        android:textColor="#52444443"
+        android:textSize="12dp"></TextView>
 
     <TextView
         android:id="@+id/imformation_bbs_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imformation_bbs_content"
+        android:layout_below="@+id/imformation_bbs_img"
+        android:layout_marginTop="28dp"
         android:layout_toRightOf="@+id/l"
-        android:fontFamily="@font/r210beachofnight"
-        android:padding="8dp"
+        android:fontFamily="@font/nightr"
         android:text="글쓴이"
-        android:textStyle="bold"></TextView>
+        android:textColor="#52444443"
+        android:textSize="12dp"></TextView>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_img"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true">
+
+
+    <ImageView
+        android:id="@+id/imformation_bbs_ic1"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_below="@id/imformation_bbs_price"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/imformation_bbs_name"
+        android:src="@drawable/ic_bone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13"
+            android:textSize="12dp"
+            android:textColor="#52444443"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/nightr"
+            android:layout_toRightOf="@+id/imformation_bbs_ic1"
+            android:layout_below="@+id/imformation_bbs_content"
+            android:id="@+id/imformation_bbs_count1"></TextView>
+<!--    <TextView-->
+<!--        android:id="@+id/imformation_bbs_count1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/imformation_bbs_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_toRightOf="@+id/imformation_bbs_ic1"-->
+<!--        android:fontFamily="@font/nightr"-->
+<!--        android:text="13"-->
+<!--        android:textColor="#52444443"-->
+<!--        android:textSize="12dp"></TextView>-->
+
+    <ImageView
+        android:id="@+id/imformation_bbs_ic2"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_below="@id/imformation_bbs_price"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/imformation_bbs_count1"
+        android:src="@drawable/ic_check" />
+
+    <TextView
+        android:id="@+id/imformation_bbs_count2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_price"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/imformation_bbs_ic2"
+        android:fontFamily="@font/nightr"
+        android:text="13"
+        android:textColor="#52444443"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/imformation_bbs_ic3"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_below="@id/imformation_bbs_price"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/imformation_bbs_count2"
+        android:src="@drawable/ic_bone" />
+
+    <TextView
+        android:id="@+id/imformation_bbs_count3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_price"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/imformation_bbs_ic3"
+        android:fontFamily="@font/nightr"
+        android:text="13"
+        android:textColor="#52444443"
+        android:textSize="12dp" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#A3A3A3"
+        android:layout_alignParentBottom="true"
         android:layout_margin="4dp"
-        android:padding="1dp"
-        android:layout_alignParentBottom="true"></TextView>x
+        android:background="#F8F8F7"
+        android:padding="1dp"></TextView>
 
 
 </RelativeLayout>

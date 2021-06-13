@@ -7,34 +7,60 @@
     android:orientation="vertical"
     tools:context=".GeoActivity">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="구글 지도"
+        android:background="@color/white"
         android:layout_margin="8dp"
-        android:id="@+id/map_top_name"
+        android:id="@+id/map_top_layout"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:gravity="center_horizontal|center_vertical"
-        ></TextView>
+        >
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/btn_back"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="12dp"></Button>
+
+        <EditText
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:background="@drawable/edittext_round"
+            android:layout_alignParentRight="true"
+            android:hint="검색어를 입력해주세요"
+            android:padding="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="4dp"></EditText>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_search"
+            android:id="@+id/btn_search"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"></Button>
+
+    </RelativeLayout>
 
     <fragment
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_below="@+id/map_top_name"
-        android:layout_height="400dp"
+        android:layout_below="@+id/map_top_layout"
+        android:layout_height="match_parent"
         android:id="@+id/mapfragment" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/round"
-        android:text="위치가져오기"
+        android:text="내 위치"
+        android:layout_below="@+id/map_top_layout"
+        android:background="@drawable/edittext_round"
+        android:layout_margin="8dp"
         android:textStyle="bold"
-        android:textSize="14dp"
-        android:id="@+id/btn_mylocation"
-        android:layout_below="@+id/map_top_name">
-
-    </Button>
+        android:fontFamily="@font/nightl"
+        android:id="@+id/btn_mylocation"></Button>
 
 </RelativeLayout>

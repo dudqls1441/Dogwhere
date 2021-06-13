@@ -21,7 +21,7 @@
             android:fontFamily="@font/sebanggothic"
             android:textSize="18dp"
             android:layout_centerVertical="true"
-            android:paddingLeft="16dp"
+            android:layout_marginStart="20dp"
             android:textColor="#00C09F"></TextView>
 
     </RelativeLayout>

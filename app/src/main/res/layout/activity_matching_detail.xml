@@ -48,15 +48,10 @@
             android:src="@drawable/ic_check"/>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/mainlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/top_layout">
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/top_layout"
             android:fillViewport="true"
             android:scrollbars="vertical">
 
@@ -147,7 +142,7 @@
                         android:layout_margin="4dp"
                         android:textColor="#00C09F"
                         android:fontFamily="@font/r210beachofnight"
-                        android:text="채팅하기"
+                        android:text="참여하기"
                         android:background="@drawable/edittext_round"
                         android:id="@+id/btn_participate"></Button>
                 </LinearLayout>
@@ -165,8 +160,8 @@
                 </com.google.android.material.tabs.TabLayout>
                 <androidx.viewpager.widget.ViewPager
                     android:layout_below="@+id/matching_tab_layout"
-                    android:layout_width="400dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
                     android:id="@+id/matching_view_pager">
 
                 </androidx.viewpager.widget.ViewPager>
@@ -174,7 +169,6 @@
 
             </RelativeLayout>
         </ScrollView>
-    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -82,8 +82,8 @@ class PagerAdapter(
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> return BBS_CommonBBS("free_bbs")
-            1 -> return BBS_TransactionBBS("information_bbs")
-            2 -> return BBS_CommonBBS("transaction_bbs")
+            1 -> return BBS_CommonBBS("information_bbs")
+            2 -> return BBS_TransactionBBS("transaction_bbs")
             3 -> return BBS_TransactionBBS("puppy_bbs")
             else -> return BBS_CommonBBS("free_bbs")
         }
