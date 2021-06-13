@@ -42,7 +42,7 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setContentView(R.layout.activity_main_menu)
         
         initLayout()
-        setFragment()
+//        setFragment()
 
         auth = FirebaseAuth.getInstance()
         rdb = FirebaseDatabase.getInstance()
@@ -139,14 +139,14 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         naviView.setNavigationItemSelectedListener(this)
 
     }
-    private fun setFragment(){
-        val transaction =supportFragmentManager.beginTransaction()
-        val fragment = WorkIndexFragment()
-
-        transaction.add(R.id.layout_today_workIndex,fragment)
-        transaction.commit()
-
-    }
+//    private fun setFragment(){
+//        val transaction =supportFragmentManager.beginTransaction()
+//        val fragment = WorkIndexFragment()
+//
+//        transaction.add(R.id.layout_today_workIndex,fragment)
+//        transaction.commit()
+//
+//    }
     private fun clicklogut(){
         auth.signOut()
         MySharedPreferences.clearUser(this)

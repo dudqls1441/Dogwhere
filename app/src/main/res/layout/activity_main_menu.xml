@@ -80,7 +80,7 @@
                                 android:layout_height="120dp"
                                 android:background="@drawable/walk_background"/>
                             <TextView
-                                android:id="@+id/text"
+                                android:id="@+id/textt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
@@ -91,7 +91,7 @@
                                 android:textSize="18dp"/>
 
                             <TextView
-                                android:layout_below="@+id/text"
+                                android:layout_below="@+id/textt"
                                 android:id="@+id/location_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                                 android:text="인천시 부평구 청천동의 산책지수"
                                 android:textColor="@color/white"/>
                             <TextView
-                                android:id="@+id/text2"
+                                android:id="@+id/textt2"
                                 android:layout_marginRight="30dp"
                                 android:layout_toLeftOf="@+id/bad"
                                 android:layout_marginTop="40dp"
@@ -234,9 +234,138 @@
                                     android:fontFamily="@font/nanumsquarer"
                                     android:textColor="@color/white" />
 
-                        </RelativeLayout>>
+                        </RelativeLayout>
 
                     </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout_walk_habit"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:padding="16dp"
+                    android:layout_height="320dp"
+                    android:layout_below="@+id/walk_Weather">
+                    <RelativeLayout
+                        android:id="@+id/goal"
+                        android:layout_width="355dp"
+                        android:layout_height="200dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="28dp"
+                        android:background="@drawable/walkgoal_backgroundbox">
+
+                        <TextView
+                            android:id="@+id/reset"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="21dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_alignParentRight="true"
+                            android:text="00월 00일에 리셋"
+                            android:textColor="@color/main_gray"
+                            android:textSize="12dp" />
+
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/reset"
+                            android:layout_marginLeft="21dp"
+                            android:text="일주일에 "
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_marginLeft="21dp"
+                            android:text="5번씩"
+                            android:textColor="@color/main_yellow"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/hour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_toRightOf="@id/count"
+                            android:text=" 7시간"
+                            android:textColor="@color/main_yellow"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/text"
+                            android:layout_toRightOf="@id/hour"
+                            android:text=" 산책하기"
+                            android:textColor="@color/cardview_dark_background"
+                            android:textSize="24dp" />
+
+                        <ImageView
+                            android:id="@+id/bone1"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="21dp"
+                            android:layout_marginTop="12dp"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone2"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone1"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone3"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone2"
+                            android:src="@drawable/ic_bone_full"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone4"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone3"
+                            android:src="@drawable/ic_bone"></ImageView>
+
+                        <ImageView
+                            android:id="@+id/bone5"
+                            android:layout_width="40dp"
+                            android:layout_height="25dp"
+                            android:layout_below="@+id/hour"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_toRightOf="@+id/bone4"
+                            android:src="@drawable/ic_bone"></ImageView>
+                        <ImageView
+                            android:id="@+id/rectangle"
+                            android:layout_width="310dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bone5"
+                            android:layout_marginTop="17dp"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/gauge"/>
+
+
+
+                    </RelativeLayout>
+                </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/layout_today_hot_post"
@@ -244,7 +373,7 @@
                         android:layout_marginTop="4dp"
                         android:padding="16dp"
                         android:layout_height="300dp"
-                        android:layout_below="@+id/walk_Weather">
+                        android:layout_below="@+id/layout_walk_habit">
                         <TextView
                             android:id="@+id/texttoday"
                             android:layout_width="wrap_content"
@@ -369,14 +498,15 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <TextView
+                <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="4dp"
                     android:id="@+id/text_home"
-                    android:background="@drawable/bottomclickedbutton"></TextView>
+                    android:src="@drawable/ic_green_home2"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/btn_home"
@@ -398,14 +528,14 @@
                 android:orientation="vertical"
                 android:id="@+id/layout_work"
                 android:layout_weight="1">
-                <TextView
+                <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="4dp"
                     android:id="@+id/text_work"
-                    android:background="@drawable/bottombutton"></TextView>
+                    android:src="@drawable/ic_gray_walk"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/btn_work"
@@ -427,14 +557,14 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <TextView
+                <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="4dp"
                     android:id="@+id/text_matching"
-                    android:background="@drawable/bottombutton"></TextView>
+                    android:src="@drawable/ic_gray_matching"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/btn_matching"
@@ -445,7 +575,7 @@
                     android:gravity="center"
                     android:text="매칭"
                     android:textColor="#000000"
-                    android:textSize="14dp"></TextView>
+                    android:textSize="14dp"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -456,14 +586,14 @@
                 android:id="@+id/layout_post"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <TextView
+                <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="4dp"
                     android:id="@+id/text_post"
-                    android:background="@drawable/bottombutton"></TextView>
+                    android:src="@drawable/ic_gray_bbs"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/btn_post"
@@ -485,14 +615,14 @@
                 android:id="@+id/layout_chatting"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                <TextView
+                <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
                     android:layout_margin="4dp"
                     android:id="@+id/text_chatting"
-                    android:background="@drawable/bottombutton"></TextView>
+                    android:src="@drawable/ic_gray_chatting"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/btn_chatting"
