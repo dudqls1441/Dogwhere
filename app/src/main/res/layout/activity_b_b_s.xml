@@ -109,7 +109,7 @@
         android:id="@+id/bottom_bar"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-        
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -118,14 +118,15 @@
             android:gravity="center"
             android:orientation="vertical"
             android:layout_weight="1">
-            <TextView
+            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="4dp"
                 android:id="@+id/text_home"
-                android:background="@drawable/bottombutton"></TextView>
+                android:src="@drawable/ic_gray_home"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/btn_home"
@@ -135,7 +136,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="홈"
-                android:textColor="#000000"
+                android:textColor="@color/main_gray"
                 android:textSize="14dp"></TextView>
 
         </RelativeLayout>
@@ -147,14 +148,14 @@
             android:orientation="vertical"
             android:id="@+id/layout_work"
             android:layout_weight="1">
-            <TextView
+            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="4dp"
                 android:id="@+id/text_work"
-                android:background="@drawable/bottombutton"></TextView>
+                android:src="@drawable/ic_gray_walk"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/btn_work"
@@ -176,14 +177,14 @@
             android:gravity="center"
             android:orientation="vertical"
             android:layout_weight="1">
-            <TextView
+            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="4dp"
                 android:id="@+id/text_matching"
-                android:background="@drawable/bottombutton"></TextView>
+                android:src="@drawable/ic_gray_matching"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/btn_matching"
@@ -194,7 +195,7 @@
                 android:gravity="center"
                 android:text="매칭"
                 android:textColor="#000000"
-                android:textSize="14dp"></TextView>
+                android:textSize="14dp"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -205,24 +206,24 @@
             android:id="@+id/layout_post"
             android:orientation="vertical"
             android:layout_weight="1">
-            <TextView
+            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="4dp"
                 android:id="@+id/text_post"
-                android:background="@drawable/bottomclickedbutton"></TextView>
+                android:src="@drawable/ic_green_bbs"/>
             <TextView
                 android:layout_width="wrap_content"
-                android:id="@+id/btn_allList"
+                android:id="@+id/btn_post"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/text_post"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="게시판"
-                android:textColor="#00C09F"
+                android:textColor="@color/main_mint"
                 android:textSize="14dp"></TextView>
 
         </RelativeLayout>
@@ -230,18 +231,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/layout_chatting"
             android:gravity="center"
+            android:id="@+id/layout_chatting"
             android:orientation="vertical"
             android:layout_weight="1">
-            <TextView
+            <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="4dp"
                 android:id="@+id/text_chatting"
-                android:background="@drawable/bottombutton"></TextView>
+                android:src="@drawable/ic_gray_chatting"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/btn_chatting"

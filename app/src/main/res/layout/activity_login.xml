@@ -63,6 +63,7 @@
         android:layout_height="wrap_content"
         android:text="아이디/패스워드 찾기"
         android:id="@+id/find_IdPW"
+        android:layout_marginEnd="50dp"
         android:layout_below="@+id/idPwLayout"
         android:layout_alignParentRight="true"
 
@@ -100,8 +101,7 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:textColor="#ffffff"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/btn_round_yello"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/line"
         android:padding="20dp"
@@ -111,9 +111,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="30dp"
         android:layout_below="@+id/btn_kakao_login"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentBottom="true"
         android:gravity="center">
 
         <TextView
