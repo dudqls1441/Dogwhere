@@ -45,11 +45,12 @@
 
     </RelativeLayout>
 
-    <fragment
-        class="com.google.android.gms.maps.SupportMapFragment"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_below="@+id/map_top_layout"
         android:layout_height="match_parent"
+        android:src="@drawable/map1"
+        android:scaleType="center"
         android:id="@+id/mapfragment" />
 
     <Button

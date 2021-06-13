@@ -72,11 +72,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <fragment
+                <ImageView
                     android:id="@+id/registmapfragment"
-                    class="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+                    android:layout_height="250dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/map2" />
 
                 <RelativeLayout
                     android:id="@+id/registration_place_layout"
