@@ -80,7 +80,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginLeft="21dp"
                             android:layout_marginTop="25dp"
-                            android:text="00월 00일에 리셋"
+                            android:text="06월 13일에 리셋"
                             android:textColor="@color/main_gray"
                             android:textSize="12dp" />
 
