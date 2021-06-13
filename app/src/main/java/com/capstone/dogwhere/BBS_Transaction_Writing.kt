@@ -41,7 +41,6 @@ class BBS_Transaction_Writing: AppCompatActivity() {
         }
         btn_post.setOnClickListener {
             post(ImagePath)
-            Thread.sleep(8000)
 
         }
 

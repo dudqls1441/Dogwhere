@@ -40,7 +40,8 @@ class MainMenuActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
-        
+
+        scrollvieww.scrollTo(0,0)
         initLayout()
 //        setFragment()
 

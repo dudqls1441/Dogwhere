@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_drawer"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MainMenuActivity">
 
@@ -22,7 +22,6 @@
             android:orientation="horizontal">
 
 
-
             <ImageView
                 android:id="@+id/menuBar"
                 android:layout_width="wrap_content"
@@ -35,8 +34,8 @@
             <ImageView
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_splash"
                 android:textColor="#BD3131"
@@ -52,346 +51,362 @@
                 android:src="@drawable/ic_g_notice"></ImageView>
 
         </RelativeLayout>
+
         <RelativeLayout
+            android:id="@+id/scrollLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/layout_top"
             android:layout_above="@+id/bottom_bar"
-            android:id="@+id/scrollLayout">
+            android:layout_below="@+id/layout_top">
 
             <ScrollView
+                android:id="@+id/scrollvieww"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
                 android:fillViewport="true"
-                >
+                android:scrollbars="vertical">
+
                 <RelativeLayout
+                    android:id="@+id/InscrollLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/InscrollLayout">
-                        <RelativeLayout
-                            android:id="@+id/walk_Weather"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/walk_Weather"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/main_mint">
+
+                        <TextView
                             android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            android:layout_marginTop="110dp"
+                            android:background="@drawable/walk_background" />
+
+                        <TextView
+                            android:id="@+id/textt"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@color/main_mint">
-                            <TextView
-                                android:layout_marginTop="110dp"
-                                android:layout_width="match_parent"
-                                android:layout_height="120dp"
-                                android:background="@drawable/walk_background"/>
-                            <TextView
-                                android:id="@+id/textt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginTop="20dp"
-                                android:text="오늘의 산책지수"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/nanumsquareb"
-                                android:textSize="18dp"/>
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/nanumsquareb"
+                            android:text="오늘의 산책지수"
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
 
-                            <TextView
-                                android:layout_below="@+id/textt"
-                                android:id="@+id/location_text"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginLeft="20dp"
-                                android:textSize="12dp"
-                                android:fontFamily="@font/nanumsquarer"
-                                android:text="인천시 부평구 청천동의 산책지수"
-                                android:textColor="@color/white"/>
-                            <TextView
-                                android:id="@+id/textt2"
-                                android:layout_marginRight="30dp"
-                                android:layout_toLeftOf="@+id/bad"
-                                android:layout_marginTop="40dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/location_text"
-                                android:textSize="20dp"
-                                android:text="산책지수"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/nanumsquarer"/>
-                            <TextView
-                                android:id="@+id/bad"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:text="나쁨"
-                                android:textStyle="bold"
-                                android:textColor="@color/white"
-                                android:fontFamily="@font/nanumsquareb"
-                                android:textSize="50dp"
-                                />
+                        <TextView
+                            android:id="@+id/location_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textt"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/nanumsquarer"
+                            android:text="인천시 부평구 청천동의 산책지수"
+                            android:textColor="@color/white"
+                            android:textSize="12dp" />
+
+                        <TextView
+                            android:id="@+id/textt2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/location_text"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toLeftOf="@+id/bad"
+                            android:fontFamily="@font/nanumsquarer"
+                            android:text="산책지수"
+                            android:textColor="@color/white"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/bad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="85dp"
+                            android:fontFamily="@font/nanumsquareb"
+                            android:text="나쁨"
+                            android:textColor="@color/white"
+                            android:textSize="50dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/bad_ic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/location_text"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toRightOf="@+id/bad"
+                            android:background="@drawable/ic_bad" />
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/bad"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginTop="24dp">
+
                             <ImageView
-                                android:id="@+id/bad_ic"
-                                android:layout_toRightOf="@+id/bad"
+                                android:id="@+id/finedust_ic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/location_text"
-                                android:layout_marginLeft="20dp"
-                                android:background="@drawable/ic_bad"
-                                android:layout_marginTop="10dp"/>
+                                android:layout_marginTop="5dp"
+                                android:background="@drawable/ic_finedust" />
 
-
-                            <RelativeLayout
+                            <TextView
+                                android:id="@+id/finedust"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="35dp"
-                                android:layout_marginTop="24dp"
-                                android:layout_below="@+id/bad">
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_toRightOf="@+id/finedust_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="미세먼지"
+                                android:textColor="@color/white" />
 
-                                <ImageView
-                                    android:layout_marginTop="5dp"
-                                    android:id="@+id/finedust_ic"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/ic_finedust" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/finedust"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_toRightOf="@+id/finedust_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="나쁨"
+                                android:textColor="@color/white"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:id="@+id/finedust"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/finedust_ic"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="미세먼지"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/finedust"
-                                    android:layout_toRightOf="@+id/finedust_ic"
-                                    android:layout_marginTop="3dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="나쁨"
-                                    android:textStyle="bold"
-                                    android:textSize="18dp"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
+                            <ImageView
+                                android:id="@+id/precipitation_ic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/finedust_ic"
+                                android:background="@drawable/ic_precipitation" />
 
-                                <ImageView
-                                    android:id="@+id/precipitation_ic"
-                                    android:layout_marginLeft="100dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/finedust_ic"
-                                    android:layout_marginTop="10dp"
-                                    android:background="@drawable/ic_precipitation" />
-                                <TextView
-                                    android:id="@+id/precipitation"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/precipitation_ic"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginTop="5dp"
-                                    android:text="강수확률"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/precipitation"
-                                    android:layout_toRightOf="@+id/precipitation_ic"
-                                    android:layout_marginTop="3dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:text="80%"
-                                    android:textStyle="bold"
-                                    android:textSize="18dp"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
-                                <ImageView
-                                    android:id="@+id/temperature_ic"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/precipitation_ic"
-                                    android:layout_marginLeft="100dp"
-                                    android:layout_marginTop="10dp"
-                                    android:background="@drawable/ic_teperature" />
-                                <TextView
-                                    android:id="@+id/temperature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/temperature_ic"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="온도"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/temperature"
-                                    android:layout_toRightOf="@+id/temperature_ic"
-                                    android:layout_marginTop="3dp"
-                                    android:layout_marginLeft="10dp"
-                                    android:text="19°C"
-                                    android:textStyle="bold"
-                                    android:textSize="18dp"
-                                    android:fontFamily="@font/nanumsquarer"
-                                    android:textColor="@color/white" />
+                            <TextView
+                                android:id="@+id/precipitation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_toRightOf="@+id/precipitation_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="강수확률"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/precipitation"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_toRightOf="@+id/precipitation_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="80%"
+                                android:textColor="@color/white"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/temperature_ic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="100dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toRightOf="@+id/precipitation_ic"
+                                android:background="@drawable/ic_teperature" />
+
+                            <TextView
+                                android:id="@+id/temperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_toRightOf="@+id/temperature_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="온도"
+                                android:textColor="@color/white" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/temperature"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_toRightOf="@+id/temperature_ic"
+                                android:fontFamily="@font/nanumsquarer"
+                                android:text="19°C"
+                                android:textColor="@color/white"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
 
                         </RelativeLayout>
 
                     </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/layout_walk_habit"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:padding="16dp"
-                    android:layout_height="320dp"
-                    android:layout_below="@+id/walk_Weather">
                     <RelativeLayout
-                        android:id="@+id/goal"
-                        android:layout_width="355dp"
-                        android:layout_height="200dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="28dp"
-                        android:background="@drawable/walkgoal_backgroundbox">
+                        android:id="@+id/layout_walk_habit"
+                        android:layout_width="match_parent"
+                        android:layout_height="320dp"
+                        android:layout_below="@+id/walk_Weather"
+                        android:layout_marginTop="4dp"
+                        android:padding="16dp">
 
-                        <TextView
-                            android:id="@+id/reset"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="21dp"
-                            android:layout_marginTop="25dp"
-                            android:layout_alignParentRight="true"
-                            android:text="00월 00일에 리셋"
-                            android:textColor="@color/main_gray"
-                            android:textSize="12dp" />
-
-
-                        <TextView
-                            android:id="@+id/text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/reset"
-                            android:layout_marginLeft="21dp"
-                            android:text="일주일에 "
-                            android:textColor="@color/cardview_dark_background"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:id="@+id/count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/text"
-                            android:layout_marginLeft="21dp"
-                            android:text="5번씩"
-                            android:textColor="@color/main_yellow"
-                            android:textSize="24dp" />
-
-                        <TextView
-                            android:id="@+id/hour"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/text"
-                            android:layout_toRightOf="@id/count"
-                            android:text=" 7시간"
-                            android:textColor="@color/main_yellow"
-                            android:textSize="24dp" />
-
-                        <TextView
-                            android:id="@+id/text2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/text"
-                            android:layout_toRightOf="@id/hour"
-                            android:text=" 산책하기"
-                            android:textColor="@color/cardview_dark_background"
-                            android:textSize="24dp" />
-
-                        <ImageView
-                            android:id="@+id/bone1"
-                            android:layout_width="40dp"
-                            android:layout_height="25dp"
-                            android:layout_below="@+id/hour"
-                            android:layout_marginLeft="21dp"
-                            android:layout_marginTop="12dp"
-                            android:src="@drawable/ic_bone_full"></ImageView>
-
-                        <ImageView
-                            android:id="@+id/bone2"
-                            android:layout_width="40dp"
-                            android:layout_height="25dp"
-                            android:layout_below="@+id/hour"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_toRightOf="@+id/bone1"
-                            android:src="@drawable/ic_bone_full"></ImageView>
-
-                        <ImageView
-                            android:id="@+id/bone3"
-                            android:layout_width="40dp"
-                            android:layout_height="25dp"
-                            android:layout_below="@+id/hour"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_toRightOf="@+id/bone2"
-                            android:src="@drawable/ic_bone_full"></ImageView>
-
-                        <ImageView
-                            android:id="@+id/bone4"
-                            android:layout_width="40dp"
-                            android:layout_height="25dp"
-                            android:layout_below="@+id/hour"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_toRightOf="@+id/bone3"
-                            android:src="@drawable/ic_bone"></ImageView>
-
-                        <ImageView
-                            android:id="@+id/bone5"
-                            android:layout_width="40dp"
-                            android:layout_height="25dp"
-                            android:layout_below="@+id/hour"
-                            android:layout_marginLeft="6dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_toRightOf="@+id/bone4"
-                            android:src="@drawable/ic_bone"></ImageView>
-                        <ImageView
-                            android:id="@+id/rectangle"
-                            android:layout_width="310dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/bone5"
-                            android:layout_marginTop="17dp"
+                        <RelativeLayout
+                            android:id="@+id/goal"
+                            android:layout_width="355dp"
+                            android:layout_height="200dp"
                             android:layout_centerHorizontal="true"
-                            android:background="@drawable/gauge"/>
+                            android:layout_marginTop="28dp"
+                            android:background="@drawable/walkgoal_backgroundbox">
+
+                            <TextView
+                                android:id="@+id/reset"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginRight="21dp"
+                                android:text="00월 00일에 리셋"
+                                android:textColor="@color/main_gray"
+                                android:textSize="12dp" />
 
 
+                            <TextView
+                                android:id="@+id/text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/reset"
+                                android:layout_marginLeft="21dp"
+                                android:text="일주일에 "
+                                android:textColor="@color/cardview_dark_background"
+                                android:textSize="16dp" />
 
+                            <TextView
+                                android:id="@+id/count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text"
+                                android:layout_marginLeft="21dp"
+                                android:text="5번씩"
+                                android:textColor="@color/main_yellow"
+                                android:textSize="24dp" />
+
+                            <TextView
+                                android:id="@+id/hour"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text"
+                                android:layout_toRightOf="@id/count"
+                                android:text=" 7시간"
+                                android:textColor="@color/main_yellow"
+                                android:textSize="24dp" />
+
+                            <TextView
+                                android:id="@+id/text2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/text"
+                                android:layout_toRightOf="@id/hour"
+                                android:text=" 산책하기"
+                                android:textColor="@color/cardview_dark_background"
+                                android:textSize="24dp" />
+
+                            <ImageView
+                                android:id="@+id/bone1"
+                                android:layout_width="40dp"
+                                android:layout_height="25dp"
+                                android:layout_below="@+id/hour"
+                                android:layout_marginLeft="21dp"
+                                android:layout_marginTop="12dp"
+                                android:src="@drawable/ic_bone_full"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/bone2"
+                                android:layout_width="40dp"
+                                android:layout_height="25dp"
+                                android:layout_below="@+id/hour"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_toRightOf="@+id/bone1"
+                                android:src="@drawable/ic_bone_full"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/bone3"
+                                android:layout_width="40dp"
+                                android:layout_height="25dp"
+                                android:layout_below="@+id/hour"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_toRightOf="@+id/bone2"
+                                android:src="@drawable/ic_bone_full"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/bone4"
+                                android:layout_width="40dp"
+                                android:layout_height="25dp"
+                                android:layout_below="@+id/hour"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_toRightOf="@+id/bone3"
+                                android:src="@drawable/ic_bone"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/bone5"
+                                android:layout_width="40dp"
+                                android:layout_height="25dp"
+                                android:layout_below="@+id/hour"
+                                android:layout_marginLeft="6dp"
+                                android:layout_marginTop="12dp"
+                                android:layout_toRightOf="@+id/bone4"
+                                android:src="@drawable/ic_bone"></ImageView>
+
+                            <ImageView
+                                android:id="@+id/rectangle"
+                                android:layout_width="310dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/bone5"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="17dp"
+                                android:background="@drawable/gauge" />
+
+
+                        </RelativeLayout>
                     </RelativeLayout>
-                </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/layout_today_hot_post"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="4dp"
-                        android:padding="16dp"
                         android:layout_height="300dp"
-                        android:layout_below="@+id/layout_walk_habit">
+                        android:layout_below="@+id/layout_walk_habit"
+                        android:layout_marginTop="4dp"
+                        android:padding="16dp">
+
                         <TextView
                             android:id="@+id/texttoday"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="오늘의"
                             android:fontFamily="@font/sebanggothic"
+                            android:text="오늘의"
                             android:textSize="20dp"></TextView>
+
                         <TextView
                             android:id="@+id/texthotpost"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
                             android:layout_toRightOf="@+id/texttoday"
+                            android:fontFamily="@font/sebanggothic"
                             android:text="핫 게시물"
                             android:textColor="#00C09F"
-                            android:layout_marginBottom="8dp"
-                            android:fontFamily="@font/sebanggothic"
                             android:textSize="20dp"></TextView>
-                        
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerview_today_hot_post"
                             android:layout_width="match_parent"
@@ -403,60 +418,67 @@
                         </androidx.recyclerview.widget.RecyclerView>
 
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:id="@+id/layout_recommendation_place"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_below="@+id/layout_today_hot_post"
                         android:padding="16dp">
+
                         <TextView
+                            android:id="@+id/recommendation_gu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="oo"
                             android:fontFamily="@font/sebanggothic"
-                            android:id="@+id/recommendation_gu"></TextView>
+                            android:text="oo"></TextView>
+
                         <TextView
+                            android:id="@+id/text_gu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:layout_toRightOf="@+id/recommendation_gu"
-                            android:text="구"
                             android:fontFamily="@font/sebanggothic"
-                            android:id="@+id/text_gu"></TextView>
+                            android:text="구"></TextView>
+
                         <TextView
+                            android:id="@+id/recommendation_dong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="oo"
-                            android:fontFamily="@font/sebanggothic"
                             android:layout_toRightOf="@+id/text_gu"
-                            android:id="@+id/recommendation_dong"></TextView>
+                            android:fontFamily="@font/sebanggothic"
+                            android:text="oo"></TextView>
+
                         <TextView
+                            android:id="@+id/text_dong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="4dp"
                             android:layout_toRightOf="@+id/recommendation_dong"
-                            android:text="동"
                             android:fontFamily="@font/sebanggothic"
-                            android:id="@+id/text_dong"></TextView>
+                            android:text="동"></TextView>
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="산책 모임"
-                            android:fontFamily="@font/sebanggothic"
                             android:id="@+id/text_work1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recommendation_dong"
                             android:layout_marginTop="8dp"
-                            android:textSize="18dp"
+                            android:fontFamily="@font/sebanggothic"
+                            android:text="산책 모임"
                             android:textColor="#00C09F"
-                            android:layout_below="@+id/recommendation_dong"></TextView>
+                            android:textSize="18dp"></TextView>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:textSize="18dp"
                             android:layout_below="@+id/recommendation_dong"
+                            android:layout_marginTop="8dp"
                             android:layout_toRightOf="@+id/text_work1"
+                            android:fontFamily="@font/sebanggothic"
                             android:text="에 방문해보세요"
-                            android:fontFamily="@font/sebanggothic"></TextView>
+                            android:textSize="18dp"></TextView>
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -476,40 +498,40 @@
                         </HorizontalScrollView>
 
 
-
-
                     </RelativeLayout>
 
                 </RelativeLayout>
             </ScrollView>
         </RelativeLayout>
+
         <LinearLayout
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/bottom_bar"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/layout_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/layout_home"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/text_home"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="4dp"
-                    android:id="@+id/text_home"
-                    android:src="@drawable/ic_green_home2"/>
+                    android:src="@drawable/ic_green_home2" />
 
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/btn_home"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text_home"
                     android:layout_centerHorizontal="true"
@@ -520,25 +542,28 @@
                     android:textSize="14dp"></TextView>w
 
             </RelativeLayout>
+
             <RelativeLayout
+                android:id="@+id/layout_work"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:id="@+id/layout_work"
-                android:layout_weight="1">
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/text_work"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="4dp"
-                    android:id="@+id/text_work"
-                    android:src="@drawable/ic_gray_walk"/>
+                    android:src="@drawable/ic_gray_walk" />
+
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/btn_work"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text_work"
                     android:layout_centerHorizontal="true"
@@ -549,25 +574,28 @@
                     android:textSize="14dp"></TextView>
 
             </RelativeLayout>
+
             <RelativeLayout
+                android:id="@+id/layout_matching"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:id="@+id/layout_matching"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/text_matching"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="4dp"
-                    android:id="@+id/text_matching"
-                    android:src="@drawable/ic_gray_matching"/>
+                    android:src="@drawable/ic_gray_matching" />
+
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/btn_matching"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text_matching"
                     android:layout_centerHorizontal="true"
@@ -575,28 +603,31 @@
                     android:gravity="center"
                     android:text="매칭"
                     android:textColor="#000000"
-                    android:textSize="14dp"/>
+                    android:textSize="14dp" />
 
             </RelativeLayout>
+
             <RelativeLayout
+                android:id="@+id/layout_post"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:id="@+id/layout_post"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/text_post"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="4dp"
-                    android:id="@+id/text_post"
-                    android:src="@drawable/ic_gray_bbs"/>
+                    android:src="@drawable/ic_gray_bbs" />
+
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/btn_post"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text_post"
                     android:layout_centerHorizontal="true"
@@ -607,25 +638,28 @@
                     android:textSize="14dp"></TextView>
 
             </RelativeLayout>
+
             <RelativeLayout
+                android:id="@+id/layout_chatting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:id="@+id/layout_chatting"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="vertical">
+
                 <ImageView
+                    android:id="@+id/text_chatting"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_margin="4dp"
-                    android:id="@+id/text_chatting"
-                    android:src="@drawable/ic_gray_chatting"/>
+                    android:src="@drawable/ic_gray_chatting" />
+
                 <TextView
-                    android:layout_width="wrap_content"
                     android:id="@+id/btn_chatting"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/text_chatting"
                     android:layout_centerHorizontal="true"
