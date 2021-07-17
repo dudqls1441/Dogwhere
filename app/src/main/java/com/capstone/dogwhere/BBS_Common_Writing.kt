@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.util.Log
 import com.capstone.dogwhere.DTO.BBS_Common
 import com.capstone.dogwhere.DTO.User
-import com.capstone.dogwheredss.BBSActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObjects
@@ -150,7 +149,7 @@ class BBS_Common_Writing : AppCompatActivity() {
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                 Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
-                val intent = Intent(this, BBSActivity::class.java)
+                val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
                 finish()
             }

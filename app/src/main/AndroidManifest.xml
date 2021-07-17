@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Search_Region_Detail"></activity>
+        <activity android:name=".Search_Region_Detail" />
         <activity android:name=".Walk_Calendar" />
         <activity android:name=".MatchingDetailActivity" />
         <activity android:name=".UserProfileActivity" />
@@ -49,13 +49,8 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
-
-        <activity android:name=".WalkActivity" />
-        <activity android:name=".MatchingActivity" />
-        <activity android:name=".ChattingActivity" />
         <activity android:name=".Chatting_Room_Activity" />
         <activity android:name=".MainMenuActivity" />
-        <activity android:name="com.capstone.dogwheredss.BBSActivity" />
         <activity android:name=".joinId" />
         <activity android:name=".LoginActivity" />
     </application>
