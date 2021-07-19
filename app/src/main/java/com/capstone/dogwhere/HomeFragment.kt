@@ -70,7 +70,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.menu_list -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
-
             R.id.btn_logout-> clicklogut()
         }
         layout_drawer.closeDrawers()
@@ -79,8 +78,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
 
     private fun clicklogut(){
+        Log.d("123", "로그아웃")
         auth.signOut()
-        //MySharedPreferences.clearUser(activity)
+        activity?.let { MySharedPreferences.clearUser(it) }
         startActivity(Intent(activity, LoginActivity::class.java))
 
     }
