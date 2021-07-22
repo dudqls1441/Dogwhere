@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.capstone.dogwhere">
+    package="com.capstone.dogwhere" >
 
     <uses-sdk tools:overrideLibrary="com.kakao.sdk.user" />
 
@@ -19,7 +19,10 @@
         android:roundIcon="@mipmap/dogwhere_launcher_img_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".Chat.ChatRoomActivity" >
+        </activity>
+        <activity android:name=".Chat.ChatListActivity" />
         <activity android:name=".Search_Region_Detail" />
         <activity android:name=".Walk_Calendar" />
         <activity android:name=".MatchingDetailActivity" />
@@ -34,7 +37,7 @@
         <activity android:name=".BBS_Common_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,6 +52,7 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+
         <activity android:name=".Chatting_Room_Activity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".joinId" />
