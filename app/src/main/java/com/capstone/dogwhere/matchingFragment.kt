@@ -44,8 +44,8 @@ class MatchingFragment : Fragment(){
         }
 
         btn_matching_map.setOnClickListener {
-            startActivity(Intent(context, GeoActivity::class.java))
-            Log.d("지도 누름", "지도 누름")
+            startActivity(Intent(context, MapsActivity::class.java))
+            Log.d("123", "지도 누름?")
         }
         btn_registration_matching.setOnClickListener {
             startActivity(Intent(getActivity(), MatchingRegistrationActivity::class.java))

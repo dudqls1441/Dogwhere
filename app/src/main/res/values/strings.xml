@@ -3,6 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kakao_app_key">3e393bd916828bb9e31f3349694b7c1e</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
 

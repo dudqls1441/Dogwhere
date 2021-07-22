@@ -5,21 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".GeoActivity">
+    tools:context=".MapsActivity">
 
     <RelativeLayout
+        android:id="@+id/map_top_layout"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/white"
-        android:layout_margin="8dp"
-        android:id="@+id/map_top_layout"
         android:textSize="30dp"
         android:textStyle="bold"
         >
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginLeft="12dp"
             android:background="@drawable/btn_back"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="12dp"></Button>
@@ -45,13 +43,23 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_below="@+id/map_top_layout"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/map1"
-        android:scaleType="center"
-        android:id="@+id/mapfragment" />
+        tools:context=".MapsActivity" />
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_below="@+id/map_top_layout"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:src="@drawable/map1"-->
+    <!--        android:scaleType="center"-->
+    <!--        android:id="@+id/mapfragment" />-->
 
     <Button
         android:layout_width="wrap_content"

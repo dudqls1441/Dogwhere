@@ -11,10 +11,13 @@ class Walk_Calendar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walk__calendar)
+        layout_bottom2.setVisibility(View.INVISIBLE)
+        layout_bottom1.setVisibility(View.VISIBLE)
 
-//        calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
-//            layout_bottom1.setVisibility(View.INVISIBLE)
-//
-//        })
+        calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
+            layout_bottom2.setVisibility(View.VISIBLE)
+            layout_bottom1.setVisibility(View.INVISIBLE)
+
+        })
     }
 }
