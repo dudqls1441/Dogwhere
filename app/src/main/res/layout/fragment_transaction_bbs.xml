@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/spinnerlayout"
@@ -42,7 +43,8 @@
         android:id="@+id/bbs_imformation_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/spinnerlayout"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/spinnerlayout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btn_imformation_writing"

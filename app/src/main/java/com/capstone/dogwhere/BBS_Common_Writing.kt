@@ -160,8 +160,7 @@ class BBS_Common_Writing : AppCompatActivity() {
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-//        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val curTime = dateFormat.format(Date(time))
         Log.d("check",curTime)
 
