@@ -29,7 +29,6 @@ class GeneralChatFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.general_chat_fragment, container, false)
 
-        adapter = GroupAdapter<GroupieViewHolder>()
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
         db.collection("users").get().addOnSuccessListener { result ->

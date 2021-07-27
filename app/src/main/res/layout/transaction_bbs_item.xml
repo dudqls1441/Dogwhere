@@ -39,7 +39,7 @@
         android:textSize="12dp"
         />
     <TextView
-        android:id="@+id/imformation_bbs_price"
+        android:id="@+id/o"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imformation_bbs_content"
@@ -47,7 +47,20 @@
         android:layout_margin="4dp"
         android:fontFamily="@font/nightr"
         android:maxWidth="300dp"
-        android:text="₩ 10,000"
+        android:text="₩"
+        android:textColor="@color/main_mint"
+        android:textSize="18dp"
+        />
+    <TextView
+        android:id="@+id/imformation_bbs_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imformation_bbs_content"
+        android:layout_margin="4dp"
+        android:layout_toRightOf="@+id/o"
+        android:fontFamily="@font/nightr"
+        android:maxWidth="300dp"
+        android:text="0"
         android:textColor="@color/main_mint"
         android:textSize="18dp"
         />

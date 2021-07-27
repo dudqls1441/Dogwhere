@@ -51,7 +51,9 @@ class BbsFragment : Fragment(){
         tab_layout.addTab(tab_layout.newTab().setText("분양게시판"))
 
         val pagerAdapter = PagerAdapter(childFragmentManager, 4)
+
         view_pager.adapter = pagerAdapter
+
 
         tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
