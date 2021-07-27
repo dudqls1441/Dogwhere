@@ -12,8 +12,8 @@ class Chatting_Send(val message :String, val time :String):Item<GroupieViewHolde
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.itemView.chatting_send_text.text =message
-        viewHolder.itemView.chatting_send_time.text =time
+        viewHolder.itemView.text_chatroom_sendmsg.text =message
+        viewHolder.itemView.text_chatroom_sendtime.text =time
 
     }
 

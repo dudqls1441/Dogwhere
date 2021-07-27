@@ -8,25 +8,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="안녕하세요 ): 견종은 닥스훈트이고 나이는 4살 입니다.."
-        android:textStyle="bold"
-        android:fontFamily="@font/sebanggothic"
-        android:textSize="15dp"
+        android:textStyle=""
+        android:fontFamily="@font/nanumsquarer"
+        android:textSize="12dp"
         android:background="@drawable/send_text_round"
         android:maxWidth="250dp"
-        android:layout_margin="16dp"
         android:padding="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_alignParentRight="true"
-        android:id="@+id/chatting_send_text"></TextView>
+        android:id="@+id/text_chatroom_sendmsg"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chatting_send_time"
-        android:textSize="15dp"
-        android:layout_toLeftOf="@+id/chatting_send_text"
+        android:id="@+id/text_chatroom_sendtime"
+        android:textSize="12dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toLeftOf="@+id/text_chatroom_sendmsg"
         android:text="18:36"
-        android:layout_alignBottom="@+id/chatting_send_text"
-        android:fontFamily="@font/sebanggothic"></TextView>
+        android:textColor="#80BCB4B4"
+        android:layout_alignBottom="@+id/text_chatroom_sendmsg"
+        android:fontFamily="@font/nanumsquarer"></TextView>
 
 
 </RelativeLayout>

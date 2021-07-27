@@ -10,12 +10,13 @@
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recyclerview_chatRoom"
       android:layout_width="match_parent"
-      android:layout_height="750dp"
+      android:layout_height="700dp"
       android:layout_alignParentTop="true"
       android:layout_margin="20dp"
       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+      app:layout_constraintBottom_toTopOf="@+id/message_edit"
       app:layout_constraintTop_toTopOf="parent"
-       />
+      />
 
   <EditText
       android:id="@+id/message_edit"
@@ -24,15 +25,15 @@
       android:layout_below="@+id/recyclerview_chatRoom"
       android:layout_marginStart="20dp"
       android:hint="입력하세요."
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/recyclerview_chatRoom" />
+      />
 
   <Button
       android:id="@+id/send_btn"
       android:layout_width="wrap_content"
       android:layout_height="50dp"
-      app:layout_constraintEnd_toEndOf="parent"
       android:text="전송"
-      app:layout_constraintStart_toEndOf="@+id/editText"
-      app:layout_constraintTop_toBottomOf="@+id/recyclerview_chatRoom" />
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

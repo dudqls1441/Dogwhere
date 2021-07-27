@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
 
         Session.getCurrentSession().addCallback(callback)
 
-
+        getAppKeyHash()
         btn_join.setOnClickListener {
             startActivity(Intent(this, joinId::class.java))
         }
@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
             val userId = findViewById<EditText>(R.id.login_id).getText().toString()
             val userPwd = findViewById<EditText>(R.id.login_password).getText().toString()
             val user: User
+
 
             auth.signInWithEmailAndPassword(userId, userPwd)
                 .addOnCompleteListener(this) { task ->

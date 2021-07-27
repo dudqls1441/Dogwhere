@@ -11,6 +11,7 @@ class UserItem(val name:String, val uid:String) : Item<GroupieViewHolder>(){
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        viewHolder.itemView.userId.text = name
+        viewHolder.itemView.text_chatlist_userid.text = name
+        viewHolder.itemView.text_chatlist_usermsg.text = uid
     }
 }

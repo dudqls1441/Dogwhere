@@ -27,7 +27,7 @@ class Chatting_Room_Activity : AppCompatActivity() {
 
     fun hideKeyboard() {
         val hide = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        hide.hideSoftInputFromWindow(chatting_room_btn_send.windowToken, 0)
+        hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
     }
 
     override fun onBackPressed() {

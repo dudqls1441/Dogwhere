@@ -16,6 +16,11 @@ class ChatListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_list)
 
+        myChatList.setOnClickListener {
+            val intent = Intent(this, MyRoomActivity::class.java)
+            startActivity(intent)
+        }
+
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         val db = FirebaseFirestore.getInstance()

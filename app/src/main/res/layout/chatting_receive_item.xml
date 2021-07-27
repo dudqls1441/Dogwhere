@@ -7,34 +7,48 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:id="@+id/chatting_receive_charimg"
+        android:id="@+id/img_chatroom_receiveprofile"
         android:src="@drawable/selected_woman"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        ></ImageView>
+        android:layout_marginTop="4dp"
+        />
+
+    <TextView
+        android:id="@+id/text_chatroom_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img_chatroom_receiveprofile"
+        android:layout_marginStart="8dp"
+        android:textSize="12dp"
+        android:textColor="#52443C3C"
+        android:layout_toEndOf="@+id/img_chatroom_receiveprofile"
+        android:text="사용자" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="안녕하세요 ):반가워요."
-        android:textStyle="bold"
-        android:fontFamily="@font/sebanggothic"
-        android:textSize="15dp"
+        android:fontFamily="@font/nanumsquarer"
+        android:textSize="12dp"
+        android:textColor="#DE443C3C"
         android:background="@drawable/seceive_text_round"
         android:maxWidth="250dp"
-        android:layout_margin="16dp"
+        android:layout_margin="4dp"
         android:padding="12dp"
-        android:layout_toRightOf="@+id/chatting_receive_charimg"
-        android:id="@+id/chatting_receive_text"></TextView>
+        android:layout_below="@+id/text_chatroom_nickname"
+        android:layout_toRightOf="@+id/img_chatroom_receiveprofile"
+        android:id="@+id/text_chatroom_receivemsg"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chatting_receive_time"
-        android:textSize="15dp"
-        android:layout_toRightOf="@+id/chatting_receive_text"
+        android:id="@+id/text_chatroom_receivetime"
+        android:textSize="12dp"
+        android:layout_marginStart="5dp"
+        android:layout_toRightOf="@+id/text_chatroom_receivemsg"
         android:text="18:36"
-        android:layout_alignBottom="@+id/chatting_receive_text"
-        android:fontFamily="@font/sebanggothic"></TextView>
+        android:textColor="#80BCB4B4"
+        android:layout_alignBottom="@+id/text_chatroom_receivemsg"
+        android:fontFamily="@font/nanumsquarer"/>
 
 
 </RelativeLayout>

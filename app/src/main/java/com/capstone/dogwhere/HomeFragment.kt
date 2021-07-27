@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.capstone.dogwhere.Chat.ChatListActivity
 import com.capstone.dogwhere.DTO.UserProfile
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -65,7 +66,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.matching_list -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.matching_list -> chattingstart()
             R.id.choker_buy -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.menu_list -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
@@ -76,6 +77,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         return false
     }
 
+    private fun chattingstart(){
+        Log.e("joo", "채팅방으로 이동")
+        val intent = Intent(activity, ChatListActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun clicklogut(){
         Log.d("123", "로그아웃")

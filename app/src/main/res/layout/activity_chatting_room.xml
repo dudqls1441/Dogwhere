@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".Chatting_Room_Activity">
+    tools:context=".Chat.ChatRoomActivity">
 
 
     <RelativeLayout
@@ -50,41 +50,57 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_below="@+id/chatting_room_top"
         android:layout_above="@+id/chatting_room_bottom"
-        android:id="@+id/chatting_room_recyclerview"></androidx.recyclerview.widget.RecyclerView>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:id="@+id/recycler_chatroom_view"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_margin="5dp"
         android:id="@+id/chatting_room_bottom"
         android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:text="img"
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_centerVertical="true"
-            android:id="@+id/chatting_room_btn_img"
-            android:layout_alignParentLeft="true">
+            android:id="@+id/btn_chatroom_img"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_green_plus"
+            android:background="@drawable/green_rectangle"
+            android:layout_alignParentLeft="true"/>
 
-        </Button>
         <EditText
+            android:id="@+id/edittext_chatroom_msg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/chatting_room_btn_img"
-            android:layout_alignParentBottom="true"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toLeftOf="@+id/btn_chatroom_send"
+            android:layout_toRightOf="@+id/btn_chatroom_img"
             android:background="@drawable/edittext_round"
-            android:layout_toLeftOf="@+id/chatting_room_btn_send"
-            android:id="@+id/chatting_room_messagebox"
-            ></EditText>
-        <Button
-            android:layout_width="50dp"
+            android:fontFamily="@font/nanumsquarel"
+            android:hint="메세지를 입력하세요"
+            android:paddingStart="15dp"
+            android:textColorHint="#D9D9D9"
+            android:textSize="14dp" />
+
+        <ImageButton
+            android:layout_width="40dp"
             android:layout_height="40dp"
+            android:background="@android:color/transparent"
             android:text="전송"
-            android:background="@drawable/btn_round"
-            android:id="@+id/chatting_room_btn_send"
-            android:layout_alignParentRight="true"
-            android:layout_margin="8dp"></Button>
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_green_send"
+            android:id="@+id/btn_chatroom_send"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
 

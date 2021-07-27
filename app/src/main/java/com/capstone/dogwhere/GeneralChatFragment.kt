@@ -45,7 +45,7 @@ class GeneralChatFragment : Fragment() {
                 Log.d("checkMessageList", document.get("userName").toString())
                 Log.d("데이터베이스읽기성공", "${document.id}=>${document.data}")
             }
-            Recyclerview_Chat_List.adapter = adapter
+            recycler_chatlist_list.adapter = adapter
         }
             .addOnFailureListener {
                 Log.w("데이터베이스읽기실패", "Error getting document", it)
