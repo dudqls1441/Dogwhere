@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import com.capstone.dogwhere.DTO.Walk_Record
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_stop_watch.*
@@ -122,37 +123,36 @@ class Stop_watchActivity : AppCompatActivity() {
         Log.e("123", uid)
         val time = last_str
         Log.e("123", time)
-        val distance = "123"
-        val date=currenttime()
+        val date=current()
         val db = Firebase.firestore
-        db.collection("Walk_Record").document(uid).collection(date.toString()).add(Walk_Record(uid, time, date.toString(), distance))
-            .addOnSuccessListener { documentReference ->
-                Log.e("123", "성공ㅇㅇ")
-//                val intent = Intent(this, BBSActivity::class.java)
-//                startActivity(intent)
-//                finish()
-            }
-            .addOnFailureListener { e ->
-
-            }
+        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).get()
+                .addOnSuccessListener { result ->
+                    val result = result.toObject<com.capstone.dogwhere.DTO.Walk_Record>()
+                    if (result != null) {
+                        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update("time",time).addOnSuccessListener { documentReference ->
+                            //                val intent = Intent(this, BBSActivity::class.java)
+                            //                startActivity(intent)
+                            //                finish()
+                        }
+                    }else{
+                        Log.e("yy","없면")
+                        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).set(Walk_Record(uid,time, date.toString(),"", ""))
+                            .addOnSuccessListener { documentReference ->
+                                //                val intent = Intent(this, BBSActivity::class.java)
+                                //                startActivity(intent)
+                                //                finish()
+                            }
+                    }
+                }
+                .addOnFailureListener { e ->
+                }
     }
 
     private fun current(): String? {
 
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-mm-dd")
-        val curTime = dateFormat.format(Date(time))
-        Log.d("check",curTime)
-
-        return curTime
-    }
-    private fun currenttime(): String? {
-
-        val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-mm-dd hh:mm:ss")
-        val curTime = dateFormat.format(Date(time))
-        Log.d("check",curTime)
-
+        val dateFormat = SimpleDateFormat("yyyy-M-d")
+        val curTime =dateFormat.format(Date(time))
         return curTime
     }
 

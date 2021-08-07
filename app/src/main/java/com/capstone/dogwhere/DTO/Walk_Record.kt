@@ -5,7 +5,8 @@ data class Walk_Record(
     val uid: String,
     val time: String,
     val date:String,
-    val distance: String
+    val distance: String,
+    val memo: String
 ) {
-    constructor() : this("","","","")
+    constructor() : this("","","","","")
 }
