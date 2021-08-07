@@ -3,6 +3,7 @@ package com.capstone.dogwhere
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -47,11 +49,50 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         userProfilePhoto.setOnClickListener {
             selectPhoto()
         }
+        radio_btm()
 
         btn_upload.setOnClickListener {
             upload(ImagePath)
         }
     }
+
+    private fun radio_btm(){
+        userprofilesex.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.sex_man -> checked_sex_man()
+                R.id.sex_woman -> checked_sex_woman()
+                R.id.Nondisclosure -> checked_Nondisclosure()
+
+
+            }
+        }
+    }
+
+    private fun checked_sex_man(){
+        sex_man.setBackgroundResource(R.drawable.backgroundgreencircle)
+        sex_man.setTextColor(Color.parseColor("#00C09F"))
+        sex_woman.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_woman.setTextColor(Color.parseColor("#52443C3C"))
+        Nondisclosure.setBackgroundResource(R.drawable.backgroundgraycircle)
+        Nondisclosure.setTextColor(Color.parseColor("#52443C3C"))
+    }
+    private fun checked_sex_woman(){
+        sex_woman.setBackgroundResource(R.drawable.backgroundgreencircle)
+        sex_woman.setTextColor(Color.parseColor("#00C09F"))
+        sex_man.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_man.setTextColor(Color.parseColor("#52443C3C"))
+        Nondisclosure.setBackgroundResource(R.drawable.backgroundgraycircle)
+        Nondisclosure.setTextColor(Color.parseColor("#52443C3C"))
+    }
+    private fun checked_Nondisclosure(){
+        Nondisclosure.setBackgroundResource(R.drawable.backgroundgreencircle)
+        Nondisclosure.setTextColor(Color.parseColor("#00C09F"))
+        sex_man.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_man.setTextColor(Color.parseColor("#52443C3C"))
+        sex_woman.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_woman.setTextColor(Color.parseColor("#52443C3C"))
+    }
+
 
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -129,14 +170,10 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 }else if (sex_woman.isChecked){
                     usersex = "여자"
                 }else{
-
+                    usersex="선택안함"
                 }
 
-                userprofilesex.setOnCheckedChangeListener { radioGroup, i ->
 
-
-                    Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
-                }
 
 
 //                userprofilesex.setOnCheckedChangeListener { group, i ->
@@ -174,6 +211,29 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 //                    }
 //                    .addOnFailureListener { e ->
 //                        Log.w(TAG, "Error adding document", e)
+//                    }
+
+//                db.collection("users").document(uid).collection("dogprofiles")
+//                    .document(uid).get().addOnSuccessListener { result->
+//                        val result = result.toObject<com.capstone.dogwhere.DTO.DogProfile>()
+//                        if(result !=null){
+//                            val intent = Intent(
+//                                this,
+//                                MainMenuActivity::class.java
+//                            )
+//                            intent.flags =
+//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            startActivity(intent)
+//                        }else{
+//                            val intent = Intent(
+//                                this,
+//                                RegisterDogProfileActivity::class.java
+//                            )
+//                            intent.flags =
+//                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            startActivity(intent)
+//                        }
+//
 //                    }
 
 
