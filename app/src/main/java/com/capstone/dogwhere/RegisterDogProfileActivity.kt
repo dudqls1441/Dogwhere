@@ -7,8 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.MediaStore
+import android.text.Layout
 import android.util.Log
+import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import androidx.core.view.setPadding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.capstone.dogwhere.DTO.DogProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -23,10 +30,13 @@ import kotlinx.android.synthetic.main.activity_register_user_profile.*
 //import kotlinx.android.synthetic.main.activity_register_user_profile.btn_selectPhoto
 import kotlinx.android.synthetic.main.activity_register_user_profile.btn_upload
 import kotlinx.android.synthetic.main.activity_register_user_profile.userProfilePhoto
+import org.jetbrains.anko.padding
+import org.jetbrains.anko.px2sp
 import java.io.File
 
 class RegisterDogProfileActivity : AppCompatActivity() {
     private val FLAG_GALLERY_CODE: Int = 10
+    private val FLAG_GALLERY_CODE2: Int = 11
     private val TAG = RegisterDogProfileActivity::class.java.simpleName
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
@@ -49,10 +59,19 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         DogProfilePhoto.setOnClickListener {
             selectPhoto()
         }
+        DogProfilePhoto2.setOnClickListener {
+            selectPhoto2()
+        }
+
         radio_sex()
         radio_dogneneutralization()
+
         btn_upload.setOnClickListener {
             upload(ImagePath)
+        }
+
+        adddog.setOnClickListener {
+            AddDog()
         }
 
     }
@@ -110,18 +129,58 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
         startActivityForResult(intent, FLAG_GALLERY_CODE)
     }
+    private fun selectPhoto2() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
+        startActivityForResult(intent, FLAG_GALLERY_CODE2)
+    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == FLAG_GALLERY_CODE) {
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == FLAG_GALLERY_CODE) {
+//            Log.d(TAG, getImageFilePath(data!!.data!!))
+//
+//            ImagePath = getImageFilePath(data!!.data!!)
+//
+//            var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+//            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+//                .circleCrop().into(DogProfilePhoto)
+//        }else{
+//            Log.d(TAG, "가져온 데이터 없음")
+//            ImagePath = ""
+//        }
+//    }
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode == FLAG_GALLERY_CODE) {
+        if(data != null){
             Log.d(TAG, getImageFilePath(data!!.data!!))
 
             ImagePath = getImageFilePath(data!!.data!!)
 
             var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-            DogProfilePhoto.setImageURI(file)
+            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                .circleCrop().into(DogProfilePhoto)
+        }else{
+            Log.d(TAG, "가져온 데이터 없음")
+            ImagePath = ""
         }
+    }else if(requestCode == FLAG_GALLERY_CODE2){
+        if(data != null){
+            Log.d(TAG,getImageFilePath(data!!.data!!))
+            ImagePath = getImageFilePath(data!!.data!!)
+            var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                .circleCrop().into(DogProfilePhoto2)
+        }else{
+            Log.d(TAG, "가져온 데이터 없음")
+            ImagePath = ""
+        }
+    }else{
+        Log.d(TAG, "가져온 데이터 없음")
+        ImagePath = ""
     }
+}
 
     private fun getImageFilePath(contentUri: Uri): String {
         var columIndex = 0
@@ -188,20 +247,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
-
-
-//                db.collection("dogprofiles")
-//                    .add(dog)
-//                    .addOnSuccessListener { documentReference ->
-//                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-//                    }
-//                    .addOnFailureListener { e ->
-//                        Log.w(TAG, "Error adding document", e)
-//                    }
-
-//                val profileRef = rdb.getReference("userprofiles").child(uid)
-//                profileRef.child(uid).child(uid).child("dogprofiles").push().setValue(dog)
-
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -210,6 +255,11 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 Log.w("실패", "업로드 실패", task.exception)
             }
         }
+
+    }
+    private fun AddDog(){
+        val RelativeLayout2 = findViewById<RelativeLayout>(R.id.dog_profile_RelativeLayout2)
+        RelativeLayout2.visibility= View.VISIBLE
 
     }
 }

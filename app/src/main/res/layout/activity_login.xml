@@ -40,6 +40,7 @@
             android:layout_height="50dp"
             android:layout_margin="8dp"
             android:padding="12dp"
+            android:inputType="textPassword"
             android:layout_below="@+id/login_id"
             android:background="@drawable/edittext_round"
             android:layout_gravity="center_horizontal"

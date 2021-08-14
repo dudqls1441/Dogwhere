@@ -157,13 +157,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layoutcomment">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:gravity="center"
                 android:fontFamily="@font/r210beachofnight"
-                android:textSize="30dp"
-                android:text="댓글창">
+                android:gravity="center"
+                android:text="댓글창"
+                android:textSize="30dp">
 
             </TextView>
         </RelativeLayout>
