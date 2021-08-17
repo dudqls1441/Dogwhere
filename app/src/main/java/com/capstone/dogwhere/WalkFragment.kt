@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_walk.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WalkFragment : Fragment(){
     companion object{
@@ -41,7 +43,14 @@ class WalkFragment : Fragment(){
         }
         btn_stopwatch.setOnClickListener {
             startActivity(Intent(activity, Stop_watchActivity::class.java))
-
         }
+        date.text = current()
+    }
+    private fun current(): String? {
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-M-d")
+        val curTime =dateFormat.format(Date(time))
+        return curTime
     }
 }

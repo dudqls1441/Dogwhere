@@ -64,6 +64,7 @@
             android:id="@+id/userProfilePhoto"
             android:layout_width="120dp"
             android:layout_height="120dp"
+            android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
             android:padding="45dp"
             android:layout_gravity="center"

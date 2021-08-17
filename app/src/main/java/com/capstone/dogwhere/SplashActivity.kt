@@ -26,6 +26,8 @@ class SplashActivity : AppCompatActivity() {
 
         auth= FirebaseAuth.getInstance()
         val user = auth.currentUser
+
+
 //        val uid= auth.currentUser.uid
 
         Handler().postDelayed({
@@ -34,6 +36,10 @@ class SplashActivity : AppCompatActivity() {
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
+        },SPLASH_VIEW_TIME)
+    }
+}
 
 //            db.collection("users").whereEqualTo("uid", uid).get()
 //                .addOnSuccessListener { result ->
@@ -46,7 +52,3 @@ class SplashActivity : AppCompatActivity() {
 //                    }else{
 //                    }
 //                }
-            finish()
-        },SPLASH_VIEW_TIME)
-    }
-}

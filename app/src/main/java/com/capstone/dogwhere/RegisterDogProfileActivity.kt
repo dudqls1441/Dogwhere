@@ -1,6 +1,7 @@
 package com.capstone.dogwhere
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -48,12 +49,62 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         DogProfilePhoto.setOnClickListener {
             selectPhoto()
         }
+        radio_sex()
+        radio_dogneneutralization()
         btn_upload.setOnClickListener {
             upload(ImagePath)
         }
 
     }
 
+        private fun radio_sex(){
+            dogprofilesex.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.sex_male -> checked_male()
+                R.id.sex_female -> checked_female()
+
+
+            }
+        }
+    }
+    private fun radio_dogneneutralization(){
+        dogpprofileneutralization.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.neutralization_T -> checked_dogneneutralization_T()
+                R.id.neutralization_F -> checked_dogneneutralization_F()
+
+
+            }
+        }
+    }
+    private fun checked_male(){
+        sex_male.setBackgroundResource(R.drawable.backgroundgreencircle)
+        sex_male.setTextColor(Color.parseColor("#00C09F"))
+        sex_female.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_female.setTextColor(Color.parseColor("#52443C3C"))
+
+    }
+    private fun checked_female(){
+        sex_female.setBackgroundResource(R.drawable.backgroundgreencircle)
+        sex_female.setTextColor(Color.parseColor("#00C09F"))
+        sex_male.setBackgroundResource(R.drawable.backgroundgraycircle)
+        sex_male.setTextColor(Color.parseColor("#52443C3C"))
+
+    }
+    private fun checked_dogneneutralization_T(){
+        neutralization_T.setBackgroundResource(R.drawable.backgroundgreencircle)
+        neutralization_T.setTextColor(Color.parseColor("#00C09F"))
+        neutralization_F.setBackgroundResource(R.drawable.backgroundgraycircle)
+        neutralization_F.setTextColor(Color.parseColor("#52443C3C"))
+
+    }
+    private fun checked_dogneneutralization_F(){
+        neutralization_F.setBackgroundResource(R.drawable.backgroundgreencircle)
+        neutralization_F.setTextColor(Color.parseColor("#00C09F"))
+        neutralization_T.setBackgroundResource(R.drawable.backgroundgraycircle)
+        neutralization_T.setTextColor(Color.parseColor("#52443C3C"))
+
+    }
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
@@ -103,17 +154,24 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
-                dogprofilesex.setOnCheckedChangeListener { group, i ->
-                    when (i) {
-                        R.id.neutralization_T -> dogneneutralization = "예"
-                        R.id.neutralization_F -> dogneneutralization = "아니요"
-                    }
-                    Log.d(TAG, dogsex)
+//                dogprofilesex.setOnCheckedChangeListener { group, i ->
+//                    when (i) {
+//                        R.id.sex_male -> dogsex="수컷"
+//                        R.id.sex_female -> dogsex="암컷"
+//                    }
+//                    Log.d(TAG, dogsex)
+//                }
+                if(sex_male.isChecked){
+                    dogsex="수컷"
+                }else if(sex_female.isChecked){
+                    dogsex="암컷"
+                }else{
+                    dogsex="선택안함"
                 }
                 dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
                     when (i) {
-                        R.id.sex_male -> dogsex = "수컷"
-                        R.id.sex_female -> dogsex = "암컷"
+                        R.id.neutralization_T -> dogneneutralization="예"
+                        R.id.neutralization_F -> dogneneutralization="아니요"
                     }
                     Log.d(TAG, dogsex)
                 }

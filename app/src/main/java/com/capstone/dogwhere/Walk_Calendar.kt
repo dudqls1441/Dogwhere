@@ -2,19 +2,22 @@ package com.capstone.dogwhere
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView.OnDateChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.Walk_Record
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.prolificinteractive.materialcalendarview.CalendarDay
+import com.prolificinteractive.materialcalendarview.DayViewDecorator
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.activity_walk__calendar.*
 import org.jetbrains.anko.toast
+import java.util.*
 
 
 class Walk_Calendar : AppCompatActivity() {
@@ -27,8 +30,14 @@ class Walk_Calendar : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walk__calendar)
 
+//        val materialCalendarView = findViewById<MaterialCalendarView>(R.id.calendarView)
+//        materialCalendarView.setSelectedDate(CalendarDay.today())
+
         layout_bottom2.setVisibility(View.INVISIBLE) //클릭-일
         layout_bottom.setVisibility(View.VISIBLE) //월평균
+        val instance=Calendar.getInstance()
+        month1.text= (instance.get(Calendar.MONTH) + 1).toString() //해당 월 나오게 다시하기
+        btn_back.setOnClickListener { finish() }
 
         calendar.setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
 
@@ -97,7 +106,7 @@ class Walk_Calendar : AppCompatActivity() {
         db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).get()
             .addOnSuccessListener { result ->
                 if(result.get("time").toString()=="null" || result.get("time").toString()==""){
-                    time_value.setText("00:00:00")
+                    time_value.setText("00:00:00:00")
 
                 }else{
                     time_value.setText(result.get("time").toString()) //시간 축적
@@ -128,7 +137,7 @@ class Walk_Calendar : AppCompatActivity() {
     @SuppressLint("WrongConstant")
     fun saveDiary(cYear: Int, cMonth: Int, cDay: Int, memo: String) {
         date = "" + cYear + "-" + (cMonth + 1) + "" + "-" + cDay
-        Log.e("yy", date.toString() )
+        Log.e("yy", date.toString())
 // 저장할 데이터 이름 설정. Ex) 2019-01-20
 
         auth = FirebaseAuth.getInstance()
@@ -138,13 +147,17 @@ class Walk_Calendar : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 val result = result.toObject<com.capstone.dogwhere.DTO.Walk_Record>()
                 if (result != null) {
-                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update("memo",memo).addOnSuccessListener { documentReference ->
+                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(
+                        uid
+                    ).update("memo", memo).addOnSuccessListener { documentReference ->
                         //                val intent = Intent(this, BBSActivity::class.java)
                         //                startActivity(intent)
                         //                finish()
                     }
                 }else{
-                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).set(Walk_Record(uid,"", date.toString(),"", memo))
+                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(
+                        uid
+                    ).set(Walk_Record(uid, "", "", date.toString(), "", memo))
                         .addOnSuccessListener { documentReference ->
                             Log.e("123", "성공ㅇㅇ")
                         }
@@ -160,7 +173,21 @@ class Walk_Calendar : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser.uid
         val db = Firebase.firestore
-        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update("memo","")
+        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update(
+            "memo",
+            ""
+        )
     }
     }
-
+//internal class SaturdayDecorator : DayViewDecorator {
+//    private val calendar = Calendar.getInstance()
+//    fun shouldDecorate(day: CalendarDay): Boolean {
+//        day.copyTo(calendar)
+//        val weekDay = calendar[Calendar.DAY_OF_WEEK]
+//        return weekDay == Calendar.SATURDAY
+//    }
+//
+//    fun decorate(view: DayViewFacade) {
+//        view.addSpan(ForegroundColorSpan(Color.BLUE))
+//    }
+//}
