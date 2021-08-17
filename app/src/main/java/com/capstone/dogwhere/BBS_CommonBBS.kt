@@ -52,11 +52,12 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         adapter.setOnItemClickListener { item, view ->
             Log.d("title", (item as CommonItem).title)
             Intent(context, BBS_Common_Post::class.java).apply {
-                    putExtra("title", (item).title)
-                    putExtra("content", (item).content)
-                    putExtra("name", (item).username)
-                    putExtra("time", (item).time)
-                    putExtra("uid", (item).uid)
+                putExtra("tab", tab)
+                putExtra("title", (item).title)
+                putExtra("content", (item).content)
+                putExtra("name", (item).username)
+                putExtra("time", (item).time)
+                putExtra("uid", (item).uid)
                 }.run { context?.startActivity(this) }
         }
         return view

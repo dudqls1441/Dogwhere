@@ -83,6 +83,12 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         startActivity(intent)
     }
 
+    private fun weatherstart(){
+        Log.e("joo", "산책 지수로 이동")
+        val intent = Intent(activity, WeatherActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun clicklogut(){
         Log.d("123", "로그아웃")
         auth.signOut()

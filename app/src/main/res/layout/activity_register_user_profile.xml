@@ -96,7 +96,16 @@
             android:paddingStart="20dp"
             android:layout_margin="8dp"
             android:background="@drawable/backgroundgray"></EditText>
-
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_check_name"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/nickname"
+            android:layout_margin="8dp"
+            android:background="@drawable/backgroundgray"
+            android:text="중복확인"
+            android:textSize="14dp"></Button>
         <TextView
             android:id="@+id/textbox_age"
             android:layout_width="wrap_content"
