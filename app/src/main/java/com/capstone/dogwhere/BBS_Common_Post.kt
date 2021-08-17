@@ -33,9 +33,10 @@ class BBS_Common_Post : AppCompatActivity() {
         val adapter = GroupAdapter<GroupieViewHolder>()
         val bbs_tabname = intent.getStringExtra("tab").toString()
         val bbs_title = intent.getStringExtra("title").toString()
+        val bbs_oid = intent.getStringExtra("oid").toString()
 
 
-        db.collection(bbs_tabname).document().collection("Comment").orderBy("time").get()
+        db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()
             .addOnSuccessListener { result ->
             for (document in result) {
                 val commentitem = BBS_CommentItem(
@@ -56,27 +57,29 @@ class BBS_Common_Post : AppCompatActivity() {
 
 
         btn_bbscommon_send.setOnClickListener {
+            if(edittext_bbscommon_comment.text.toString() == ""){
+            } else{
+                db.collection("users").document(uid).collection("userprofiles").document(uid).get()
+                    .addOnSuccessListener { result ->
+                        val result = result.toObject<UserProfile>()
+                        Log.e("joo",result.toString())
+                        commentnickname = result?.userName.toString()
+                        commentProfile = result?.profilePhoto.toString()
+                        Log.e("joo","nickname,, profile : "+commentProfile+commentnickname )
+                        postComment(bbs_tabname, bbs_oid, commentnickname, commentProfile)
 
-            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
-                .addOnSuccessListener { result ->
-                    val result = result.toObject<UserProfile>()
-                    Log.e("joo",result.toString())
-                    commentnickname = result?.userName.toString()
-                    commentProfile = result?.profilePhoto.toString()
-                    Log.e("joo","nickname,, profile : "+commentProfile+commentnickname )
-                    postComment(bbs_tabname, bbs_title, commentnickname, commentProfile)
-
-                    try {
-                        //TODO 액티비티 화면 재갱신 시키는 코드
-                        val intent = intent
-                        finish() //현재 액티비티 종료 실시
-                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                        startActivity(intent) //현재 액티비티 재실행 실시
-                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                        try {
+                            //TODO 액티비티 화면 재갱신 시키는 코드
+                            val intent = intent
+                            finish() //현재 액티비티 종료 실시
+                            overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+                            startActivity(intent) //현재 액티비티 재실행 실시
+                            overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
-                }
+            }
         }
 
 
@@ -94,15 +97,17 @@ class BBS_Common_Post : AppCompatActivity() {
     }
 
 
-    private fun postComment(bbs_tab : String, bbs_title : String, nickname : String, profile : String){
+    private fun postComment(bbs_tab : String, bbs_oid : String, nickname : String, profile : String){
 
         val uid = auth.uid.toString()
         val comment = edittext_bbscommon_comment.text.toString()
         val time = currenttime().toString()
         val bbscomment = BBS_Comment(uid, comment, nickname, time, profile)
 
-        db.collection(bbs_tab).document(bbs_title).collection("Comment").document(nickname).set(bbscomment)
+        val doc = db.collection(bbs_tab).document(bbs_oid).collection("Comment").document()
 
+        Log.e("joo", "postComment id :"+ doc.id)
+        doc.set(bbscomment)
         edittext_bbscommon_comment.setText("")
     }
 

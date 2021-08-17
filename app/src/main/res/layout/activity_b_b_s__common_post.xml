@@ -211,6 +211,7 @@
             android:background="@drawable/edittext_round"
             android:fontFamily="@font/nanumsquarel"
             android:hint="메세지를 입력하세요"
+            android:text=""
             android:paddingStart="15dp"
             android:textColorHint="#D9D9D9"
             android:textSize="14dp" />

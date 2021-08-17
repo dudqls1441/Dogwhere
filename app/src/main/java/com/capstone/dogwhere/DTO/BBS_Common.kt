@@ -9,6 +9,7 @@ data class BBS_Common(
     val content: String,
     val uri: String,
     val username: String,
-    val time:String){
-    constructor() : this("","","","","","")
+    val time:String,
+    val oid:String){
+    constructor() : this("","","","","","", "")
 }
