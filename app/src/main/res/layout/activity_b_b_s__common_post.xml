@@ -93,9 +93,9 @@
                     android:layout_marginBottom="5dp"
                     android:layout_toRightOf="@+id/writer_img"
                     android:text="글쓴이"
-                    android:textColor="#DE443C3C"
+                    android:fontFamily="@font/nanumsquareeb"
                     android:textSize="14dp"
-                    android:textStyle="bold"></TextView>
+                    ></TextView>
 
                 <TextView
                     android:id="@+id/writer_time"
@@ -156,6 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/post_title"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/nanumsquarel"
                     android:lineSpacingExtra="10dp"
                     android:text="인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 "
@@ -171,15 +172,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/contentlayout"
                 >
-
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:fontFamily="@font/r210beachofnight"
-                    android:gravity="center"
-                    android:text="댓글창"
-                    android:textSize="30dp">
-                </TextView>
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycler_bbscommon_comment"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    />
+
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
@@ -201,17 +200,18 @@
             android:layout_alignParentLeft="true"/>
 
         <EditText
-            android:id="@+id/edittext_chatroom_msg"
+            android:id="@+id/edittext_bbscommon_comment"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginBottom="0dp"
-            android:layout_toLeftOf="@+id/btn_chatroom_send"
+            android:layout_toLeftOf="@+id/btn_bbscommon_send"
             android:layout_toRightOf="@+id/btn_chatroom_img"
             android:background="@drawable/edittext_round"
             android:fontFamily="@font/nanumsquarel"
             android:hint="메세지를 입력하세요"
+            android:text=""
             android:paddingStart="15dp"
             android:textColorHint="#D9D9D9"
             android:textSize="14dp" />
@@ -224,7 +224,7 @@
             android:layout_marginStart="5dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_green_send"
-            android:id="@+id/btn_chatroom_send"
+            android:id="@+id/btn_bbscommon_send"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </RelativeLayout>

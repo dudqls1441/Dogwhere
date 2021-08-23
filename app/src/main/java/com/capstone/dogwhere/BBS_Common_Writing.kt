@@ -81,15 +81,17 @@ class BBS_Common_Writing : AppCompatActivity() {
         val content = edit_content.text.toString()
         val db = Firebase.firestore
         val time = currenttime()
-
+        val doc = db.collection(intent.getStringExtra("tab").toString()).document()
+        Log.e("joo", "doc.id : "+doc.id)
         if(uri=="null"){
+
             db.collection("users").whereEqualTo("uid", uid).get()
                 .addOnSuccessListener { result ->
                     val result = result.toObjects<User>()
                     for (document in result) {
                         name = document.userName
                     }
-                    val post = BBS_Common(uid, title, content,"null", name, time.toString())
+                    val post = BBS_Common(uid, title, content,"null", name, time.toString(), doc.id)
                     Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)
                     Log.d("joo", "tab1 : "+intent.getStringExtra("tab"))
@@ -125,7 +127,7 @@ class BBS_Common_Writing : AppCompatActivity() {
                             for (document in result) {
                                 name = document.userName
                             }
-                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString())
+                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString(), doc.id)
                             upload(post)
                         }
                 } else {
@@ -138,16 +140,16 @@ class BBS_Common_Writing : AppCompatActivity() {
     }
 
 
-
+    // 게시판 글 업로드
     private fun upload(post : BBS_Common) {
         val db = Firebase.firestore
 
         Log.d("joo", "name0 =" + name)
 
+        val doc = db.collection(intent.getStringExtra("tab").toString()).document(post.oid)
 
-        db.collection(intent.getStringExtra("tab").toString()).add(post)
+        doc.set(post)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                 Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
@@ -162,16 +164,6 @@ class BBS_Common_Writing : AppCompatActivity() {
         val time = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
         val curTime = dateFormat.format(Date(time))
-        Log.d("check",curTime)
-
-//    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//        LocalDateTime.now()
-//    } else {
-//
-//    }
-//    val now = LocalDate.now()
-//    var formatter = DateTimeFormatter.ISO_DATE
-//    val formatted = current.format(formatter)
 
         return curTime
     }

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.BBS_Common_Post
 import com.capstone.dogwhere.BBS_Common_Writing
+import com.capstone.dogwhere.DTO.BBS_CommonItem
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -33,12 +34,13 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         db.collection(tab).get().addOnSuccessListener { result ->
             for (document in result) {
                 adapter.add(
-                    CommonItem(
+                    BBS_CommonItem(
                         document.get("title").toString(),
                         document.get("content").toString(),
                         document.get("username").toString(),
                         document.get("time").toString(),
-                        document.get("uid").toString()
+                        document.get("uid").toString(),
+                        document.get("oid").toString()
                     )
                 )
                 Log.d("checkMessageList", document.get("userName").toString())
@@ -50,13 +52,15 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
                 Log.w("데이터베이스읽기실패", "Error getting document", it)
             }
         adapter.setOnItemClickListener { item, view ->
-            Log.d("title", (item as CommonItem).title)
+            Log.d("title", (item as BBS_CommonItem).title)
             Intent(context, BBS_Common_Post::class.java).apply {
-                    putExtra("title", (item).title)
-                    putExtra("content", (item).content)
-                    putExtra("name", (item).username)
-                    putExtra("time", (item).time)
-                    putExtra("uid", (item).uid)
+                putExtra("tab", tab)
+                putExtra("title", (item).title)
+                putExtra("content", (item).content)
+                putExtra("name", (item).username)
+                putExtra("time", (item).time)
+                putExtra("uid", (item).uid)
+                putExtra("oid", (item).oid)
                 }.run { context?.startActivity(this) }
         }
         return view
@@ -77,16 +81,5 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         }
 
     }
-    class CommonItem(val title :String,val content:String, val username:String,val time:String, val uid:String) : Item<GroupieViewHolder>() {
-        override fun getLayout(): Int {
-            return R.layout.common_bbs_item
-        }
 
-        override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-            viewHolder.itemView.free_bbs_title.setText(title)
-            viewHolder.itemView.free_bbs_content.setText(content)
-            viewHolder.itemView.free_bbs_name.setText(username)
-            viewHolder.itemView.free_bbs_time.setText(time)
-        }
-    }
 }
