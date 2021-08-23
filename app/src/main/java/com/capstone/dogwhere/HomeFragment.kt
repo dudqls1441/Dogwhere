@@ -67,8 +67,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.matching_list -> chattingstart()
-            R.id.choker_buy -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
-            R.id.menu_list -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.choker_buy -> weatherstart()
+            R.id.menu_list -> gpsstart()
             R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.btn_logout-> clicklogut()
@@ -84,8 +84,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     }
 
     private fun weatherstart(){
-        Log.e("joo", "산책 지수로 이동")
-        val intent = Intent(activity, WeatherActivity::class.java)
+    }
+    private fun gpsstart(){
+        Log.e("joo", "gps 이동")
+        val intent = Intent(activity, GpsActivity::class.java)
         startActivity(intent)
     }
 
