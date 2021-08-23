@@ -47,7 +47,7 @@ class Stop_watchActivity : AppCompatActivity() {
         val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
 
-        db.collection("Walk_Record").document(uid).collection(date.text.toString()).document(uid).get()
+        db.collection("Walk_Record").document(uid).collection(uid).document(date.text.toString()).get()
             .addOnSuccessListener { result ->
                 if (result.get("time").toString() == "null" || result.get("time").toString() == "") {
                     Log.e("yy",result.get("time").toString())
@@ -63,7 +63,8 @@ class Stop_watchActivity : AppCompatActivity() {
                 plus_sec=timesec.toLongOrNull()!!
             }
             .addOnFailureListener { e ->
-                Log.e("yy","여기니")
+
+                Log.e("yy",e.toString())
             }
 
 
@@ -89,7 +90,7 @@ class Stop_watchActivity : AppCompatActivity() {
 
                 if(test==1){ //첫 시작
                     myBaseTime = elapsedRealtime()
-                    db.collection("Walk_Record").document(uid).collection(date.text.toString()).document(uid).get()
+                    db.collection("Walk_Record").document(uid).collection(uid).document(date.text.toString()).get()
                         .addOnSuccessListener { result ->
                             if (result.get("time").toString() == "null" || result.get("time").toString() == "") {
                                 Log.e("yy",result.get("time").toString())
@@ -185,18 +186,18 @@ class Stop_watchActivity : AppCompatActivity() {
         Log.e("123", time)
         val date=current()
         val db = Firebase.firestore
-        db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).get()
+        db.collection("Walk_Record").document(uid).collection(uid).document(date.toString()).get()
             .addOnSuccessListener { result ->
                 val result = result.toObject<com.capstone.dogwhere.DTO.Walk_Record>()
                 if (result != null) {
-                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update("time",time,"timesec",timesec).addOnSuccessListener { documentReference ->
+                    db.collection("Walk_Record").document(uid).collection(uid).document(date.toString()).update("time",time,"timesec",timesec).addOnSuccessListener { documentReference ->
                         //                val intent = Intent(this, BBSActivity::class.java)
                         //                startActivity(intent)
                         //                finish()
                     }
                 }else{
                     Log.e("yy","없면")
-                    db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).set(Walk_Record(uid,time,timesec, date.toString(),"", ""))
+                    db.collection("Walk_Record").document(uid).collection(uid).document(date.toString()).set(Walk_Record(uid,time,timesec, date.toString(),"", ""))
                         .addOnSuccessListener { documentReference ->
                             //                val intent = Intent(this, BBSActivity::class.java)
                             //                startActivity(intent)
