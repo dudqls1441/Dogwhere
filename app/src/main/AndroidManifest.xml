@@ -4,12 +4,6 @@
     package="com.capstone.dogwhere">
 
     <uses-sdk tools:overrideLibrary="com.kakao.sdk.user" />
-    <!-- smsmms-->
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -21,11 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 사용 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Conteact 권한-->
-    <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".GlobalApplication"
@@ -36,8 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Finding_Id_Password"></activity>
-        <activity android:name=".Chat.MyRoomActivity" />
+        <activity android:name=".Chat.MyRoomActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,14 +37,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <service android:name="com.android.mms.transaction.TransactionService"/>
+
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".Search_Region_Detail" />
         <activity android:name=".Walk_Calendar" />
-        <activity android:name=".Chat.ChatListActivity" />
-        <activity android:name=".Chat.ChatRoomActivity" />
+        <activity android:name=".Chat.ChatListActivity"/>
+        <activity android:name=".Chat.ChatRoomActivity"/>
         <activity android:name=".MatchingDetailActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".Search_Region" />
@@ -69,6 +57,8 @@
         <activity android:name=".BBS_Common_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
+        <activity android:name=".WeatherActivity"/>
+        <activity android:name=".GpsActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
