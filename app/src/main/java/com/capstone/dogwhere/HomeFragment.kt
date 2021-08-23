@@ -48,7 +48,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         auth = FirebaseAuth.getInstance()
         rdb = FirebaseDatabase.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
 
 
         val postLef = rdb.getReference().child("userprofiles")

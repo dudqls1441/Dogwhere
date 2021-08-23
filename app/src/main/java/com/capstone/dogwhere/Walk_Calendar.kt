@@ -12,9 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import kotlinx.android.synthetic.main.activity_walk__calendar.*
 import org.jetbrains.anko.toast
 import java.util.*
@@ -99,7 +96,7 @@ class Walk_Calendar : AppCompatActivity() {
 // 저장할 데이터 이름 설정. Ex) 2019-01-20
         textView2.setText("")
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
 
         memo=""
@@ -141,7 +138,7 @@ class Walk_Calendar : AppCompatActivity() {
 // 저장할 데이터 이름 설정. Ex) 2019-01-20
 
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
         db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).get()
             .addOnSuccessListener { result ->
@@ -171,7 +168,7 @@ class Walk_Calendar : AppCompatActivity() {
         date = "" + cYear + "-" + (cMonth + 1) + "" + "-" + cDay
         Log.e("yy", "삭제ㅇㅇ")
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
         db.collection("Walk_Record").document(uid).collection(date.toString()).document(uid).update(
             "memo",

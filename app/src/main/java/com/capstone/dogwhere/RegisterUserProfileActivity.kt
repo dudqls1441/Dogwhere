@@ -203,7 +203,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 if (Name_FLAG == true) {
                     val downloadUri = task.result
-                    val uid = auth.currentUser.uid
+                    val uid = auth.currentUser!!.uid
                     val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
                     val userage = findViewById<EditText>(R.id.userprofileAge).getText().toString()
                     if (sex_man.isChecked) {
@@ -298,15 +298,15 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     suspend fun check_name3(username : String) :Boolean{
         return try{
             db.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val uids = document.get("uid").toString()
-                        db.collection("users").document(uids).collection("userprofiles").get()
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            val uids = document.get("uid").toString()
+                            db.collection("users").document(uids).collection("userprofiles").get()
                             .addOnSuccessListener{ result ->
                                 val names = document.get("userName")
-                                Log.d(TAG,"기존 닉네임   :" + names.toString())
-                                Log.d(TAG,"입력 닉네임   :" + username)
+//                                Log.d(TAG,"기존 닉네임   :" + names.toString())
+//                                Log.d(TAG,"입력 닉네임   :" + username)
                                 if (username == names) {
                                     Log.d(TAG, "해당 닉네임이 이미 존재함")
                                     Toast.makeText(

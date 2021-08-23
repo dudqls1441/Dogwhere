@@ -49,6 +49,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, joinId::class.java))
         }
 
+        btn_find_IdPW.setOnClickListener {
+            startActivity(Intent(this, Finding_Id_Password::class.java))
+            finish()
+        }
+
         btn_kakao_login.setOnClickListener {
             Log.e("윤영", "들")
 
@@ -68,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("성공", "signInWithEmail:success")
-                        val uid = auth.currentUser.uid
+                        val uid = auth.currentUser!!.uid
                         MySharedPreferences.setUserId(this, userId)
                         MySharedPreferences.setUserPass(this, userPwd)
                         db.collection("users").document(uid).collection("userprofiles").document(
@@ -170,7 +175,7 @@ class LoginActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("성공", "signInWithEmail:success")
-                                val uid = auth.currentUser.uid
+                                val uid = auth.currentUser!!.uid
                                 MySharedPreferences.setUserId(
                                     this@LoginActivity,
                                     result!!.kakaoAccount.email.toString()

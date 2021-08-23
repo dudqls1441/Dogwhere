@@ -44,7 +44,7 @@ class Stop_watchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_stop_watch)
         date.setText(current())
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
 
         db.collection("Walk_Record").document(uid).collection(date.text.toString()).document(uid).get()
@@ -84,7 +84,7 @@ class Stop_watchActivity : AppCompatActivity() {
         when (Status) {
             Play -> { //시작
                 auth = FirebaseAuth.getInstance()
-                val uid = auth.currentUser.uid
+                val uid = auth.currentUser!!.uid
                 val db = Firebase.firestore
 
                 if(test==1){ //첫 시작
@@ -179,7 +179,7 @@ class Stop_watchActivity : AppCompatActivity() {
 
     private fun upload() {
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         Log.e("123", uid)
         val time = last_str
         Log.e("123", time)

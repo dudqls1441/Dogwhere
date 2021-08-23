@@ -209,7 +209,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
-                val uid = auth.currentUser.uid
+                val uid = auth.currentUser!!.uid
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
