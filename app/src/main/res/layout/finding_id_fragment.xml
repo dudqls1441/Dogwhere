@@ -17,24 +17,43 @@
             android:id="@+id/Name_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_name"
+                android:fontFamily="@font/l210beachofnight"
+                android:textStyle="bold"
+                android:text="이름"
+                android:textSize="15dp"/>
 
             <EditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
                 android:layout_height="40dp"
                 android:fontFamily="@font/l210beachofnight"
                 android:hint="이름을 입력하세요." />
 
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_phone"
+            android:layout_below="@+id/Name_LinearLayout"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="핸드폰번호"/>
 
         <LinearLayout
             android:id="@+id/phone_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Name_LinearLayout"
+            android:layout_below="@+id/text_phone"
             android:orientation="horizontal"
-            android:paddingTop="20dp">
+            android:paddingTop="10dp">
 
             <EditText
                 android:id="@+id/et_phone"
@@ -57,15 +76,26 @@
                 android:textSize="12dp" />
 
         </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/text_authentivation"
+            android:layout_below="@+id/phone_LinearLayout"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="인증번호"/>
 
         <LinearLayout
             android:id="@+id/authentivation_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/phone_LinearLayout"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/text_authentivation"
             android:fontFamily="@font/l210beachofnight"
             android:orientation="horizontal"
-            android:paddingTop="20dp">
+            android:paddingTop="10dp">
+
 
             <EditText
                 android:id="@+id/et_authentivation"

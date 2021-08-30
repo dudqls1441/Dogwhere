@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/frame_dog_profile_item"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@drawable/backgrounddogprofile"
+        android:id="@+id/dog_profile_main_frame"
+        android:layout_margin="20dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:id="@+id/register_dog_frame_exist">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/img_dog_profile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/breed_layout1"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:id="@+id/dog_name"
+                android:fontFamily="@font/nightl"
+                android:text="이름"/>
+            <RelativeLayout
+                android:id="@+id/breed_layout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/dog_breed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nightl"
+                    android:text="닥스훈트"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
+
+                <TextView
+                    android:id="@+id/dog_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/dog_breed"
+                    android:fontFamily="@font/nightl"
+                    android:text="4개월"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
+
+                <TextView
+                    android:id="@+id/dog_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/dog_age"
+                    android:fontFamily="@font/nightl"
+                    android:text="수컷"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
+
+                <TextView
+                    android:id="@+id/dog_neutralization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/dog_sex"
+                    android:fontFamily="@font/nightl"
+                    android:text="중성화O"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

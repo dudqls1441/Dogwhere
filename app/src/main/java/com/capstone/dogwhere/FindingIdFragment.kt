@@ -13,8 +13,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.DTO.Join_User
 import com.capstone.dogwhere.R
@@ -23,7 +21,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.finding_id_fragment.*
-import org.jetbrains.anko.view
 import java.util.*
 
 
@@ -117,6 +114,9 @@ class FindingIdFragment : Fragment() {
         val btn_au_number = view.findViewById<Button>(R.id.btn_authentication_number)
         val btn_authentication_check = view.findViewById<Button>(R.id.btn_authentication_check)
         val btn_find_id = view.findViewById<Button>(R.id.btn_find_id)
+        val btn_find_pw = view.findViewById<Button>(R.id.btn_find_pw)
+        val activity = getActivity()
+
 
         initSmsReceiver()
 
@@ -147,6 +147,8 @@ class FindingIdFragment : Fragment() {
             }
 
         }
+
+
 
 
 
@@ -252,7 +254,7 @@ class FindingIdFragment : Fragment() {
         try {
             val smsManager: SmsManager = SmsManager.getDefault()
             smsManager.sendTextMessage(phone, null, sms, null, null)
-            Log.d(TAG, "000000임시번호 ${temporarily_number}")
+            Log.d(TAG, "000000인증번호 ${temporarily_number}")
             Toast.makeText(
                 context,
                 "전송 완료!",

@@ -63,17 +63,17 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             selectPhoto()
         }
         radio_btm()
-        btn_check_name.setOnClickListener {
-//            Name_FLAG = true
-////            check_name()
 
+        //코루틴 적용 안 될 거예여 CoroutineScope //
+
+        btn_check_name.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 runBlocking {
                     check_name2()
                 }
             }
-
         }
+
         btn_upload.setOnClickListener {
             upload(ImagePath)
         }
@@ -126,6 +126,14 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         startActivityForResult(intent, FLAG_GALLERY_CODE)
     }
 
+
+   // * Glide //
+
+    //circleCrop() : 이거 이미지 둥글게 표현하는 거
+    // centerCrop() : 외부에서 받아온 이미지가 있다면, 가운데에서 이미지를 잘라 보여주는 함수
+    //  fitCenter() : 외부에서 받아온 이미지를 가운데에서 사이즈를 조절하여 이미지 전체를 받아오는 함수
+    // placeholder(로딩 이미지) // ex) placeholder(R.drawable.loading) : 이미지가 로딩하는 동안 보여질 이미지를 정함
+    //     error(실패 이미지) // ex) error(R.drawable.error) : 이미지를 불러오는데 실패 했을때 보여질 이미지를
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == FLAG_GALLERY_CODE) {
@@ -137,20 +145,11 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
                 Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
                     .circleCrop().into(userProfilePhoto)
-
             } else {
                 Log.d(TAG, "가져온 데이터 없음")
                 ImagePath = ""
-
             }
-
-            //circleCrop() : 이거 이미지 둥글게 표현하는 거
-            // centerCrop() : 외부에서 받아온 이미지가 있다면, 가운데에서 이미지를 잘라 보여주는 함수
-            //  fitCenter() : 외부에서 받아온 이미지를 가운데에서 사이즈를 조절하여 이미지 전체를 받아오는 함수
-            // placeholder(로딩 이미지) // ex) placeholder(R.drawable.loading) : 이미지가 로딩하는 동안 보여질 이미지를 정함
-            //     error(실패 이미지) // ex) error(R.drawable.error) : 이미지를 불러오는데 실패 했을때 보여질 이미지를
         }
-
     }
 
     private fun getImageFilePath(contentUri: Uri): String {
@@ -223,7 +222,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                             Log.w(TAG, "Error adding document", e)
                         }
 
-                    val intent = Intent(this, RegisterDogProfileActivity::class.java)
+                    val intent = Intent(this, DogProfileActivity::class.java)
                     startActivity(intent)
                     finish()
                     //} else {
@@ -243,6 +242,65 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         }
     }
 
+    fun check_name2() {
+        val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
+        CoroutineScope(Dispatchers.IO).launch {
+            runBlocking {
+                check_name3(username)
+            }
+        }
+
+    }
+
+    suspend fun check_name3(username: String): Boolean {
+        return try {
+            db.collection("users")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val uids = document.get("uid").toString()
+                        db.collection("users").document(uids).collection("userprofiles").get()
+                            .addOnSuccessListener { result ->
+                                val names = document.get("userName")
+                                if (username == names) {
+                                    Log.d(TAG, "해당 닉네임이 이미 존재함")
+                                } else {
+                                    Name_FLAG = true
+                                    Log.d(TAG, "사용 가능한 닉네임")
+                                }
+                            }
+                    }
+                    if (Name_FLAG == true) {
+                        Toast.makeText(
+                            this@RegisterUserProfileActivity,
+                            "사용 가능한 닉네임입니다..",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this@RegisterUserProfileActivity,
+                            "이미 사용중인 닉네임입니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }.await()
+            true
+        } catch (e: FirebaseException) {
+            Log.e("error:", "erroe:" + e.message.toString())
+            false
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+// 혹시 몰라서 둠 //
 //                Log.d(TAG, usersex + " < -- 값2 ")
 //                Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
 
@@ -284,54 +342,3 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 //                }
 //            }
 //    }
-
-    fun check_name2() {
-        val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
-        CoroutineScope(Dispatchers.IO).launch {
-            runBlocking {
-                check_name3(username)
-            }
-        }
-
-    }
-
-    suspend fun check_name3(username : String) :Boolean{
-        return try{
-            db.collection("users")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        for (document in result) {
-                            val uids = document.get("uid").toString()
-                            db.collection("users").document(uids).collection("userprofiles").get()
-                            .addOnSuccessListener{ result ->
-                                val names = document.get("userName")
-//                                Log.d(TAG,"기존 닉네임   :" + names.toString())
-//                                Log.d(TAG,"입력 닉네임   :" + username)
-                                if (username == names) {
-                                    Log.d(TAG, "해당 닉네임이 이미 존재함")
-                                    Toast.makeText(
-                                        this@RegisterUserProfileActivity,
-                                        "이미 존재하는 닉네임입니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }else{
-                                    Name_FLAG = true
-                                    Log.d(TAG, "사용 가능한 닉네임")
-                                    Toast.makeText(
-                                        this@RegisterUserProfileActivity,
-                                        "사용 가능한 닉네임임.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                    }
-                }.await()
-            true
-        } catch (e :FirebaseException){
-            Log.e("error:","erroe:"+e.message.toString())
-            false
-
-        }
-
-    }
-}

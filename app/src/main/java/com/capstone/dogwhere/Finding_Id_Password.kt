@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_chatting.*
 import kotlinx.android.synthetic.main.activity_finding_id_password.*
+import kotlinx.android.synthetic.main.finding_id_fragment.*
 
 class Finding_Id_Password : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,10 @@ class Finding_Id_Password : AppCompatActivity() {
         }
 
         val pagerAdapter = PagerAdapter2(supportFragmentManager, 2)
+
+        val transaction = supportFragmentManager.beginTransaction()
+
+
 
         finding_id_pw_pager.adapter = pagerAdapter
         finding_id_pw_tab_layout.addTab(finding_id_pw_tab_layout.newTab().setText("아이디 찾기"))

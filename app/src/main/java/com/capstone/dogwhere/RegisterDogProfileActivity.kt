@@ -66,19 +66,19 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         radio_sex()
         radio_dogneneutralization()
 
-        btn_upload.setOnClickListener {
+        btn_add.setOnClickListener {
             upload(ImagePath)
         }
 
-        adddog.setOnClickListener {
-            AddDog()
-        }
+//        adddog.setOnClickListener {
+//            AddDog()
+//        }
 
     }
 
-        private fun radio_sex(){
-            dogprofilesex.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+    private fun radio_sex() {
+        dogprofilesex.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
                 R.id.sex_male -> checked_male()
                 R.id.sex_female -> checked_female()
 
@@ -86,9 +86,10 @@ class RegisterDogProfileActivity : AppCompatActivity() {
             }
         }
     }
-    private fun radio_dogneneutralization(){
+
+    private fun radio_dogneneutralization() {
         dogpprofileneutralization.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId){
+            when (checkedId) {
                 R.id.neutralization_T -> checked_dogneneutralization_T()
                 R.id.neutralization_F -> checked_dogneneutralization_F()
 
@@ -96,91 +97,82 @@ class RegisterDogProfileActivity : AppCompatActivity() {
             }
         }
     }
-    private fun checked_male(){
+
+    private fun checked_male() {
         sex_male.setBackgroundResource(R.drawable.backgroundgreencircle)
         sex_male.setTextColor(Color.parseColor("#00C09F"))
         sex_female.setBackgroundResource(R.drawable.backgroundgraycircle)
         sex_female.setTextColor(Color.parseColor("#52443C3C"))
 
     }
-    private fun checked_female(){
+
+    private fun checked_female() {
         sex_female.setBackgroundResource(R.drawable.backgroundgreencircle)
         sex_female.setTextColor(Color.parseColor("#00C09F"))
         sex_male.setBackgroundResource(R.drawable.backgroundgraycircle)
         sex_male.setTextColor(Color.parseColor("#52443C3C"))
 
     }
-    private fun checked_dogneneutralization_T(){
+
+    private fun checked_dogneneutralization_T() {
         neutralization_T.setBackgroundResource(R.drawable.backgroundgreencircle)
         neutralization_T.setTextColor(Color.parseColor("#00C09F"))
         neutralization_F.setBackgroundResource(R.drawable.backgroundgraycircle)
         neutralization_F.setTextColor(Color.parseColor("#52443C3C"))
 
     }
-    private fun checked_dogneneutralization_F(){
+
+    private fun checked_dogneneutralization_F() {
         neutralization_F.setBackgroundResource(R.drawable.backgroundgreencircle)
         neutralization_F.setTextColor(Color.parseColor("#00C09F"))
         neutralization_T.setBackgroundResource(R.drawable.backgroundgraycircle)
         neutralization_T.setTextColor(Color.parseColor("#52443C3C"))
 
     }
+
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
         startActivityForResult(intent, FLAG_GALLERY_CODE)
     }
+
     private fun selectPhoto2() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
         startActivityForResult(intent, FLAG_GALLERY_CODE2)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == FLAG_GALLERY_CODE) {
-//            Log.d(TAG, getImageFilePath(data!!.data!!))
-//
-//            ImagePath = getImageFilePath(data!!.data!!)
-//
-//            var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-//            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
-//                .circleCrop().into(DogProfilePhoto)
-//        }else{
-//            Log.d(TAG, "가져온 데이터 없음")
-//            ImagePath = ""
-//        }
-//    }
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == FLAG_GALLERY_CODE) {
-        if(data != null){
-            Log.d(TAG, getImageFilePath(data!!.data!!))
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == FLAG_GALLERY_CODE) {
+            if (data != null) {
+                Log.d(TAG, getImageFilePath(data!!.data!!))
 
-            ImagePath = getImageFilePath(data!!.data!!)
+                ImagePath = getImageFilePath(data!!.data!!)
 
-            var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
-                .circleCrop().into(DogProfilePhoto)
-        }else{
+                var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+                Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                    .circleCrop().into(DogProfilePhoto)
+            } else {
+                Log.d(TAG, "가져온 데이터 없음")
+                ImagePath = ""
+            }
+        } else if (requestCode == FLAG_GALLERY_CODE2) {
+            if (data != null) {
+                Log.d(TAG, getImageFilePath(data!!.data!!))
+                ImagePath = getImageFilePath(data!!.data!!)
+                var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+                Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                    .circleCrop().into(DogProfilePhoto2)
+            } else {
+                Log.d(TAG, "가져온 데이터 없음")
+                ImagePath = ""
+            }
+        } else {
             Log.d(TAG, "가져온 데이터 없음")
             ImagePath = ""
         }
-    }else if(requestCode == FLAG_GALLERY_CODE2){
-        if(data != null){
-            Log.d(TAG,getImageFilePath(data!!.data!!))
-            ImagePath = getImageFilePath(data!!.data!!)
-            var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-            Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
-                .circleCrop().into(DogProfilePhoto2)
-        }else{
-            Log.d(TAG, "가져온 데이터 없음")
-            ImagePath = ""
-        }
-    }else{
-        Log.d(TAG, "가져온 데이터 없음")
-        ImagePath = ""
     }
-}
 
     private fun getImageFilePath(contentUri: Uri): String {
         var columIndex = 0
@@ -213,41 +205,31 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
-//                dogprofilesex.setOnCheckedChangeListener { group, i ->
-//                    when (i) {
-//                        R.id.sex_male -> dogsex="수컷"
-//                        R.id.sex_female -> dogsex="암컷"
-//                    }
-//                    Log.d(TAG, dogsex)
-//                }
-                if(sex_male.isChecked){
-                    dogsex="수컷"
-                }else if(sex_female.isChecked){
-                    dogsex="암컷"
-                }else{
-                    dogsex="선택안함"
+                if (sex_male.isChecked) {
+                    dogsex = "수컷"
+                } else if (sex_female.isChecked) {
+                    dogsex = "암컷"
+                } else {
+                    dogsex = "선택안함"
                 }
                 dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
                     when (i) {
-                        R.id.neutralization_T -> dogneneutralization="예"
-                        R.id.neutralization_F -> dogneneutralization="아니요"
+                        R.id.neutralization_T -> dogneneutralization = "예"
+                        R.id.neutralization_F -> dogneneutralization = "아니요"
                     }
                     Log.d(TAG, dogsex)
                 }
-
                 Log.d(TAG, dogsex)
                 val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex)
                 val db = Firebase.firestore
-
-                db.collection("users").document(uid).collection("dogprofiles").document(uid)
-                    .set(dog)
+                db.collection("users").document(uid).collection("dogprofiles").add(dog)
                     .addOnSuccessListener { documentReference ->
 
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
-                val intent = Intent(this, MainMenuActivity::class.java)
+                val intent = Intent(this, DogProfileActivity::class.java)
                 startActivity(intent)
                 finish()
 
@@ -255,11 +237,6 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
                 Log.w("실패", "업로드 실패", task.exception)
             }
         }
-
-    }
-    private fun AddDog(){
-        val RelativeLayout2 = findViewById<RelativeLayout>(R.id.dog_profile_RelativeLayout2)
-        RelativeLayout2.visibility= View.VISIBLE
-
     }
 }
+//user - user(id) - dogprofile - 아래 여러 마리의 강아지 등록할 수 있게 수정했음 (08-27)

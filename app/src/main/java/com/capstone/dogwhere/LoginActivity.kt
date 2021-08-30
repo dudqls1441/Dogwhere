@@ -8,6 +8,8 @@ import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.dogwhere.DTO.DogProfile
+import com.capstone.dogwhere.DTO.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -76,24 +78,36 @@ class LoginActivity : AppCompatActivity() {
                         val uid = auth.currentUser!!.uid
                         MySharedPreferences.setUserId(this, userId)
                         MySharedPreferences.setUserPass(this, userPwd)
-                        db.collection("users").document(uid).collection("userprofiles").document(
-                            uid
-                        ).get()
-                            .addOnSuccessListener { result ->
-                                val result = result.toObject<com.capstone.dogwhere.DTO.User>()
+                        db.collection("users").document(uid).collection("dogprofiles").document(uid)
+                            .get()
+                            .addOnSuccessListener { result1 ->
+                                val result = result1.toObject<DogProfile>()
                                 if (result != null) {
                                     val intent = Intent(this, MainMenuActivity::class.java)
                                     intent.flags =
                                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
                                 } else {
-                                    val intent = Intent(
-                                        this,
-                                        RegisterUserProfileActivity::class.java
-                                    )
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
+                                    db.collection("users").document(uid).collection("userprofiles")
+                                        .document(uid).get()
+                                        .addOnSuccessListener { result2 ->
+                                            val result = result2.toObject<UserProfile>()
+                                            if (result != null) {
+                                                val intent =
+                                                    Intent(this, DogProfileActivity::class.java)
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            } else {
+                                                val intent = Intent(
+                                                    this,
+                                                    RegisterUserProfileActivity::class.java
+                                                )
+                                                intent.flags =
+                                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                startActivity(intent)
+                                            }
+                                        }
                                 }
                             }
                     } else {
@@ -266,6 +280,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                         }
                 }
+
                 override fun onSessionClosed(errorResult: ErrorResult?) {
                     // 로그인 도중 세션이 비정상적인 이유로 닫혔을 때
                     Toast.makeText(
@@ -276,6 +291,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
+
         override fun onSessionOpenFailed(exception: KakaoException?) {
             // 로그인 세션이 정상적으로 열리지 않았을 때
             if (exception != null) {
