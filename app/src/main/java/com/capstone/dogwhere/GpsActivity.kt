@@ -5,48 +5,65 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Address
-import android.location.Geocoder
-import android.location.LocationManager
+import android.location.*
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.util.TypedValue
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.capstone.dogwhere.DTO.WEATHER
+import com.capstone.dogwhere.DTO.WeatherInterface
+import com.capstone.dogwhere.Dust.DUST
+import com.capstone.dogwhere.Dust.DustInterface
+import com.capstone.dogwhere.NearMeasuring.NEARMEASURE
+import com.capstone.dogwhere.NearMeasuring.NearInterface
+import com.capstone.dogwhere.TMxy.TMInterface
+import com.capstone.dogwhere.TMxy.TMxy
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_weather.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Query
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 var TO_GRID = 0
 var TO_GPS = 1
-val num_of_rows = 10
+val num_of_rows = 33
 val page_no = 1
 val data_type = "JSON"
-val base_time = 1100
-val base_data = 20210819
+val fcstTime = currentTime()
+val base_time = baseTimeSetting(fcstTime)
+var base_date = currentDate()
 var nx = ""
 var ny = ""
 
+val dataTerm = "Daily"
+val ver = "1.3"
 
+// 강수확률
 var POP : String? = null
+// 하늘 상태
 var SKY : String? = null
-var T3H : String? = null
+// 비/눈 여부
+var PTY : String? = null
+// 온도
+var TMP: String? = null
 
-
-
+val kakaokey = "KakaoAK eb4a52cbe3a768ea9eb22447d4655f3d"
+val output_coord = "TM"
 
 
 class GpsActivity : AppCompatActivity() {
     private var gpsTracker: GpsTracker? = null
-    var REQUIRED_PERMISSIONS = arrayOf<String>(
+    private val GPS_ENABLE_REQUEST_CODE = 2001
+    private val PERMISSIONS_REQUEST_CODE = 100
+    var REQUIRED_PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
@@ -59,6 +76,7 @@ class GpsActivity : AppCompatActivity() {
         } else {
             checkRunTimePermission()
         }
+        Log.e("joo", "지금 시간" + fcstTime)
 
         // gps 값 가져오는 부분
         gpsTracker = GpsTracker(this@GpsActivity)
@@ -75,9 +93,13 @@ class GpsActivity : AppCompatActivity() {
             Toast.LENGTH_LONG
         ).show()
 
+        getDustApiInfo(longitude, latitude)
+
         getWeatherApiInfo()
 
-    }
+        }
+
+
 
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
@@ -131,7 +153,7 @@ class GpsActivity : AppCompatActivity() {
         }
     }
 
-    fun checkRunTimePermission() {
+    private fun checkRunTimePermission() {
 
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
@@ -180,7 +202,7 @@ class GpsActivity : AppCompatActivity() {
         }
     }
 
-    fun getCurrentAddress(latitude: Double, longitude: Double): String {
+    private fun getCurrentAddress(latitude: Double, longitude: Double): String {
 
         //지오코더... GPS를 주소로 변환
         val geocoder = Geocoder(this, Locale.getDefault())
@@ -242,24 +264,133 @@ class GpsActivity : AppCompatActivity() {
         }
     }
 
-    fun checkLocationServicesStatus(): Boolean {
+    private fun checkLocationServicesStatus(): Boolean {
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
     }
 
-    companion object {
-        private const val GPS_ENABLE_REQUEST_CODE = 2001
-        private const val PERMISSIONS_REQUEST_CODE = 100
+
+    private fun getDustApiInfo(long: Double, lati: Double){
+
+        val call = ApiObject.retrofitService3.getTMxy(
+            kakaokey,
+            long,
+            lati,
+            output_coord
+        )
+        Log.e("joo", "long :"+long + "  lati :"+lati + "  output:"+ output_coord)
+        call.enqueue(object : retrofit2.Callback<TMxy>{
+            override fun onResponse(call: Call<TMxy>, response: Response<TMxy>) {
+                Log.e("joo" , response.body()!!.toString())
+
+                if (response.isSuccessful) {
+                    val tmx = response.body()!!.documents[0].x
+                    val tmy = response.body()!!.documents[0].y
+                    Log.e("joo" , "tmx:"+tmx.toString() + "  tmy:"+ tmy.toString())
+                    getNearMeasuring(tmx, tmy)
+                }
+            }
+
+            override fun onFailure(call: Call<TMxy>, t: Throwable) {
+                Log.e("joo", "TM fail : " + t)
+            }
+
+        })
+
     }
 
+    private fun getNearMeasuring(tmx : Double, tmy : Double){
+        val call = ApiObject.retrofitService4.getMeasure(tmx, tmy)
 
-    fun getWeatherApiInfo(){
-        val call = ApiObject.retrofitService.GetWeather(
+        call.enqueue(object : retrofit2.Callback<NEARMEASURE>{
+            override fun onResponse(call: Call<NEARMEASURE>, response: Response<NEARMEASURE>) {
+                Log.e("joo" , response.body()!!.response.body.items.toString())
+                if (response.isSuccessful) {
+                    val station = response.body()!!.response.body.items[0].stationName
+                    getDustInform(station)
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<NEARMEASURE>, t: Throwable) {
+
+            }
+
+
+        })
+    }
+
+    private fun getDustInform(station : String){
+        val call = ApiObject.retrofitService2.getDust(
             data_type,
             num_of_rows,
             page_no,
-            base_data,
+            station,
+            dataTerm,
+            ver
+        )
+
+        call.enqueue(object : retrofit2.Callback<DUST>{
+            override fun onResponse(call: Call<DUST>, response: Response<DUST>) {
+                Log.e("joo" , response.body()!!.response.body.items.toString())
+                if (response.isSuccessful) {
+                    var getTime : String?= null
+                    var pm10grade : Int? = null
+                    for(result in response.body()!!.response.body.items){
+                        if(result.pm10Grade.toInt() > 0){
+                            // 발표시간
+                            getTime = result.dataTime
+                            // 시간별 미세먼지
+                            pm10grade = result.pm10Grade1h.toInt()
+                            break
+                        }
+                    }
+                    Log.e("joo", "미세먼지 발표 시간 :" + getTime)
+                    when (pm10grade){
+                        1 -> text_weather_dust.setText("좋음")
+                        2 -> text_weather_dust.setText("보통")
+                        3 -> text_weather_dust.setText("나쁨")
+                        4 -> text_weather_dust.setText("매우나쁨")
+                        else -> text_weather_dust.setText("오류")
+                    }
+                }
+
+            }
+
+            override fun onFailure(call: Call<DUST>, t: Throwable) {
+
+            }
+
+
+        })
+    }
+
+    // 날씨 예보 api로 값 받아와 출력해주는 메서드
+    private fun getWeatherApiInfo(){
+        var itemsize = 0
+
+        if (base_time == "2300"){
+            base_date =  currentNextDate()
+            if (fcstTime.toInt() == 100){
+                itemsize = 11
+            }else if (fcstTime.toInt() == 200){
+                itemsize = 22
+            }
+        }else {
+            if (fcstTime.toInt() - base_time.toInt() == 200){
+                itemsize = 11
+            }else if (fcstTime.toInt() - base_time.toInt() == 300){
+                itemsize = 22
+            }
+        }
+        Log.e("joo", "basedata:"+ base_date + "  basetime:"+ base_time + "  nx,ny:"+nx+ny + "  fcstTime: " + fcstTime + "  itemsize:" + itemsize)
+        val call = ApiObject.retrofitService.getWeather(
+            data_type,
+            num_of_rows,
+            page_no,
+            base_date,
             base_time,
             nx,
             ny
@@ -267,28 +398,31 @@ class GpsActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<WEATHER> {
             override fun onResponse(call: Call<WEATHER>, response: Response<WEATHER>) {
                 if (response.isSuccessful) {
+                    lateinit var weather : String
                     Log.d("api", response.body().toString())
                     Log.d("api", response.body()!!.response.body.items.item.toString())
-                    Log.d("api", response.body()!!.response.body.items.item[0].category)
-                    Log.d("api", response.body()!!.response.body.items.item[0].fcstValue)
-                    val res = response.body()!!.response.body.items.item[1].fcstValue
-                    POP = response.body()!!.response.body.items.item[0].fcstValue
-                    SKY = response.body()!!.response.body.items.item[3].fcstValue
-                    T3H = response.body()!!.response.body.items.item[4].fcstValue
-                    Log.d("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + T3H)
-                    if(SKY.equals("1")){
-                        SKY = "맑음"
-                    }else if(SKY.equals("2")){
-                        SKY = "비"
-                    }else if(SKY.equals("3")){
-                        SKY = "구름많음"
+                    POP = response.body()!!.response.body.items.item[7+itemsize].fcstValue
+                    SKY = response.body()!!.response.body.items.item[5+itemsize].fcstValue
+                    TMP = response.body()!!.response.body.items.item[0+itemsize].fcstValue
+                    PTY = response.body()!!.response.body.items.item[6+itemsize].fcstValue
+                    Log.e("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + TMP + " PTY = " + PTY)
+
+
+                    if (PTY.equals("0")){
+                        weather = skyState(SKY.toString())
                     }else{
-                        SKY = "흐림"
+                        weather = ptyState(PTY.toString())
                     }
-                    text_weather_index.setText(SKY)
-                    text_weather_dust.setText(SKY)
+
+                    if (weather.equals("구름많음")){
+                        text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30.0f)
+                    }else {
+                        text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40.0f)
+                    }
+                    text_weather_index.setText(weather)
+
                     text_weather_percent.setText(POP + " %")
-                    text_weather_temp.setText(T3H + " \u2109")
+                    text_weather_temp.setText(TMP + " \u2103")
                 }
             }
 
@@ -304,6 +438,90 @@ class GpsActivity : AppCompatActivity() {
 
 
 
+// 날짜 가져오기
+private fun currentDate(): String {
+
+    val time = System.currentTimeMillis()
+    val dateFormat = SimpleDateFormat("yyyyMMdd")
+    val curTime = dateFormat.format(Date(time))
+
+    return curTime
+}
+private fun currentNextDate(): String {
+
+    val time = System.currentTimeMillis() - 1000*60*60*24
+    val dateFormat = SimpleDateFormat("yyyyMMdd")
+    val curTime = dateFormat.format(Date(time))
+
+    return curTime
+}
+
+// 시간 가져오기 00분으로 만들어준다
+private fun currentTime(): String {
+
+    val time = System.currentTimeMillis()
+    val dateFormat = SimpleDateFormat("kk00")
+    val curTime = dateFormat.format(Date(time))
+
+    return curTime
+}
+
+// 단기예보 api에서 값을 가져오기 위한 현재 시간에 따른 기준 시간 설 메서드
+private fun baseTimeSetting(time : String): String {
+
+    val time = time.toInt()
+    var strTime = ""
+    if ((time == 200) or (time == 100) or (time == 2400)){
+        strTime = "2300"
+    }else if (time in 300..500){
+        strTime = "0200"
+    }else if (time in 600..800){
+        strTime = "0500"
+    }else if (time in 900..1100){
+        strTime = "0800"
+    }else if (time in 1200..1400){
+        strTime = "1100"
+    }else if (time in 1500..1700){
+        strTime = "1400"
+    }else if (time in 1800..2000){
+        strTime = "1700"
+    }else if (time in 2100..2300){
+        strTime = "2000"
+    }
+    Log.e("joo", "base_time: "+ strTime)
+
+    return strTime
+}
+
+// 평상시 날씨 출력 메서드
+private fun skyState(sky : String ) : String{
+    var SKY = sky
+    if(SKY.equals("1")){
+        SKY = "맑음"
+    }else if(SKY.equals("3")){
+        SKY = "구름많음"
+    }else{
+        SKY = "흐림"
+    }
+    return SKY
+}
+// 비 또는 눈이 올 때 날씨 출력 메서드
+private fun ptyState(pty : String) : String{
+    Log.e("joo", "pty : "+pty)
+    var PTY = pty
+    if(PTY.equals("1")){
+        PTY = "비"
+    }else if(PTY.equals("2")){
+        PTY = "비/눈"
+    }else if(PTY.equals("3")){
+        PTY = "눈"
+    }else{
+        PTY = "소나기"
+    }
+    return PTY
+}
+
+//GPS
 private fun convertGRID_GPS(mode: Int, lat_X: Double, lng_Y: Double): LatXLngY {
     val RE = 6371.00877 // 지구 반경(km)
     val GRID = 5.0 // 격자 간격(km)
@@ -312,7 +530,7 @@ private fun convertGRID_GPS(mode: Int, lat_X: Double, lng_Y: Double): LatXLngY {
     val OLON = 126.0 // 기준점 경도(degree)
     val OLAT = 38.0 // 기준점 위도(degree)
     val XO = 43.0 // 기준점 X좌표(GRID)
-    val YO = 136.0 // 기1준점 Y좌표(GRID)
+    val YO = 136.0 // 기준점 Y좌표(GRID)
 
     //
     // LCC DFS 좌표변환 ( code : "TO_GRID"(위경도->좌표, lat_X:위도,  lng_Y:경도), "TO_GPS"(좌표->위경도,  lat_X:x, lng_Y:y) )
@@ -378,52 +596,45 @@ internal class LatXLngY {
     var x = 0.0
     var y = 0.0
 }
-data class WEATHER(
-    val response: RESPONSE
-)
-data class RESPONSE(
-    val header: HEADER,
-    val body: BODY
-)
-data class HEADER(
-    val resultCode: Int,
-    val resultMsg: String
-)
-data class BODY(
-    val dataType: String,
-    val items: ITEMS
-)
-data class ITEMS(
-    val item: List<ITEM>
-)
-data class ITEM(
-    val baseData: Int,
-    val baseTime: Int,
-    val category: String,
-    val fcstValue: String
-)
-
-interface WeatherInterface {
-    @GET("getVilageFcst?serviceKey=GN%2Br4yL8PgIgO%2FK5aqch2TVxK6opk2CdyjKj9Xm6cTb%2FPf6kLaZb8FbXa6tc4zQbWWAL8ih93ZCn4go9pvOUvg%3D%3D")
-    fun GetWeather(
-        @Query("dataType") data_type: String,
-        @Query("numOfRows") num_of_rows: Int,
-        @Query("pageNo") page_no: Int,
-        @Query("base_date") base_date: Int,
-        @Query("base_time") base_time: Int,
-        @Query("nx") nx: String,
-        @Query("ny") ny: String
-    ): Call<WEATHER>
-}
 
 
+// 날씨 예보 API
 private val retrofit = Retrofit.Builder()
-    .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService/") // 마지막 / 반드시 들어가야 함
+    .baseUrl("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/") // 마지막 / 반드시 들어가야 함
+    .addConverterFactory(GsonConverterFactory.create()) // converter 지정
+    .build() // retrofit 객체 생성
+
+// 미세먼지 API
+private val retrofit2 = Retrofit.Builder()
+    .baseUrl("http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/") // 마지막 / 반드시 들어가야 함
+    .addConverterFactory(GsonConverterFactory.create()) // converter 지정
+    .build() // retrofit 객체 생성
+
+private val retrofit3 = Retrofit.Builder()
+    .baseUrl("https://dapi.kakao.com/") // 마지막 / 반드시 들어가야 함
+    .addConverterFactory(GsonConverterFactory.create(Gson().newBuilder().setLenient().create())) // converter 지정
+    .build() // retrofit 객체 생성
+
+private val retrofit4 = Retrofit.Builder()
+    .baseUrl("http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/") // 마지막 / 반드시 들어가야 함
     .addConverterFactory(GsonConverterFactory.create()) // converter 지정
     .build() // retrofit 객체 생성
 
 object ApiObject {
+    // 동네 날씨 예보
     val retrofitService: WeatherInterface by lazy {
         retrofit.create(WeatherInterface::class.java)
     }
+    val retrofitService2: DustInterface by lazy {
+        retrofit2.create(DustInterface::class.java)
+    }
+    // 좌표 TM 좌표로 변환
+    val retrofitService3: TMInterface by lazy{
+        retrofit3.create((TMInterface::class.java))
+    }
+    // TM 좌표로 가까운 측정소 찾기
+    val retrofitService4: NearInterface by lazy{
+        retrofit4.create((NearInterface::class.java))
+    }
 }
+
