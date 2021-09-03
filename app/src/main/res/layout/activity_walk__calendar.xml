@@ -149,20 +149,33 @@
                         android:layout_alignStart="@+id/time"/>
                     <TextView
                         android:layout_marginTop="5dp"
-                        android:id="@+id/distance_value"
+                        android:id="@+id/dist_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/distance"
-                        android:text="1.2km"
+                        android:text="0"
+                        android:layout_toLeftOf="@+id/km"
                         android:textStyle="bold"
                         android:fontFamily="@font/nanumsquareb"
                         android:textColor="@color/white"
                         android:textSize="28dp"
+                        />
+                    <TextView
+                        android:id="@+id/km"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/distance"
+                        android:text=" km"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="70dp"/>
+                        android:textStyle="bold"
+                        android:fontFamily="@font/nanumsquareb"
+                        android:textColor="@color/white"
+                        android:textSize="28dp"
+                        android:layout_marginRight="60dp"/>
                     <TextView
                         android:id="@+id/line11"
-                        android:layout_below="@+id/distance_value"
+                        android:layout_below="@+id/dist_value"
                         android:layout_width="362dp"
                         android:layout_height="1.2dp"
                         android:layout_centerHorizontal="true"
@@ -293,7 +306,7 @@
                         android:layout_below="@+id/month1"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="시간                                                 거리"
+                        android:text="총 시간                                              총 거리"
                         android:textColor="@color/main_mint"
                         android:textSize="14dp" />
 
@@ -303,18 +316,29 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/a"
                         android:layout_marginLeft="35dp"
-                        android:text="14:01:02"
+                        android:text="00:00:00"
                         android:textColor="@color/main_mint"
                         android:textSize="36dp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/distance_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/a"
+                        android:layout_toLeftOf="@+id/b"
+                        android:text="0"
+                        android:textColor="@color/main_mint"
+                        android:textSize="36dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/b"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/a"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="60dp"
-                        android:text="10km"
+                        android:text="km"
                         android:textColor="@color/main_mint"
                         android:textSize="36dp"
                         android:textStyle="bold" />

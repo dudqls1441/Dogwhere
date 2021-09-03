@@ -5,6 +5,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
@@ -17,10 +18,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.DayViewDecorator
-import com.prolificinteractive.materialcalendarview.DayViewFacade
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
+import com.prolificinteractive.materialcalendarview.*
 import kotlinx.android.synthetic.main.activity_stop_watch.*
 import kotlinx.android.synthetic.main.activity_walk__calendar.*
 import org.jetbrains.anko.toast
@@ -43,11 +41,12 @@ class Walk_Calendar : AppCompatActivity() {
         month1.text = (instance.get(Calendar.MONTH) + 1).toString() //해당 월 나오게 다시하기
         btn_back.setOnClickListener { finish() }
 
-
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid
         val db = Firebase.firestore
         val calList_stamp = ArrayList<CalendarDay>()
+        var month_timesec=0 //월별 통계 - 시간
+        var month_dist=0.0 //월별 통계 - 거리
 
         db.collection("Walk_Record").document(uid).collection(uid)
             .get()
@@ -60,9 +59,13 @@ class Walk_Calendar : AppCompatActivity() {
                 )
                 for (result in results) {
                     val It = result.toObject<Walk_Record>()
-                    if (!(It?.timesec == "")) {
+                    if (!(It?.timesec == "" || It?.timesec == null)) {
+                        val arr = result.get("date").toString().split("-")
+                        if(arr[1].toInt().toString()==month1.text && arr[0].toInt().toString()==instance.get(Calendar.YEAR).toString()){
+                            month_timesec+=result.get("timesec").toString().toInt()
+                            month_dist+=result.get("distance").toString().toDouble()
+                        }
                         if (It?.timesec!!.toInt() >= 2000 && It?.timesec!!.toInt() < 4000) {
-                            val arr = result.get("date").toString().split("-")
                             calList_stamp.clear()
                             calList_stamp.add(
                                 CalendarDay.from(
@@ -107,14 +110,47 @@ class Walk_Calendar : AppCompatActivity() {
                     }
 
                 }
+                distance_month.setText((Math.round(month_dist*100)/100f).toString())
+                time_month.setText(getTime(month_timesec))
             }
-        calendar.setOnDateChangedListener(OnDateSelectedListener { widget, date, selected ->
+
+        calendar.setOnMonthChangedListener(OnMonthChangedListener { widget, date -> //월 바꿀때
+            Log.e("yy",date.toString())
+            layout_bottom2.setVisibility(View.INVISIBLE)
+            layout_bottom.setVisibility(View.VISIBLE)
+            month1.setText((date.month.toInt()+1).toString())
+            month_timesec=0
+            month_dist=0.0
+            db.collection("Walk_Record").document(uid).collection(uid)
+                .get()
+                .addOnSuccessListener { results ->
+                    calendar.addDecorators(
+                        //    OtherDayDecorator(this),
+                        SundayDecorator(),
+                        SaturdayDecorator(),
+                        OneDayDecorator(this)
+                    )
+                    for (result in results) {
+                        val It = result.toObject<Walk_Record>()
+                        if (!(It?.timesec == "")) {
+                            val arr = result.get("date").toString().split("-")
+                            if (arr[1].toInt().toString() == month1.text && arr[0].toInt().toString()==date.year.toString()) {
+                                month_timesec += result.get("timesec").toString().toInt()
+                                month_dist+=result.get("distance").toString().toDouble()
+                            }
+                        }
+                    }
+                    time_month.setText(getTime(month_timesec))
+                    distance_month.setText((Math.round(month_dist*100)/100f).toString())
+                }
+        })
+
+        calendar.setOnDateChangedListener(OnDateSelectedListener { widget, date, selected ->  //일 바꿀때
             val year = date.year
             val month = date.month
             val dayOfMonth = date.day
             layout_bottom2.setVisibility(View.VISIBLE)
             layout_bottom.setVisibility(View.INVISIBLE)
-
 
             diaryTextView.text = String.format("%d / %d / %d", year, month + 1, dayOfMonth)
             checkedDay(year, month, dayOfMonth)
@@ -180,9 +216,11 @@ class Walk_Calendar : AppCompatActivity() {
                         .toString() == ""
                 ) {
                     time_value.setText("00:00:00:00")
+                    dist_value.setText("0.0")
 
                 } else {
                     time_value.setText(result.get("time").toString()) //시간 축적
+                    dist_value.setText((Math.round(result.get("distance").toString().toDouble()*100)/100f).toString())
                 }
                 if (result.get("memo").toString() == "null" || result.get("memo")
                         .toString() == ""
@@ -255,6 +293,13 @@ class Walk_Calendar : AppCompatActivity() {
                 "memo",
                 ""
             )
+    }
+    fun getTime(month_timesec:Int):String{
+        return String.format("%02d:%02d:%02d",
+            month_timesec / 1000 / 60 / 60,
+            month_timesec / 1000 / 60,
+            month_timesec / 1000 % 60, //초
+        )
     }
 
     class OtherDayDecorator(context: Activity) : DayViewDecorator {

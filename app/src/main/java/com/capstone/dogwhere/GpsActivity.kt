@@ -31,7 +31,7 @@ val num_of_rows = 10
 val page_no = 1
 val data_type = "JSON"
 val base_time = 1100
-val base_data = 20210819
+val base_data = 20210828
 var nx = ""
 var ny = ""
 
