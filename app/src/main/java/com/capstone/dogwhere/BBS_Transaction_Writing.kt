@@ -74,7 +74,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
 
     private fun post(uri: String) {
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser.uid
+        val uid = auth.currentUser!!.uid
         val title = edit_title.text.toString()
         val content = edit_content.text.toString()
         val price = edit_price.text.toString()
@@ -116,7 +116,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
                 @SuppressWarnings
                 if (it.isSuccessful) {
                     val downloadURL = it.result
-                    val uid = auth.currentUser.uid
+                    val uid = auth.currentUser!!.uid
                     val db = Firebase.firestore
                     db.collection("users").whereEqualTo("uid", uid).get()
                         .addOnSuccessListener { result ->

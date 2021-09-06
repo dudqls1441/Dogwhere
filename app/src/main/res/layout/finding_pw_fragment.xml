@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:id="@+id/main_RelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="40dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="40dp">
+
+        <LinearLayout
+            android:id="@+id/Id_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/l210beachofnight"
+                android:text="아이디"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_id"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="@font/l210beachofnight"
+                android:hint="아이디를 입력하세요." />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Id_LinearLayout"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/l210beachofnight"
+            android:text="이름"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/name_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_name"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="@font/l210beachofnight"
+                android:hint="이름을 입력하세요." />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_LinearLayout"
+            android:layout_marginTop="20dp"
+            android:text="핸드폰 번호"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/phone_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_phone"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="9"
+                android:fontFamily="@font/l210beachofnight"
+                android:hint="휴대전화번호 입력 ('-'제외)" />
+
+            <Button
+                android:id="@+id/btn_authentication_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="4"
+                android:background="@drawable/backgroundgreencircle"
+                android:fontFamily="@font/l210beachofnight"
+                android:text="인증번호 발송"
+                android:textColor="#00C09F"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/text_authentivation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phone_LinearLayout"
+            android:layout_marginTop="20dp"
+            android:text="인증번호"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:id="@+id/authentivation_LinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_authentivation"
+            android:fontFamily="@font/l210beachofnight"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <EditText
+                android:id="@+id/et_pw_authentivation"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="9"
+                android:fontFamily="@font/l210beachofnight"
+                android:hint="인증번호 입력" />
+
+            <Button
+                android:id="@+id/btn_authentication_check"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="4"
+                android:background="@drawable/backgroundgreencircle"
+                android:fontFamily="@font/l210beachofnight"
+                android:text="확인"
+                android:textColor="#00C09F"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_find_pw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/authentivation_LinearLayout"
+            android:layout_margin="40dp"
+            android:background="@drawable/edittext_round_green"
+            android:fontFamily="@font/l210beachofnight"
+            android:text="비밀번호 찾기"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
