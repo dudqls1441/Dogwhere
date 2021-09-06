@@ -70,14 +70,23 @@
         android:background="@color/main_gray" />
 
     <TextView
-        android:text="00km"
-        android:id="@+id/km"
+        android:id="@+id/distance_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="270dp"
         android:textSize="24dp"
         android:layout_below="@+id/time_out"
         android:textColor="@color/main_gray" />
+        <TextView
+            android:text="km"
+            android:id="@+id/km"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/distance_value"
+            android:textSize="24dp"
+            android:layout_below="@+id/time_out"
+            android:textColor="@color/main_gray" />
+
     <RelativeLayout
         android:id="@+id/box"
         android:layout_width="wrap_content"

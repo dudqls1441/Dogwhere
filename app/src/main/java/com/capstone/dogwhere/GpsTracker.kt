@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat
 class GpsTracker(private val mContext: Context) : Service(),
     LocationListener {
     var location: Location? = null
-    var latitude = 0.0
-    var longitude = 0.0
+    var latitude :Double= 0.0
+    var longitude :Double= 0.0
     var locationManager: LocationManager? = null
     @JvmName("getLocation1")
     fun getLocation(): Location? {

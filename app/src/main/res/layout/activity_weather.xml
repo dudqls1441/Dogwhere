@@ -53,7 +53,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/nanumsquarer"
-                android:text="산책지수"
+                android:text="날씨"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -63,9 +63,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nanumsquareb"
                 android:layout_gravity="center"
-                android:text="나쁨"
+                android:text="       "
                 android:textColor="@color/white"
-                android:textSize="40dp"
+                android:textSize="30dp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -115,7 +115,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/finedust_ic"
                 android:fontFamily="@font/nanumsquarer"
-                android:text="나쁨"
+                android:text="       "
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -149,7 +149,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/img_weather_weather"
                 android:fontFamily="@font/nanumsquarer"
-                android:text="80%"
+                android:text="       "
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -183,7 +183,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/temperature_ic"
                 android:fontFamily="@font/nanumsquarer"
-                android:text="19°C"
+                android:text="       "
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:textStyle="bold" />
