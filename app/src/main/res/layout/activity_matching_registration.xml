@@ -16,50 +16,52 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/sebanggothic"
             android:text="매칭 등록하기"
-
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
             android:textColor="@color/main_labelText"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14dp" />
 
         <ImageButton
+            android:id="@+id/btn_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight = "true"
             android:layout_marginTop="40dp"
-            android:id="@+id/btn_registration"
+            android:layout_marginRight="20dp"
             android:background="@color/white"
-            android:src="@drawable/ic_check"/>
+            android:src="@drawable/ic_check" />
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#52443C3C"
-        android:layout_below="@id/top_layout"/>
+        android:layout_below="@id/top_layout"
+        android:background="#52443C3C" />
 
 
     <RelativeLayout
         android:id="@+id/mainlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
-        android:layout_below="@+id/top_layout">
+        android:layout_below="@+id/top_layout"
+        android:padding="8dp">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -90,15 +92,15 @@
                         android:id="@+id/textplace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
                         android:layout_marginTop="24dp"
+                        android:layout_marginBottom="12dp"
                         android:fontFamily="@font/sebanggothic"
                         android:text="장소"
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
 
-                    <TextView
-                        android:id="@+id/textbox_place"
+                    <EditText
+                        android:id="@+id/edittext_place"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/textplace"
@@ -106,22 +108,22 @@
                         android:background="@drawable/edittext_round_black"
                         android:fontFamily="@font/r210beachofnight"
                         android:gravity="center_vertical|left"
+                        android:hint="어디시 어디동 어디구"
                         android:paddingLeft="8dp"
-                        android:text="어디시 어디동 어디구"
-                        android:textSize="12dp"></TextView>
+                        android:textSize="12dp"></EditText>
 
                     <EditText
-                        android:id="@+id/edittext_place"
+                        android:id="@+id/edittext_place_detail"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_below="@+id/textbox_place"
+                        android:layout_below="@+id/edittext_place"
                         android:layout_margin="4dp"
                         android:layout_marginHorizontal="12dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/edittext_round_black"
                         android:fontFamily="@font/r210beachofnight"
                         android:gravity="center_vertical"
-                        android:hint="입력하세요"
+                        android:hint="상세 위치"
                         android:paddingLeft="8dp"
                         android:textSize="12dp"></EditText>
 
@@ -129,9 +131,9 @@
                         android:id="@+id/line1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@id/edittext_place"
-                        android:layout_marginLeft="4dp"
+                        android:layout_below="@id/edittext_place_detail"
                         android:layout_marginVertical="24dp"
+                        android:layout_marginLeft="4dp"
                         android:background="#808080"></TextView>
 
 
@@ -167,202 +169,266 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/edittext_registration_title"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/sebanggothic"
                         android:text="참여 반려견"
-                        android:layout_marginTop="24dp"
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
 
                     <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
                         android:id="@+id/participation_dog_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/registration_participate_dog"
                         android:layout_margin="4dp"
                         android:background="@drawable/edittext_round_black"
-                        android:foregroundGravity="center"></FrameLayout>
+                        android:foregroundGravity="center"
+                        android:minHeight="100dp"></FrameLayout>
 
                     <TextView
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/participation_dog_layout"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/sebanggothic"
                         android:text="모임 시간"
-                        android:layout_marginTop="24dp"
                         android:textSize="16dp"
                         android:textStyle="bold"></TextView>
+
                     <RelativeLayout
+                        android:id="@+id/party_year_layout"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/text_time"
                         android:layout_margin="4dp"
-                        android:id="@+id/party_year_layout">
-                        <EditText
-                            android:layout_width="100dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_height="50dp"
-                            android:id="@+id/party_year"
-                            android:gravity="center"
-                            android:hint="2021"
-                            android:background="@drawable/edittext_round_black"></EditText>
-                        <TextView
+                        android:gravity="center">
+
+                        <NumberPicker
+                            android:id="@+id/npYear"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="년"
+                            android:animationCache="true"
+                            android:showDividers="middle"
+                            android:layoutMode="clipBounds"
+                            android:layout_height="wrap_content"></NumberPicker>
+
+                        <TextView
                             android:id="@+id/text_year"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/party_year"
-                            android:layout_margin="4dp"></TextView>
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_height="50dp"
-                            android:id="@+id/party_month"
-                            android:layout_toRightOf="@id/text_year"
-                            android:gravity="center"
-                            android:hint="01"
-                            android:background="@drawable/edittext_round_black"></EditText>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="월"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/npYear"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:text="년"
+                            android:textSize="18dp"></TextView>
+
+
+                        <NumberPicker
+                            android:id="@+id/npMonth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/text_year"></NumberPicker>
+
+                        <TextView
                             android:id="@+id/text_month"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/party_month"
-                            android:layout_margin="4dp"></TextView>
-                        <EditText
-                            android:layout_width="60dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_height="50dp"
-                            android:id="@+id/party_day"
-                            android:layout_toRightOf="@id/text_month"
-                            android:gravity="center"
-                            android:hint="01"
-                            android:background="@drawable/edittext_round_black"></EditText>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="일"
-                            android:id="@+id/text_day"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/party_day"
-                            android:layout_margin="4dp"></TextView>
+                            android:layout_margin="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/npMonth"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:text="월"
+                            android:textSize="18dp"></TextView>
+
+                        <NumberPicker
+                            android:id="@+id/npDay"
+                            android:layout_toRightOf="@+id/text_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"></NumberPicker>
+
+                        <TextView
+                            android:id="@+id/text_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/npDay"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:text="일"
+                            android:textSize="18dp"></TextView>
+
+                        <!--                        <EditText-->
+                        <!--                            android:layout_width="100dp"-->
+                        <!--                            android:layout_marginLeft="4dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:id="@+id/party_year"-->
+                        <!--                            android:gravity="center"-->
+                        <!--                            android:hint="2021"-->
+                        <!--                            android:background="@drawable/edittext_round_black"></EditText>-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="년"-->
+                        <!--                            android:id="@+id/text_year"-->
+                        <!--                            android:fontFamily="@font/r210beachofnight"-->
+                        <!--                            android:layout_marginLeft="4dp"-->
+                        <!--                            android:textSize="18dp"-->
+                        <!--                            android:layout_centerVertical="true"-->
+                        <!--                            android:layout_toRightOf="@+id/party_year"-->
+                        <!--                            android:layout_margin="4dp"></TextView>-->
+                        <!--                        <EditText-->
+                        <!--                            android:layout_width="60dp"-->
+                        <!--                            android:layout_marginLeft="8dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:id="@+id/party_month"-->
+                        <!--                            android:layout_toRightOf="@id/text_year"-->
+                        <!--                            android:gravity="center"-->
+                        <!--                            android:hint="01"-->
+                        <!--                            android:background="@drawable/edittext_round_black"></EditText>-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="월"-->
+                        <!--                            android:id="@+id/text_month"-->
+                        <!--                            android:fontFamily="@font/r210beachofnight"-->
+                        <!--                            android:layout_marginLeft="4dp"-->
+                        <!--                            android:textSize="18dp"-->
+                        <!--                            android:layout_centerVertical="true"-->
+                        <!--                            android:layout_toRightOf="@+id/party_month"-->
+                        <!--                            android:layout_margin="4dp"></TextView>-->
+                        <!--                        <EditText-->
+                        <!--                            android:layout_width="60dp"-->
+                        <!--                            android:layout_marginLeft="8dp"-->
+                        <!--                            android:layout_height="50dp"-->
+                        <!--                            android:id="@+id/party_day"-->
+                        <!--                            android:layout_toRightOf="@id/text_month"-->
+                        <!--                            android:gravity="center"-->
+                        <!--                            android:hint="01"-->
+                        <!--                            android:background="@drawable/edittext_round_black"></EditText>-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:text="일"-->
+                        <!--                            android:id="@+id/text_day"-->
+                        <!--                            android:fontFamily="@font/r210beachofnight"-->
+                        <!--                            android:layout_marginLeft="4dp"-->
+                        <!--                            android:textSize="18dp"-->
+                        <!--                            android:layout_centerVertical="true"-->
+                        <!--                            android:layout_toRightOf="@+id/party_day"-->
+                        <!--                            android:layout_margin="4dp"></TextView>-->
 
                     </RelativeLayout>
+
                     <RelativeLayout
+                        android:id="@+id/party_time_layout"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/party_year_layout"
-                        android:layout_margin="4dp"
-                        android:id="@+id/party_time_layout">
+                        android:layout_margin="4dp">
+
                         <EditText
-                            android:layout_width="60dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_height="50dp"
                             android:id="@+id/party_hours"
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="4dp"
+                            android:background="@drawable/edittext_round_black"
                             android:gravity="center"
-                            android:hint="01"
-                            android:background="@drawable/edittext_round_black"></EditText>
+                            android:hint="01"></EditText>
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="시"
                             android:id="@+id/text_hours"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/party_hours"
-                            android:layout_margin="4dp"></TextView>
+                            android:fontFamily="@font/r210beachofnight"
+                            android:text="시"
+                            android:textSize="18dp"></TextView>
+
                         <EditText
-                            android:layout_width="60dp"
-                            android:layout_marginLeft="8dp"
-                            android:layout_height="50dp"
                             android:id="@+id/party_minute"
-                            android:layout_toRightOf="@id/text_hours"
-                            android:gravity="center"
-                            android:hint="01"
-                            android:background="@drawable/edittext_round_black"></EditText>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="분 부터"
-                            android:id="@+id/text_minute"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/party_minute"
-                            android:layout_margin="4dp"></TextView>
-
-
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/party_time_layout"
-                        android:layout_margin="4dp"
-                        android:id="@+id/party_duration_layout">
-                        <EditText
                             android:layout_width="60dp"
-                            android:layout_marginLeft="8dp"
                             android:layout_height="50dp"
-                            android:layout_marginTop="4dp"
-                            android:id="@+id/party_time"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@id/text_hours"
+                            android:background="@drawable/edittext_round_black"
                             android:gravity="center"
-                            android:hint="5"
-                            android:background="@drawable/edittext_round_black"></EditText>
+                            android:hint="01"></EditText>
+
                         <TextView
+                            android:id="@+id/text_minute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="분 부터"
-                            android:id="@+id/text_duration"
-                            android:fontFamily="@font/r210beachofnight"
-                            android:layout_marginLeft="4dp"
-                            android:textSize="18dp"
                             android:layout_centerVertical="true"
-                            android:layout_toRightOf="@+id/party_time"
-                            android:layout_margin="8dp"></TextView>
+                            android:layout_margin="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_toRightOf="@+id/party_minute"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:text="분 부터"
+                            android:textSize="18dp"></TextView>
+
 
                     </RelativeLayout>
+                    <!--                    <RelativeLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="50dp"-->
+                    <!--                        android:layout_below="@+id/party_time_layout"-->
+                    <!--                        android:layout_margin="4dp"-->
+                    <!--                        android:id="@+id/party_duration_layout">-->
+                    <!--                        <EditText-->
+                    <!--                            android:layout_width="60dp"-->
+                    <!--                            android:layout_marginLeft="8dp"-->
+                    <!--                            android:layout_height="50dp"-->
+                    <!--                            android:layout_marginTop="4dp"-->
+                    <!--                            android:id="@+id/party_time"-->
+                    <!--                            android:gravity="center"-->
+                    <!--                            android:hint="5"-->
+                    <!--                            android:background="@drawable/edittext_round_black"></EditText>-->
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:text="분 부터"-->
+                    <!--                            android:id="@+id/text_duration"-->
+                    <!--                            android:fontFamily="@font/r210beachofnight"-->
+                    <!--                            android:layout_marginLeft="4dp"-->
+                    <!--                            android:textSize="18dp"-->
+                    <!--                            android:layout_centerVertical="true"-->
+                    <!--                            android:layout_toRightOf="@+id/party_time"-->
+                    <!--                            android:layout_margin="8dp"></TextView>-->
+
+                    <!--                    </RelativeLayout>-->
 
 
                     <TextView
                         android:id="@+id/registration_explain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/party_duration_layout"
+                        android:layout_below="@+id/party_time_layout"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/sebanggothic"
                         android:text="설명"
-                        android:layout_marginTop="24dp"
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
 
                     <EditText
+                        android:id="@+id/edit_registration_explain"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:id="@+id/edit_registration_explain"
                         android:layout_below="@+id/registration_explain"
-                        android:layout_margin="4dp"
-                        android:padding="12dp"
-                        android:hint="입력하세요"
-                        android:textSize="12dp"
-                        android:fontFamily="@font/r210beachofnight"
                         android:layout_alignParentStart="true"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/edittext_round_black"
+                        android:fontFamily="@font/r210beachofnight"
                         android:gravity="start"
-                        android:background="@drawable/edittext_round_black"></EditText>
-
-
+                        android:hint="입력하세요"
+                        android:padding="12dp"
+                        android:textSize="12dp"></EditText>
 
 
                 </RelativeLayout>

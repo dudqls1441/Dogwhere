@@ -34,6 +34,8 @@ import kotlinx.android.synthetic.main.activity_chat_list.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import org.jetbrains.anko.custom.async
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.padding
 import java.io.File
 
@@ -67,11 +69,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         //코루틴 적용 안 될 거예여 CoroutineScope //
 
         btn_check_name.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                runBlocking {
-                    check_name2()
-                }
-            }
+            check_name2()
         }
 
         btn_upload.setOnClickListener {
@@ -127,7 +125,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     }
 
 
-   // * Glide //
+    // * Glide //
 
     //circleCrop() : 이거 이미지 둥글게 표현하는 거
     // centerCrop() : 외부에서 받아온 이미지가 있다면, 가운데에서 이미지를 잘라 보여주는 함수
@@ -244,60 +242,118 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
     fun check_name2() {
         val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
-        CoroutineScope(Dispatchers.IO).launch {
-            runBlocking {
-                check_name3(username)
-            }
-        }
+        check_name3(username)
 
     }
 
-    suspend fun check_name3(username: String): Boolean {
-        return try {
-            db.collection("users")
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        val uids = document.get("uid").toString()
-                        db.collection("users").document(uids).collection("userprofiles").get()
-                            .addOnSuccessListener { result ->
-                                val names = document.get("userName")
-                                if (username == names) {
-                                    Log.d(TAG, "해당 닉네임이 이미 존재함")
-                                } else {
-                                    Name_FLAG = true
-                                    Log.d(TAG, "사용 가능한 닉네임")
-                                }
+//    fun check_name3(username: String) {
+//        db.collection("users")
+//            .get()
+//            .addOnSuccessListener { result ->
+//                for (document in result) {
+//
+//                    val uids = document.get("uid").toString()
+//                    db.collection("users").document(uids).collection("userprofiles").get()
+//                        .addOnSuccessListener { result ->
+//                            val names = document.get("userName")
+//                            if (username == names) {
+//                                Log.d(TAG, "해당 닉네임이 이미 존재함")
+//                            } else {
+//                                Name_FLAG = true
+//                                Log.d(TAG, "사용 가능한 닉네임")
+//                            }
+//                        }
+//                }
+//            }
+//        check()
+//    }
+
+    fun check_name3(username: String) = runBlocking {
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+
+                    val uids = document.get("uid").toString()
+                    db.collection("users").document(uids).collection("userprofiles").get()
+                        .addOnSuccessListener { result ->
+                            val names = document.get("userName")
+                            if (username == names) {
+
+                                Log.d(TAG, "해당 닉네임이 이미 존재함")
+                            } else {
+                                Name_FLAG = true
+                                Log.d(TAG, "사용 가능한 닉네임")
                             }
-                    }
-                    if (Name_FLAG == true) {
-                        Toast.makeText(
-                            this@RegisterUserProfileActivity,
-                            "사용 가능한 닉네임입니다..",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        Toast.makeText(
-                            this@RegisterUserProfileActivity,
-                            "이미 사용중인 닉네임입니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }.await()
-            true
-        } catch (e: FirebaseException) {
-            Log.e("error:", "erroe:" + e.message.toString())
-            false
+                        }
+                }
+            }
+        launch {
+            delay(1000L)
+            check()
+        }
+
+
+    }
+
+    private fun check() {
+        if (Name_FLAG == true) {
+            Toast.makeText(
+                this@RegisterUserProfileActivity,
+                "사용 가능한 닉네임입니다..",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                this@RegisterUserProfileActivity,
+                "이미 사용중인 닉네임입니다.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 }
 
-
-
-
-
-
-
+//    suspend fun check_name3(username: String): Boolean {
+//        return try {
+//            db.collection("users")
+//                .get()
+//                .addOnSuccessListener { result ->
+//                    for (document in result) {
+//
+//                        val uids = document.get("uid").toString()
+//                        db.collection("users").document(uids).collection("userprofiles").get()
+//                            .addOnSuccessListener { result ->
+//                                val names = document.get("userName")
+//                                async {
+//                                    if (username == names) {
+//                                        Log.d(TAG, "해당 닉네임이 이미 존재함")
+//                                    } else {
+//                                        Name_FLAG = true
+//                                        Log.d(TAG, "사용 가능한 닉네임")
+//                                    }
+//                                }
+//                            }
+//                    }
+//                    if (Name_FLAG == true) {
+//                        Toast.makeText(
+//                            this@RegisterUserProfileActivity,
+//                            "사용 가능한 닉네임입니다..",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    } else {
+//                        Toast.makeText(
+//                            this@RegisterUserProfileActivity,
+//                            "이미 사용중인 닉네임입니다.",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }.await()
+//            true
+//        } catch (e: FirebaseException) {
+//            Log.e("error:", "erroe:" + e.message.toString())
+//            false
+//        }
+//    }
 
 
 // 혹시 몰라서 둠 //

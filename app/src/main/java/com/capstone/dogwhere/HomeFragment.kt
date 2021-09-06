@@ -27,8 +27,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
     val db = Firebase.firestore
-    companion object{
-        fun newInstance():HomeFragment{
+
+    companion object {
+        fun newInstance(): HomeFragment {
             return HomeFragment()
         }
     }
@@ -48,60 +49,65 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         auth = FirebaseAuth.getInstance()
         rdb = FirebaseDatabase.getInstance()
-        val uid = auth.currentUser!!.uid
+        val uid = auth.currentUser?.uid
 
 
         val postLef = rdb.getReference().child("userprofiles")
 
-        db.collection("users").document(uid).collection("userprofiles").document(uid).get()
+        db.collection("users").document(uid!!).collection("userprofiles").document(uid).get()
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
-                Log.e("joo",result.toString())
+                Log.e("joo", result.toString())
                 Glide.with(this).load(result?.profilePhoto).circleCrop().into(user_photo_img)
                 user_name_text.setText(result?.userName)
             }
 
-        return  view
+        return view
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.matching_list -> chattingstart()
-            R.id.choker_buy -> weatherstart()
+            R.id.choker_buy -> matchingList()
             R.id.menu_list -> gpsstart()
             R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
-            R.id.btn_logout-> clicklogut()
+            R.id.btn_logout -> clicklogut()
         }
         layout_drawer.closeDrawers()
         return false
     }
 
-    private fun chattingstart(){
+    private fun chattingstart() {
         Log.e("joo", "채팅방으로 이동")
         val intent = Intent(activity, ChatListActivity::class.java)
         startActivity(intent)
     }
 
-    private fun weatherstart(){
+    private fun matchingList() {
+        Log.e("yeongbin", "매칭 리스트 ㄱㄱ")
+        val intent = Intent(activity, MatchingListActivity::class.java)
+        startActivity(intent)
     }
-    private fun gpsstart(){
+
+    private fun gpsstart() {
         Log.e("joo", "gps 이동")
         val intent = Intent(activity, GpsActivity::class.java)
         startActivity(intent)
     }
 
-    private fun clicklogut(){
+    private fun clicklogut() {
         Log.d("123", "로그아웃")
         auth.signOut()
         activity?.let { MySharedPreferences.clearUser(it) }
         startActivity(Intent(activity, LoginActivity::class.java))
 
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_profile.setOnClickListener {
-            startActivity(Intent(activity,UserProfileActivity::class.java))
+            startActivity(Intent(activity, UserProfileActivity::class.java))
         }
         menuBar.setOnClickListener {
             layout_drawer.openDrawer(GravityCompat.START)

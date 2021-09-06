@@ -9,20 +9,13 @@
     android:layout_height="400dp">
 
     <TextView
+        android:id="@+id/text_matching_explain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="설명하는 글입니다. 다같이 부평 동네 한바퀴 돌면서 산책하실 파티원을 구하고 있습니다! "
         android:fontFamily="@font/nightb"
         android:textStyle="bold"
         android:textSize="20dp"></TextView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="강아지 견종 나이 상관없이 누구든 참여 가능합니다! 참여하실 분은 먼저 채팅으로 문의해주신 후에 참여해주세요! 당일날 2시까지 펫독애견카페에서 다들 모였다가 잠깐 쉬고 2시 10분부터 예정입니다. 목줄 꼭 지참해주세요!"
-        android:fontFamily="@font/nightb"
-        android:textSize="20dp"
-        android:textStyle="bold"></TextView>
 
 
 

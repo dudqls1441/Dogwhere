@@ -1,5 +1,5 @@
 import android.content.Intent
-import com.capstone.dogwhere.R
+import android.graphics.Color
 
 import android.os.Bundle
 import android.telephony.SmsManager
@@ -7,22 +7,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import com.capstone.dogwhere.*
 import com.capstone.dogwhere.DTO.Join_User
-import com.capstone.dogwhere.MainMenuActivity
-import com.capstone.dogwhere.MySharedPreferences
-import com.capstone.dogwhere.RegisterUserProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_register_user_profile.*
 import kotlinx.android.synthetic.main.finding_id_fragment.*
 import kotlinx.android.synthetic.main.finding_id_fragment.et_name
 import kotlinx.android.synthetic.main.finding_id_fragment.et_phone
 import kotlinx.android.synthetic.main.finding_pw_fragment.*
+import org.jetbrains.anko.custom.async
+import org.w3c.dom.Text
 import java.util.*
 
 
@@ -85,13 +84,16 @@ class FindingPwFragment : Fragment() {
         val btn_au_number = view.findViewById<Button>(R.id.btn_authentication_number)
         val btn_authentication_check = view.findViewById<Button>(R.id.btn_authentication_check)
         val btn_find_pw = view.findViewById<Button>(R.id.btn_find_pw)
+        val btn_select_phone = view.findViewById<Button>(R.id.btn_select_phone)
+        val btn_select_email = view.findViewById<Button>(R.id.btn_select_email)
+
 
         btn_au_number.setOnClickListener {
             val id = et_id.text.toString()
             val name = et_name.text.toString()
             val phone = et_phone.text.toString()
 
-            check_user(id,name,phone)
+            check_user(id, name, phone)
         }
 
         btn_authentication_check.setOnClickListener {
@@ -103,7 +105,13 @@ class FindingPwFragment : Fragment() {
             }
         }
         btn_find_pw.setOnClickListener {
-            ChangePW(user_name,user_phonenumber,user_id)
+            ChangePW(user_name, user_phonenumber, user_id)
+        }
+        btn_select_phone.setOnClickListener {
+            selected_phone()
+        }
+        btn_select_email.setOnClickListener {
+            selected_email()
         }
 
 
@@ -115,6 +123,28 @@ class FindingPwFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
 
+    }
+
+    private fun selected_phone() {
+        val text_phone = view!!.findViewById<TextView>(R.id.text_phone)
+        val text_email = view!!.findViewById<TextView>(R.id.text_email)
+        val layout_phone = view!!.findViewById<LinearLayout>(R.id.phone_LinearLayout)
+        val layout_email = view!!.findViewById<LinearLayout>(R.id.email_LinearLayout)
+        text_phone.visibility = View.VISIBLE
+        text_email.visibility = View.GONE
+        layout_phone.visibility = View.VISIBLE
+        layout_email.visibility = View.GONE
+    }
+
+    private fun selected_email() {
+        val text_phone = view!!.findViewById<TextView>(R.id.text_phone)
+        val text_email = view!!.findViewById<TextView>(R.id.text_email)
+        val layout_phone = view!!.findViewById<LinearLayout>(R.id.phone_LinearLayout)
+        val layout_email = view!!.findViewById<LinearLayout>(R.id.email_LinearLayout)
+        text_phone.visibility = View.GONE
+        text_email.visibility = View.VISIBLE
+        layout_phone.visibility = View.GONE
+        layout_email.visibility = View.VISIBLE
     }
 
     private fun check_user(id: String, name: String, phone: String) {
@@ -135,8 +165,8 @@ class FindingPwFragment : Fragment() {
                                     "해당 이름 있음,id : ${obj!!.userId} username :${obj!!.userName} , userPhone:  ${phone} ,등록되어있는 폰 번호 : " + obj!!.userPhone
                                 )
                                 user_id = obj!!.userId
-                                user_name= obj!!.userName
-                                user_phonenumber=obj!!.userPhone
+                                user_name = obj!!.userName
+                                user_phonenumber = obj!!.userPhone
                                 SendAuthentication(phone)
                                 Check_Flag = true
                             } else {
@@ -152,8 +182,9 @@ class FindingPwFragment : Fragment() {
 
     private fun SendAuthentication(phone: String) {
         Log.d(TAG, "핸드폰 번호 " + phone)
-        val sms = "문자 메세지 내용"+temporarily_number
+
         temporarily_number = excuteNumber().toString()
+        val sms = "[발신] Dogwhere의 인증번호는 ${temporarily_number} 입니다"
 
         try {
             val smsManager: SmsManager = SmsManager.getDefault()
@@ -192,14 +223,22 @@ class FindingPwFragment : Fragment() {
 
 
     private fun ChangePW(user_name: String, user_phone: String, user_id: String) {
-        if (Check_Flag2 == true && !user_name.equals("") && !user_phone.equals("") && !user_id.equals("")) {
+        if (Check_Flag2 == true && !user_name.equals("") && !user_phone.equals("") && !user_id.equals(
+                ""
+            )
+        ) {
 
             val auth = FirebaseAuth.getInstance()
-            val email ="dudqls1441@naver.com"
+            val email = "dudqls1441@naver.com"
             auth.sendPasswordResetEmail(email).addOnSuccessListener {
-                Log.d(TAG,"이메일 전송 성공")
+                Log.d(TAG, "이메일 전송 성공")
+                Toast.makeText(context, "메일이 전송되었습니다.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }.addOnFailureListener {
-                Log.d(TAG,"이메일 전송 실패")
+                Log.d(TAG, "이메일 전송 실패")
             }
             val user = FirebaseAuth.getInstance()
 

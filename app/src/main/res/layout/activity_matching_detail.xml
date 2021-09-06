@@ -71,6 +71,7 @@
                     android:id="@+id/matching_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:layout_below="@+id/matchinggeofragment"
                     android:layout_margin="12dp"
                     android:fontFamily="@font/r210beachofnight"
@@ -106,17 +107,17 @@
                         android:textSize="20dp"
                         android:textStyle="bold"></TextView>
 
-                    <TextView
-                        android:id="@+id/matching_profile_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="12dp"
-                        android:layout_toRightOf="@+id/matching_profile_img"
-                        android:fontFamily="@font/r210beachofnight"
-                        android:text="거주지"
-                        android:textSize="16dp"></TextView>
+<!--                    <TextView-->
+<!--                        android:id="@+id/matching_profile_address"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentBottom="true"-->
+<!--                        android:layout_marginTop="8dp"-->
+<!--                        android:layout_marginBottom="12dp"-->
+<!--                        android:layout_toRightOf="@+id/matching_profile_img"-->
+<!--                        android:fontFamily="@font/r210beachofnight"-->
+<!--                        android:text="거주지"-->
+<!--                        android:textSize="16dp"></TextView>-->
                 </RelativeLayout>
 
                 <LinearLayout

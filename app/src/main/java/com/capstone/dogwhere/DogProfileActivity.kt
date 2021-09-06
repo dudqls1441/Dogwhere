@@ -67,7 +67,6 @@ class DogProfileActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
         auth = FirebaseAuth.getInstance()
-        rdb = FirebaseDatabase.getInstance()
         val uid = auth.currentUser!!.uid
 
         Log.d(TAG, "현재 아이디 uid 값 : ${uid}")

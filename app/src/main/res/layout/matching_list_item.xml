@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imformation_bbs_item"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:padding="15dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/zzarri"
+        android:id="@+id/img_matching_list"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentTop="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:id="@+id/title_matching_list"
+        android:layout_toRightOf="@id/img_matching_list"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:textColor="@color/main_mint"
+        android:text="제목이 들어가는 부분입니다."
+        android:fontFamily="@font/nightl"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:id="@+id/place_matching_list"
+        android:layout_toRightOf="@id/img_matching_list"
+        android:layout_below="@id/title_matching_list"
+        android:layout_marginTop="14dp"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        android:textColor="@color/main_gray"
+        android:text="장소가 들어가는 부분입니다."
+        android:fontFamily="@font/nightl"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:id="@+id/time_matching_list"
+        android:layout_toRightOf="@id/img_matching_list"
+        android:layout_below="@id/place_matching_list"
+        android:layout_marginTop="14dp"
+        android:textStyle="bold"
+        android:textSize="12dp"
+        android:textColor="@color/main_gray"
+        android:text="시간이 들어가는 부분입니다."
+        android:fontFamily="@font/nightl"/>
+
+
+
+</RelativeLayout>
