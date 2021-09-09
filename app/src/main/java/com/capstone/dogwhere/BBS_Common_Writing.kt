@@ -2,25 +2,24 @@ package com.capstone.dogwhere
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.BBS_Common
 import com.capstone.dogwhere.DTO.User
+import com.capstone.dogwhere.DTO.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.*
-import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.btn_gallary
-import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.edit_content
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-
 class BBS_Common_Writing : AppCompatActivity() {
 
     private val FLAG_GALLERY_CODE: Int = 10
@@ -29,8 +28,6 @@ class BBS_Common_Writing : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private  var ImagePath ="null"
     lateinit var name: String
-    private lateinit var name1: String
-    private var photoselect=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s__common_writing)
@@ -85,12 +82,12 @@ class BBS_Common_Writing : AppCompatActivity() {
         Log.e("joo", "doc.id : "+doc.id)
         if(uri=="null"){
 
-            db.collection("users").whereEqualTo("uid", uid).get()
+            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                 .addOnSuccessListener { result ->
-                    val result = result.toObjects<User>()
-                    for (document in result) {
-                        name = document.userName
-                    }
+
+                    val resultt = result.toObject<UserProfile>()
+
+                    name = resultt?.userName.toString()
                     val post = BBS_Common(uid, title, content,"null", name, time.toString(), doc.id)
                     Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)
@@ -162,7 +159,7 @@ class BBS_Common_Writing : AppCompatActivity() {
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
         val curTime = dateFormat.format(Date(time))
 
         return curTime
@@ -206,6 +203,7 @@ class BBS_Common_Writing : AppCompatActivity() {
 ////                Handler().post({},10000)
 ////                Thread.sleep(5000)
 //            Log.d(TAG, "name3 =" + name)
+
 //            val post = BBS_Free(uid, title, content, name, time.toString())
 //
 //

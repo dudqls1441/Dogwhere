@@ -2,10 +2,10 @@ package com.capstone.dogwhere
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.BBS_Transaction
 import com.capstone.dogwhere.DTO.User
 import com.google.firebase.auth.FirebaseAuth
@@ -159,7 +159,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
         val curTime = dateFormat.format(Date(time))
         Log.d("check",curTime)
 

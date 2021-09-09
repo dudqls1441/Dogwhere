@@ -14,14 +14,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.capstone.dogwhere.DTO.WEATHER
-import com.capstone.dogwhere.DTO.WeatherInterface
 import com.capstone.dogwhere.Dust.DUST
 import com.capstone.dogwhere.Dust.DustInterface
 import com.capstone.dogwhere.NearMeasuring.NEARMEASURE
 import com.capstone.dogwhere.NearMeasuring.NearInterface
 import com.capstone.dogwhere.TMxy.TMInterface
 import com.capstone.dogwhere.TMxy.TMxy
+import com.capstone.dogwhere.Weather.WEATHER
+import com.capstone.dogwhere.Weather.WeatherInterface
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_weather.*
 import retrofit2.Call

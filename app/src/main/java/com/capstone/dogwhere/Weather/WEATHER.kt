@@ -1,4 +1,4 @@
-package com.capstone.dogwhere.DTO
+package com.capstone.dogwhere.Weather
 
 data class WEATHER(
     val response: RESPONSE

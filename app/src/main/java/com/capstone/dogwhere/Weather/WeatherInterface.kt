@@ -1,4 +1,4 @@
-package com.capstone.dogwhere.DTO
+package com.capstone.dogwhere.Weather
 
 import retrofit2.Call
 import retrofit2.http.GET

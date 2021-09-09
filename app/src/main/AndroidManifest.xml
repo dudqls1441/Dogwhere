@@ -51,7 +51,7 @@
         <activity android:name=".BBS_Transaction_Post" />
         <activity android:name=".MatchingRegistration_Choice_Dog_Activity" />
         <activity android:name=".MatchingRegistrationActivity" />
-        <activity android:name=".BBS_Transaction_Writing" />
+        <activity android:name="._Transaction_Writing" />
         <activity android:name=".Stop_watchActivity" />
         <activity android:name=".BBS_Common_Post" />
         <activity android:name=".BBS_Common_Writing" />

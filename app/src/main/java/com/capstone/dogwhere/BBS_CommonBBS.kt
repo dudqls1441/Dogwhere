@@ -1,4 +1,4 @@
-import com.capstone.dogwhere.R
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.BBS_Common_Post
 import com.capstone.dogwhere.BBS_Common_Writing
 import com.capstone.dogwhere.DTO.BBS_CommonItem
+import com.capstone.dogwhere.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.common_bbs_item.view.*
 import kotlinx.android.synthetic.main.fragment_common_bbs.*
 
 
@@ -31,7 +31,7 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
 
-        db.collection(tab).get().addOnSuccessListener { result ->
+        db.collection(tab).orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
             for (document in result) {
                 adapter.add(
                     BBS_CommonItem(

@@ -35,7 +35,15 @@ class BBS_Common_Post : AppCompatActivity() {
         val bbs_title = intent.getStringExtra("title").toString()
         val bbs_oid = intent.getStringExtra("oid").toString()
 
+        // 게시글 작성자 프로필 사진 가져오기
+        db.collection("users").document(intent.getStringExtra("uid").toString()).collection("userprofiles").document(intent.getStringExtra("uid").toString()).get()
+            .addOnSuccessListener { result ->
+                val result = result.toObject<UserProfile>()
+                Log.e("joo","uidddddd"+intent.getStringExtra("uid").toString())
+                Glide.with(this).load(result?.profilePhoto).into(writer_img)
+            }
 
+        // 댓글 출력
         db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()
             .addOnSuccessListener { result ->
             for (document in result) {
@@ -55,7 +63,7 @@ class BBS_Common_Post : AppCompatActivity() {
 
 
 
-
+        // 댓글 작성 이벤트
         btn_bbscommon_send.setOnClickListener {
             if(edittext_bbscommon_comment.text.toString() == ""){
             } else{
@@ -66,6 +74,7 @@ class BBS_Common_Post : AppCompatActivity() {
                         commentnickname = result?.userName.toString()
                         commentProfile = result?.profilePhoto.toString()
                         Log.e("joo","nickname,, profile : "+commentProfile+commentnickname )
+
                         postComment(bbs_tabname, bbs_oid, commentnickname, commentProfile)
 
                         try {
@@ -88,15 +97,10 @@ class BBS_Common_Post : AppCompatActivity() {
         writer_name.setText(intent.getStringExtra("name"))
         writer_time.setText(intent.getStringExtra("time"))
 
-        db.collection("users").document(intent.getStringExtra("uid").toString()).collection("userprofiles").document(intent.getStringExtra("uid").toString()).get()
-            .addOnSuccessListener { result ->
-                val result = result.toObject<UserProfile>()
-                Log.e("joo","uidddddd"+intent.getStringExtra("uid").toString())
-                Glide.with(this).load(result?.profilePhoto).into(writer_img)
-            }
+
     }
 
-
+    // 게시물 댓글 입력 메서드
     private fun postComment(bbs_tab : String, bbs_oid : String, nickname : String, profile : String){
 
         val uid = auth.uid.toString()
@@ -105,7 +109,6 @@ class BBS_Common_Post : AppCompatActivity() {
         val bbscomment = BBS_Comment(uid, comment, nickname, time, profile)
 
         val doc = db.collection(bbs_tab).document(bbs_oid).collection("Comment").document()
-
         Log.e("joo", "postComment id :"+ doc.id)
         doc.set(bbscomment)
         edittext_bbscommon_comment.setText("")
@@ -114,7 +117,7 @@ class BBS_Common_Post : AppCompatActivity() {
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
         val curTime = dateFormat.format(Date(time))
 
         return curTime
