@@ -8,8 +8,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.BBS_Transaction
 import com.capstone.dogwhere.DTO.User
+import com.capstone.dogwhere.DTO.UserProfile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -82,12 +84,12 @@ class BBS_Transaction_Writing: AppCompatActivity() {
         val time = currenttime()
 
         if(uri=="null"){
-            db.collection("users").whereEqualTo("uid", uid).get()
+            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                 .addOnSuccessListener { result ->
-                    val result = result.toObjects<User>()
-                    for (document in result) {
-                        name = document.userName
-                    }
+
+                    val result = result.toObject<UserProfile>()
+
+                    name = result?.userName.toString()
                     val post = BBS_Transaction(uid, title,price, content,"null", name, time.toString())
                     Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)

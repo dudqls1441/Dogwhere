@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".BBS_Transaction_Post">
 
@@ -16,196 +16,235 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_bbsTrans_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
 
         <ImageButton
+            android:id="@+id/btn_bbsTrans_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:id="@+id/btn_refresh"
+            android:layout_toLeftOf="@+id/btn_bbsTrans_registration"
             android:background="@color/white"
-            android:layout_toLeftOf="@+id/btn_registration"
-            android:src="@drawable/ic_green_reload"/>
+            android:src="@drawable/ic_green_reload" />
 
         <ImageButton
+            android:id="@+id/btn_bbsTrans_registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight = "true"
-            android:id="@+id/btn_registration"
-            android:background="@color/white"
-            android:src="@drawable/ic_green_more"/>
-
-    </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#F4F4F4"
-        android:layout_below="@id/top_layout"/>
-
-    <RelativeLayout
-        android:id="@+id/writerlayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_below="@+id/top_layout"
-        android:paddingTop="8dp">
-
-        <ImageView
-            android:id="@+id/writer_img"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/btn_shape"
-            android:src="@drawable/selected_woman"></ImageView>
-
-        <TextView
-            android:id="@+id/writer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/writer_img"
-            android:textColor="#DE443C3C"
-            android:text="글쓴이"
-            android:textSize="14dp"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:id="@+id/writer_time"
-            android:textSize="12dp"
-            android:layout_marginStart="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#52443C3C"
-            android:layout_below="@+id/writer_name"
-            android:layout_toRightOf="@+id/writer_img"
-            android:text="몇분 전"></TextView>
-
-        <ImageView
-            android:id="@+id/writer_like"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:gravity="center"
-            android:src="@drawable/ic_pink_like"
-            android:textColor="#CD1F12"/>
-
-        <ImageView
-            android:id="@+id/writer_chatting"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/writer_like"
-            android:layout_margin="8dp"
-            android:gravity="center"
-            android:src="@drawable/ic_green_chatting"
-            />
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_green_more" />
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/contentlayout"
+    <TextView
+        android:id="@+id/top_below_line"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_below="@+id/writerlayout">
+        android:layout_height="1dp"
+        android:layout_below="@id/top_layout"
+        android:background="#F4F4F4" />
 
-        <TextView
-            android:id="@+id/post_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="게시글 제목"
-            android:layout_marginBottom="20dp"
-            android:textColor="#DE443C3C"
-            android:fontFamily="@font/nanumsquarel"
-            android:textSize="16dp"
-            android:textStyle="bold"></TextView>
-
-        <TextView
-            android:id="@+id/post_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="10dp"
-            android:fontFamily="@font/nanumsquarel"
-            android:layout_below="@+id/post_title"
-            android:text="인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 "
-            android:textSize="14dp"></TextView>
-
-    </RelativeLayout>
     <ScrollView
+        android:id="@+id/scrollView_bbsTrans_post"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/contentlayout"
-        >
+        android:layout_above="@+id/relative_bbsTrans_bottombar"
+        android:layout_below="@+id/top_below_line"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
         <RelativeLayout
+            android:id="@+id/recyclerview_bbsTrans_post"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layoutcomment">
+            android:layout_height="match_parent">
 
-            <TextView
+            <RelativeLayout
+                android:id="@+id/writerlayout"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:fontFamily="@font/r210beachofnight"
-                android:gravity="center"
-                android:text="댓글창"
-                android:textSize="30dp">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp"
+                android:paddingTop="8dp">
 
-            </TextView>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/img_bbsTrans_writer"
+                    android:src="@drawable/ic_gray_profile"
+                    />
+                <TextView
+                    android:id="@+id/text_bbsTrans_writerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toRightOf="@+id/img_bbsTrans_writer"
+                    android:text="글쓴이"
+                    android:fontFamily="@font/nanumsquareeb"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/text_bbsTrans_writerTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_bbsTrans_writerName"
+                    android:layout_marginStart="10dp"
+                    android:layout_toRightOf="@+id/img_bbsTrans_writer"
+                    android:text="몇분 전"
+                    android:textColor="#52443C3C"
+                    android:textSize="12dp"></TextView>
+
+                <ImageView
+                    android:id="@+id/img_bbsTrans_writerLike"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_pink_like"
+                    android:textColor="#CD1F12" />
+
+                <ImageView
+                    android:id="@+id/img_bbsTrans_writerChat"
+                    android:layout_width="21dp"
+                    android:layout_height="21dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:layout_toLeftOf="@+id/img_bbsTrans_writerLike"
+                    android:gravity="center"
+                    android:src="@drawable/ic_green_chatting" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/contentlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writerlayout"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="25dp">
+
+                <TextView
+                    android:id="@+id/text_bbsTrans_postTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="@font/nanumsquarel"
+                    android:text="게시글 제목"
+                    android:textColor="#DE443C3C"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/text_bbsTrans_postContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text_bbsTrans_postTitle"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/nanumsquarel"
+                    android:lineSpacingExtra="10dp"
+                    android:text="인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 인생에 인생의 우리 용감하고 영원히 청천은 일월과 피다. 인류의 대고, 그와 눈에 핀다. 피는 옷을 커다란 그러므로 보는 생명을 힘잇다. 열락의 꾸며 곳으로 이상 끓는 따뜻한 위치하여 "
+                    android:textSize="14dp"></TextView>
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/linear_bbsTrans_comment"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contentlayout"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycler_bbsTrans_comment"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    />
+
+            </LinearLayout>
         </RelativeLayout>
-
     </ScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/bottom_bar_price"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/relative_bbsTrans_bottombar"
+        android:background="@drawable/green_frame"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/post"
+            android:id="@+id/text_bbsTrans_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/post_title"
             android:layout_margin="8dp"
-            android:background="@drawable/btn_round"
-            android:text="가격"
-            android:textColor="@color/white"
-            android:textSize="25dp"></TextView>
-        <TextView
-            android:id="@+id/post_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/post_title"
-            android:layout_margin="8dp"
-            android:text="가격"
-            android:textSize="23dp"></TextView>
-        <TextView
-            android:id="@+id/post_won"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/post_title"
-            android:layout_margin="8dp"
-            android:text="원"
-            android:textSize="23dp"></TextView>
+            android:fontFamily="@font/nanumsquarer"
+            android:textColor="@color/main_mint"
+            android:text="\"
+            android:layout_gravity="center"
+            android:textSize="18dp"/>
 
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/relative_bbsTrans_bottombar"
+        android:layout_alignParentBottom="true">
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_bbsTrans_addImg"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_green_plus"
+            android:background="@drawable/green_rectangle"
+            android:layout_alignParentLeft="true"/>
 
+        <EditText
+            android:id="@+id/edittext_bbsTrans_comment"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toLeftOf="@+id/btn_bbsTrans_send"
+            android:layout_toRightOf="@+id/btn_bbsTrans_addImg"
+            android:background="@drawable/edittext_round"
+            android:fontFamily="@font/nanumsquarel"
+            android:hint="메세지를 입력하세요"
+            android:text=""
+            android:paddingStart="15dp"
+            android:textColorHint="#D9D9D9"
+            android:textSize="14dp" />
 
-
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:text="전송"
+            android:layout_marginStart="5dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_green_send"
+            android:id="@+id/btn_bbsTrans_send"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 </RelativeLayout>

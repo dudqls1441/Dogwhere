@@ -40,7 +40,7 @@ class BBS_Common_Post : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
                 Log.e("joo","uidddddd"+intent.getStringExtra("uid").toString())
-                Glide.with(this).load(result?.profilePhoto).into(writer_img)
+                Glide.with(this).load(result?.profilePhoto).into(img_bbscommon_writer)
             }
 
         // 댓글 출력

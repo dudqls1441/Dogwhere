@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_common_bbs.*
 
 class BBS_CommonBBS(var tab: String) : Fragment() {
 
-    private val TAG = BBS_CommonBBS::class.java.simpleName
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
     override fun onCreateView(
         inflater: LayoutInflater,
