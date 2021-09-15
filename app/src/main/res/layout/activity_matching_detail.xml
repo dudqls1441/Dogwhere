@@ -59,7 +59,6 @@
                 android:id="@+id/maininlinelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-//                    class="com.google.android.gms.maps.SupportMapFragment"
                 <ImageView
                     android:id="@+id/matchinggeofragment"
                     android:src="@drawable/map1"
@@ -106,27 +105,41 @@
                         android:text="글쓴이"
                         android:textSize="20dp"
                         android:textStyle="bold"></TextView>
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/matching_profile_address"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        android:layout_marginBottom="12dp"-->
-<!--                        android:layout_toRightOf="@+id/matching_profile_img"-->
-<!--                        android:fontFamily="@font/r210beachofnight"-->
-<!--                        android:text="거주지"-->
-<!--                        android:textSize="16dp"></TextView>-->
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/layout_matching_impormation"
+                    android:layout_below="@+id/Writer_profile">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/text_matching_place"
+                        android:textStyle="bold"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:gravity="left"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textStyle="bold"
+                        android:id="@+id/text_matching_time"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:gravity="left"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/btnLayout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal"
-                    android:layout_below="@+id/Writer_profile"
-                    android:layout_margin="16dp">
+                    android:layout_below="@+id/layout_matching_impormation"
+                    android:layout_margin="8dp">
                     <Button
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -147,6 +160,18 @@
                         android:text="참여하기"
                         android:background="@drawable/edittext_round"
                         android:id="@+id/btn_participate"></Button>
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="4dp"
+                        android:textColor="#00C09F"
+                        android:visibility="gone"
+                        android:fontFamily="@font/r210beachofnight"
+                        android:text="매칭 취소"
+                        android:background="@drawable/edittext_round"
+                        android:id="@+id/btn_matching_cancle"></Button>
+
                 </LinearLayout>
                 <com.google.android.material.tabs.TabLayout
                     android:layout_below="@+id/btnLayout"

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_remaining_time"
+        android:text="10분 후"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/main_mint"
+        android:fontFamily="@font/nightl"
+        android:textSize="20dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="@drawable/round_mint"
+        android:id="@+id/main_RelativeLayout"
+        android:layout_below="@+id/text_remaining_time"
+        android:layout_marginTop="14dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="매칭 재목"
+            android:textSize="24dp"
+            android:textColor="@color/main_mint"
+            android:id="@+id/text_title"
+            android:textStyle="bold"
+            android:layout_margin="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="어디시 어디동 어디어디"
+            android:textSize="18dp"
+            android:textColor="@color/main_mint"
+            android:id="@+id/text_place"
+            android:textStyle="bold"
+            android:layout_below="@+id/text_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="00시 00분 00초"
+            android:textSize="18dp"
+            android:textColor="@color/main_mint"
+            android:id="@+id/text_time"
+            android:textStyle="bold"
+            android:layout_below="@+id/text_place"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp">
+        </TextView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

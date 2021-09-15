@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -52,8 +53,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         val uid = auth.currentUser?.uid
 
 
-        val postLef = rdb.getReference().child("userprofiles")
-
         db.collection("users").document(uid!!).collection("userprofiles").document(uid).get()
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
@@ -61,6 +60,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 Glide.with(this).load(result?.profilePhoto).circleCrop().into(user_photo_img)
                 user_name_text.setText(result?.userName)
             }
+
+
 
         return view
     }
@@ -106,12 +107,13 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        btn_profile.setOnClickListener {
-            startActivity(Intent(activity, UserProfileActivity::class.java))
-        }
         menuBar.setOnClickListener {
             layout_drawer.openDrawer(GravityCompat.START)
         }
         naviView.setNavigationItemSelectedListener(this)
+
+        btn_profile.setOnClickListener {
+            startActivity(Intent(context, UserProfileActivity::class.java))
+        }
     }
 }

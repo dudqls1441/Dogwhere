@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="left"
     android:padding="12dp"
     android:layout_height="400dp">
 
@@ -12,7 +12,7 @@
         android:id="@+id/text_matching_explain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="설명하는 글입니다. 다같이 부평 동네 한바퀴 돌면서 산책하실 파티원을 구하고 있습니다! "
+        android:hint="이 곳은 매칭의 설명란입니다."
         android:fontFamily="@font/nightb"
         android:textStyle="bold"
         android:textSize="20dp"></TextView>

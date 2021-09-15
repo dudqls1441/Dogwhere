@@ -60,6 +60,11 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
+        btn_back.setOnClickListener {
+            auth.signOut()
+            this?.let { MySharedPreferences.clearUser(it) }
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
 
         userProfilePhoto.setOnClickListener {
             selectPhoto()

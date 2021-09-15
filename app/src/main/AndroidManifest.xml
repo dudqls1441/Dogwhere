@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MatchingListActivity"></activity>
+        <activity android:name=".MyMatchingListActivity"></activity>
+        <activity android:name=".MatchingListActivity" />
         <activity android:name=".DogProfileActivity" />
         <activity android:name=".Chat.MyRoomActivity" />
         <!--

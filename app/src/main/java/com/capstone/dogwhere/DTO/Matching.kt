@@ -1,6 +1,6 @@
 package com.capstone.dogwhere.DTO
 
-data class Party(
+data class Matching(
     val uid: String,
     val dog: String,
     val place: String,
@@ -8,9 +8,11 @@ data class Party(
     val title: String,
     val date: String,
     val startime: String,
-    val explanation: String
+    val explanation: String,
+    val isOngoing : Boolean,
+    val documentId :String
 
 ) {
 
-    constructor() : this("", "","", "", "", "", "", "")
+    constructor() : this("", "","", "", "", "", "", "",true,"")
 }

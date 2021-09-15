@@ -7,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.capstone.dogwhere.DTO.Matching_List_Item
-import com.capstone.dogwhere.DTO.Party
+import com.capstone.dogwhere.DTO.Matching
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 
 class PartyexplanationFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,20 +25,21 @@ class PartyexplanationFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_party_explanation, container, false)
         val text_explain = view?.findViewById<TextView>(R.id.text_matching_explain)
 
-        if ((activity as MatchingDetailActivity).intent.hasExtra("uid")) {
-            val auth = FirebaseAuth.getInstance()
-            val uid = auth.currentUser!!.uid
-            val matchingLeaderUid =
-                (activity as MatchingDetailActivity).intent.getStringExtra("uid").toString()
+        if ((activity as MatchingDetailActivity).intent.hasExtra(
+                "documentId"
+            )
+        ) {
+            val documentId =
+                (activity as MatchingDetailActivity).intent.getStringExtra("documentId").toString()
             val db = FirebaseFirestore.getInstance()
-            db.collection("Party").document(matchingLeaderUid).get().addOnSuccessListener {
-                val result = it.toObject<Party>()
+            db.collection("Matching").document(documentId).get().addOnSuccessListener {
+                val result = it.toObject<Matching>()
                 text_explain!!.setText(result!!.explanation)
             }.addOnFailureListener {
-                Log.e("getdb","getdb실패")
+                Log.e("getdb", "getdb실패")
             }
-        }else{
-            Log.e("matchingexplain","matchingexplain -> uid 가져오기 실패")
+        } else {
+            Log.e("matchingexplain", "matchingexplain -> uid 가져오기 실패")
         }
 
         return view

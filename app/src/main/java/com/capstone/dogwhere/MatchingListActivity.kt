@@ -18,33 +18,32 @@ import kotlinx.android.synthetic.main.navi_header.*
 
 class MatchingListActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_list)
 
-        init()
-
-    }
-
-    private fun init() {
-
-
-        val adapter = GroupAdapter<GroupieViewHolder>()
-        auth = FirebaseAuth.getInstance()
-        val db = FirebaseFirestore.getInstance()
-
-        val btn_back = findViewById<ImageButton>(R.id.btn_back)
         btn_back.setOnClickListener {
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        db.collection("Party").get().addOnSuccessListener { result ->
+        init()
+
+    }
+
+    private fun init() {
+        val adapter = GroupAdapter<GroupieViewHolder>()
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        db.collection("Matching").get().addOnSuccessListener { result ->
             for (document in result) {
-                Log.d("PartyList", "PartyList있음")
-                Log.d("PartyList", document.get("title").toString())
+                Log.d("Matching", "Matching있음")
+                Log.d("Matching", document.get("title").toString())
                 val uid = document.get("uid").toString()
+                val documentId = document.id
                 db.collection("users").document(uid!!).collection("userprofiles").document(uid)
                     .get()
                     .addOnSuccessListener { result ->
@@ -53,20 +52,18 @@ class MatchingListActivity : AppCompatActivity() {
                             Matching_List_Item(
                                 document.get("uid").toString(),
                                 document.get("title").toString(),
-                                document.get("date").toString()+"/"+ document.get("startime")
+                                document.get("date").toString() + "/" + document.get("startime"),
+                                document.get("place")
+                                    .toString() + "/" + document.get("place_detail")
                                     .toString(),
-                                document.get("place").toString() +"/"+ document.get("place_detail")
-                                    .toString(),
-                                result?.profilePhoto.toString()
-//                                Glide.with(this).load(result?.profilePhoto).circleCrop()
+                                result?.profilePhoto.toString(),
+                                documentId
                             )
 
                         )
                         recyclerView_matching_list?.adapter = adapter
                     }
-
             }
-
         }.addOnFailureListener {
             Log.w("데이터베이스읽기실패", "Error getting document", it)
         }
@@ -74,7 +71,9 @@ class MatchingListActivity : AppCompatActivity() {
             Log.d("ClickMatching", (item as Matching_List_Item).title)
             Intent(this, MatchingDetailActivity::class.java).apply {
                 putExtra("title", (item).title)
-                putExtra("uid", (item).uid)
+                putExtra("leaderuid", (item).uid)
+                putExtra("documentId", (item).documentId)
+                putExtra("preActivity","MatchingListActivity")
             }.run {
                 startActivity(this)
             }
