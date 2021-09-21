@@ -35,6 +35,9 @@ class BBS_Common_Post : AppCompatActivity() {
         val bbs_title = intent.getStringExtra("title").toString()
         val bbs_oid = intent.getStringExtra("oid").toString()
 
+
+
+
         // 게시글 작성자 프로필 사진 가져오기
         db.collection("users").document(intent.getStringExtra("uid").toString()).collection("userprofiles").document(intent.getStringExtra("uid").toString()).get()
             .addOnSuccessListener { result ->
