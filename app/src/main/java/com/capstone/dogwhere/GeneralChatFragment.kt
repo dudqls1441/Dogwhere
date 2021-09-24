@@ -22,7 +22,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.general_chat_fragment.*
+import kotlinx.android.synthetic.main.activity_chatting.*
 import java.text.SimpleDateFormat
 import java.util.*
 

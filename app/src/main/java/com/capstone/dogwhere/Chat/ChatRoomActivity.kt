@@ -70,14 +70,14 @@ class ChatRoomActivity : AppCompatActivity() {
                         val result = it.toObject<UserProfile>()
                         val nickname = result?.userName
                         val profilephoto = result?.profilePhoto
-                        adapter.add(MyChatList(msg, str_date, nickname, profilephoto, yourUid))
+                        if (who == "me") {
+                            adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
+                        } else {
+                            adapter.add(ChatLeftYou(name.toString(), msg.toString(), str_date.toString(), profilephoto.toString()))
+                        }
                     }
 
-                if (who == "me") {
-                    adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
-                } else {
-                    adapter.add(ChatLeftYou(name.toString(), msg.toString(), str_date.toString()))
-                }
+
                 Log.d("joo", "p0: " + msg)
             }
 
