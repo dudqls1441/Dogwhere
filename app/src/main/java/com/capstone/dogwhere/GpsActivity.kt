@@ -307,6 +307,7 @@ class GpsActivity : AppCompatActivity() {
             override fun onResponse(call: Call<NEARMEASURE>, response: Response<NEARMEASURE>) {
                 Log.e("joo" , response.body()!!.response.body.items.toString())
                 if (response.isSuccessful) {
+                    // 0 or 1 0에 값이 안나오면 1로 바꿔서 출력할 수 있도록 수정해야 됨
                     val station = response.body()!!.response.body.items[0].stationName
                     getDustInform(station)
 
@@ -323,6 +324,7 @@ class GpsActivity : AppCompatActivity() {
     }
 
     private fun getDustInform(station : String){
+
         val call = ApiObject.retrofitService2.getDust(
             data_type,
             num_of_rows,

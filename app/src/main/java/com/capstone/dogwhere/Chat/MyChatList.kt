@@ -21,8 +21,10 @@ class MyChatList(
         viewHolder.itemView.chat_list_message.text = msg
         viewHolder.itemView.chat_list_time.text = str_date
         viewHolder.itemView.chat_list_username.text = nickname
-        Glide.with(viewHolder.itemView)
-            .load(profilephoto)
-            .into(viewHolder.itemView.chat_list_userimg)
+        if (profilephoto != null){
+            Glide.with(viewHolder.itemView)
+                .load(profilephoto)
+                .into(viewHolder.itemView.chat_list_userimg)
+        }
     }
 }
