@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_party_list.*
 class ParticipantListFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var participant_profile_list : participant_profile_list
+//    private lateinit var participant_profile_list : participant_profile_list
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,19 +44,10 @@ class ParticipantListFragment : Fragment() {
         val documentId =
             (activity as MatchingDetailActivity).intent.getStringExtra("documentId").toString()
 
-        val participant : participant_profile_list
+        val participant : List<participant_profile_list> = listOf()
         db.collection("users").document(uid).collection("userprofiles").document(uid).get().addOnSuccessListener {
-            participant_profile_list!!.uid  = it["username"].toString()
+//            participant_profile_list!!.uid  = it["username"].toString()
         }
-
-
-
-//        { result ->
-//
-//            Log.d("ParticipantListFragment","users -> uid -> 정보 : ${result.data} //  matadata : ${result.metadata}  //  exists (Boolean): ${result.exists()}")
-//
-//
-//        }
 
 
 //        db.collection("Matching").document(documentId).collection("participant").get()

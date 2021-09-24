@@ -26,11 +26,14 @@ class MatchingRegistrationActivity : AppCompatActivity() {
             register()
         }
 
-        val yearList = (1950..2022).toList()
+        val yearList = (21..25).toList()
         val monthList = (1..12).toList()
         val dayList = (1..31).toList()
         val hoursList = (1..24).toList()
         val minuteList = (0..60).toList()
+
+        var mList  = listOf("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"
+            ,"31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59")
 
         var yearStrConvertList = yearList.map { it.toString() }
         var monthStrConvertList = monthList.map { it.toString() }
@@ -39,7 +42,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         var minuteStrCovertList = minuteList.map { it.toString() }
 
         npYear.run {
-            minValue = 1
+            minValue = 21
             wrapSelectorWheel = false
             maxValue = yearStrConvertList.size
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
@@ -66,7 +69,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         }
         npMinute.run {
             minValue = 0
-            maxValue = minuteStrCovertList.size - 1
+            maxValue = mList.size - 1
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }

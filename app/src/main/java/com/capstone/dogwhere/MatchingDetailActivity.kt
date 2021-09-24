@@ -124,7 +124,8 @@ class MatchingDetailActivity : AppCompatActivity() {
                         //새로고침
                         val dialog = CustomDialog_Cancle_Check(this)
                         dialog.mydialog()
-                        dialog.setOnclickedListener(object : CustomDialog_Cancle_Check.ButtonClickListener{
+                        dialog.setOnclickedListener(object :
+                            CustomDialog_Cancle_Check.ButtonClickListener {
                             override fun onclickCancle() {
                                 try {
                                     //TODO 액티비티 화면 재갱신 시키는 코드
@@ -215,6 +216,37 @@ class MatchingDetailActivity : AppCompatActivity() {
                                     text_matching_time.setText(result!!.startime)
                                 }
 
+                        } else if (intent.getStringExtra("preActivity")
+                                .toString() == "ReservedMatchingFragment"
+                        ) {
+                            db.collection("Matching").document(matchingDocumentId).get()
+                                .addOnSuccessListener {
+                                    val result = it.toObject<Matching>()
+                                    matching_title.setText(result!!.title)
+                                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                                    text_matching_time.setText(result!!.startime)
+                                    matching_title.setText(result!!.title)
+                                    val matchingLeaderUid = result!!.uid
+                                    db.collection("users").document(matchingLeaderUid)
+                                        .collection("userprofiles")
+                                        .document(matchingLeaderUid).get().addOnSuccessListener {
+                                            val result = it.toObject<UserProfile>()
+                                            Glide.with(this).load(result?.profilePhoto).circleCrop()
+                                                .into(matching_profile_img)
+                                            matching_profile_name.setText(result?.userName)
+
+                                        }.addOnFailureListener {
+                                            Log.d(
+                                                "MatchingDetailActivity",
+                                                "MatchingDetailActivity,,In_ReservedMatchingFragment ..userprofile 가져오기 실패 : ${it}"
+                                            )
+                                        }
+                                }.addOnFailureListener {
+                                    Log.d(
+                                        "MatchingDetailActivity",
+                                        "MatchingDetailActivity,,In_ReservedMatchingFragment ..userprofile 가져오기 실패 : ${it}"
+                                    )
+                                }
                         } else {
 
                         }
@@ -385,7 +417,8 @@ class MatchingDetailActivity : AppCompatActivity() {
             dialog.mydialog()
             dialog.setOnclickedListener(object : CustomDialog.ButtonClickListener {
                 override fun onclickMyMatchingList() {
-                    val intent =Intent(this@MatchingDetailActivity,MyMatchingListActivity::class.java)
+                    val intent =
+                        Intent(this@MatchingDetailActivity, MyMatchingListActivity::class.java)
                     startActivity(intent)
                     finish()
 

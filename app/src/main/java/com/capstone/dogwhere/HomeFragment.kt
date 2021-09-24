@@ -57,7 +57,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
                 Log.e("joo", result.toString())
-                Glide.with(this).load(result?.profilePhoto).circleCrop().into(user_photo_img)
+                Glide.with(context!!).load(result?.profilePhoto).circleCrop().into(user_photo_img)
                 user_name_text.setText(result?.userName)
             }
 
