@@ -9,6 +9,8 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the "MyLocation" functionality.
     -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -24,7 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DogProfileActivity"></activity>
+        <activity android:name=".MyMatchingListActivity"></activity>
+        <activity android:name=".MatchingListActivity" />
+        <activity android:name=".DogProfileActivity" />
         <activity android:name=".Chat.MyRoomActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

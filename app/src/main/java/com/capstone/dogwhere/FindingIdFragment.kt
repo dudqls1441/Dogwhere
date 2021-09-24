@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.DTO.Join_User
+import com.capstone.dogwhere.Finding_Id_Password
 import com.capstone.dogwhere.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -32,6 +33,7 @@ lateinit var receiver: BroadcastReceiver
 
 class FindingIdFragment : Fragment() {
     private val SMS_RECEIVE_PERMISSON = 1
+    private val MY_PERMISSIONS_REQUEST_SEND_SMS = 0
     private val TAG = FindingIdFragment::class.java.simpleName
     private var Check_Flag = false
     private var Check_Flag2 = false
@@ -114,17 +116,12 @@ class FindingIdFragment : Fragment() {
         val btn_au_number = view.findViewById<Button>(R.id.btn_authentication_number)
         val btn_authentication_check = view.findViewById<Button>(R.id.btn_authentication_check)
         val btn_find_id = view.findViewById<Button>(R.id.btn_find_id)
-        val btn_find_pw = view.findViewById<Button>(R.id.btn_find_pw)
+
         val activity = getActivity()
 
 
         initSmsReceiver()
 
-//        btn_au.setOnClickListener {
-//            val phone = et_phone.text.toString()
-//            val name = et_name.text.toString()
-//            check1(name, phone)
-//        }
         btn_au_number.setOnClickListener {
             val phone = et_phone.text.toString()
             val name = et_name.text.toString()
@@ -147,6 +144,11 @@ class FindingIdFragment : Fragment() {
             }
 
         }
+//        btn_find_pw.setOnClickListener {
+//            val Factivity = activity as Finding_Id_Password
+//            Factivity.setFragment(FindingPwFragment())
+//
+//        }
 
 
 
@@ -162,11 +164,14 @@ class FindingIdFragment : Fragment() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        when (requestCode) {
-//            10 -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//            }
-//        }
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_SEND_SMS -> {
+                if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+                }
+            }
+        }
     }
 
 
@@ -248,8 +253,8 @@ class FindingIdFragment : Fragment() {
     //2. 인증번호 문자 메세지 보내는 메서드
     private fun SendAuthentication(phone: String) {
         Log.d(TAG, "핸드폰 번호 " + phone)
-        val sms = "문자 메세지 내용"
         temporarily_number = excuteNumber().toString()
+        val sms = "[발신] Dogwhere의 인증번호는 ${temporarily_number} 입니다"
 
         try {
             val smsManager: SmsManager = SmsManager.getDefault()
@@ -321,24 +326,58 @@ class FindingIdFragment : Fragment() {
 
     // 문자 메세지 권한 요청
 
-    private fun permission() {
-        val requirepermission = arrayOf(Manifest.permission.RECEIVE_SMS)
-        val permissioncheck =
-            ContextCompat.checkSelfPermission(context!!, Manifest.permission.RECEIVE_SMS)
-        if (permissioncheck == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "SMS 수신권한 있음", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "SMS 수신권한 없음", Toast.LENGTH_SHORT).show()
-        }
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                activity!!,
-                Manifest.permission.RECEIVE_SMS
-            )
-        ) {
-            Toast.makeText(context, "SMS 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
-            ActivityCompat.requestPermissions(activity!!, requirepermission, SMS_RECEIVE_PERMISSON)
-        } else {
-            ActivityCompat.requestPermissions(activity!!, requirepermission, SMS_RECEIVE_PERMISSON)
+//    private fun permission() {
+//        val requirepermission = arrayOf(Manifest.permission.RECEIVE_SMS)
+//        val permissioncheck =
+//            ContextCompat.checkSelfPermission(context!!, Manifest.permission.RECEIVE_SMS)
+//        if (permissioncheck == PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(context, "SMS 수신권한 있음", Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(context, "SMS 수신권한 없음", Toast.LENGTH_SHORT).show()
+//        }
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(
+//                activity!!,
+//                Manifest.permission.RECEIVE_SMS
+//            )
+//        ) {
+//            Toast.makeText(context, "SMS 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+//            ActivityCompat.requestPermissions(activity!!, requirepermission, SMS_RECEIVE_PERMISSON)
+//        } else {
+//            ActivityCompat.requestPermissions(activity!!, requirepermission, SMS_RECEIVE_PERMISSON)
+//        }
+//    }
+
+//    private fun permission() {
+//        if (ContextCompat.checkSelfPermission(
+//                context!!,
+//                Manifest.permission.SEND_SMS
+//            )
+//            != PackageManager.PERMISSION_GRANTED
+//        ) {
+//
+//            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+//                    activity!!,
+//                    Manifest.permission.SEND_SMS
+//                )
+//            ) {
+//                ActivityCompat.requestPermissions(
+//                    activity!!,
+//                    arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS),
+//                    MY_PERMISSIONS_REQUEST_SEND_SMS
+//                );
+//            }
+//        }
+//    }
+
+    private fun permission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity!!,"Manifest.permission.READ_SMS") ||
+            ActivityCompat.shouldShowRequestPermissionRationale(activity!!,"Manifest.permission.READ_SMS")) {
+        }else{
+            ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(Manifest.permission.SEND_SMS,Manifest.permission.READ_SMS),
+                    MY_PERMISSIONS_REQUEST_SEND_SMS)
+
         }
     }
 
@@ -357,6 +396,8 @@ class FindingIdFragment : Fragment() {
         intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED")
         context!!.registerReceiver(receiver, intentFilter)
     }
+
+
 
 
     fun excuteNumber(): String? {

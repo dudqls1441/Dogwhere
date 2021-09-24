@@ -66,51 +66,122 @@
                 android:hint="이름을 입력하세요." />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/text_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name_LinearLayout"
-            android:layout_marginTop="20dp"
-            android:text="핸드폰 번호"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
         <LinearLayout
-            android:id="@+id/phone_LinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_phone"
+            android:paddingTop="20dp"
             android:orientation="horizontal"
-            android:paddingTop="20dp">
-
-            <EditText
-                android:id="@+id/et_phone"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="9"
-                android:fontFamily="@font/l210beachofnight"
-                android:hint="휴대전화번호 입력 ('-'제외)" />
-
+            android:layout_below="@+id/name_LinearLayout"
+            android:id="@+id/layout_select_email_or_phone">
             <Button
-                android:id="@+id/btn_authentication_number"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="4"
-                android:background="@drawable/backgroundgreencircle"
-                android:fontFamily="@font/l210beachofnight"
-                android:text="인증번호 발송"
-                android:textColor="#00C09F"
-                android:textSize="12dp" />
+                android:id="@+id/btn_select_phone"
+                android:gravity="center"
+                android:text="핸드폰 찾기"></Button>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_select_email"
+                android:gravity="center"
+                android:text="이메일 찾기"></Button>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:layout_below="@+id/layout_select_email_or_phone"
+            android:orientation="vertical"
+            android:id="@+id/Layout_authentical_method">
+            <TextView
+                android:id="@+id/text_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="핸드폰 번호"
+                android:visibility="gone"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="에메일"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/phone_LinearLayout"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_phone"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/l210beachofnight"
+                    android:hint="휴대전화번호 입력 ('-'제외)" />
+
+                <Button
+                    android:id="@+id/btn_authentication_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/backgroundgreencircle"
+                    android:fontFamily="@font/l210beachofnight"
+                    android:text="인증번호 발송"
+                    android:textColor="#00C09F"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/email_LinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_phone"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="9"
+                    android:fontFamily="@font/l210beachofnight"
+                    android:hint="이메일을 입력해주세요" />
+
+                <Button
+                    android:id="@+id/btn_email_authentication_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/backgroundgreencircle"
+                    android:fontFamily="@font/l210beachofnight"
+                    android:text="인증번호 발송"
+                    android:textColor="#00C09F"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
         <TextView
             android:id="@+id/text_authentivation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/phone_LinearLayout"
+            android:layout_below="@+id/Layout_authentical_method"
             android:layout_marginTop="20dp"
             android:text="인증번호"
             android:textSize="15dp"

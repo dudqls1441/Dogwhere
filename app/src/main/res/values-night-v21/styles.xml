@@ -22,5 +22,8 @@
     <style name="edittextstyle" parent="Widget.AppCompat.EditText">
         <item name="android:fontFamily">@font/r210beachofnight</item>
     </style>
+    <style name="AppTheme.NumberPicker" parent="AppTheme">
+        <item name="colorControlNormal">@color/main_mint</item>
+    </style>
 
 </resources>

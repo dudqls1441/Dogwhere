@@ -54,6 +54,15 @@ class Finding_Id_Password : AppCompatActivity() {
             )
         )
     }
+
+    fun setFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.finding_id_pw_pager, fragment)
+        transaction.commit()
+
+        val pageradapter =PagerAdapter2(supportFragmentManager,2)
+
+    }
 }
 
 class PagerAdapter2(

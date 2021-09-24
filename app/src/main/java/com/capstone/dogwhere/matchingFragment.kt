@@ -51,6 +51,4 @@ class MatchingFragment : Fragment(){
             startActivity(Intent(getActivity(), MatchingRegistrationActivity::class.java))
         }
     }
-
-
 }
