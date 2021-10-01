@@ -116,7 +116,7 @@
                     android:layout_margin="8dp"
                     android:gravity="center"
                     android:src="@drawable/ic_pink_like"
-                    android:textColor="#CD1F12" />
+                    />
 
                 <ImageView
                     android:id="@+id/img_bbsTrans_writerChat"

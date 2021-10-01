@@ -88,7 +88,7 @@ class BBS_Common_Writing : AppCompatActivity() {
                     val resultt = result.toObject<UserProfile>()
 
                     name = resultt?.userName.toString()
-                    val post = BBS_Common(uid, title, content,"null", name, time.toString(), doc.id)
+                    val post = BBS_Common(uid, title, content,"null", name, time.toString(), doc.id, 0, 0)
                     Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)
                     Log.d("joo", "tab1 : "+intent.getStringExtra("tab"))
@@ -124,7 +124,7 @@ class BBS_Common_Writing : AppCompatActivity() {
                             for (document in result) {
                                 name = document.userName
                             }
-                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString(), doc.id)
+                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString(), doc.id, 0, 0)
                             upload(post)
                         }
                 } else {

@@ -10,6 +10,7 @@ import com.capstone.dogwhere.BBS_Transaction_Post
 import com.capstone.dogwhere.BBS_Transaction_Writing
 import com.capstone.dogwhere.DTO.BBS_TransactionItem
 import com.capstone.dogwhere.R
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.xwray.groupie.GroupAdapter
@@ -41,7 +42,9 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
                         document.get("time").toString(),
                         document.get("price").toString(),
                         document.get("uid").toString(),
-                        document.get("oid").toString()
+                        document.get("oid").toString(),
+                        Integer.parseInt(document.get("heartCnt").toString()),
+                        Integer.parseInt(document.get("visitCnt").toString())
                     )
                 )
                 Log.d("checkMessageList", document.get("userName").toString())
@@ -54,6 +57,9 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
             }
         adapter.setOnItemClickListener { item, view ->
             Log.d("title", (item as BBS_TransactionItem).title)
+            db.collection(tab).document((item).oid).update("visitCnt", FieldValue.increment(1))
+                .addOnSuccessListener { Log.d("joo", "Success Plus Visit Count")}
+                .addOnFailureListener { e -> Log.w("joo", "Error Visit Count", e)}
             Intent(context, BBS_Transaction_Post::class.java).apply {
                 putExtra("tab", tab)
                 putExtra("title", (item).title)
