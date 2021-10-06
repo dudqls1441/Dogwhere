@@ -45,7 +45,7 @@ class BBS_Common_Post : AppCompatActivity() {
         // 댓글 출력 이벤트
         getComment(bbs_tabname, bbs_oid)
         // 댓글 작성 이벤트
-        img_bbsCommon_writerChat.setOnClickListener {
+        btn_bbscommon_send.setOnClickListener {
             writeComment(uid, bbs_tabname, bbs_oid)
         }
         // 게시물 하트 버튼 이벤트
@@ -146,7 +146,7 @@ class BBS_Common_Post : AppCompatActivity() {
     }
 
     private fun writeComment(uid : String, bbs_tabname: String, bbs_oid: String) {
-        if(edittext_bbsTrans_comment.text.toString() == ""){
+        if(edittext_bbscommon_comment.text.toString() == ""){
         } else{
             db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                 .addOnSuccessListener { result ->

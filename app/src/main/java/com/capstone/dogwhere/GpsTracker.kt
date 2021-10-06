@@ -2,7 +2,6 @@ package com.capstone.dogwhere
 
 import android.Manifest
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -14,7 +13,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 
 
-class GpsTracker(private val mContext: Context) : Service(),
+class GpsTracker(private val mContext: GpsActivity) : Service(),
     LocationListener {
     var location: Location? = null
     var latitude :Double= 0.0
@@ -23,18 +22,18 @@ class GpsTracker(private val mContext: Context) : Service(),
     @JvmName("getLocation1")
     fun getLocation(): Location? {
         try {
-            locationManager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
+            locationManager = mContext.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
             val isGPSEnabled = locationManager!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
             val isNetworkEnabled =
                 locationManager!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
             if (!isGPSEnabled && !isNetworkEnabled) {
             } else {
                 val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-                    mContext,
+                    mContext.requireContext(),
                     Manifest.permission.ACCESS_FINE_LOCATION
                 )
                 val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
-                    mContext,
+                    mContext.requireContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 )
                 if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&

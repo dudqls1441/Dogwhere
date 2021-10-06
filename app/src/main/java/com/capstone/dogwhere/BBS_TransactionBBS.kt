@@ -28,7 +28,6 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_transaction_bbs, container, false)
 
-        adapter = GroupAdapter<GroupieViewHolder>()
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
 

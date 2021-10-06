@@ -67,190 +67,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
-                android:id="@+id/walk_Weather"
+            <FrameLayout
+                android:id="@+id/frame_weather"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/main_mint">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="110dp"
-                    android:background="@drawable/walk_background" />
 
-                <TextView
-                    android:id="@+id/textt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/nanumsquareb"
-                    android:text="오늘의 산책지수"
-                    android:textColor="@color/white"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/location_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textt"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/nanumsquarer"
-                    android:text="안양시 만안구 안양동의 산책지수"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
-
-                <TextView
-                    android:id="@+id/textt2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/location_text"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_toLeftOf="@+id/bad"
-                    android:fontFamily="@font/nanumsquarer"
-                    android:text="산책지수"
-                    android:textColor="@color/white"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:id="@+id/bad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="85dp"
-                    android:fontFamily="@font/nanumsquareb"
-                    android:text="나쁨"
-                    android:textColor="@color/white"
-                    android:textSize="50dp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/bad_ic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/location_text"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toRightOf="@+id/bad"
-                    android:background="@drawable/ic_bad" />
-
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/bad"
-                    android:layout_marginLeft="35dp"
-                    android:layout_marginTop="24dp">
-
-                    <ImageView
-                        android:id="@+id/finedust_ic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/ic_finedust" />
-
-                    <TextView
-                        android:id="@+id/finedust"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/finedust_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="미세먼지"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/finedust"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@+id/finedust_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="나쁨"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/precipitation_ic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="100dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@+id/finedust_ic"
-                        android:background="@drawable/ic_precipitation" />
-
-                    <TextView
-                        android:id="@+id/precipitation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/precipitation_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="강수확률"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/precipitation"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@+id/precipitation_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="80%"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/temperature_ic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="100dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@+id/precipitation_ic"
-                        android:background="@drawable/ic_teperature" />
-
-                    <TextView
-                        android:id="@+id/temperature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_toRightOf="@+id/temperature_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="온도"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/temperature"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_toRightOf="@+id/temperature_ic"
-                        android:fontFamily="@font/nanumsquarer"
-                        android:text="19°C"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-
-            </RelativeLayout>
+            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/layout_walk_habit"
                 android:layout_width="match_parent"
                 android:layout_height="1400dp"
-                android:layout_below="@+id/walk_Weather"
+                android:layout_below="@+id/frame_weather"
                 android:layout_marginTop="10dp">
 
                 <TextView
