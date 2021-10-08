@@ -15,7 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.fragment_transaction_bbs.*
+import kotlinx.android.synthetic.main.fragment_transaction_bbs.bbs_imformation_recyclerview
+import kotlinx.android.synthetic.main.fragment_transaction_bbs.btn_imformation_writing
 
 
 class BBS_TransactionBBS(var tab:String) : Fragment() {
@@ -30,6 +31,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
 
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
+
 
         db.collection(tab).orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
             for (document in result) {
@@ -72,6 +74,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
         }
         return view
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

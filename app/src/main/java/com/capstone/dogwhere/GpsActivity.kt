@@ -403,15 +403,19 @@ class GpsActivity :Fragment() {
         if (base_time == "2300"){
             base_date =  currentNextDate()
             if (fcstTime.toInt() == 100){
-                itemsize = 11
+                itemsize = 12
             }else if (fcstTime.toInt() == 200){
-                itemsize = 22
+                itemsize = 24
+            }else{
+                itemsize = 12
             }
         }else {
             if (fcstTime.toInt() - base_time.toInt() == 200){
-                itemsize = 11
+                itemsize = 12
             }else if (fcstTime.toInt() - base_time.toInt() == 300){
-                itemsize = 22
+                itemsize = 24
+            }else{
+                itemsize = 12
             }
         }
         Log.e("joo", "basedata:"+ base_date + "  basetime:"+ base_time + "  nx,ny:"+nx+ny + "  fcstTime: " + fcstTime + "  itemsize:" + itemsize)
@@ -453,9 +457,13 @@ class GpsActivity :Fragment() {
 
 
                     if (PTY.equals("0")){
+                        if (SKY == "1"){ img_weather_index.setImageResource(R.drawable.ic_nice) }
+                        else if (SKY == "3"){ img_weather_index.setImageResource(R.drawable.ic_nomal) }
+                        else{ img_weather_index.setImageResource(R.drawable.ic_nomal) }
                         weather = skyState(SKY.toString())
                     }else{
                         weather = ptyState(PTY.toString())
+                        img_weather_index.setImageResource(R.drawable.ic_bad)
                     }
 
                     if (weather.equals("구름많음")){
@@ -463,6 +471,7 @@ class GpsActivity :Fragment() {
                     }else {
                         text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40.0f)
                     }
+
                     text_weather_index.setText(weather)
                     text_weather_area.setText(area)
                     text_weather_percent.setText(POP + " %")
@@ -472,7 +481,7 @@ class GpsActivity :Fragment() {
 
 
             override fun onFailure(call: Call<WEATHER>, t: Throwable) {
-                Log.e("api", "hello")
+                Log.e("api", t.toString())
             }
         })
     }

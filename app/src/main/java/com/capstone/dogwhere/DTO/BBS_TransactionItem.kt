@@ -20,6 +20,6 @@ class BBS_TransactionItem(val title :String,val content:String, val username:Str
         viewHolder.itemView.imformation_bbs_time.setText(time)
         viewHolder.itemView.imformation_bbs_price.setText(price)
         viewHolder.itemView.imformation_bbs_heartcount.setText(heartCnt.toString())
-        viewHolder.itemView.imformation_bbs_heartcount.setText(visitCnt.toString())
+        viewHolder.itemView.imformation_bbs_visitcount.setText(visitCnt.toString())
     }
 }
