@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.BBS.HeartPost
+import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
 import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
@@ -38,6 +39,8 @@ class BBS_Common_Post : AppCompatActivity() {
         Log.e("joo", "bbs_oid, bbs_tabname - " + bbs_oid + bbs_tabname )
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
+        val name = intent.getStringExtra("name").toString()
+        val your_uid = intent.getStringExtra("uid").toString()
 
         // 게시글 작성자 프로필
         getWriterProfile()
@@ -54,6 +57,23 @@ class BBS_Common_Post : AppCompatActivity() {
             heartClick(uid, bbs_oid, bbs_tabname)
         }
 
+        img_bbsCommon_writerChat.setOnClickListener {
+            val bbs_uid = intent.getStringExtra("uid").toString()
+            val bbs_name = intent.getStringExtra("name").toString()
+            val intent = Intent(this, ChatRoomActivity::class.java)
+            Log.e("joo", "yourUid:"+bbs_uid+"  name:"+bbs_name)
+            intent.putExtra("yourUid", bbs_uid)
+            intent.putExtra("name", bbs_name)
+            startActivity(intent)
+        }
+
+        img_bbsCommon_writer.setOnClickListener {
+            Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("name", name)
+                putExtra("uid", your_uid)
+            }.run { startActivity(this) }
+        }
+
         post_title.setText(intent.getStringExtra("title"))
         post_content.setText(intent.getStringExtra("content"))
         writer_name.setText(intent.getStringExtra("name"))
@@ -61,7 +81,7 @@ class BBS_Common_Post : AppCompatActivity() {
 
         adapter.setOnItemClickListener { item, view ->
             val comment = item as BBS_CommentItem
-            Intent(this, BBS_Common_Post::class.java).apply {
+            Intent(this, UserProfileActivity::class.java).apply {
                 putExtra("name", comment.username)
                 putExtra("uid", comment.uid)
             }.run { startActivity(this) }

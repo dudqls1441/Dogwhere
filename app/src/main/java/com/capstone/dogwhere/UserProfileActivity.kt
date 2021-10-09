@@ -2,14 +2,15 @@ package com.capstone.dogwhere
 
 import BBS_CommonBBS
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
+import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.UserProfile
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -21,13 +22,19 @@ import kotlinx.android.synthetic.main.activity_user_profile.*
 
 class UserProfileActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
+    // 필수 정보
+
     lateinit var db: FirebaseFirestore
     private val adapter by lazy { PagerAdapter(supportFragmentManager, 2) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
 
-        init()
+        val profile_name = intent.getStringExtra("name").toString()
+        val profile_uid = intent.getStringExtra("uid").toString()
+
+        Log.e("joo", profile_name + profile_uid)
+        init(profile_name, profile_uid)
         val btn_back = findViewById<ImageButton>(R.id.btn_back)
         btn_back.setOnClickListener {
             val intent = Intent(this,MainMenuActivity::class.java)
@@ -41,7 +48,13 @@ class UserProfileActivity : AppCompatActivity() {
 
         profileview_pager.adapter = UserProfileActivity@ adapter
 
-
+        btn_profile_chatting.setOnClickListener {
+            val intent = Intent(this, ChatRoomActivity::class.java)
+            Log.e("joo", "yourUid:"+profile_uid+"  name:"+profile_name)
+            intent.putExtra("yourUid", profile_uid)
+            intent.putExtra("name", profile_name)
+            startActivity(intent)
+        }
 
 
         profiletab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -65,17 +78,16 @@ class UserProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun init() {
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser!!.uid
+    private fun init(profile_name : String, profile_uid : String) {
         db = FirebaseFirestore.getInstance()
 
-        db.collection("users").document(uid).collection("userprofiles").document(uid).get()
+        db.collection("users").document(profile_uid).collection("userprofiles").document(profile_uid).get()
             .addOnSuccessListener {
                 val result = it.toObject<UserProfile>()
                 if (result != null) {
                     Glide.with(this).load(result?.profilePhoto).circleCrop()
                         .into(img_userImg)
+//                    text_user_name.setText(profile_name)
                     text_user_name.setText(result?.userName)
                     text_user_age.setText(result?.userAge)
                     text_user_sex.setText(result?.userSex)
@@ -92,6 +104,7 @@ class UserProfileActivity : AppCompatActivity() {
 class PagerAdapter(
     fragmentmanager: FragmentManager, val tabcount: Int
 ) : FragmentStatePagerAdapter(fragmentmanager) {
+
     override fun getCount(): Int {
         return tabcount
     }

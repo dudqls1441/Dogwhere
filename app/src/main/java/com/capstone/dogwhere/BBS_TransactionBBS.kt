@@ -15,8 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.fragment_transaction_bbs.bbs_imformation_recyclerview
-import kotlinx.android.synthetic.main.fragment_transaction_bbs.btn_imformation_writing
+import kotlinx.android.synthetic.main.fragment_transaction_bbs.*
 
 
 class BBS_TransactionBBS(var tab:String) : Fragment() {
@@ -65,7 +64,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
                 putExtra("tab", tab)
                 putExtra("title", (item).title)
                 putExtra("content", (item).content)
-                putExtra("name", (item).username)
+                putExtra("name", (item).username)   
                 putExtra("time", (item).time)
                 putExtra("price", (item).price)
                 putExtra("uid", (item).uid)
