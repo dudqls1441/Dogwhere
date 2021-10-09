@@ -31,6 +31,26 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
 
+        //----------------------------
+        db.collection(tab).orderBy("visitCnt",Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
+            for (document in result) {
+                adapter.add(
+                    BBS_CommonItem(
+                        document.get("title").toString(),
+                        document.get("content").toString(),
+                        document.get("username").toString(),
+                        document.get("time").toString(),
+                        document.get("uid").toString(),
+                        document.get("oid").toString()
+                    )
+                )
+                Log.d("checkMessageList", document.get("userName").toString())
+                Log.d("데이터베이스읽기성공", "${document.id}=>${document.data}")
+            }
+            bbs_imformation_recyclerview?.adapter = adapter
+        }
+        //----------------------
+
         db.collection(tab).orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
             for (document in result) {
                 adapter.add(

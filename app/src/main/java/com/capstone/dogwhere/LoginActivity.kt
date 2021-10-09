@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.UserProfile
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
@@ -17,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
@@ -247,7 +249,7 @@ class LoginActivity : AppCompatActivity() {
                                                 uid,
                                                 result!!.kakaoAccount.email.toString(),
                                                 result!!.kakaoAccount.profile.nickname.toString(),
-                                                "000",
+                                                "000",getToken(),
                                                 false
                                             )
                                             val db =
@@ -304,6 +306,29 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun getToken(): String {
+        var token = ""
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(
+                    "MatchingDetail",
+                    "MatchingDetail Fetching FCM registration token failed ",
+                    task.exception
+                )
+                return@OnCompleteListener
+            }
+
+            //Get new FCM registration token
+            token = task.result
+
+            val msg = token.toString()
+            Log.d("MatchingDetail", "token -> ${msg}")
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+
+        })
+
+        return token
     }
 
     private fun redirectSignupActivity() {

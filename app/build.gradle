@@ -4,7 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-android-extensions'
 }
-
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.capstone.dogwhere"
-        minSdkVersion 19
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -106,6 +107,22 @@ dependencies {
     implementation 'com.klinkerapps:android-smsmms:5.1.0' // SMS 보내기 위한 라이브러리
 
     compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5'
 
+
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0' //이미지 크롭
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+
+    implementation 'androidx.work:work-runtime-ktx:2.4.0'
+    //OneTimeWorkRequestBuilder 사용을 위함
+    // 옵션 Firebase JobDispatcher
+
+    implementation 'com.github.karanatwal:FirePush:1.0.0'
+    //파이어베이스 푸쉬 위함
+
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
 
 }
