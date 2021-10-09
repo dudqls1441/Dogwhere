@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
-import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +26,7 @@ class BBS_Common_Post : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var commentnickname : String
     private lateinit var commentProfile : String
+    val adapter = GroupAdapter<GroupieViewHolder>()
     var heartFlag : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,6 +59,13 @@ class BBS_Common_Post : AppCompatActivity() {
         writer_name.setText(intent.getStringExtra("name"))
         writer_time.setText(intent.getStringExtra("time"))
 
+        adapter.setOnItemClickListener { item, view ->
+            val comment = item as BBS_CommentItem
+            Intent(this, BBS_Common_Post::class.java).apply {
+                putExtra("name", comment.username)
+                putExtra("uid", comment.uid)
+            }.run { startActivity(this) }
+        }
 
     }
 
@@ -94,8 +102,6 @@ class BBS_Common_Post : AppCompatActivity() {
 
     // 댓글 출력 이벤트
     private fun getComment(bbs_tabname : String, bbs_oid: String) {
-        val adapter = GroupAdapter<GroupieViewHolder>()
-
 
         db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()
             .addOnSuccessListener { result ->
@@ -110,8 +116,9 @@ class BBS_Common_Post : AppCompatActivity() {
                     adapter.add(commentitem)
                     Log.e("joo", commentitem.profile)
                 }
-                recycler_bbsTrans_comment?.adapter = adapter
+                recycler_bbscommon_comment?.adapter = adapter
             }
+
     }
 
     // 게시물 하트 누르기

@@ -22,7 +22,7 @@ import java.util.*
 
 class ChatRoomActivity : AppCompatActivity() {
 
-    private lateinit var  auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +35,6 @@ class ChatRoomActivity : AppCompatActivity() {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         val db = FirebaseFirestore.getInstance()
-
-
 
 
         val database = FirebaseDatabase.getInstance()
@@ -73,8 +71,17 @@ class ChatRoomActivity : AppCompatActivity() {
                         if (who == "me") {
                             adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
                         } else {
-                            adapter.add(ChatLeftYou(name.toString(), msg.toString(), str_date.toString(), profilephoto.toString()))
+                            adapter.add(
+                                ChatLeftYou(
+                                    name.toString(),
+                                    msg.toString(),
+                                    str_date.toString(),
+                                    profilephoto.toString()
+                                )
+                            )
                         }
+                        recycler_chatroom_view.scrollToPosition(adapter.itemCount -1)
+                        recycler_chatroom_view.adapter = adapter
                     }
 
 
@@ -94,8 +101,7 @@ class ChatRoomActivity : AppCompatActivity() {
             }
 
         }
-        recycler_chatroom_view.scrollToPosition(recycler_chatroom_view.itemDecorationCount -1)
-        recycler_chatroom_view.adapter = adapter
+
         readRef.addChildEventListener(childEventListener)
 
         val myRef_list = database.getReference("message-user-list")
@@ -140,6 +146,7 @@ class ChatRoomActivity : AppCompatActivity() {
         }
 
     }
+
     fun hideKeyboard() {
         val hide = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
