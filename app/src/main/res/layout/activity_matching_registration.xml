@@ -98,19 +98,18 @@
                         android:text="장소"
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
-
-                    <EditText
-                        android:id="@+id/edittext_place"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_below="@+id/textplace"
-                        android:layout_margin="4dp"
-                        android:background="@drawable/edittext_round_black"
-                        android:fontFamily="@font/r210beachofnight"
-                        android:gravity="center_vertical|left"
-                        android:hint="어디시 어디동 어디구"
-                        android:paddingLeft="8dp"
-                        android:textSize="12dp"></EditText>
+                        <TextView
+                            android:id="@+id/edittext_place"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_below="@+id/textplace"
+                            android:layout_margin="4dp"
+                            android:background="@drawable/edittext_round_black"
+                            android:fontFamily="@font/r210beachofnight"
+                            android:gravity="center_vertical"
+                            android:hint="어디시 어디동 어디구"
+                            android:paddingLeft="8dp"
+                            android:textSize="12dp"/>
 
                     <EditText
                         android:id="@+id/edittext_place_detail"

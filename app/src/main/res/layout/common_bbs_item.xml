@@ -2,46 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:id="@+id/free_bbs_item"
-    android:layout_height="90dp"
+    android:layout_height="107dp"
     android:background="@color/white"
     android:layout_marginTop="20dp"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp">
     <TextView
         android:id="@+id/free_bbs_title"
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
-        android:autoSizeMaxTextSize="150dp"
-        android:fontFamily="@font/nightl"
+        android:ems="5"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="@font/nanumsquarer"
         android:text="게시판 제목"
         android:textColor="#DE443C3C"
-        android:textSize="16dp"></TextView>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/free_bbs_content"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/free_bbs_title"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:fontFamily="@font/nightr"
+        android:layout_margin="4dp"
+        android:ems="100"
+        android:maxLines="3"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:fontFamily="@font/nanumsquarer"
         android:maxWidth="300dp"
         android:text="게시판 내용입니다. 게시판 내용입니다."
         android:textColor="#80444443"
-        android:textSize="12dp"/>
+        android:textSize="12dp"
+        />
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
         android:id="@+id/free_bbs_img"
         android:layout_margin="4dp"
         android:layout_alignParentRight="true"></ImageView>
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="0분 전"
         android:textSize="12dp"
-        android:fontFamily="@font/nightr"
+        android:fontFamily="@font/nanumsquarel"
         android:textColor="#52444443"
         android:layout_marginTop="8dp"
         android:layout_marginStart="4dp"
@@ -65,7 +65,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/nightr"
+        android:fontFamily="@font/nanumsquarel"
         android:textColor="#52444443"
         android:layout_toRightOf="@+id/free_bbs_time"
         android:layout_below="@+id/free_bbs_img"></TextView>
@@ -76,81 +76,68 @@
         android:textSize="12dp"
         android:textColor="#52444443"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/nightr"
+        android:fontFamily="@font/nanumsquarel"
         android:layout_toRightOf="@+id/l"
         android:layout_below="@+id/free_bbs_img"
         android:id="@+id/free_bbs_name"></TextView>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/free_bbs_img"
         android:layout_alignParentRight="true">
 
 
-    <ImageView
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:layout_toRightOf="@+id/free_bbs_name"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="50dp"
-        android:id="@+id/free_bbs_ic1"
-        android:src="@drawable/ic_bone"
-        android:layout_below="@id/free_bbs_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13"
-        android:textSize="12dp"
-        android:textColor="#52444443"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="4dp"
-        android:fontFamily="@font/nightr"
-        android:layout_toRightOf="@+id/free_bbs_ic1"
-        android:layout_below="@+id/free_bbs_content"
-        android:id="@+id/free_bbs_count1"></TextView>
-    <ImageView
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:layout_toRightOf="@+id/free_bbs_count1"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/ic_check"
-        android:id="@+id/free_bbs_ic2"
-        android:layout_below="@id/free_bbs_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13"
-        android:textSize="12dp"
-        android:textColor="#52444443"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="4dp"
-        android:fontFamily="@font/nightr"
-        android:layout_toRightOf="@+id/free_bbs_ic2"
-        android:layout_below="@+id/free_bbs_content"
-        android:id="@+id/free_bbs_count2"/>
-    <ImageView
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:layout_toRightOf="@+id/free_bbs_count2"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/ic_bone"
-        android:id="@+id/free_bbs_ic3"
-        android:layout_below="@id/free_bbs_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="13"
-        android:textSize="12dp"
-        android:textColor="#52444443"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="4dp"
-        android:fontFamily="@font/nightr"
-        android:layout_toRightOf="@+id/free_bbs_ic3"
-        android:layout_below="@+id/free_bbs_content"
-        android:id="@+id/free_bbs_count3"/>
+
+        <ImageView
+            android:id="@+id/free_bbs_heart"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:layout_below="@id/free_bbs_price"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/free_bbs_count1"
+            android:src="@drawable/ic_gray_heart" />
+
+        <TextView
+            android:id="@+id/free_bbs_heartcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/free_bbs_price"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/free_bbs_ic2"
+            android:fontFamily="@font/nanumsquarel"
+            android:text="13"
+            android:textColor="@color/text_gray"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/free_bbs_ic3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:layout_below="@id/free_bbs_price"
+            android:fontFamily="@font/nanumsquarel"
+            android:textColor="@color/text_gray"
+            android:text="조회수"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/free_bbs_count2"
+            android:src="@drawable/ic_bone" />
+
+        <TextView
+            android:id="@+id/free_bbs_visitcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/free_bbs_price"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/free_bbs_ic3"
+            android:fontFamily="@font/nanumsquarel"
+            android:text="13"
+            android:textColor="@color/text_gray"
+            android:textSize="12dp" />
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"

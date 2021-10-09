@@ -8,13 +8,18 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.Matching_InUsers
+import com.capstone.dogwhere.DTO.Participant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_matching_registration.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MatchingRegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    lateinit var party_address:String
     private val FLAG_Select_Dog_Code = 1000
 
 
@@ -73,15 +78,19 @@ class MatchingRegistrationActivity : AppCompatActivity() {
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
-
-
-
-
-
-
+        edittext_place.setOnClickListener {
+            Intent(this,Search_Region::class.java).apply {
+                putExtra("address_state", "matching_registration")
+            }.run { startActivity(this) }
+        }
         participation_dog_layout.setOnClickListener {
             val intent = Intent(this, MatchingRegistration_Choice_Dog_Activity::class.java)
             startActivityForResult(intent, FLAG_Select_Dog_Code)
+        }
+        party_address = intent.getStringExtra("address").toString()
+        Log.d("yy",party_address)
+        if (party_address!="null"){
+            edittext_place.text=party_address
         }
     }
 
@@ -94,7 +103,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
 
     private fun register() {
         auth = FirebaseAuth.getInstance()
-        val party_address = edittext_place.text.toString()
+
         val party_address_detail = edittext_place_detail.text.toString()
         val title = edittext_registration_title.text.toString()
         db = FirebaseFirestore.getInstance()
@@ -154,10 +163,18 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 documentId
             )
             Log.d("33 -> ", matching.toString())
-
+            val time = System.currentTimeMillis()
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
+            val curTime = dateFormat.format(Date(time))
             db.collection("Matching").document(documentId).set(matching).addOnSuccessListener {
                 Log.d("InsertMatching", "InsertMatching_성공")
-
+                db.collection("Matching").document(documentId).collection("participant").document(uid)
+                    .set( Participant(uid, uid, curTime.toString()))
+                    .addOnSuccessListener {
+                        Log.d("Participant", "MatchingDetailActivity_participant  성공")
+                    }.addOnFailureListener {
+                        Log.d("Participant", "Participant 실패 이유 : ${it}")
+                    }
                 val matchingInUsers =
                     Matching_InUsers(uid, uid, matching.title, matching.documentId)
                 db.collection("users").document(uid).collection("matching")
@@ -182,6 +199,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 Log.d("InsertParty", "InsertParty_실패")
             }
+
 
 
         } else {

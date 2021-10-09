@@ -25,21 +25,13 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_below="@+id/matching_top_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/matching_tab_layout">
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:layout_below="@+id/matching_tab_layout"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/matching_pager">
-
-    </androidx.viewpager.widget.ViewPager>
-
+        android:layout_margin="4dp"
+        android:id="@+id/recycler_chatlist_list"
+        android:layout_below="@id/matching_top_layout"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

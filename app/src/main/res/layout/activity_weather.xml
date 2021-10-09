@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/walk_Weather_fragment"
     tools:context=".GpsActivity">
 
     <RelativeLayout
@@ -36,7 +37,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/nanumsquarer"
-            android:text="안양시 만안구 안양동의 산책지수"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="12dp" />
 
@@ -75,7 +76,8 @@
                 android:layout_below="@+id/text_weather_area"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/text_weather_index"
-                android:background="@drawable/ic_bad" />
+                android:src="@drawable/ic_nice"
+                 />
 
         </LinearLayout>
 

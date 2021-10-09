@@ -1,12 +1,11 @@
 package com.capstone.dogwhere.Chat
 
 import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
-import com.capstone.dogwhere.MainMenuActivity
+import androidx.appcompat.app.AppCompatActivity
+import com.capstone.dogwhere.DTO.UserProfile
 import com.capstone.dogwhere.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -14,14 +13,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_chat_list.*
-import kotlinx.android.synthetic.main.activity_chat_room.*
 import kotlinx.android.synthetic.main.activity_chatting_room.*
-import kotlinx.android.synthetic.main.activity_home.view.*
-import kotlinx.android.synthetic.main.chatting_receive_item.*
-import kotlinx.android.synthetic.main.chatting_send_item.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,35 +32,11 @@ class ChatRoomActivity : AppCompatActivity() {
         val myUid = auth.uid
         val yourUid = intent.getStringExtra("yourUid")
         val name = intent.getStringExtra("name")
-
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         val db = FirebaseFirestore.getInstance()
 
-//        db.collection("message")
-//            .orderBy("time")
-//            .get()
-//            .addOnSuccessListener { result ->
-//                for (document in result){
-//                    Log.d("joo", document.toString())
-//
-//                    val senderUid = document.get("myUid")
-//                    val msg = document.get("message").toString()
-//
-//                    Log.e("joo", senderUid.toString())
-//                    Log.e("joo", myUid.toString())
-//                    Log.e("joo", yourUid.toString())
-//
-//                    if(senderUid!!.equals(myUid)){
-//                        Log.e("joo", "hello")
-//                        adapter.add(ChatRightMe(msg))
-//                    }else{
-//                        adapter.add(ChatLeftYou(msg))
-//                    }
-//
-//                }
-//            recyclerview_chatRoom.adapter = adapter
-//            }
+
 
 
         val database = FirebaseDatabase.getInstance()
@@ -92,13 +63,21 @@ class ChatRoomActivity : AppCompatActivity() {
 
                 // 현재 시간을 dateFormat 에 선언한 형태의 String 으로 변환
                 val str_date = t_dateFormat.format(t_date)
+                db.collection("users").document(yourUid.toString())
+                    .collection("userprofiles").document(yourUid.toString())
+                    .get()
+                    .addOnSuccessListener {
+                        val result = it.toObject<UserProfile>()
+                        val nickname = result?.userName
+                        val profilephoto = result?.profilePhoto
+                        if (who == "me") {
+                            adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
+                        } else {
+                            adapter.add(ChatLeftYou(name.toString(), msg.toString(), str_date.toString(), profilephoto.toString()))
+                        }
+                    }
 
 
-                if (who == "me") {
-                    adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
-                } else {
-                    adapter.add(ChatLeftYou(name.toString(), msg.toString(), str_date.toString()))
-                }
                 Log.d("joo", "p0: " + msg)
             }
 
@@ -146,7 +125,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 "you"
             )
             myRef.child(yourUid.toString()).child(myUid.toString()).push().setValue(chat_get)
-
+            myRef_list.child(yourUid.toString()).child(myUid.toString()).setValue(chat_get)
             edittext_chatroom_msg.setText("")
 //
 //

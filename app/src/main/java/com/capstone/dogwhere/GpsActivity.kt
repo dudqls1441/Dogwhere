@@ -2,6 +2,7 @@ package com.capstone.dogwhere
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,10 +11,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.Dust.DUST
 import com.capstone.dogwhere.Dust.DustInterface
 import com.capstone.dogwhere.NearMeasuring.NEARMEASURE
@@ -59,7 +63,7 @@ val kakaokey = "KakaoAK eb4a52cbe3a768ea9eb22447d4655f3d"
 val output_coord = "TM"
 
 
-class GpsActivity : AppCompatActivity() {
+class GpsActivity :Fragment() {
     private var gpsTracker: GpsTracker? = null
     private val GPS_ENABLE_REQUEST_CODE = 2001
     private val PERMISSIONS_REQUEST_CODE = 100
@@ -67,38 +71,43 @@ class GpsActivity : AppCompatActivity() {
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
+    companion object {
+        fun newInstance(): GpsActivity {
+            return GpsActivity()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather)
+
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.activity_weather, container, false)
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting()
         } else {
             checkRunTimePermission()
         }
         Log.e("joo", "지금 시간" + fcstTime)
-
         // gps 값 가져오는 부분
         gpsTracker = GpsTracker(this@GpsActivity)
         val latitude: Double = gpsTracker!!.getLatitude()
         val longitude: Double = gpsTracker!!.getLongitude()
-        val address = getCurrentAddress(latitude, longitude)
         val tmp = convertGRID_GPS(TO_GRID, latitude, longitude)
+        val area = getCurrentAddress(latitude, longitude)
         nx = tmp.x.toInt().toString()
         ny = tmp.y.toInt().toString()
-        text_weather_area.setText(address)
-        Toast.makeText(
-            this@GpsActivity,
-            "현재위치 \n위도 $latitude\n경도 $longitude",
-            Toast.LENGTH_LONG
-        ).show()
 
         getDustApiInfo(longitude, latitude)
 
-        getWeatherApiInfo()
+        getWeatherApiInfo(area)
 
-        }
-
+        return view
+    }
 
 
     /*
@@ -128,23 +137,23 @@ class GpsActivity : AppCompatActivity() {
             } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
                 if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
+                        this.requireActivity(),
                         REQUIRED_PERMISSIONS[0]
                     )
                     || ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
+                        this.requireActivity(),
                         REQUIRED_PERMISSIONS[1]
                     )
                 ) {
                     Toast.makeText(
-                        this@GpsActivity,
+                        context,
                         "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.",
                         Toast.LENGTH_LONG
                     ).show()
-                    finish()
+                    this.requireActivity().finish()
                 } else {
                     Toast.makeText(
-                        this@GpsActivity,
+                        context,
                         "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ",
                         Toast.LENGTH_LONG
                     ).show()
@@ -158,11 +167,11 @@ class GpsActivity : AppCompatActivity() {
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         val hasFineLocationPermission = ContextCompat.checkSelfPermission(
-            this@GpsActivity,
+            this.requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
         val hasCoarseLocationPermission = ContextCompat.checkSelfPermission(
-            this@GpsActivity,
+            this.requireContext(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
@@ -178,24 +187,24 @@ class GpsActivity : AppCompatActivity() {
 
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@GpsActivity,
+                    this.requireActivity(),
                     REQUIRED_PERMISSIONS[0]
                 )
             ) {
 
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(this@GpsActivity, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG)
+                Toast.makeText(this.requireContext(), "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG)
                     .show()
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(
-                    this@GpsActivity, REQUIRED_PERMISSIONS,
+                    this.requireActivity(), REQUIRED_PERMISSIONS,
                     PERMISSIONS_REQUEST_CODE
                 )
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(
-                    this@GpsActivity, REQUIRED_PERMISSIONS,
+                    this.requireActivity(), REQUIRED_PERMISSIONS,
                     PERMISSIONS_REQUEST_CODE
                 )
             }
@@ -205,7 +214,7 @@ class GpsActivity : AppCompatActivity() {
     private fun getCurrentAddress(latitude: Double, longitude: Double): String {
 
         //지오코더... GPS를 주소로 변환
-        val geocoder = Geocoder(this, Locale.getDefault())
+        val geocoder = Geocoder(context, Locale.getDefault())
         val addresses: List<Address>?
         addresses = try {
             geocoder.getFromLocation(
@@ -215,23 +224,26 @@ class GpsActivity : AppCompatActivity() {
             )
         } catch (ioException: IOException) {
             //네트워크 문제
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
             return "지오코더 서비스 사용불가"
         } catch (illegalArgumentException: IllegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
             return "잘못된 GPS 좌표"
         }
         if (addresses == null || addresses.size == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "주소 미발견", Toast.LENGTH_LONG).show()
             return "주소 미발견"
         }
         val address: Address = addresses[0]
-        return address.getAddressLine(0).toString().toString() + "\n"
-    }
+        Log.e("joo", address.getAddressLine(0).toString())
+        val area = address.getAddressLine(0).toString()
+        val arealist = area.split(" ")
+        return "${arealist[1]} ${arealist[2]} ${arealist[3]}의 날씨"
+   }
 
     //여기부터는 GPS 활성화를 위한 메소드들
     private fun showDialogForLocationServiceSetting() {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this@GpsActivity)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder.setTitle("위치 서비스 비활성화")
         builder.setMessage(
             """
@@ -265,12 +277,13 @@ class GpsActivity : AppCompatActivity() {
     }
 
     private fun checkLocationServicesStatus(): Boolean {
-        val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        val locationManager = this.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
         return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
     }
 
 
+    //tm 좌표 구하기
     private fun getDustApiInfo(long: Double, lati: Double){
 
         val call = ApiObject.retrofitService3.getTMxy(
@@ -300,6 +313,7 @@ class GpsActivity : AppCompatActivity() {
 
     }
 
+    //가까운 측정소 찾기
     private fun getNearMeasuring(tmx : Double, tmy : Double){
         val call = ApiObject.retrofitService4.getMeasure(tmx, tmy)
 
@@ -307,8 +321,14 @@ class GpsActivity : AppCompatActivity() {
             override fun onResponse(call: Call<NEARMEASURE>, response: Response<NEARMEASURE>) {
                 Log.e("joo" , response.body()!!.response.body.items.toString())
                 if (response.isSuccessful) {
-                    val station = response.body()!!.response.body.items[0].stationName
-                    getDustInform(station)
+                    // 0 or 1 0에 값이 안나오면 1로 바꿔서 출력할 수 있도록 수정해야 됨
+
+                    var station = response.body()!!.response.body.items[0].stationName
+                    var resultDust = getDustInform(station)
+                    if (resultDust == null){
+                        station = response.body()!!.response.body.items[1].stationName
+                        getDustInform(station)
+                    }
 
                 }
 
@@ -322,10 +342,12 @@ class GpsActivity : AppCompatActivity() {
         })
     }
 
-    private fun getDustInform(station : String){
+    private fun getDustInform(station : String): Int? {
+        var getTime : String?= null
+        var pm10grade : Int? = null
         val call = ApiObject.retrofitService2.getDust(
             data_type,
-            num_of_rows,
+            5,
             page_no,
             station,
             dataTerm,
@@ -333,27 +355,32 @@ class GpsActivity : AppCompatActivity() {
         )
 
         call.enqueue(object : retrofit2.Callback<DUST>{
+
             override fun onResponse(call: Call<DUST>, response: Response<DUST>) {
+
                 Log.e("joo" , response.body()!!.response.body.items.toString())
                 if (response.isSuccessful) {
-                    var getTime : String?= null
-                    var pm10grade : Int? = null
-                    for(result in response.body()!!.response.body.items){
-                        if(result.pm10Grade.toInt() > 0){
-                            // 발표시간
-                            getTime = result.dataTime
-                            // 시간별 미세먼지
-                            pm10grade = result.pm10Grade1h.toInt()
-                            break
+                    try{
+                        for(result in response.body()!!.response.body.items){
+                            if(result.pm10Grade.toInt() > 0){
+                                // 발표시간
+                                getTime = result.dataTime
+                                // 시간별 미세먼지
+                                pm10grade = result.pm10Grade1h.toInt()
+                                break
+                            }
                         }
+                    }catch (e :Exception){
+                        Log.e("joo", "미세먼지 error: "+e.toString())
                     }
+
                     Log.e("joo", "미세먼지 발표 시간 :" + getTime)
                     when (pm10grade){
                         1 -> text_weather_dust.setText("좋음")
                         2 -> text_weather_dust.setText("보통")
                         3 -> text_weather_dust.setText("나쁨")
                         4 -> text_weather_dust.setText("매우나쁨")
-                        else -> text_weather_dust.setText("오류")
+                        else -> return
                     }
                 }
 
@@ -365,30 +392,36 @@ class GpsActivity : AppCompatActivity() {
 
 
         })
+
+        return pm10grade
     }
 
     // 날씨 예보 api로 값 받아와 출력해주는 메서드
-    private fun getWeatherApiInfo(){
+    private fun getWeatherApiInfo(area : String){
         var itemsize = 0
 
         if (base_time == "2300"){
             base_date =  currentNextDate()
             if (fcstTime.toInt() == 100){
-                itemsize = 11
+                itemsize = 12
             }else if (fcstTime.toInt() == 200){
-                itemsize = 22
+                itemsize = 24
+            }else{
+                itemsize = 12
             }
         }else {
             if (fcstTime.toInt() - base_time.toInt() == 200){
-                itemsize = 11
+                itemsize = 12
             }else if (fcstTime.toInt() - base_time.toInt() == 300){
-                itemsize = 22
+                itemsize = 24
+            }else{
+                itemsize = 12
             }
         }
         Log.e("joo", "basedata:"+ base_date + "  basetime:"+ base_time + "  nx,ny:"+nx+ny + "  fcstTime: " + fcstTime + "  itemsize:" + itemsize)
         val call = ApiObject.retrofitService.getWeather(
             data_type,
-            num_of_rows,
+            itemsize,
             page_no,
             base_date,
             base_time,
@@ -401,17 +434,36 @@ class GpsActivity : AppCompatActivity() {
                     lateinit var weather : String
                     Log.d("api", response.body().toString())
                     Log.d("api", response.body()!!.response.body.items.item.toString())
-                    POP = response.body()!!.response.body.items.item[7+itemsize].fcstValue
-                    SKY = response.body()!!.response.body.items.item[5+itemsize].fcstValue
-                    TMP = response.body()!!.response.body.items.item[0+itemsize].fcstValue
-                    PTY = response.body()!!.response.body.items.item[6+itemsize].fcstValue
+                    for (i in 0..itemsize-1){
+                        if (response.body()!!.response.body.items.item[i].baseTime == base_time.toInt()){
+                            if (response.body()!!.response.body.items.item[i].category == "POP"){
+                                POP = response.body()!!.response.body.items.item[i].fcstValue
+                            }else if (response.body()!!.response.body.items.item[i].category == "SKY"){
+                                SKY = response.body()!!.response.body.items.item[i].fcstValue
+                            }else if (response.body()!!.response.body.items.item[i].category == "TMP"){
+                                TMP = response.body()!!.response.body.items.item[i].fcstValue
+                            }else if (response.body()!!.response.body.items.item[i].category == "PTY"){
+                                PTY = response.body()!!.response.body.items.item[i].fcstValue
+                            }
+                        }
+
+                    }
+//                    if (response.body()!!.response.body.items.item[])
+//                    POP = response.body()!!.response.body.items.item[7+itemsize].fcstValue
+//                    SKY = response.body()!!.response.body.items.item[5+itemsize].fcstValue
+//                    TMP = response.body()!!.response.body.items.item[0+itemsize].fcstValue
+//                    PTY = response.body()!!.response.body.items.item[6+itemsize].fcstValue
                     Log.e("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + TMP + " PTY = " + PTY)
 
 
                     if (PTY.equals("0")){
+                        if (SKY == "1"){ img_weather_index.setImageResource(R.drawable.ic_nice) }
+                        else if (SKY == "3"){ img_weather_index.setImageResource(R.drawable.ic_nomal) }
+                        else{ img_weather_index.setImageResource(R.drawable.ic_nomal) }
                         weather = skyState(SKY.toString())
                     }else{
                         weather = ptyState(PTY.toString())
+                        img_weather_index.setImageResource(R.drawable.ic_bad)
                     }
 
                     if (weather.equals("구름많음")){
@@ -419,8 +471,9 @@ class GpsActivity : AppCompatActivity() {
                     }else {
                         text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40.0f)
                     }
-                    text_weather_index.setText(weather)
 
+                    text_weather_index.setText(weather)
+                    text_weather_area.setText(area)
                     text_weather_percent.setText(POP + " %")
                     text_weather_temp.setText(TMP + " \u2103")
                 }
@@ -428,7 +481,7 @@ class GpsActivity : AppCompatActivity() {
 
 
             override fun onFailure(call: Call<WEATHER>, t: Throwable) {
-                Log.e("api", "hello")
+                Log.e("api", t.toString())
             }
         })
     }

@@ -1,8 +1,5 @@
 package com.capstone.dogwhere.DTO
 
-import android.net.Uri
-import com.google.android.gms.tasks.Task
-
 data class BBS_Transaction(
     val uid:String,
     val title: String,
@@ -10,6 +7,9 @@ data class BBS_Transaction(
     val content: String,
     val uri: String,
     val username: String,
+    val oid:String,
+    val heartCnt: Int,
+    val visitCnt: Int,
     val time:String){
-    constructor() : this("","","","","","", "")
+    constructor() : this("","","","","","", "", 0, 0, "")
 }

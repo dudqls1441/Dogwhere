@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -27,6 +26,7 @@ import kotlinx.android.synthetic.main.navi_header.*
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
+    private lateinit var gpsActivity: GpsActivity
     val db = Firebase.firestore
 
     companion object {
@@ -40,6 +40,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,7 +52,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     ): View? {
         val view = inflater.inflate(R.layout.activity_home, container, false)
         super.onCreate(savedInstanceState)
-
+        gpsActivity = GpsActivity.newInstance()
+        this.requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_weather, GpsActivity())
+            .commit()
         auth = FirebaseAuth.getInstance()
         rdb = FirebaseDatabase.getInstance()
         val uid = auth.currentUser?.uid

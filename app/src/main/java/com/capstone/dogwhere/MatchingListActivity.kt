@@ -22,7 +22,7 @@ class MatchingListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_list)
-
+        Log.d("yy",intent.getStringExtra("address").toString())
         btn_back.setOnClickListener {
             val intent = Intent(this, MainMenuActivity::class.java)
             startActivity(intent)
@@ -38,8 +38,12 @@ class MatchingListActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        db.collection("Matching").get().addOnSuccessListener { result ->
+        db.collection("Matching").get()
+            .addOnSuccessListener { result ->
             for (document in result) {
+                if(document.get("place").toString().contains(intent.getStringExtra("address").toString())){
+                    Log.e("yy",document.get("place").toString()+" 있음") //조건검색(지역)할때 사용
+                }
                 Log.d("Matching", "Matching있음")
                 Log.d("Matching", document.get("title").toString())
                 val uid = document.get("uid").toString()

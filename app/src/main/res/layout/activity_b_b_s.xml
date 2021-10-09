@@ -53,50 +53,11 @@
         android:id="@+id/tab_layout">
 
     </com.google.android.material.tabs.TabLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/layoutorderby"
-        android:background="#F8F8F7"
-        android:layout_below="@+id/tab_layout">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="최신순"
-            android:padding="4dp"
-            android:layout_toLeftOf="@+id/linevertical"
-            android:fontFamily="@font/nanumsquareb"
-            android:textColor="#00C09F"
-            android:layout_centerVertical="true"
-            android:textSize="14dp"></TextView>
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="16dp"
-            android:background="#80443C3C"
-            android:id="@+id/linevertical"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal"
-            android:padding="8dp"
-            android:layout_toLeftOf="@+id/orderbypop"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:id="@+id/orderbypop"
-            android:padding="4dp"
-            android:textColor="#80443C3C"
-            android:layout_marginRight="8dp"
-            android:text="인기순"
-            android:fontFamily="@font/nanumsquareb"
-            android:layout_centerVertical="true"
-            android:textSize="14dp"></TextView>
 
-    </RelativeLayout>
     <androidx.viewpager.widget.ViewPager
-        android:layout_below="@+id/layoutorderby"
+        android:layout_below="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_bar"
         android:id="@+id/view_pager">
 
     </androidx.viewpager.widget.ViewPager>

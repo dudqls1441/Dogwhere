@@ -31,7 +31,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
         init()
 
         btn_registration.setOnClickListener {
-            startActivity(Intent(this, MatchingDetailActivity::class.java))
+            finish()
         }
     }
 

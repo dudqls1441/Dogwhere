@@ -1,8 +1,5 @@
 package com.capstone.dogwhere.DTO
 
-import android.net.Uri
-import com.google.android.gms.tasks.Task
-
 data class BBS_Common(
     val uid:String,
     val title: String,
@@ -10,6 +7,8 @@ data class BBS_Common(
     val uri: String,
     val username: String,
     val time:String,
-    val oid:String){
-    constructor() : this("","","","","","", "")
+    val oid:String,
+    val heartCnt: Int,
+    val visitCnt: Int){
+    constructor() : this("","","","","","", "", 0, 0)
 }

@@ -39,16 +39,16 @@ class MatchingFragment : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_matching_chart.setOnClickListener {
-            startActivity(Intent(context, Search_Region::class.java))
-            Log.d("지도 누름", "지도 누름")
+            Intent(context, Search_Region::class.java).apply {
+                putExtra("address_state", "matching_chart")
+            }.run { startActivity(this) }
         }
 
         btn_matching_map.setOnClickListener {
             startActivity(Intent(context, MapsActivity::class.java))
-            Log.d("123", "지도 누름?")
         }
         btn_registration_matching.setOnClickListener {
-            startActivity(Intent(getActivity(), MatchingRegistrationActivity::class.java))
+            startActivity(Intent(context, MatchingRegistrationActivity::class.java))
         }
     }
 }

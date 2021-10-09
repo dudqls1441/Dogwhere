@@ -81,6 +81,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
         val content = edit_content.text.toString()
         val price = edit_price.text.toString()
         val db = Firebase.firestore
+        val doc = db.collection(intent.getStringExtra("tab").toString()).document()
         val time = currenttime()
 
         if(uri=="null"){
@@ -90,7 +91,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
                     val result = result.toObject<UserProfile>()
 
                     name = result?.userName.toString()
-                    val post = BBS_Transaction(uid, title,price, content,"null", name, time.toString())
+                    val post = BBS_Transaction(uid, title,price, content,"null", name, doc.id, 0, 0, time.toString())
                     Log.d("joo", "tab : "+intent.getStringExtra("tab"))
                     upload(post)
                     Log.d("joo", "tab1 : "+intent.getStringExtra("tab"))
@@ -126,7 +127,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
                             for (document in result) {
                                 name = document.userName
                             }
-                            val post = BBS_Transaction(uid, title,price,content,downloadURL.toString(), name, time.toString())
+                            val post = BBS_Transaction(uid, title,price,content,downloadURL.toString(), name, doc.id, 0, 0, time.toString())
                             upload(post)
                         }
                 } else {
@@ -145,10 +146,10 @@ class BBS_Transaction_Writing: AppCompatActivity() {
 
         Log.d("joo", "name0 =" + name)
 
+        val doc = db.collection(intent.getStringExtra("tab").toString()).document(post.oid)
 
-        db.collection(intent.getStringExtra("tab").toString()).add(post)
+        doc.set(post)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                 Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
                 val intent = Intent(this, MainMenuActivity::class.java)
                 startActivity(intent)
@@ -157,6 +158,7 @@ class BBS_Transaction_Writing: AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w(TAG,  "Error adding document", e)
             }
+
     }
     private fun currenttime(): String? {
 

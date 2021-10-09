@@ -82,7 +82,7 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:id="@+id/img_bbscommon_writer"
+                    android:id="@+id/img_bbsCommon_writer"
                     android:src="@drawable/ic_gray_profile"
                     />
                 <TextView
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_toRightOf="@+id/img_bbscommon_writer"
+                    android:layout_toRightOf="@+id/img_bbsCommon_writer"
                     android:text="글쓴이"
                     android:fontFamily="@font/nanumsquareeb"
                     android:textSize="14dp"
@@ -103,13 +103,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/writer_name"
                     android:layout_marginStart="10dp"
-                    android:layout_toRightOf="@+id/img_bbscommon_writer"
+                    android:layout_toRightOf="@+id/img_bbsCommon_writer"
                     android:text="몇분 전"
                     android:textColor="#52443C3C"
                     android:textSize="12dp"></TextView>
 
                 <ImageView
-                    android:id="@+id/writer_like"
+                    android:id="@+id/img_bbsCommon_writerLike"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
                     android:layout_alignParentRight="true"
@@ -120,12 +120,12 @@
                     android:textColor="#CD1F12" />
 
                 <ImageView
-                    android:id="@+id/writer_chatting"
+                    android:id="@+id/img_bbsCommon_writerChat"
                     android:layout_width="21dp"
                     android:layout_height="21dp"
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
-                    android:layout_toLeftOf="@+id/writer_like"
+                    android:layout_toLeftOf="@+id/img_bbsCommon_writerLike"
                     android:gravity="center"
                     android:src="@drawable/ic_green_chatting" />
 

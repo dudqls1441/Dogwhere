@@ -16,14 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.capstone.dogwhere.DTO.Walk_Record
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_stop_watch.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -131,21 +127,12 @@ class Stop_watchActivity : AppCompatActivity() {
                             locationA = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                             Longitude1 = locationA.longitude
                             Latitude1 = locationA.latitude
-                          Toast.makeText(
-                                this,
-                                "현재위치를 불러옵니다." + Longitude1.toString() + "<-위도 경도 ->" + Latitude1.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                         isGPSEnabled -> {
                             locationA = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                             Longitude1 = locationA.longitude
                             Latitude1 = locationA.latitude
-                            Toast.makeText(
-                                this,
-                                "현재위치를 불러옵니다." + Longitude1.toString() + "<-위도 경도 ->" + Latitude1.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                     }
                     Log.d("거리", "위도 : ${Longitude1}, 경도 : ${Latitude1}")
@@ -244,21 +231,13 @@ class Stop_watchActivity : AppCompatActivity() {
                             locationB = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                             Longitude2 = locationB.longitude
                             Latitude2 = locationB.latitude
-                            Toast.makeText(
-                                this@Stop_watchActivity,
-                                "현재위치를 불러옵니다." + Longitude2.toString() + "<-위도 경도 ->" + Latitude2.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                         isGPSEnabled -> {
                             locationB = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                             Longitude2 = locationB.longitude
                             Latitude2 = locationB.latitude
-                            Toast.makeText(
-                                this@Stop_watchActivity,
-                                "현재위치를 불러옵니다." + Longitude2.toString() + "<-위도 경도 ->" + Latitude2.toString(),
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                         }
                     }
                     Log.d("거리", "위도 : ${Longitude2}, 경도 : ${Latitude2}")
