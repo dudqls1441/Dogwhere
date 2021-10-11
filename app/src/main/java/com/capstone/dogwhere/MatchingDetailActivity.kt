@@ -3,9 +3,6 @@ package com.capstone.dogwhere
 
 import android.content.Intent
 
-import com.capstone.dogwhere.FCM.PushNotification
-import com.capstone.dogwhere.FCM.RetrofitInstance
-import com.capstone.dogwhere.FCM.NotificationAPI
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.User
 import android.os.Bundle
@@ -24,27 +21,13 @@ import com.capstone.dogwhere.DTO.Matching_InUsers
 import com.capstone.dogwhere.DTO.UserProfile
 import com.capstone.dogwhere.DTO.Participant
 import com.capstone.dogwhere.DTO.Matching
-import com.capstone.dogwhere.FCM.NotificationData
-import com.firepush.Fire
-import com.firepush.model.PushCallback
-import com.google.android.gms.auth.account.WorkAccount.API
-import com.google.android.gms.common.api.Api
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.gson.Gson
-import com.google.gson.annotations.Expose
 import kotlinx.android.synthetic.main.activity_matching_detail.*
 import kotlinx.android.synthetic.main.register_matching_dialog.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 import retrofit2.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -63,34 +46,34 @@ class MatchingDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_matching_detail)
 
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
-        val tokenToDevice: String =
-            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-        PushNotification(
-            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
-            tokenToDevice
-        ).also { sendNotification(it) }
+//        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+//        val tokenToDevice: String =
+//            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
+//        PushNotification(
+//            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
+//            tokenToDevice
+//        ).also { sendNotification(it) }
 
 
         init()
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w(
-                    "MatchingDetail",
-                    "MatchingDetail Fetching FCM registration token failed ",
-                    task.exception
-                )
-                return@OnCompleteListener
-            }
-
-            //Get new FCM registration token
-            val token = task.result
-
-            val msg = token.toString()
-            Log.d("MatchingDetail", "token -> ${msg}")
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-
-        })
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.w(
+//                    "MatchingDetail",
+//                    "MatchingDetail Fetching FCM registration token failed ",
+//                    task.exception
+//                )
+//                return@OnCompleteListener
+//            }
+//
+//            //Get new FCM registration token
+//            val token = task.result
+//
+//            val msg = token.toString()
+//            Log.d("MatchingDetail", "token -> ${msg}")
+//            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+//
+//        })
         val btn_back = findViewById<ImageButton>(R.id.btn_back)
 
         btn_back.setOnClickListener {
@@ -133,18 +116,18 @@ class MatchingDetailActivity : AppCompatActivity() {
         )
     }
 
-    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-        try {
-            val response = RetrofitInstance.api.sendNotification(notification)
-            if(response.isSuccessful) {
-                Log.d("yb", "Response: ${Gson().toJson(response)}")
-            } else {
-                Log.e("yb", response.errorBody().toString())
-            }
-        } catch(e: Exception) {
-            Log.e("yb", e.toString())
-        }
-    }
+//    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+//        try {
+//            val response = RetrofitInstance.api.sendNotification(notification)
+//            if(response.isSuccessful) {
+//                Log.d("yb", "Response: ${Gson().toJson(response)}")
+//            } else {
+//                Log.e("yb", response.errorBody().toString())
+//            }
+//        } catch(e: Exception) {
+//            Log.e("yb", e.toString())
+//        }
+//    }
 
 
     private fun init() {
