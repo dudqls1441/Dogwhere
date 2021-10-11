@@ -7,8 +7,10 @@ import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.*
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -20,15 +22,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.Chat.ChatListActivity
-import com.capstone.dogwhere.DTO.BBS_CommentItem
-import com.capstone.dogwhere.DTO.*
+import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.DTO.Walk_Recommend_Item
+import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -38,13 +39,10 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.navi_header.*
-import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 import java.io.IOException
 import java.util.*
-import kotlin.properties.Delegates
 
 
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -52,8 +50,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private lateinit var rdb: FirebaseDatabase
     private lateinit var gpsActivity: GpsActivity
     private lateinit var location:Location
-    private var Latitude by Delegates.notNull<Double>()
-    private var Longitude by Delegates.notNull<Double>()
+    private var Latitude = 0.0
+    private var Longitude = 0.0
     private var area= "현재 위치"
     val adapter = GroupAdapter<GroupieViewHolder>()
     val adapters = GroupAdapter<GroupieViewHolder>()
@@ -120,14 +118,21 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
             when {
                 isNetworkEnabled -> {
-                    location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
-                    Longitude = location.longitude
-                    Latitude = location.latitude
-                }
+                    try{
+                        location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
+                        Longitude = location.longitude
+                        Latitude = location.latitude
+                    }catch (e : Exception){
+                        Log.e("joo", "Network Exception!! : " + e)
+                    }                }
                 isGPSEnabled -> {
-                    location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
-                    Longitude = location.longitude
-                    Latitude = location.latitude
+                    try{
+                        location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
+                        Longitude = location.longitude
+                        Latitude = location.latitude
+                    }catch (e : Exception){
+                        Log.e("joo", "Gps Exception!! : "+ e)
+                    }
 
                 }
             }
