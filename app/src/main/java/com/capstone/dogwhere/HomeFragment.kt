@@ -291,4 +291,5 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         }
 
     }
+
 }
