@@ -51,11 +51,14 @@ val dataTerm = "Daily"
 val ver = "1.3"
 
 // 강수확률
-var POP : String? = null
+var POP: String? = null
+
 // 하늘 상태
-var SKY : String? = null
+var SKY: String? = null
+
 // 비/눈 여부
-var PTY : String? = null
+var PTY: String? = null
+
 // 온도
 var TMP: String? = null
 
@@ -63,7 +66,7 @@ val kakaokey = "KakaoAK eb4a52cbe3a768ea9eb22447d4655f3d"
 val output_coord = "TM"
 
 
-class GpsActivity :Fragment() {
+class GpsActivity : Fragment() {
     private var gpsTracker: GpsTracker? = null
     private val GPS_ENABLE_REQUEST_CODE = 2001
     private val PERMISSIONS_REQUEST_CODE = 100
@@ -71,6 +74,7 @@ class GpsActivity :Fragment() {
         Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
+
     companion object {
         fun newInstance(): GpsActivity {
             return GpsActivity()
@@ -81,6 +85,7 @@ class GpsActivity :Fragment() {
         super.onCreate(savedInstanceState)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -193,7 +198,11 @@ class GpsActivity :Fragment() {
             ) {
 
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(this.requireContext(), "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG)
+                Toast.makeText(
+                    this.requireContext(),
+                    "이 앱을 실행하려면 위치 접근 권한이 필요합니다.",
+                    Toast.LENGTH_LONG
+                )
                     .show()
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(
@@ -239,7 +248,7 @@ class GpsActivity :Fragment() {
         val area = address.getAddressLine(0).toString()
         val arealist = area.split(" ")
         return "${arealist[1]} ${arealist[2]} ${arealist[3]}의 날씨"
-   }
+    }
 
     //여기부터는 GPS 활성화를 위한 메소드들
     private fun showDialogForLocationServiceSetting() {
@@ -277,14 +286,15 @@ class GpsActivity :Fragment() {
     }
 
     private fun checkLocationServicesStatus(): Boolean {
-        val locationManager = this.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
+        val locationManager =
+            this.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
         return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
     }
 
 
     //tm 좌표 구하기
-    private fun getDustApiInfo(long: Double, lati: Double){
+    private fun getDustApiInfo(long: Double, lati: Double) {
 
         val call = ApiObject.retrofitService3.getTMxy(
             kakaokey,
@@ -292,15 +302,15 @@ class GpsActivity :Fragment() {
             lati,
             output_coord
         )
-        Log.e("joo", "long :"+long + "  lati :"+lati + "  output:"+ output_coord)
-        call.enqueue(object : retrofit2.Callback<TMxy>{
+        Log.e("joo", "long :" + long + "  lati :" + lati + "  output:" + output_coord)
+        call.enqueue(object : retrofit2.Callback<TMxy> {
             override fun onResponse(call: Call<TMxy>, response: Response<TMxy>) {
-                Log.e("joo" , response.body()!!.toString())
+                Log.e("joo", response.body()!!.toString())
 
                 if (response.isSuccessful) {
                     val tmx = response.body()!!.documents[0].x
                     val tmy = response.body()!!.documents[0].y
-                    Log.e("joo" , "tmx:"+tmx.toString() + "  tmy:"+ tmy.toString())
+                    Log.e("joo", "tmx:" + tmx.toString() + "  tmy:" + tmy.toString())
                     getNearMeasuring(tmx, tmy)
                 }
             }
@@ -314,18 +324,18 @@ class GpsActivity :Fragment() {
     }
 
     //가까운 측정소 찾기
-    private fun getNearMeasuring(tmx : Double, tmy : Double){
+    private fun getNearMeasuring(tmx: Double, tmy: Double) {
         val call = ApiObject.retrofitService4.getMeasure(tmx, tmy)
 
-        call.enqueue(object : retrofit2.Callback<NEARMEASURE>{
+        call.enqueue(object : retrofit2.Callback<NEARMEASURE> {
             override fun onResponse(call: Call<NEARMEASURE>, response: Response<NEARMEASURE>) {
-                Log.e("joo" , response.body()!!.response.body.items.toString())
+                Log.e("joo", response.body()!!.response.body.items.toString())
                 if (response.isSuccessful) {
                     // 0 or 1 0에 값이 안나오면 1로 바꿔서 출력할 수 있도록 수정해야 됨
 
                     var station = response.body()!!.response.body.items[0].stationName
                     var resultDust = getDustInform(station)
-                    if (resultDust == null){
+                    if (resultDust == null) {
                         station = response.body()!!.response.body.items[1].stationName
                         getDustInform(station)
                     }
@@ -342,9 +352,9 @@ class GpsActivity :Fragment() {
         })
     }
 
-    private fun getDustInform(station : String): Int? {
-        var getTime : String?= null
-        var pm10grade : Int? = null
+    private fun getDustInform(station: String): Int? {
+        var getTime: String? = null
+        var pm10grade: Int? = null
         val call = ApiObject.retrofitService2.getDust(
             data_type,
             5,
@@ -354,15 +364,15 @@ class GpsActivity :Fragment() {
             ver
         )
 
-        call.enqueue(object : retrofit2.Callback<DUST>{
+        call.enqueue(object : retrofit2.Callback<DUST> {
 
             override fun onResponse(call: Call<DUST>, response: Response<DUST>) {
 
-                Log.e("joo" , response.body()!!.response.body.items.toString())
+                Log.e("joo", response.body()!!.response.body.items.toString())
                 if (response.isSuccessful) {
-                    try{
-                        for(result in response.body()!!.response.body.items){
-                            if(result.pm10Grade.toInt() > 0){
+                    try {
+                        for (result in response.body()!!.response.body.items) {
+                            if (result.pm10Grade.toInt() > 0) {
                                 // 발표시간
                                 getTime = result.dataTime
                                 // 시간별 미세먼지
@@ -370,12 +380,12 @@ class GpsActivity :Fragment() {
                                 break
                             }
                         }
-                    }catch (e :Exception){
-                        Log.e("joo", "미세먼지 error: "+e.toString())
+                    } catch (e: Exception) {
+                        Log.e("joo", "미세먼지 error: " + e.toString())
                     }
 
                     Log.e("joo", "미세먼지 발표 시간 :" + getTime)
-                    when (pm10grade){
+                    when (pm10grade) {
                         1 -> text_weather_dust.setText("좋음")
                         2 -> text_weather_dust.setText("보통")
                         3 -> text_weather_dust.setText("나쁨")
@@ -397,28 +407,31 @@ class GpsActivity :Fragment() {
     }
 
     // 날씨 예보 api로 값 받아와 출력해주는 메서드
-    private fun getWeatherApiInfo(area : String){
+    private fun getWeatherApiInfo(area: String) {
         var itemsize = 0
 
-        if (base_time == "2300"){
-            base_date =  currentNextDate()
-            if (fcstTime.toInt() == 100){
+        if (base_time == "2300") {
+            base_date = currentNextDate()
+            if (fcstTime.toInt() == 100) {
                 itemsize = 12
-            }else if (fcstTime.toInt() == 200){
+            } else if (fcstTime.toInt() == 200) {
                 itemsize = 24
-            }else{
+            } else {
                 itemsize = 12
             }
-        }else {
-            if (fcstTime.toInt() - base_time.toInt() == 200){
+        } else {
+            if (fcstTime.toInt() - base_time.toInt() == 200) {
                 itemsize = 12
-            }else if (fcstTime.toInt() - base_time.toInt() == 300){
+            } else if (fcstTime.toInt() - base_time.toInt() == 300) {
                 itemsize = 24
-            }else{
+            } else {
                 itemsize = 12
             }
         }
-        Log.e("joo", "basedata:"+ base_date + "  basetime:"+ base_time + "  nx,ny:"+nx+ny + "  fcstTime: " + fcstTime + "  itemsize:" + itemsize)
+        Log.e(
+            "joo",
+            "basedata:" + base_date + "  basetime:" + base_time + "  nx,ny:" + nx + ny + "  fcstTime: " + fcstTime + "  itemsize:" + itemsize
+        )
         val call = ApiObject.retrofitService.getWeather(
             data_type,
             itemsize,
@@ -431,51 +444,59 @@ class GpsActivity :Fragment() {
         call.enqueue(object : retrofit2.Callback<WEATHER> {
             override fun onResponse(call: Call<WEATHER>, response: Response<WEATHER>) {
                 if (response.isSuccessful) {
-                    lateinit var weather : String
+                    lateinit var weather: String
                     Log.d("api", response.body().toString())
-                    Log.d("api", response.body()!!.response.body.items.item.toString())
-                    for (i in 0..itemsize-1){
-                        if (response.body()!!.response.body.items.item[i].baseTime == base_time.toInt()){
-                            if (response.body()!!.response.body.items.item[i].category == "POP"){
-                                POP = response.body()!!.response.body.items.item[i].fcstValue
-                            }else if (response.body()!!.response.body.items.item[i].category == "SKY"){
-                                SKY = response.body()!!.response.body.items.item[i].fcstValue
-                            }else if (response.body()!!.response.body.items.item[i].category == "TMP"){
-                                TMP = response.body()!!.response.body.items.item[i].fcstValue
-                            }else if (response.body()!!.response.body.items.item[i].category == "PTY"){
-                                PTY = response.body()!!.response.body.items.item[i].fcstValue
+                    if (response.body()!!.response.body !== null) {
+                        for (i in 0..itemsize - 1) {
+                            if (response.body()!!.response.body.items.item[i].baseTime == base_time.toInt()) {
+                                if (response.body()!!.response.body.items.item[i].category == "POP") {
+                                    POP = response.body()!!.response.body.items.item[i].fcstValue
+                                } else if (response.body()!!.response.body.items.item[i].category == "SKY") {
+                                    SKY = response.body()!!.response.body.items.item[i].fcstValue
+                                } else if (response.body()!!.response.body.items.item[i].category == "TMP") {
+                                    TMP = response.body()!!.response.body.items.item[i].fcstValue
+                                } else if (response.body()!!.response.body.items.item[i].category == "PTY") {
+                                    PTY = response.body()!!.response.body.items.item[i].fcstValue
+                                }
                             }
-                        }
 
-                    }
+                        }
 //                    if (response.body()!!.response.body.items.item[])
 //                    POP = response.body()!!.response.body.items.item[7+itemsize].fcstValue
 //                    SKY = response.body()!!.response.body.items.item[5+itemsize].fcstValue
 //                    TMP = response.body()!!.response.body.items.item[0+itemsize].fcstValue
 //                    PTY = response.body()!!.response.body.items.item[6+itemsize].fcstValue
-                    Log.e("api", "POP = " + POP + " SKY = " + SKY + " T3H = " + TMP + " PTY = " + PTY)
+                        Log.e(
+                            "api",
+                            "POP = " + POP + " SKY = " + SKY + " T3H = " + TMP + " PTY = " + PTY
+                        )
 
 
-                    if (PTY.equals("0")){
-                        if (SKY == "1"){ img_weather_index.setImageResource(R.drawable.ic_nice) }
-                        else if (SKY == "3"){ img_weather_index.setImageResource(R.drawable.ic_nomal) }
-                        else{ img_weather_index.setImageResource(R.drawable.ic_nomal) }
-                        weather = skyState(SKY.toString())
-                    }else{
-                        weather = ptyState(PTY.toString())
-                        img_weather_index.setImageResource(R.drawable.ic_bad)
+                        if (PTY.equals("0")) {
+                            if (SKY == "1") {
+                                img_weather_index.setImageResource(R.drawable.ic_nice)
+                            } else if (SKY == "3") {
+                                img_weather_index.setImageResource(R.drawable.ic_nomal)
+                            } else {
+                                img_weather_index.setImageResource(R.drawable.ic_nomal)
+                            }
+                            weather = skyState(SKY.toString())
+                        } else {
+                            weather = ptyState(PTY.toString())
+                            img_weather_index.setImageResource(R.drawable.ic_bad)
+                        }
+
+                        if (weather.equals("구름많음")) {
+                            text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30.0f)
+                        } else {
+                            text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40.0f)
+                        }
+
+                        text_weather_index.setText(weather)
+                        text_weather_area.setText(area)
+                        text_weather_percent.setText(POP + " %")
+                        text_weather_temp.setText(TMP + " \u2103")
                     }
-
-                    if (weather.equals("구름많음")){
-                        text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30.0f)
-                    }else {
-                        text_weather_index.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40.0f)
-                    }
-
-                    text_weather_index.setText(weather)
-                    text_weather_area.setText(area)
-                    text_weather_percent.setText(POP + " %")
-                    text_weather_temp.setText(TMP + " \u2103")
                 }
             }
 
@@ -488,9 +509,6 @@ class GpsActivity :Fragment() {
 }
 
 
-
-
-
 // 날짜 가져오기
 private fun currentDate(): String {
 
@@ -500,9 +518,10 @@ private fun currentDate(): String {
 
     return curTime
 }
+
 private fun currentNextDate(): String {
 
-    val time = System.currentTimeMillis() - 1000*60*60*24
+    val time = System.currentTimeMillis() - 1000 * 60 * 60 * 24
     val dateFormat = SimpleDateFormat("yyyyMMdd")
     val curTime = dateFormat.format(Date(time))
 
@@ -520,55 +539,56 @@ private fun currentTime(): String {
 }
 
 // 단기예보 api에서 값을 가져오기 위한 현재 시간에 따른 기준 시간 설 메서드
-private fun baseTimeSetting(time : String): String {
+private fun baseTimeSetting(time: String): String {
 
     val time = time.toInt()
     var strTime = ""
-    if ((time == 200) or (time == 100) or (time == 2400)){
+    if ((time == 200) or (time == 100) or (time == 2400)) {
         strTime = "2300"
-    }else if (time in 300..500){
+    } else if (time in 300..500) {
         strTime = "0200"
-    }else if (time in 600..800){
+    } else if (time in 600..800) {
         strTime = "0500"
-    }else if (time in 900..1100){
+    } else if (time in 900..1100) {
         strTime = "0800"
-    }else if (time in 1200..1400){
+    } else if (time in 1200..1400) {
         strTime = "1100"
-    }else if (time in 1500..1700){
+    } else if (time in 1500..1700) {
         strTime = "1400"
-    }else if (time in 1800..2000){
+    } else if (time in 1800..2000) {
         strTime = "1700"
-    }else if (time in 2100..2300){
+    } else if (time in 2100..2300) {
         strTime = "2000"
     }
-    Log.e("joo", "base_time: "+ strTime)
+    Log.e("joo", "base_time: " + strTime)
 
     return strTime
 }
 
 // 평상시 날씨 출력 메서드
-private fun skyState(sky : String ) : String{
+private fun skyState(sky: String): String {
     var SKY = sky
-    if(SKY.equals("1")){
+    if (SKY.equals("1")) {
         SKY = "맑음"
-    }else if(SKY.equals("3")){
+    } else if (SKY.equals("3")) {
         SKY = "구름많음"
-    }else{
+    } else {
         SKY = "흐림"
     }
     return SKY
 }
+
 // 비 또는 눈이 올 때 날씨 출력 메서드
-private fun ptyState(pty : String) : String{
-    Log.e("joo", "pty : "+pty)
+private fun ptyState(pty: String): String {
+    Log.e("joo", "pty : " + pty)
     var PTY = pty
-    if(PTY.equals("1")){
+    if (PTY.equals("1")) {
         PTY = "비"
-    }else if(PTY.equals("2")){
+    } else if (PTY.equals("2")) {
         PTY = "비/눈"
-    }else if(PTY.equals("3")){
+    } else if (PTY.equals("3")) {
         PTY = "눈"
-    }else{
+    } else {
         PTY = "소나기"
     }
     return PTY
@@ -665,7 +685,11 @@ private val retrofit2 = Retrofit.Builder()
 
 private val retrofit3 = Retrofit.Builder()
     .baseUrl("https://dapi.kakao.com/") // 마지막 / 반드시 들어가야 함
-    .addConverterFactory(GsonConverterFactory.create(Gson().newBuilder().setLenient().create())) // converter 지정
+    .addConverterFactory(
+        GsonConverterFactory.create(
+            Gson().newBuilder().setLenient().create()
+        )
+    ) // converter 지정
     .build() // retrofit 객체 생성
 
 private val retrofit4 = Retrofit.Builder()
@@ -681,12 +705,14 @@ object ApiObject {
     val retrofitService2: DustInterface by lazy {
         retrofit2.create(DustInterface::class.java)
     }
+
     // 좌표 TM 좌표로 변환
-    val retrofitService3: TMInterface by lazy{
+    val retrofitService3: TMInterface by lazy {
         retrofit3.create((TMInterface::class.java))
     }
+
     // TM 좌표로 가까운 측정소 찾기
-    val retrofitService4: NearInterface by lazy{
+    val retrofitService4: NearInterface by lazy {
         retrofit4.create((NearInterface::class.java))
     }
 }

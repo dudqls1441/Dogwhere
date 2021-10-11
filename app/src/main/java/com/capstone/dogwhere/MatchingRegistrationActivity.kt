@@ -51,7 +51,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         npYear.run {
             minValue = 21
             wrapSelectorWheel = false
-            maxValue = yearStrConvertList.size
+            maxValue = 25
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
 //            displayedValues = yearStrConvertList.toTypedArray()
         }

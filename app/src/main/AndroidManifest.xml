@@ -34,6 +34,8 @@
         <activity android:name=".MatchingListActivity" />
         <activity android:name=".DogProfileActivity" />
         <activity android:name=".Chat.MyRoomActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -67,6 +69,8 @@
         <activity android:name=".RegisterUserProfileActivity" />
         <activity android:name=".GpsActivity" />
         <activity android:name=".Finding_Id_Password" />
+        <service android:name=".FCM.MyFirebaseMessagingService"
+            android:exported="false"></service>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

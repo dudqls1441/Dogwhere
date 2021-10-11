@@ -1,17 +1,18 @@
 package com.capstone.dogwhere
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.User
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_join_id.*
-import org.jetbrains.anko.email
-import java.lang.Exception
+import kotlinx.coroutines.*
 
 class joinId : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -28,6 +29,7 @@ class joinId : AppCompatActivity() {
             finish()
         }
         btn_join_in_Join.setOnClickListener {
+
             val join_userid = findViewById<EditText>(R.id.join_id_et).getText().toString()
             val join_userPassword =
                 findViewById<EditText>(R.id.join_password_et).getText().toString()
@@ -43,24 +45,50 @@ class joinId : AppCompatActivity() {
                                 // 가입 성공하면
                                 Log.d("성공", "signInWithEmail:success")
 
+
                                 val uid = FirebaseAuth.getInstance().uid ?: ""
-                                val user =
-                                    User(uid, join_userid, join_userName, join_userPhone, false)
 
-                                val db = FirebaseFirestore.getInstance().collection("users")
-                                db.document(uid)
-                                    .set(user)
-                                    .addOnSuccessListener {
-                                        Log.d("데이터베이스 성공", "데이터베이스:success")
-                                    }
-                                    .addOnFailureListener {
-                                        Log.w("데이터베이스 실패", "데이터베이스:failure")
-                                    }
-                                val intent = Intent(this, LoginActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
+                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                    OnCompleteListener { task ->
+                                        if (!task.isSuccessful) {
+                                            Log.w(
+                                                "MatchingDetail",
+                                                "MatchingDetail Fetching FCM registration token failed ",
+                                                task.exception
+                                            )
+                                            return@OnCompleteListener
+                                        }
 
+                                        //Get new FCM registration token
+                                        val token = task.result
+
+                                        val msg = token.toString()
+                                        Log.d("join", "In Joinactivity,, token -> ${msg}")
+                                        val user =
+                                            User(
+                                                uid,
+                                                join_userid,
+                                                join_userName,
+                                                join_userPhone,
+                                                msg,
+                                                false
+                                            )
+
+                                        val db = FirebaseFirestore.getInstance().collection("users")
+                                        db.document(uid)
+                                            .set(user)
+                                            .addOnSuccessListener {
+                                                Log.d("데이터베이스 성공", "데이터베이스:success")
+                                                Log.d("yb", "yb : user -> ${user}")
+                                            }
+                                            .addOnFailureListener {
+                                                Log.w("데이터베이스 실패", "데이터베이스:failure")
+                                            }
+                                        val intent = Intent(this, LoginActivity::class.java)
+                                        intent.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(intent)
+                                    })
                             } else {
                                 try {
                                     task.getResult()
@@ -74,7 +102,7 @@ class joinId : AppCompatActivity() {
                                 }
                             }
                         }
-                }else{
+                } else {
                     Toast.makeText(this, "6자리 이상 비밀번호를 사용해주세요", Toast.LENGTH_SHORT).show()
                 }
             } else {
@@ -82,4 +110,5 @@ class joinId : AppCompatActivity() {
             }
         }
     }
+
 }

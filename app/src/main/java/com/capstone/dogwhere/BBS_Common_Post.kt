@@ -1,10 +1,12 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.BBS.HeartPost
+import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
 import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
@@ -16,7 +18,6 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
-import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +27,7 @@ class BBS_Common_Post : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var commentnickname : String
     private lateinit var commentProfile : String
+    val adapter = GroupAdapter<GroupieViewHolder>()
     var heartFlag : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,6 +39,8 @@ class BBS_Common_Post : AppCompatActivity() {
         Log.e("joo", "bbs_oid, bbs_tabname - " + bbs_oid + bbs_tabname )
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
+        val name = intent.getStringExtra("name").toString()
+        val your_uid = intent.getStringExtra("uid").toString()
 
         // 게시글 작성자 프로필
         getWriterProfile()
@@ -53,11 +57,35 @@ class BBS_Common_Post : AppCompatActivity() {
             heartClick(uid, bbs_oid, bbs_tabname)
         }
 
+        img_bbsCommon_writerChat.setOnClickListener {
+            val bbs_uid = intent.getStringExtra("uid").toString()
+            val bbs_name = intent.getStringExtra("name").toString()
+            val intent = Intent(this, ChatRoomActivity::class.java)
+            Log.e("joo", "yourUid:"+bbs_uid+"  name:"+bbs_name)
+            intent.putExtra("yourUid", bbs_uid)
+            intent.putExtra("name", bbs_name)
+            startActivity(intent)
+        }
+
+        img_bbsCommon_writer.setOnClickListener {
+            Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("name", name)
+                putExtra("uid", your_uid)
+            }.run { startActivity(this) }
+        }
+
         post_title.setText(intent.getStringExtra("title"))
         post_content.setText(intent.getStringExtra("content"))
         writer_name.setText(intent.getStringExtra("name"))
         writer_time.setText(intent.getStringExtra("time"))
 
+        adapter.setOnItemClickListener { item, view ->
+            val comment = item as BBS_CommentItem
+            Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("name", comment.username)
+                putExtra("uid", comment.uid)
+            }.run { startActivity(this) }
+        }
 
     }
 
@@ -94,8 +122,6 @@ class BBS_Common_Post : AppCompatActivity() {
 
     // 댓글 출력 이벤트
     private fun getComment(bbs_tabname : String, bbs_oid: String) {
-        val adapter = GroupAdapter<GroupieViewHolder>()
-
 
         db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()
             .addOnSuccessListener { result ->
@@ -110,8 +136,9 @@ class BBS_Common_Post : AppCompatActivity() {
                     adapter.add(commentitem)
                     Log.e("joo", commentitem.profile)
                 }
-                recycler_bbsTrans_comment?.adapter = adapter
+                recycler_bbscommon_comment?.adapter = adapter
             }
+
     }
 
     // 게시물 하트 누르기
