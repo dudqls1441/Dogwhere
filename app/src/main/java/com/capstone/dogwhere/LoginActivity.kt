@@ -51,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
         getAppKeyHash()
         btn_join.setOnClickListener {
             startActivity(Intent(this, joinId::class.java))
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+        }
+        img_logo.setOnClickListener {
+            startActivity(Intent(this, joinId::class.java))
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
         }
 
         btn_find_IdPW.setOnClickListener {

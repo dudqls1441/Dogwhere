@@ -45,24 +45,30 @@ class CompletedMatchingFragment : Fragment() {
                     matchinglist.add(document["documentId"].toString())
                 }
             }
-            //.whereEqualTo("ongoing",false)
-            db.collection("Matching").whereIn("documentId", matchinglist).get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        Log.d("CompletedMatching", "Completed:documnet_Id8 = ${document.id}")
-                        adapter.add(
-                            Matching_Completed_List_Item(
-                                document.id,
-                                document.get("title").toString(),
-                                document.get("date").toString() + "-" + document.get("startime")
-                                    .toString(),
-                                document.get("place").toString()
-                            )
+            if(!matchinglist.isEmpty()){
+                //.whereEqualTo("ongoing",false)
+                db.collection("Matching").whereIn("documentId", matchinglist).get()
+                    .addOnSuccessListener {
+                        for (document in it) {
+                            Log.d("CompletedMatching", "Completed:documnet_Id8 = ${document.id}")
+                            adapter.add(
+                                Matching_Completed_List_Item(
+                                    document.id,
+                                    document.get("title").toString(),
+                                    document.get("date").toString() + "-" + document.get("startime")
+                                        .toString(),
+                                    document.get("place").toString()
+                                )
 
-                        )
-                        recycler_completed_matching?.adapter = adapter
+                            )
+                            recycler_completed_matching?.adapter = adapter
+                        }
                     }
-                }
+            }else{
+                Log.d("yb","yb matchingList 비어있음")
+                completedMatching_text_empty.setText("완료한 매칭 없음")
+            }
+
         }
     }
 

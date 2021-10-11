@@ -6,6 +6,9 @@
 
             android:title="매칭 리스트"></item>
         <item
+            android:id="@+id/my_matching"
+            android:title="예약된 매칭"></item>
+        <item
             android:id="@+id/choker_buy"
             android:title="목걸이 구매"></item>
         <item

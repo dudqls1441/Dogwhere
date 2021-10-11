@@ -11,23 +11,31 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.Chat.ChatListActivity
+import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.navi_header.*
+import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
     private lateinit var gpsActivity: GpsActivity
     val db = Firebase.firestore
+    val adapter = GroupAdapter<GroupieViewHolder>()
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -69,6 +77,20 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 user_name_text.setText(result?.userName)
             }
 
+        db.collection("information_bbs").orderBy("visitCnt",Query.Direction.DESCENDING).limit(3).get().addOnSuccessListener {
+            for (document in it) {
+                val hot_bbs_item = home_hot_bbs_Item(
+                    document.get("title").toString(),
+                    document.get("comment").toString(),
+                    Integer.parseInt(document.get("heartCnt").toString()),
+                    Integer.parseInt(document.get("visitCnt").toString())
+
+                )
+                adapter.add(hot_bbs_item)
+            }
+            recyclerview_hot_bbs?.adapter = adapter
+        }
+
 
 
         return view
@@ -78,6 +100,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         when (item.itemId) {
             R.id.matching_list -> chattingstart()
             R.id.choker_buy -> matchingList()
+            R.id.my_matching -> mymatchingList()
             R.id.menu_list -> gpsstart()
             R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
@@ -87,16 +110,39 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         return false
     }
 
+    private fun fm() {
+
+    }
+
+
+    private fun mymatchingList() {
+        activity?.let {
+            Log.e("yb", "나의 매칭 리스트로 이동")
+            val intent = Intent(activity, MyMatchingListActivity::class.java)
+            startActivity(intent)
+            it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+
+        }
+
+
+    }
+
     private fun chattingstart() {
-        Log.e("joo", "채팅방으로 이동")
-        val intent = Intent(activity, ChatListActivity::class.java)
-        startActivity(intent)
+        activity?.let {
+            Log.e("joo", "채팅방으로 이동")
+            val intent = Intent(activity, ChatListActivity::class.java)
+            startActivity(intent)
+            it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+        }
     }
 
     private fun matchingList() {
-        Log.e("yeongbin", "매칭 리스트 ㄱㄱ")
-        val intent = Intent(activity, MatchingListActivity::class.java)
-        startActivity(intent)
+        activity?.let {
+            Log.d("yeongbin", "매칭 리스트 ㄱㄱ")
+            val intent = Intent(activity, MatchingListActivity::class.java)
+            startActivity(intent)
+            it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+        }
     }
 
     private fun gpsstart() {

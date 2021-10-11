@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.fragment_completed_matching.*
 import kotlinx.android.synthetic.main.fragment_reserved_matching.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -72,32 +73,38 @@ class ReservedMatchingFragment : Fragment() {
 
 
             }
-            Log.d("ReservedMatching", "documnet_Id6 = ${matchinglist}")
-            Log.d("ReservedMatching", "documnet_Id7 = ${matchinglist.component1()}")
-            db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
-                .addOnSuccessListener {
-                    for (document in it) {
-                        Log.d("ReservedMatching", "documnet_Id8 = ${document.id}")
-                        adapter.add(
-                            Matching_Reserved_List_Item(
-                                document.id,
-                                document.get("title").toString(),
-                                document.get("date").toString() + "-" + document.get("startime")
-                                    .toString(),
-                                document.get("place").toString(), "10분 전"
+            if(!matchinglist.isEmpty()){
+                Log.d("ReservedMatching", "documnet_Id6 = ${matchinglist}")
+                Log.d("ReservedMatching", "documnet_Id7 = ${matchinglist.component1()}")
+                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
+                    .addOnSuccessListener {
+                        for (document in it) {
+                            Log.d("ReservedMatching", "documnet_Id8 = ${document.id}")
+                            adapter.add(
+                                Matching_Reserved_List_Item(
+                                    document.id,
+                                    document.get("title").toString(),
+                                    document.get("date").toString() + "-" + document.get("startime")
+                                        .toString(),
+                                    document.get("place").toString(), "10분 전"
+                                )
                             )
-                        )
-                        recycler_reserved_matching?.adapter = adapter
-                    }
+                            recycler_reserved_matching?.adapter = adapter
+                        }
 
+                    }
+                adapter.setOnItemClickListener { item, view ->
+                    Log.d("clickedmatching", (item as Matching_Reserved_List_Item).title)
+                    val intent = Intent(context, MatchingDetailActivity::class.java)
+                    intent.putExtra("documentId", (item).documentId)
+                    intent.putExtra("preActivity", "ReservedMatchingFragment")
+                    startActivity(intent)
                 }
-            adapter.setOnItemClickListener { item, view ->
-                Log.d("clickedmatching", (item as Matching_Reserved_List_Item).title)
-                val intent = Intent(context, MatchingDetailActivity::class.java)
-                intent.putExtra("documentId", (item).documentId)
-                intent.putExtra("preActivity", "ReservedMatchingFragment")
-                startActivity(intent)
+            }else{
+                Log.d("yb","yb matchingList 비어있음")
+                reservedMatching_text_empty.setText("예약된 매칭 없음")
             }
+
 
         }
 

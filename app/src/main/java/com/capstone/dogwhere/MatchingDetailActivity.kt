@@ -50,27 +50,27 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.E
 
+const val TOPIC = "/topics/myTopic"
+
 class MatchingDetailActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+
 
     private val adapter by lazy { PagerAdapter(supportFragmentManager, 2) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_detail)
 
-//        val notificaiondata = NotificationData("나어디개", "매칭에 참가혔습니다.")
-//        val pushnotification = PushNotification(
-//            notificaiondata,
-//            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-//        )
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
         val tokenToDevice: String =
             "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-        val pushnotification: PushNotification =
-            PushNotification(NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."), tokenToDevice)
-        sendNotification(pushnotification)
+        PushNotification(
+            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
+            tokenToDevice
+        ).also { sendNotification(it) }
 
-        Fire.init("AAAA1P59Tgs:APA91bEuZ_Hp7rsbkRmR0zWrI_uDhd9o3RMXz4oBpOeXHGc_RCJEo_-d1J-_BL5Hl4jk0KmzjZmWzzNeCOJ4n8jsiFo53QNaknXCq4fOwvbkuSpXNF08XMYud8dY8fHPl1PDMj8-_EDU\t\n")
 
         init()
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
@@ -133,9 +133,21 @@ class MatchingDetailActivity : AppCompatActivity() {
         )
     }
 
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val response = RetrofitInstance.api.sendNotification(notification)
+            if(response.isSuccessful) {
+                Log.d("yb", "Response: ${Gson().toJson(response)}")
+            } else {
+                Log.e("yb", response.errorBody().toString())
+            }
+        } catch(e: Exception) {
+            Log.e("yb", e.toString())
+        }
+    }
+
 
     private fun init() {
-//        matchingAdded()
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         val uid = auth.currentUser?.uid.toString()
@@ -289,6 +301,7 @@ class MatchingDetailActivity : AppCompatActivity() {
                                             val result = it.toObject<UserProfile>()
                                             Glide.with(this).load(result?.profilePhoto).circleCrop()
                                                 .into(matching_profile_img)
+                                            Log.d("yb","yb111 -> ${result!!.profilePhoto}")
                                             matching_profile_name.setText(result?.userName)
 
                                         }.addOnFailureListener {
@@ -383,36 +396,10 @@ class MatchingDetailActivity : AppCompatActivity() {
             dialog.mydialog()
             dialog.setOnclickedListener(object : CustomDialog.ButtonClickListener {
                 override fun onclickMyMatchingList() {
-//                    val notificaiondata = NotificationData("나어디개", "매칭에 참가혔습니다.")
-//                    val pushnotification = PushNotification(
-//                        notificaiondata,
-//                        "APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-//                    )
-//                    sendNotification(pushnotification)
-
-//                    //FCM 위한 코드
-//                    //Firebase 서버키
-//                    if (userToken != "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN") {
-//                        val PushNotification = PushNotification(
-//                            NotificationData(matchingtitle, "매칭에 참가하였습니다."),
-//                            userToken
-//                        )
-////                        sendNotification(PushNotification)
-//                    } else {
-//                        Log.d("MatchingDetail", "yb : userToken - > null임")
-//                    }
-//
-//                    Fire.create().setTitle("나어디개").setBody("매칭에 참가하였습니다")
-//                        .setCallback { pushcallback, exception ->
-//                            Log.d("matchingDetail", "yb callback : ${pushcallback}")
-//                            Log.d("matchingDetail", "yb exception: ${exception}")
-//                        }.setBody(pushnotification.data.toString())
-//                        .toIds("cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN")
-//                        .push()
-
                     val intent =
                         Intent(this@MatchingDetailActivity, MyMatchingListActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
                     finish()
 
                 }
@@ -441,46 +428,7 @@ class MatchingDetailActivity : AppCompatActivity() {
 
     }
 
-//    private fun sendNotification(notification: PushNotification) =
-//        CoroutineScope(Dispatchers.IO).launch {
-//            try {
-//                val response = RetrofitInstance.api.sendNotification(notification)
-//                if (response.isSuccessful) {
-//                    Log.d("yb", "Response : ${Gson().toJson(response)}")
-//                } else {
-//                    Log.d("yb", "else :" + response.errorBody().toString())
-//                }
-//
-//            } catch (e: Exception) {
-//                Log.d("yb", "catch -> ${e.toString()} // ${e.message}")
-//            }
-//
-//        }
 
-
-//    private fun sendToCondition() {
-//        var response_tv= ""
-//        Fire.create()
-//            .setTitle("실험1")
-//            .setBody("sendOTcondition")
-//            .setCallback { pushCallback, e ->
-//                if (e == null) {
-//                    response_tv= createResponseText(pushCallback)
-//                    Log.d("yb","yb : respose -> ${response_tv}")
-//                } else response_tv = e.message.toString()
-//                Log.d("yb","yb : respose -> ${response_tv}")
-//            }
-//            .toCondition("target")
-//            .push()
-//    }
-//
-//    private fun createResponseText(pushCallback: PushCallback): String {
-//        var text = "Response:\n\n"
-//        if (pushCallback.isSent) {
-//            text = text.plus("Message Sent Successfully").plus("\n\n").plus(pushCallback.jsonObject.toString())
-//        } else text = text.plus("Fails to send message").plus("\n\n").plus(pushCallback.jsonObject.toString())
-//        return text
-//    }
 
 
     //누군가 나의 매칭에 참여했을 때 푸시 알림//
@@ -533,19 +481,7 @@ class MatchingDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotification(notification: PushNotification) =
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val response = RetrofitInstance.api.sendNotification(notification)
-                if (response.isSuccessful) {
-                    Log.d("yb", "Response: ${Gson().toJson(response)}")
-                } else {
-                    Log.e("yb", response.errorBody().toString())
-                }
-            } catch (e: Exception) {
-                Log.e("yb", e.toString())
-            }
-        }
+
 
 
 }

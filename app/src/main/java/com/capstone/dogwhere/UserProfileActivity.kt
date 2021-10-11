@@ -11,13 +11,21 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.FCM.NotificationData
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_b_b_s.*
 import kotlinx.android.synthetic.main.activity_matching_detail.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import com.capstone.dogwhere.FCM.PushNotification
+import com.capstone.dogwhere.FCM.RetrofitInstance
+import com.google.firebase.messaging.FirebaseMessaging
 
 class UserProfileActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
@@ -64,6 +72,7 @@ class UserProfileActivity : AppCompatActivity() {
             )
         )
     }
+
 
     private fun init() {
         auth = FirebaseAuth.getInstance()

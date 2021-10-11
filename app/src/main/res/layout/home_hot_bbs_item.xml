@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="14dp"
+        android:background="@drawable/round_gray">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="게시물 제목"
+            android:id="@+id/bbs_title"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nightl"
+            android:layout_margin="14dp"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이래라 저래라 얼레리 꼴레리 이쪽 저쪽"
+            android:id="@+id/bbs_content"
+            android:textColor="@color/main_gray"
+            android:fontFamily="@font/nightl"
+            android:layout_below="@+id/bbs_title"
+            android:layout_marginLeft="18dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/layout_bottom"
+            android:gravity="center_vertical|right"
+            android:layout_marginRight="18dp"
+            android:layout_below="@+id/bbs_content">
+
+            <ImageView
+                android:id="@+id/bbs_heart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_gray_heart" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="0"
+                android:id="@+id/heart_count"
+                android:layout_toRightOf="@+id/bbs_heart"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="조회수"
+                android:layout_toRightOf="@+id/heart_count"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/text_view_count"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="0"
+                android:id="@+id/view_count"
+                android:layout_toRightOf="@+id/text_view_count"/>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

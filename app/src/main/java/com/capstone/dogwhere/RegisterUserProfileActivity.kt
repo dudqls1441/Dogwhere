@@ -59,6 +59,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             auth.signOut()
             this?.let { MySharedPreferences.clearUser(it) }
             startActivity(Intent(this, LoginActivity::class.java))
+
         }
 
         userProfilePhoto.setOnClickListener {
@@ -146,7 +147,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         if (requestCode == FLAG_GALLERY_CODE) {
             //if문에 &&resultCode ==Activity.RESULT_OK 넣어주기
             if (data != null) {
-                Log.d(TAG, getImageFilePath(data!!.data!!))
+//                Log.d(TAG, getImageFilePath(data!!.data!!))
                 Log.d(TAG, "확인 원래 data ${data}")
                 Log.d("ImageCrop", "확인 원래 data!!.data!!  ${data!!.data!!}")
 
@@ -323,6 +324,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
                     val intent = Intent(this, DogProfileActivity::class.java)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_up_enter,R.anim.slide_up_eixt)
                     finish()
                     //} else {
                     //  Toast.makeText(this, "닉네임 중복 확인 바람", Toast.LENGTH_SHORT).show()
@@ -413,89 +415,3 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         }
     }
 }
-
-//    suspend fun check_name3(username: String): Boolean {
-//        return try {
-//            db.collection("users")
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    for (document in result) {
-//
-//                        val uids = document.get("uid").toString()
-//                        db.collection("users").document(uids).collection("userprofiles").get()
-//                            .addOnSuccessListener { result ->
-//                                val names = document.get("userName")
-//                                async {
-//                                    if (username == names) {
-//                                        Log.d(TAG, "해당 닉네임이 이미 존재함")
-//                                    } else {
-//                                        Name_FLAG = true
-//                                        Log.d(TAG, "사용 가능한 닉네임")
-//                                    }
-//                                }
-//                            }
-//                    }
-//                    if (Name_FLAG == true) {
-//                        Toast.makeText(
-//                            this@RegisterUserProfileActivity,
-//                            "사용 가능한 닉네임입니다..",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    } else {
-//                        Toast.makeText(
-//                            this@RegisterUserProfileActivity,
-//                            "이미 사용중인 닉네임입니다.",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                    }
-//                }.await()
-//            true
-//        } catch (e: FirebaseException) {
-//            Log.e("error:", "erroe:" + e.message.toString())
-//            false
-//        }
-//    }
-
-
-// 혹시 몰라서 둠 //
-//                Log.d(TAG, usersex + " < -- 값2 ")
-//                Toast.makeText(this, usersex, Toast.LENGTH_LONG).show()
-
-//                val userhobby = findViewById<EditText>(R.id.userprofileHobby).getText().toString()
-//
-//                Toast.makeText(this, uid + "랑" + username, Toast.LENGTH_SHORT).show()
-//                Log.d(TAG, uid + "---" + username)
-//                val profileRef = rdb.getReference("userprofiles").child(uid)
-//
-//                //  rdb.getReference().child("userprofiles").push().child(uid).setValue(user)
-//                profileRef.child(uid).push().setValue(user)
-
-
-//    fun check_name() {
-//        val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
-//        db.collection("users")
-//            .get()
-//            .addOnSuccessListener { result ->
-//                while (Name_FLAG) {
-//                    for (document in result) { //이게 왜 아 document 이름이? 아니 이거 ㄱㄷ 생각좀 봐봐 저기 밑에 포문 다돌아야 여기포문 한번임 아 머리안
-//                        val uids = document.get("uid").toString()
-//                        db.collection("users").document(uids).collection("userprofiles").get()
-//                            .addOnSuccessListener { result ->
-//                                val names = document.get("userName")
-//                                if (username == names) { // 이걸 while 문으로 써야되나
-//                                    Log.d(TAG, "해당 닉네임이 이미 존재함")
-//                                    Toast.makeText(this, "이미 존재하는 닉네임입니다.", Toast.LENGTH_SHORT)
-//                                        .show()
-//                                    Name_FLAG = false // ㅇㅇㅇㅇ 무한루프임 ㅈ거 ㅓ어디 로근데  다시 해봐?ㅇㅇ
-//                                    //정렬한번만
-//                                }
-//                            }
-//                    }
-//                    if (Name_FLAG) {
-//                        Toast.makeText(this, "사용 가능한 닉네임입니다.", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//                    break
-//                }
-//            }
-//    }

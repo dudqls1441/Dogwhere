@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_matching.*
 
 
-class MatchingFragment : Fragment(){
-    companion object{
-        fun newInstance():  MatchingFragment{
-            return  MatchingFragment()
+class MatchingFragment : Fragment() {
+    companion object {
+        fun newInstance(): MatchingFragment {
+            return MatchingFragment()
         }
     }
 
@@ -34,8 +34,9 @@ class MatchingFragment : Fragment(){
     ): View? {
         val view = inflater.inflate(R.layout.activity_matching, container, false)
 
-        return  view
+        return view
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         btn_matching_chart.setOnClickListener {
@@ -45,10 +46,17 @@ class MatchingFragment : Fragment(){
         }
 
         btn_matching_map.setOnClickListener {
-            startActivity(Intent(context, MapsActivity::class.java))
+            activity?.let {
+                startActivity(Intent(context, MapsActivity::class.java))
+                it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+            }
         }
         btn_registration_matching.setOnClickListener {
-            startActivity(Intent(context, MatchingRegistrationActivity::class.java))
+            activity?.let {
+                startActivity(Intent(context, MatchingRegistrationActivity::class.java))
+                it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+            }
+
         }
     }
 }

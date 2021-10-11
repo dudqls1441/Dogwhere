@@ -19,15 +19,3 @@ class RetrofitInstance {
         }
     }
 }
-//    private const val BASE_URL = "https://fcm.googleapis.com/"
-//    private var retrofit: Retrofit? = null
-//    fun getclinet(): Retrofit?
-//        {
-//            if (retrofit == null) {
-//                retrofit = Retrofit.Builder()
-//                    .baseUrl(BASE_URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build()
-//            }
-//            return retrofit
-//        }
