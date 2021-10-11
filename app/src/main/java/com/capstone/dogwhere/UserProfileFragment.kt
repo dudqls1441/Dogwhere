@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.Dog_Profile_Item
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +45,7 @@ class UserProfileFragment : Fragment() {
                         Log.d("dogprofile있음", result.toString())
                         adapter.add(
                             Dog_Profile_Item(
+                                dogs.uid,
                                 dogs?.dogAge + "살",
                                 dogs?.dogName,
                                 dogs?.dogBreed,

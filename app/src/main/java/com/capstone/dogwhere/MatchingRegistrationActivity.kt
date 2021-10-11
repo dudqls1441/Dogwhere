@@ -15,11 +15,13 @@ import kotlinx.android.synthetic.main.activity_matching_registration.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MatchingRegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     lateinit var party_address:String
+    lateinit var doguid:String
     private val FLAG_Select_Dog_Code = 1000
 
 
@@ -83,10 +85,15 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 putExtra("address_state", "matching_registration")
             }.run { startActivity(this) }
         }
+
         participation_dog_layout.setOnClickListener {
-            val intent = Intent(this, MatchingRegistration_Choice_Dog_Activity::class.java)
-            startActivityForResult(intent, FLAG_Select_Dog_Code)
+            Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
+                putExtra("dogchoice_state", "matching_registration")
+            }.run { startActivity(this) }
         }
+//여기
+        doguid= intent.getStringArrayExtra("select_doguid").toString()
+        Log.d("yy","선택한 강아지 리스트"+doguid)
         party_address = intent.getStringExtra("address").toString()
         Log.d("yy",party_address)
         if (party_address!="null"){
@@ -187,14 +194,13 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     Log.d("InsertMatchingUsers", "InsertMatchingUsers_실패")
                 }
-                val intent = Intent(this, MatchingDetailActivity::class.java)
-                intent.putExtra("title", title)
-                intent.putExtra("explain", explain)
-                intent.putExtra("leaderuid", uid)
-                intent.putExtra("documentId", documentId)
-                startActivity(intent)
+                Intent(this, MatchingDetailActivity::class.java).apply {
+                    putExtra("title", title)
+                    putExtra("explain", explain)
+                    putExtra("leaderuid", uid)
+                    putExtra("documentId", documentId)
+                }.run { startActivity(this) }
                 finish()
-
 
             }.addOnFailureListener {
                 Log.d("InsertParty", "InsertParty_실패")

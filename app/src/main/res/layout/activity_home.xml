@@ -79,7 +79,7 @@
             <RelativeLayout
                 android:id="@+id/layout_walk_habit"
                 android:layout_width="match_parent"
-                android:layout_height="1400dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/frame_weather"
                 android:layout_marginTop="10dp">
 
@@ -88,10 +88,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:fontFamily="@font/nanumsquareb"
+                    android:fontFamily="@font/sebanggothic"
                     android:text="산책습관"
                     android:textColor="@color/main_mint"
-                    android:textSize="20dp"></TextView>
+                    android:textSize="18dp"></TextView>
 
                 <TextView
                     android:id="@+id/bb"
@@ -99,10 +99,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_toRightOf="@+id/b"
-                    android:fontFamily="@font/nanumsquareb"
+                    android:fontFamily="@font/sebanggothic"
                     android:text="을 점검해보세요"
                     android:textColor="@color/main_gray"
-                    android:textSize="20dp"></TextView>
+                    android:textSize="18dp"></TextView>
 
                 <RelativeLayout
                     android:id="@+id/goal"
@@ -227,13 +227,67 @@
             </RelativeLayout>
 
 
-            <!--                    <RelativeLayout-->
-            <!--                        android:id="@+id/layout_today_hot_post"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="300dp"-->
-            <!--                        android:layout_below="@+id/layout_walk_habit"-->
-            <!--                        android:layout_marginTop="4dp"-->
-            <!--                        android:padding="16dp">-->
+            <RelativeLayout
+                android:layout_marginTop="30dp"
+                                    android:id="@+id/layout_matching"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/layout_walk_habit">
+            <TextView
+                android:id="@+id/text_work1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/sebanggothic"
+                android:text="현재 주소"
+                android:textColor="@color/main_mint"
+                android:textSize="18dp"></TextView>
+                <TextView
+                    android:id="@+id/text_work2"
+                    android:layout_toRightOf="@+id/text_work1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/sebanggothic"
+                    android:text="산책 모임"
+                    android:textColor="@color/main_mint"
+                    android:textSize="18dp"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/text_work2"
+                android:fontFamily="@font/sebanggothic"
+                android:text="에 참여해보세요"
+                android:textColor="@color/main_gray"
+                android:textSize="18dp"></TextView>
+                <TextView
+                    android:id="@+id/full"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginRight="21dp"
+                    android:text="전체 보기>"
+                    android:textColor="@color/main_gray"
+                    android:textSize="12dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_alignStart="@+id/text_work1"
+                    android:layout_below="@+id/text_work1"
+                    android:id="@+id/recyclerview_recommendation_walk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
 
             <!--                        <TextView-->
             <!--                            android:id="@+id/texttoday"-->
@@ -306,46 +360,7 @@
             <!--                            android:fontFamily="@font/sebanggothic"-->
             <!--                            android:text="동"></TextView>-->
 
-            <!--                        <TextView-->
-            <!--                            android:id="@+id/text_work1"-->
-            <!--                            android:layout_width="wrap_content"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:layout_below="@+id/recommendation_dong"-->
-            <!--                            android:layout_marginTop="8dp"-->
-            <!--                            android:fontFamily="@font/sebanggothic"-->
-            <!--                            android:text="산책 모임"-->
-            <!--                            android:textColor="#00C09F"-->
-            <!--                            android:textSize="18dp"></TextView>-->
 
-            <!--                        <TextView-->
-            <!--                            android:layout_width="wrap_content"-->
-            <!--                            android:layout_height="wrap_content"-->
-            <!--                            android:layout_below="@+id/recommendation_dong"-->
-            <!--                            android:layout_marginTop="8dp"-->
-            <!--                            android:layout_toRightOf="@+id/text_work1"-->
-            <!--                            android:fontFamily="@font/sebanggothic"-->
-            <!--                            android:text="에 방문해보세요"-->
-            <!--                            android:textSize="18dp"></TextView>-->
-
-            <!--                        <HorizontalScrollView-->
-            <!--                            android:layout_width="match_parent"-->
-            <!--                            android:layout_height="match_parent"-->
-            <!--                            android:layout_below="@+id/text_work1"-->
-            <!--                            android:fillViewport="true">-->
-
-            <!--                            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                                android:id="@+id/recyclerview_recommendation_place"-->
-            <!--                                android:layout_width="match_parent"-->
-            <!--                                android:layout_height="match_parent"-->
-            <!--                                android:paddingTop="8dp"-->
-            <!--                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">-->
-
-            <!--                            </androidx.recyclerview.widget.RecyclerView>-->
-
-            <!--                        </HorizontalScrollView>-->
-
-
-            <!--                    </RelativeLayout>-->
 
         </RelativeLayout>
     </ScrollView>

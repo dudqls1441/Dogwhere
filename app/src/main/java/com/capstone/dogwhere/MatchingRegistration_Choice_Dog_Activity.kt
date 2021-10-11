@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.Dog_Profile_Item
+import com.capstone.dogwhere.DTO.Matching_List_Item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,6 +25,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
     private val TAG = DogProfileActivity::class.java.simpleName
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
     val db = Firebase.firestore
+    private lateinit var doguid:ArrayList<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_choice_dog_registration)
@@ -31,8 +33,21 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
         init()
 
         btn_registration.setOnClickListener {
+//            Intent(this, MatchingRegistrationActivity::class.java).apply {
+//                putExtra("select_doguid",doguid)
+//            }.run {
+//                startActivity(this)
+//            }
             finish()
         }
+
+//        adapter.setOnItemClickListener { item, view ->
+//            Log.d("ClickMatching", (item as  Dog_Profile_Item).name)
+//            doguid=
+//            doguid.add((item).uid)
+//        }
+
+        //Log.e("yy", "누른 강아지 uid"+doguid.toString())
     }
 
     private fun init() {
@@ -53,6 +68,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                             Log.d("dogprofile있음", result.toString())
                             adapter.add(
                                 Dog_Profile_Item(
+                                    dogs.uid,
                                     dogs?.dogAge + "살",
                                     dogs?.dogName,
                                     dogs?.dogBreed,
@@ -70,5 +86,6 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                 }
 
             }
+
     }
 }

@@ -1,21 +1,36 @@
 package com.capstone.dogwhere.DTO
 
-import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.capstone.dogwhere.R
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
+import kotlinx.android.synthetic.main.activity_walk__recommend__item.view.*
 
-class Walk_Recommend_Item : AppCompatActivity() {
+import kotlinx.android.synthetic.main.dog_profile_item.view.*
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_walk__recommend__item)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+class Walk_Recommend_Item (
+    val uid:String,
+    val documentId:String,
+    val title: String,
+    val place: String,
+    val place_detail: String,
+    val date: String,
+    val start_time : String
+) : Item<GroupieViewHolder>() {
+
+
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+        viewHolder.itemView.recommend_title.text = title
+        viewHolder.itemView.recommend_place.text = place
+        viewHolder.itemView.recommend_place_detail.text = place_detail
+        viewHolder.itemView.recommend_date.text = date
+        viewHolder.itemView.recommend_start_time.text = start_time
+
+    }
+
+    override fun getLayout(): Int {
+        return R.layout.activity_walk__recommend__item
     }
 }

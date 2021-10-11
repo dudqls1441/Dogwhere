@@ -79,6 +79,7 @@ class DogProfileActivity : AppCompatActivity() {
                         Log.d("dogprofile있음", result.toString())
                         adapter.add(
                             Dog_Profile_Item(
+                                dogs.uid,
                                 dogs?.dogAge + "살",
                                 dogs?.dogName,
                                 dogs?.dogBreed,
