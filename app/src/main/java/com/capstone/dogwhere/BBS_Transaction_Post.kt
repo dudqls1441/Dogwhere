@@ -1,10 +1,12 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.BBS.HeartPost
+import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
 import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
@@ -15,6 +17,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
 import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,14 +27,21 @@ class BBS_Transaction_Post : AppCompatActivity() {
     private var db = Firebase.firestore
     private lateinit var commentnickname : String
     private lateinit var commentProfile : String
+    val adapter = GroupAdapter<GroupieViewHolder>()
     var heartFlag : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val bbs_oid = intent.getStringExtra("oid").toString()
         val bbs_tabname = intent.getStringExtra("tab").toString()
+
         Log.e("joo", "bbs_oid, bbs_tabname - " + bbs_oid + bbs_tabname )
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
+        val your_uid = intent.getStringExtra("uid").toString()
+
+        val name = intent.getStringExtra("name").toString()
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s__transaction__post)
 
@@ -52,6 +62,23 @@ class BBS_Transaction_Post : AppCompatActivity() {
             heartClick(uid, bbs_oid, bbs_tabname)
         }
 
+        img_bbsTrans_writerChat.setOnClickListener {
+            val bbs_uid = intent.getStringExtra("uid").toString()
+            val bbs_name = intent.getStringExtra("name").toString()
+            val intent = Intent(this, ChatRoomActivity::class.java)
+            Log.e("joo", "yourUid:"+bbs_uid+"  name:"+bbs_name)
+            intent.putExtra("yourUid", bbs_uid)
+            intent.putExtra("name", bbs_name)
+            startActivity(intent)
+        }
+
+        img_bbsCommon_writer.setOnClickListener {
+            Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("name", name)
+                putExtra("uid", your_uid)
+            }.run { startActivity(this) }
+        }
+
         text_bbsTrans_postTitle.setText(intent.getStringExtra("title"))
         text_bbsTrans_postContent.setText(intent.getStringExtra("content"))
         text_bbsTrans_writerName.setText(intent.getStringExtra("name"))
@@ -59,7 +86,14 @@ class BBS_Transaction_Post : AppCompatActivity() {
         text_bbsTrans_price.setText("\\" + intent.getStringExtra("price"))
 
 
-
+        adapter.setOnItemClickListener { item, view ->
+            val comment = item as BBS_CommentItem
+            Log.e("joo", comment.username+comment.uid)
+            Intent(this, UserProfileActivity::class.java).apply {
+                putExtra("name", comment.username)
+                putExtra("uid", comment.uid)
+            }.run { startActivity(this) }
+        }
 
     }
 
@@ -151,7 +185,6 @@ class BBS_Transaction_Post : AppCompatActivity() {
     }
 
     private fun getComment(bbs_tabname : String, bbs_oid: String) {
-        val adapter = GroupAdapter<GroupieViewHolder>()
 
         // 댓글 출력
         db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()

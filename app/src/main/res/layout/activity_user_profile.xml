@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".UserProfileActivity">
 
     <RelativeLayout
@@ -15,159 +15,149 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/sebanggothic"
-            android:text="반려견 정보 입력"
-
-            android:textSize="14dp"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/main_labelText"
             android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
+            android:fontFamily="@font/b210beachofnight"
+            android:text="프로필"
+            android:textColor="@color/main_labelText"
+            android:textSize="14dp" />
 
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#52443C3C"
-        android:layout_below="@id/top_layout"/>
+        android:layout_below="@id/top_layout"
+        android:background="#52443C3C" />
 
 
     <RelativeLayout
+        android:id="@+id/layoutprofile"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_below="@+id/top_layout"
-        android:id="@+id/layoutprofile">
-        <ImageView
+        android:layout_below="@+id/top_layout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_userImg"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/selected_woman"
             android:layout_margin="30dp"
-            android:id="@+id/img_userImg"></ImageView>
+            android:src="@drawable/ic_gray_profile"/>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="유저이름"
-            android:fontFamily="@font/r210beachofnight"
-            android:textSize="25dp"
-            android:layout_toRightOf="@+id/img_userImg"
-            android:layout_marginTop="30dp"
             android:id="@+id/text_user_name"
-            android:textStyle="bold"></TextView>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/img_userImg"
+            android:fontFamily="@font/l210beachofnight"
+            android:text="닉네임"
+            android:textSize="24dp"></TextView>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toRightOf="@+id/text_user_sex"
+            android:src="@drawable/ic_green_chatting"
+            android:id="@+id/btn_profile_chatting"/>
+
+        <TextView
             android:id="@+id/text_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_user_name"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/img_userImg"
+            android:fontFamily="@font/nanumsquarel"
             android:text="나이"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_toRightOf="@+id/img_userImg"
-            android:layout_below="@+id/text_user_name"
-            android:layout_marginTop="10dp"></TextView>
+            android:textSize="14dp"></TextView>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/text_user_age"
-            android:text="유저 나이"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/text_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/text_user_name"
-            android:layout_marginTop="10dp"></TextView>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/text_age"
+            android:fontFamily="@font/nanumsquarel"
+            android:text="20"
+            android:textSize="14dp"></TextView>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/text_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_user_age"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/img_userImg"
+            android:fontFamily="@font/nanumsquarel"
             android:text="성별"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_toRightOf="@+id/img_userImg"
-            android:layout_below="@+id/text_user_age"
-            android:layout_marginTop="10dp"></TextView>
+            android:textSize="14dp"></TextView>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/text_user_sex"
-            android:text="유저성별"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/text_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/text_user_age"
-            android:layout_marginTop="10dp"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_address"
-            android:text="주소"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_toRightOf="@+id/img_userImg"
-            android:layout_below="@+id/text_user_sex"
-            android:layout_marginTop="10dp"></TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text_user_address"
-            android:text="거주지"
-            android:fontFamily="@font/r210beachofnight"
-            android:textStyle="bold"
-            android:textSize="18dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/text_sex"
-            android:layout_below="@+id/text_user_sex"
-            android:layout_marginTop="10dp"></TextView>
+            android:fontFamily="@font/nanumsquarel"
+            android:text="여성"
+            android:textSize="14dp"></TextView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:maxHeight="80dp"
-            android:maxLines="200"
+            android:layout_below="@+id/img_userImg"
             android:layout_alignParentBottom="true"
-            android:text="자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개 자기소개자기소개자기소개 자기소개 자기소개 자기소개 자기소개자기소개 자기소개 자기소개 자기소개 자기소개 "
-            android:padding="10dp"
-            android:textSize="15dp"
-            android:fontFamily="@font/r210beachofnight"
-            android:layout_below="@+id/img_userImg"></TextView>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/nanumsquarel"
+            android:text="올해로 10살 된 멋쟁이 닥스훈트와 3살짜리 귀요미 코커 스파니엘과 한 집에서 알콩달콩 살고 있는 대학생입니다. 매 주말마다 부평동의 산책 모임을 찾고 있습니다:)"
+            android:textSize="14dp"></TextView>
 
     </RelativeLayout>
 
+
+
     <com.google.android.material.tabs.TabLayout
-        android:layout_below="@+id/layoutprofile"
+        android:id="@+id/profiletab_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:tabMode="fixed"
+        android:layout_below="@+id/layoutprofile"
         app:tabGravity="fill"
-        app:tabMaxWidth="0dp"
-        app:tabTextColor="#979797"
-        app:tabSelectedTextColor="#00C09F"
         app:tabIndicatorColor="#00C09F"
-        android:id="@+id/profiletab_layout">
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#00C09F"
+        app:tabTextColor="#979797">
 
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:layout_below="@+id/profiletab_layout"
+        android:id="@+id/profileview_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/profileview_pager">
+        android:layout_below="@+id/profiletab_layout">
 
     </androidx.viewpager.widget.ViewPager>
 

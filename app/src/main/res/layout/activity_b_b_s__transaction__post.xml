@@ -109,21 +109,21 @@
 
                 <ImageView
                     android:id="@+id/img_bbsTrans_writerLike"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:padding="8dp"
                     android:layout_centerVertical="true"
-                    android:layout_margin="8dp"
                     android:gravity="center"
                     android:src="@drawable/ic_pink_like"
                     />
 
                 <ImageView
                     android:id="@+id/img_bbsTrans_writerChat"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
                     android:layout_centerVertical="true"
-                    android:layout_margin="8dp"
                     android:layout_toLeftOf="@+id/img_bbsTrans_writerLike"
                     android:gravity="center"
                     android:src="@drawable/ic_green_chatting" />
