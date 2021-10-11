@@ -243,7 +243,7 @@
                     <RelativeLayout
                         android:id="@+id/layout_hot_bbs"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="300dp"
                         android:layout_below="@+id/layout_walk_habit"
                         android:layout_marginTop="5dp"
                         android:background="@color/white">
@@ -281,7 +281,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerview_hot_bbs"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/layout_hot_bbs_top_message"
                             android:layout_marginTop="20dp"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -298,7 +298,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/layout_hot_bbs"
-                        android:layout_marginTop="30dp">
+                        android:layout_marginTop="5dp"
+                        android:background="@color/white">
 
                         <TextView
                             android:id="@+id/text_work1"
