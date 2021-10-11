@@ -174,7 +174,7 @@
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
 
-                    <FrameLayout
+                    <TextView
                         android:id="@+id/participation_dog_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:layout_margin="4dp"
                         android:background="@drawable/edittext_round_black"
                         android:foregroundGravity="center"
-                        android:minHeight="100dp"></FrameLayout>
+                        android:minHeight="100dp"></TextView>
 
                     <TextView
                         android:id="@+id/text_time"

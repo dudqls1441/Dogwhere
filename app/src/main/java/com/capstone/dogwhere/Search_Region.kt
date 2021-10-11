@@ -107,6 +107,18 @@ class Search_Region : AppCompatActivity() {
                         address = address +" "+ gu
                     }
                 }
+                Log.e("yy", address+"?????????????")
+                val address_state =intent.getStringExtra("address_state")
+                if (address_state=="matching_chart"){
+                    Intent(this, MatchingListActivity::class.java).apply {
+                        putExtra("address", address)
+                    }.run { startActivity(this) }
+                }else{
+                    Intent(this, MatchingRegistrationActivity::class.java).apply {
+                        putExtra("address", address)
+                    }.run { startActivity(this) }
+                    finish()
+                }
             }else {
                 Toast.makeText(
                     this,
@@ -114,19 +126,6 @@ class Search_Region : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            Log.e("yy", address+"?????????????")
-            val address_state =intent.getStringExtra("address_state")
-            if (address_state=="matching_chart"){
-                Intent(this, MatchingListActivity::class.java).apply {
-                    putExtra("address", address)
-                }.run { startActivity(this) }
-            }else{
-                Intent(this, MatchingRegistrationActivity::class.java).apply {
-                    putExtra("address", address)
-                }.run { startActivity(this) }
-                finish()
-            }
-
         }
     }
 
