@@ -134,40 +134,64 @@ class MatchingListActivity : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     if (document.get("place").toString()
-                            .contains(intent.getStringExtra("address").toString())
-                    ) {
+                            .contains(intent.getStringExtra("address").toString()) ) {
                         Log.e(
                             "yy",
                             document.get("place").toString() + " 있음"
                         ) //조건검색(지역)할때 사용
-                    }
-                    android.util.Log.d("Matching", "Matching있음")
-                    android.util.Log.d("Matching", document.get("title").toString())
-                    val uid = document.get("uid").toString()
-                    val documentId = document.id
-                    db.collection("users").document(uid!!).collection("userprofiles")
-                        .document(uid)
-                        .get()
-                        .addOnSuccessListener { result ->
-                            val result =
-                                result.toObject<UserProfile>()
-                            adapter.add(
-                                Matching_List_Item(
-                                    document.get("uid").toString(),
-                                    document.get("title").toString(),
-                                    document.get("date")
-                                        .toString() + "/" + document.get("startime"),
-                                    document.get("place")
-                                        .toString() + "/" + document.get("place_detail")
-                                        .toString(),
-                                    result?.profilePhoto.toString(),
-                                    documentId
-                                )
+                        Log.d("Matching", "Matching있음")
+                        Log.d("Matching", document.get("title").toString())
+                        val uid = document.get("uid").toString()
+                        val documentId = document.id
+                        db.collection("users").document(uid!!).collection("userprofiles")
+                            .document(uid)
+                            .get()
+                            .addOnSuccessListener { result ->
+                                val result =
+                                    result.toObject<UserProfile>()
+                                adapter.add(
+                                    Matching_List_Item(
+                                        document.get("uid").toString(),
+                                        document.get("title").toString(),
+                                        document.get("date")
+                                            .toString() + "/" + document.get("startime"),
+                                        document.get("place")
+                                            .toString() + "/" + document.get("place_detail")
+                                            .toString(),
+                                        result?.profilePhoto.toString(),
+                                        documentId
+                                    )
 
-                            )
-                            recyclerView_matching_list?.adapter = adapter
-                        }
+                                )
+                                recyclerView_matching_list?.adapter = adapter
+                            }
+                    }else if(intent.getStringExtra("address").toString()=="전체"){
+                        val uid = document.get("uid").toString()
+                        val documentId = document.id
+                        db.collection("users").document(uid!!).collection("userprofiles")
+                            .document(uid)
+                            .get()
+                            .addOnSuccessListener { result ->
+                                val result =
+                                    result.toObject<UserProfile>()
+                                adapter.add(
+                                    Matching_List_Item(
+                                        document.get("uid").toString(),
+                                        document.get("title").toString(),
+                                        document.get("date")
+                                            .toString() + "/" + document.get("startime"),
+                                        document.get("place")
+                                            .toString() + "/" + document.get("place_detail")
+                                            .toString(),
+                                        result?.profilePhoto.toString(),
+                                        documentId
+                                    )
+
+                                )
+                                recyclerView_matching_list?.adapter = adapter
+                            }
                 }
+            }
             }.addOnFailureListener {
                 Log.w("데이터베이스읽기실패", "Error getting document", it)
             }
@@ -184,6 +208,10 @@ class MatchingListActivity : AppCompatActivity() {
             .whereEqualTo("condition_owner_gender", condition_owner_gender).get()
             .addOnSuccessListener { result ->
                 for (document in result) {
+                    Log.e(
+                        "yy",
+                        document.get("place").toString() + " 있긴 있음"
+                    ) //조건검색(지역)할때 사용
                     if (document.get("place").toString()
                             .contains(intent.getStringExtra("address").toString())
                     ) {
@@ -191,33 +219,58 @@ class MatchingListActivity : AppCompatActivity() {
                             "yy",
                             document.get("place").toString() + " 있음"
                         ) //조건검색(지역)할때 사용
-                    }
-                    Log.d("Matching", "Matching있음")
-                    Log.d("Matching", document.get("title").toString())
-                    val uid = document.get("uid").toString()
-                    val documentId = document.id
-                    db.collection("users").document(uid!!).collection("userprofiles")
-                        .document(uid)
-                        .get()
-                        .addOnSuccessListener { result ->
-                            val result =
-                                result.toObject<UserProfile>()
-                            adapter.add(
-                                Matching_List_Item(
-                                    document.get("uid").toString(),
-                                    document.get("title").toString(),
-                                    document.get("date")
-                                        .toString() + "/" + document.get("startime"),
-                                    document.get("place")
-                                        .toString() + "/" + document.get("place_detail")
-                                        .toString(),
-                                    result?.profilePhoto.toString(),
-                                    documentId
-                                )
+                        val uid = document.get("uid").toString()
+                        val documentId = document.id
+                        db.collection("users").document(uid!!).collection("userprofiles")
+                            .document(uid)
+                            .get()
+                            .addOnSuccessListener { result ->
+                                val result =
+                                    result.toObject<UserProfile>()
+                                adapter.add(
+                                    Matching_List_Item(
+                                        document.get("uid").toString(),
+                                        document.get("title").toString(),
+                                        document.get("date")
+                                            .toString() + "/" + document.get("startime"),
+                                        document.get("place")
+                                            .toString() + "/" + document.get("place_detail")
+                                            .toString(),
+                                        result?.profilePhoto.toString(),
+                                        documentId
+                                    )
 
-                            )
-                            recyclerView_matching_list?.adapter = adapter
-                        }
+                                )
+                                recyclerView_matching_list?.adapter = adapter
+                            }
+                    }else if(intent.getStringExtra("address").toString()=="전체"){
+                        val uid = document.get("uid").toString()
+                        val documentId = document.id
+                        db.collection("users").document(uid!!).collection("userprofiles")
+                            .document(uid)
+                            .get()
+                            .addOnSuccessListener { result ->
+                                val result =
+                                    result.toObject<UserProfile>()
+                                adapter.add(
+                                    Matching_List_Item(
+                                        document.get("uid").toString(),
+                                        document.get("title").toString(),
+                                        document.get("date")
+                                            .toString() + "/" + document.get("startime"),
+                                        document.get("place")
+                                            .toString() + "/" + document.get("place_detail")
+                                            .toString(),
+                                        result?.profilePhoto.toString(),
+                                        documentId
+                                    )
+
+                                )
+                                recyclerView_matching_list?.adapter = adapter
+                            }
+                    }
+
+
                 }
             }.addOnFailureListener {
                 Log.w("데이터베이스읽기실패", "Error getting document", it)
