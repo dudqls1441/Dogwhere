@@ -68,7 +68,6 @@
         <activity android:name=".BBS_Common_Writing" />
         <activity android:name=".RegisterDogProfileActivity" />
         <activity android:name=".RegisterUserProfileActivity" />
-        <activity android:name=".GpsActivity" />
         <activity android:name=".Finding_Id_Password" />
 
         <service android:name=".FCM.FirebaseService"

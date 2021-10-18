@@ -49,10 +49,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private lateinit var auth: FirebaseAuth
     private lateinit var rdb: FirebaseDatabase
     private lateinit var gpsActivity: GpsActivity
-    private lateinit var location:Location
+    private lateinit var location: Location
     private var Latitude = 0.0
     private var Longitude = 0.0
-    private var area= "현재 위치"
+    private var area = "현재 위치"
     val adapter = GroupAdapter<GroupieViewHolder>()
     val adapters = GroupAdapter<GroupieViewHolder>()
     val db = Firebase.firestore
@@ -118,61 +118,64 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
             when {
                 isNetworkEnabled -> {
-                    try{
+                    try {
                         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                         Longitude = location.longitude
                         Latitude = location.latitude
-                    }catch (e : Exception){
+                    } catch (e: NullPointerException) {
                         Log.e("joo", "Network Exception!! : " + e)
-                    }                }
+                    }
+                }
                 isGPSEnabled -> {
-                    try{
+                    try {
                         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                         Longitude = location.longitude
                         Latitude = location.latitude
-                    }catch (e : Exception){
-                        Log.e("joo", "Gps Exception!! : "+ e)
+                    } catch (e: NullPointerException) {
+                        Log.e("joo", "Gps Exception!! : " + e)
                     }
 
                 }
             }
 
-        db.collection("users").document(uid!!).collection("userprofiles").document(uid).get()
-            .addOnSuccessListener { result ->
-                val result = result.toObject<UserProfile>()
-                Log.e("joo", result.toString())
-                Glide.with(requireContext()).load(result?.profilePhoto).circleCrop().into(user_photo_img)
-                user_name_text.setText(result?.userName)
-            }
+            db.collection("users").document(uid!!).collection("userprofiles").document(uid).get()
+                .addOnSuccessListener { result ->
+                    val result = result.toObject<UserProfile>()
+                    Log.e("joo", result.toString())
+                    Glide.with(requireContext()).load(result?.profilePhoto).circleCrop()
+                        .into(user_photo_img)
+                    user_name_text.setText(result?.userName)
+                }
 
-        db.collection("information_bbs").orderBy("visitCnt",Query.Direction.DESCENDING).limit(3).get().addOnSuccessListener {
-            for (document in it) {
-                val hot_bbs_item = home_hot_bbs_Item(
-                    document.get("title").toString(),
-                    document.get("comment").toString(),
-                    Integer.parseInt(document.get("heartCnt").toString()),
-                    Integer.parseInt(document.get("visitCnt").toString())
+            db.collection("information_bbs").orderBy("visitCnt", Query.Direction.DESCENDING)
+                .limit(3).get().addOnSuccessListener {
+                    for (document in it) {
+                        val hot_bbs_item = home_hot_bbs_Item(
+                            document.get("title").toString(),
+                            document.get("comment").toString(),
+                            Integer.parseInt(document.get("heartCnt").toString()),
+                            Integer.parseInt(document.get("visitCnt").toString())
 
-                )
-                adapters.add(hot_bbs_item)
-            }
-            recyclerview_hot_bbs?.adapter = adapters
-        }
+                        )
+                        adapters.add(hot_bbs_item)
+                    }
+                    recyclerview_hot_bbs?.adapter = adapters
+                }
 
 
             Log.d("거리", "위도 : ${Longitude}, 경도 : ${Latitude}")
             area = getCurrentAddress(Latitude, Longitude)
-            Log.d("yy",area)
+            Log.d("yy", area)
 
         }
 
         db.collection("Matching").get()
             .addOnSuccessListener {
-                Log.d("yy",area)
-                for (result in it){
+                Log.d("yy", area)
+                for (result in it) {
                     val matching = result.toObject<Matching>()
-                    if(matching.place.contains(area)){
-                        Log.d("yy",matching.place)
+                    if (matching.place.contains(area)) {
+                        Log.d("yy", matching.place)
                         adapter.add(
                             Walk_Recommend_Item(
                                 matching?.uid,
@@ -184,15 +187,16 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                                 matching?.startime
                             )
                         )
-                    }else{
+                    } else {
                     }
-                    recyclerview_recommendation_walk.adapter=adapter
+                    recyclerview_recommendation_walk.adapter = adapter
                     text_work1.setText(area)
                 }
             }
 
         return view
     }
+
     private fun showDialogForLocationServiceSetting() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder.setTitle("위치 서비스 비활성화")
@@ -211,12 +215,14 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
         builder.create().show()
     }
+
     private fun checkLocationServicesStatus(): Boolean {
         val locationManager =
             this.requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
         return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
     }
+
     private fun checkRunTimePermission() {
 
         //런타임 퍼미션 처리
@@ -269,6 +275,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
+
     private fun getCurrentAddress(latitude: Double, longitude: Double): String {
 
         //지오코더... GPS를 주소로 변환
@@ -298,6 +305,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         val arealist = area.split(" ")
         return "${arealist[1]}"
     }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.matching_list -> chattingstart()
@@ -311,7 +319,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         layout_drawer.closeDrawers()
         return false
     }
-
 
 
     private fun mymatchingList() {
@@ -380,7 +387,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 putExtra("title", (item).title)
                 putExtra("leaderuid", (item).uid)
                 putExtra("documentId", (item).documentId)
-                putExtra("preActivity","MatchingListActivity")
+                putExtra("preActivity", "MatchingListActivity")
             }.run {
                 startActivity(this)
             }
