@@ -14,40 +14,224 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/sebanggothic"
             android:text="매칭 리스트"
-
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
             android:textColor="@color/main_labelText"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14dp" />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_select_condition"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/top_layout"
+        android:background="@drawable/layout_border_mint"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/select_condition_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/search_all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="모두 검색" />
+
+            <RadioButton
+                android:id="@+id/search_condition"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="조건 선택" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_choice_condition"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:visibility="gone"
+        android:layout_below="@+id/layout_select_condition"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_condition_size"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/layout_border_mint"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/condition_group_size"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/size_all"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="모두" />
+
+                <RadioButton
+                    android:id="@+id/size_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="소형견" />
+
+                <RadioButton
+                    android:id="@+id/size_middle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="중형견 " />
+
+                <RadioButton
+                    android:id="@+id/size_big"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="대형견" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_condition_neutralization"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/layout_border_mint"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/condition_group_neutralization"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/neutralization_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="모두" />
+
+        <RadioButton
+            android:id="@+id/neutralization"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="중성화" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_condition_gender"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/layout_border_mint"
+            android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/condition_group_gender"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/gender_all"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="모두" />
+
+                    <RadioButton
+                    android:id="@+id/gender_man"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="남주" />
+                <RadioButton
+                    android:id="@+id/gender_woman"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="여주" />
+            </RadioGroup>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_condition_search"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/layout_border_mint"
+            android:layout_gravity="end"
+            android:text="검색" />
+        
+
+    </LinearLayout>
+
+
     <ScrollView
-        android:scrollbars="vertical"
-        android:fillViewport="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top_layout">
+        android:layout_below="@+id/layout_choice_condition"
+        android:layout_marginTop="8dp"
+        android:fillViewport="false"
+        android:scrollbars="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_matching_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/recyclerView_matching_list"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"></androidx.recyclerview.widget.RecyclerView>
     </ScrollView>
 
 

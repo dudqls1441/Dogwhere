@@ -33,7 +33,8 @@ class UserProfileActivity : AppCompatActivity() {
         val profile_name = intent.getStringExtra("name").toString()
         val profile_uid = intent.getStringExtra("uid").toString()
 
-        Log.e("joo", profile_name + profile_uid)
+
+        Log.e("joo", "profile_name,profile_uid -> "+profile_name +"++"+ profile_uid)
         init(profile_name, profile_uid)
         val btn_back = findViewById<ImageButton>(R.id.btn_back)
         btn_back.setOnClickListener {
@@ -83,11 +84,12 @@ class UserProfileActivity : AppCompatActivity() {
 
         db.collection("users").document(profile_uid).collection("userprofiles").document(profile_uid).get()
             .addOnSuccessListener {
+                Log.d("yb","yb -> profile_uid- > ${profile_uid}")
                 val result = it.toObject<UserProfile>()
                 if (result != null) {
-                    Glide.with(this).load(result?.profilePhoto).circleCrop()
+                    Glide.with(this).load(result!!.profilePhoto).circleCrop()
                         .into(img_userImg)
-//                    text_user_name.setText(profile_name)
+                    Log.d("yb","yb -> profilePhoto- > ${result!!.profilePhoto}")
                     text_user_name.setText(result?.userName)
                     text_user_age.setText(result?.userAge)
                     text_user_sex.setText(result?.userSex)

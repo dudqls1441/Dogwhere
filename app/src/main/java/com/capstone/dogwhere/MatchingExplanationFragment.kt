@@ -11,8 +11,9 @@ import com.capstone.dogwhere.DTO.Matching
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.fragment_party_explanation.*
 
-class PartyexplanationFragment : Fragment() {
+class MatchingExplanationFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -35,6 +36,9 @@ class PartyexplanationFragment : Fragment() {
             db.collection("Matching").document(documentId).get().addOnSuccessListener {
                 val result = it.toObject<Matching>()
                 text_explain!!.setText(result!!.explanation)
+                condition_size!!.setText(result!!.condition_dog_size)
+                condition_neutralization!!.setText(result!!.condition_dog_neutralization)
+                condition_gender!!.setText(result!!.condition_owner_gender)
             }.addOnFailureListener {
                 Log.e("getdb", "getdb실패")
             }

@@ -1,4 +1,3 @@
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -31,33 +30,34 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
         val db = FirebaseFirestore.getInstance()
         adapter = GroupAdapter<GroupieViewHolder>()
 
-        db.collection(tab).orderBy("time", Query.Direction.DESCENDING).get().addOnSuccessListener { result ->
-            for (document in result) {
-                adapter.add(
-                    BBS_CommonItem(
-                        document.get("title").toString(),
-                        document.get("content").toString(),
-                        document.get("username").toString(),
-                        document.get("time").toString(),
-                        document.get("uid").toString(),
-                        document.get("oid").toString(),
-                        Integer.parseInt(document.get("heartCnt").toString()),
-                        Integer.parseInt(document.get("visitCnt").toString())
+        db.collection(tab).orderBy("time", Query.Direction.DESCENDING).get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    adapter.add(
+                        BBS_CommonItem(
+                            document.get("title").toString(),
+                            document.get("content").toString(),
+                            document.get("username").toString(),
+                            document.get("time").toString(),
+                            document.get("uid").toString(),
+                            document.get("oid").toString(),
+                            Integer.parseInt(document.get("heartCnt").toString()),
+                            Integer.parseInt(document.get("visitCnt").toString())
+                        )
                     )
-                )
-                Log.d("checkMessageList", document.get("userName").toString())
-                Log.d("데이터베이스읽기성공", "${document.id}=>${document.data}")
+                    Log.d("checkMessageList", document.get("userName").toString())
+                    Log.d("데이터베이스읽기성공", "${document.id}=>${document.data}")
+                }
+                bbs_imformation_recyclerview?.adapter = adapter
             }
-            bbs_imformation_recyclerview?.adapter = adapter
-        }
             .addOnFailureListener {
                 Log.w("데이터베이스읽기실패", "Error getting document", it)
             }
         adapter.setOnItemClickListener { item, view ->
             Log.d("title", (item as BBS_CommonItem).title)
             db.collection(tab).document((item).oid).update("visitCnt", FieldValue.increment(1))
-                .addOnSuccessListener { Log.d("joo", "Success Plus Visit Count")}
-                .addOnFailureListener { e -> Log.w("joo", "Error Visit Count", e)}
+                .addOnSuccessListener { Log.d("joo", "Success Plus Visit Count") }
+                .addOnFailureListener { e -> Log.w("joo", "Error Visit Count", e) }
             Intent(context, BBS_Common_Post::class.java).apply {
                 putExtra("tab", tab)
                 putExtra("title", (item).title)
@@ -66,7 +66,7 @@ class BBS_CommonBBS(var tab: String) : Fragment() {
                 putExtra("time", (item).time)
                 putExtra("uid", (item).uid)
                 putExtra("oid", (item).oid)
-                }.run { context?.startActivity(this) }
+            }.run { context?.startActivity(this) }
         }
         return view
     }
