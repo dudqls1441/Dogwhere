@@ -25,6 +25,7 @@
             android:textColor="@color/main_gray"
             android:fontFamily="@font/nightl"
             android:layout_below="@+id/bbs_title"
+            android:maxLines="2"
             android:layout_marginLeft="18dp"/>
         <RelativeLayout
             android:layout_width="match_parent"

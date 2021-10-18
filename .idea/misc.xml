@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Dogwhere/app/src/main/res/drawable/layout_border_mint.xml" value="0.14444444444444443" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_detail.xml" value="0.2" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_list.xml" value="0.20701754385964913" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_registration.xml" value="0.264" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_register_user_profile.xml" value="0.176" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_party_explanation.xml" value="0.264" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_party_list.xml" value="0.10185185185185185" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/home_hot_bbs_item.xml" value="0.1" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/register_matching_dialog.xml" value="0.12335359675785208" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

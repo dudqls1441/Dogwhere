@@ -11,7 +11,8 @@ class home_hot_bbs_Item(
     val title: String,
     val content: String,
     val heart_cnt: Int,
-    val view_cnt: Int
+    val view_cnt: Int,
+    val username: String, val time: String, val uid: String, val oid: String
 
 ) : Item<GroupieViewHolder>() {
 

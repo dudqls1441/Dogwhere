@@ -4,16 +4,13 @@ package com.capstone.dogwhere
 import android.content.Intent
 
 import androidx.appcompat.app.AppCompatActivity
-import com.capstone.dogwhere.DTO.User
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 
 import android.widget.ImageButton
-import android.widget.Toast
 //import com.capstone.dogwhere.FCM.MyFirebaseMessagingService
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
@@ -31,7 +28,6 @@ import kotlinx.android.synthetic.main.register_matching_dialog.*
 import retrofit2.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.E
 
 const val TOPIC = "/topics/myTopic"
 
@@ -56,24 +52,6 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
         init()
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Log.w(
-//                    "MatchingDetail",
-//                    "MatchingDetail Fetching FCM registration token failed ",
-//                    task.exception
-//                )
-//                return@OnCompleteListener
-//            }
-//
-//            //Get new FCM registration token
-//            val token = task.result
-//
-//            val msg = token.toString()
-//            Log.d("MatchingDetail", "token -> ${msg}")
-//            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-//
-//        })
         val btn_back = findViewById<ImageButton>(R.id.btn_back)
 
         btn_back.setOnClickListener {
@@ -115,19 +93,6 @@ class MatchingDetailActivity : AppCompatActivity() {
             )
         )
     }
-
-//    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
-//        try {
-//            val response = RetrofitInstance.api.sendNotification(notification)
-//            if(response.isSuccessful) {
-//                Log.d("yb", "Response: ${Gson().toJson(response)}")
-//            } else {
-//                Log.e("yb", response.errorBody().toString())
-//            }
-//        } catch(e: Exception) {
-//            Log.e("yb", e.toString())
-//        }
-//    }
 
 
     private fun init() {
@@ -480,9 +445,9 @@ class MatchingPagerAdapter(
     override fun getItem(position: Int): Fragment {
 
         when (position) {
-            0 -> return PartyexplanationFragment()
+            0 -> return MatchingExplanationFragment()
             1 -> return ParticipantListFragment()
-            else -> return PartyexplanationFragment()
+            else -> return MatchingExplanationFragment()
         }
     }
 

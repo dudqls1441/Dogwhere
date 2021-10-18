@@ -10,9 +10,12 @@ data class Matching(
     val startime: String,
     val explanation: String,
     val isOngoing : Boolean,
-    val documentId :String
+    val documentId :String,
+    val condition_dog_size: String,
+    val condition_dog_neutralization :String,
+    val condition_owner_gender : String
 
 ) {
 
-    constructor() : this("", "","", "", "", "", "", "",true,"")
+    constructor() : this("", "","", "", "", "", "", "",true,"","all","all","all")
 }
