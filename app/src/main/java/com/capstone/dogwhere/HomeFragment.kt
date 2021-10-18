@@ -346,7 +346,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.choker_buy -> matchingList()
             R.id.my_matching -> mymatchingList()
             R.id.menu_list -> gpsstart()
-            R.id.notice -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.notice -> {
+                val intent = Intent(activity, WebView::class.java)
+                startActivity(intent)
+            }
             R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
             R.id.btn_logout -> clicklogut()
         }
