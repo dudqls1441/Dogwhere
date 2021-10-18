@@ -154,8 +154,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                             document.get("title").toString(),
                             document.get("comment").toString(),
                             Integer.parseInt(document.get("heartCnt").toString()),
-                            Integer.parseInt(document.get("visitCnt").toString())
-
+                            Integer.parseInt(document.get("visitCnt").toString()),
+                            document.get("username").toString(),
+                            document.get("time").toString(),
+                            document.get("uid").toString(),
+                            document.get("oid").toString()
                         )
                         adapters.add(hot_bbs_item)
                     }
