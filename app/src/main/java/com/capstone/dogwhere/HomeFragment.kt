@@ -33,7 +33,6 @@ import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -43,7 +42,6 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -56,7 +54,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private var Longitude = 0.0
     private var area = "현재 위치"
     val adapter = GroupAdapter<GroupieViewHolder>()
-    val bbs_adapter = GroupAdapter<GroupieViewHolder>()
+    val adapters = GroupAdapter<GroupieViewHolder>()
     val db = Firebase.firestore
     private val GPS_ENABLE_REQUEST_CODE = 2001
     private val PERMISSIONS_REQUEST_CODE = 100
@@ -124,7 +122,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                         Longitude = location.longitude
                         Latitude = location.latitude
-                    } catch (e: Exception) {
+                    } catch (e: NullPointerException) {
                         Log.e("joo", "Network Exception!! : " + e)
                     }
                 }
@@ -133,7 +131,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!!
                         Longitude = location.longitude
                         Latitude = location.latitude
-                    } catch (e: Exception) {
+                    } catch (e: NullPointerException) {
                         Log.e("joo", "Gps Exception!! : " + e)
                     }
 
@@ -149,25 +147,12 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                     user_name_text.setText(result?.userName)
                 }
 
-            val time = System.currentTimeMillis()
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
-            val curTime = dateFormat.format(Date(time))
-
-            Log.d("yb","yb current Time -> ${curTime}")
-
-            val week = Calendar.getInstance()
-            week.add(Calendar.DATE, -7)
-            val beforeweek = SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(week.time)
-            Log.d("yb","yb 일주일 전 -> ${beforeweek}")
-
-            //orderby 안됨
-            db.collection("information_bbs").whereGreaterThan("time",beforeweek).orderBy("time").orderBy("visitCnt",Query.Direction.DESCENDING)
-                .limit(2).get().addOnSuccessListener {
-
+            db.collection("information_bbs").orderBy("visitCnt", Query.Direction.DESCENDING)
+                .limit(3).get().addOnSuccessListener {
                     for (document in it) {
                         val hot_bbs_item = home_hot_bbs_Item(
                             document.get("title").toString(),
-                            document.get("content").toString(),
+                            document.get("comment").toString(),
                             Integer.parseInt(document.get("heartCnt").toString()),
                             Integer.parseInt(document.get("visitCnt").toString()),
                             document.get("username").toString(),
@@ -175,27 +160,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                             document.get("uid").toString(),
                             document.get("oid").toString()
                         )
-                        Log.d("yb", "yb-> hot_bbs->" + document.get("title").toString())
-                        bbs_adapter.add(hot_bbs_item)
+                        adapters.add(hot_bbs_item)
                     }
-                    recyclerview_hot_bbs?.adapter = bbs_adapter
+                    recyclerview_hot_bbs?.adapter = adapters
                 }
-            bbs_adapter.setOnItemClickListener { item, view ->
-                db.collection("information_bbs").document((item as home_hot_bbs_Item).oid)
-                    .update("visitCnt", FieldValue.increment(1))
-                    .addOnSuccessListener { Log.d("yb", "Success Plus Visit Count") }
-                    .addOnFailureListener { e -> Log.w("yb", "Error Visit Count", e) }
-                Intent(context, BBS_Common_Post::class.java).apply {
-                    putExtra("tab", "information_bbs")
-                    putExtra("title", (item).title)
-                    putExtra("content", (item).content)
-                    putExtra("name", (item).username)
-                    putExtra("time", (item).time)
-                    putExtra("uid", (item).uid)
-                    putExtra("oid", (item).oid)
-                }.run { context?.startActivity(this) }
 
-            }
 
             Log.d("거리", "위도 : ${Longitude}, 경도 : ${Latitude}")
             area = getCurrentAddress(Latitude, Longitude)
