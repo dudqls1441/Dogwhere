@@ -177,10 +177,10 @@
                         android:textSize="18dp"
                         android:textStyle="bold"></TextView>
 
-                    <TextView
+                    <FrameLayout
                         android:id="@+id/participation_dog_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100dp"
                         android:layout_below="@+id/registration_participate_dog"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="4dp"
@@ -188,7 +188,14 @@
                         android:layout_marginBottom="4dp"
                         android:background="@drawable/edittext_round_black"
                         android:foregroundGravity="center"
-                        android:minHeight="100dp"></TextView>
+                        android:minHeight="100dp">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/img_dog"
+                            android:layout_gravity="center"/>
+
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/text_time"

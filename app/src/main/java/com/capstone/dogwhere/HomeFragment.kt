@@ -42,6 +42,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -146,6 +147,12 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                         .into(user_photo_img)
                     user_name_text.setText(result?.userName)
                 }
+
+
+            val week = Calendar.getInstance()
+            week.add(Calendar.DATE, -7)
+            val beforeweek = SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(week.time)
+            Log.d("yb","yb 일주일 전 -> ${beforeweek}")
 
             db.collection("information_bbs").orderBy("visitCnt", Query.Direction.DESCENDING)
                 .limit(3).get().addOnSuccessListener {

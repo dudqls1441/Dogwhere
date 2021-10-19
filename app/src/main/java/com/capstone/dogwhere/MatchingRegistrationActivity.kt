@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.Matching_InUsers
 import com.capstone.dogwhere.DTO.Participant
@@ -27,7 +29,6 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
-    private val FLAG_Select_Dog_Code = 1000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +101,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         participation_dog_layout.setOnClickListener {
             Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
                 putExtra("dogchoice_state", "matching_registration")
-            }.run { startActivity(this) }
+            }.run { startActivityForResult(this,110) }
         }
 //여기
         doguid= intent.getStringArrayExtra("select_doguid").toString()
@@ -115,6 +116,30 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK){
+            Log.d("yb","result_ok")
+
+            if(requestCode==110){
+                db = FirebaseFirestore.getInstance()
+                auth = FirebaseAuth.getInstance()
+                val uid = auth.currentUser!!.uid
+                val dog_id= data!!.getStringExtra("dog").toString()
+
+                val dog_name = data!!.getStringExtra("dog_name").toString()
+
+                db.collection("users").document(uid).collection("dogprofiles").document(dog_id).get().addOnSuccessListener {
+                    val dog_img = it.get("photoUrl").toString()
+                    Glide.with(this).load(dog_img).centerCrop().into(img_dog)
+                    Log.d("yb","dog_img -> ${dog_img}")
+                }
+                Log.d("yb","dog_id-> ${dog_id}")
+                Log.d("yb","강아지 선택 화면에서 돌아온 상태")
+                Log.d("yb","dog_name = > ${dog_name}")
+
+            }
+        }
+
 
 
     }

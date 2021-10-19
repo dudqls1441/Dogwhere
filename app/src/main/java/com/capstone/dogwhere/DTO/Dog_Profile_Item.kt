@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.dog_profile_item.view.*
 
 class Dog_Profile_Item (
     val uid:String,
+    val docId :String,
         val age: String,
         val name: String,
         val breed: String,
