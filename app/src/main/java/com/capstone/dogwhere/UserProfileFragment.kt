@@ -51,7 +51,6 @@ class UserProfileFragment : Fragment() {
                                 dogs?.dogName,
                                 dogs?.dogBreed,
                                 dogs?.dogSex,
-                                true,
                                 dogs?.photoUrl.toString()
                             )
                         )

@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.capstone.dogwhere.DTO.DogProfile
-import com.capstone.dogwhere.DTO.Dog_Profile_Item
-import com.capstone.dogwhere.DTO.Matching_List_Item
+import com.capstone.dogwhere.DTO.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +17,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_dog_profile.*
 import kotlinx.android.synthetic.main.activity_matching_registration.*
+import java.io.Serializable
 
 class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -26,29 +25,27 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
     private val TAG = DogProfileActivity::class.java.simpleName
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
     val db = Firebase.firestore
-    private lateinit var doguid:ArrayList<String>
+    private var dogname=ArrayList<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_choice_dog_registration)
 
         init()
 
+
         btn_registration.setOnClickListener {
-//            Intent(this, MatchingRegistrationActivity::class.java).apply {
-//                putExtra("select_doguid",doguid)
-//            }.run {
-//                startActivity(this)
-//            }
+            for (i in 0 until adapter.groupCount){
+                var list: Dog_Choice_item=adapter.getItem(i) as Dog_Choice_item
+                if(list.checked) {
+                    dogname.add((list.name))
+                }
+            }
+            Log.e("yy","체크된 dogname: "+dogname)
+            val intent= Intent(this, MatchingRegistrationActivity::class.java)
+            intent.putExtra("select_dogname",dogname) //강아지 유아이디 리스트 넘겨주고
+            setResult(Activity.RESULT_OK,intent)
             finish()
         }
-
-//        adapter.setOnItemClickListener { item, view ->
-//            Log.d("ClickMatching", (item as  Dog_Profile_Item).name)
-//            doguid=
-//            doguid.add((item).uid)
-//        }
-
-        //Log.e("yy", "누른 강아지 uid"+doguid.toString())
     }
 
     private fun init() {
@@ -68,14 +65,13 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                         if (dogs != null) {
                             Log.d("dogprofile있음", result.toString())
                             adapter.add(
-                                Dog_Profile_Item(
+                                Dog_Choice_item(
                                     dogs.uid,
                                     document.id,
                                     dogs?.dogAge + "살",
                                     dogs?.dogName,
                                     dogs?.dogBreed,
                                     dogs?.dogSex,
-                                    true,
                                     dogs?.photoUrl.toString()
                                 )
                             )
@@ -83,16 +79,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                             Log.d("DogProfile읽기 성공", "강아지 이름 : ${dogs?.dogName}")
                         }
                         dog_profiles_recyclerview?.adapter = adapter
-                        adapter.setOnItemClickListener { item, view ->
-                            Log.d("yb", "selected dogname -> ${(item as Dog_Profile_Item).name}")
-                            Log.d("yb","selected dog document -> ${item.docId}")
 
-                            val intent = Intent(this,MatchingRegistrationActivity::class.java)
-                            intent.putExtra("dog_name",(item).name)
-                            intent.putExtra("dog",(item).docId)
-                            setResult(Activity.RESULT_OK,intent)
-                            finish()
-                        }
                     }
                 } else {
                     Toast.makeText(this,"등록된 강아지가 없습니다",Toast.LENGTH_SHORT)
