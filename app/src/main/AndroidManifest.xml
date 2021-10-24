@@ -100,6 +100,7 @@
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".joinId" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".MatchingRegistration_Area"/>
     </application>
 
 </manifest>

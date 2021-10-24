@@ -1,27 +1,40 @@
 package com.capstone.dogwhere
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.location.*
 import android.os.Bundle
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.Matching_InUsers
 import com.capstone.dogwhere.DTO.Participant
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.*
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_matching_registration.*
-import kotlinx.android.synthetic.main.activity_register_user_profile.*
-import org.jetbrains.anko.sdk25.coroutines.onClick
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class MatchingRegistrationActivity : AppCompatActivity() {
+class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
+    OnCameraMoveListener, OnMapClickListener,
+    OnInfoWindowClickListener,
+    OnMarkerDragListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     lateinit var party_address:String
@@ -29,7 +42,9 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
-
+    var map: GoogleMap? = null
+    var mLM: LocationManager? = null
+    var mProvider = LocationManager.NETWORK_PROVIDER
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +60,12 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         btn_registration.setOnClickListener {
             register()
         }
+
+        //지도
+        mLM = getSystemService(LOCATION_SERVICE) as LocationManager
+       val fragment = supportFragmentManager
+            .findFragmentById(R.id.registration_mapfragment) as SupportMapFragment?
+        fragment!!.getMapAsync(this)
 
         val yearList = (21..25).toList()
         val monthList = (1..12).toList()
@@ -103,7 +124,10 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 putExtra("dogchoice_state", "matching_registration")
             }.run { startActivityForResult(this,110) }
         }
-//여기
+
+        // 지도 클릭 시 위치 고르는 화면으로 전환 후 좌표 가지고 돌아오기
+
+
         doguid= intent.getStringArrayExtra("select_doguid").toString()
         Log.d("yy","선택한 강아지 리스트"+doguid)
         party_address = intent.getStringExtra("address").toString()
@@ -113,12 +137,157 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        val location = mLM!!.getLastKnownLocation(mProvider)
+        if (location != null) {
+            mListener.onLocationChanged(location)
+        }
+        mLM!!.requestSingleUpdate(mProvider, mListener, null)
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mLM!!.removeUpdates(mListener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    private fun moveMap(lat: Double, lng: Double) {
+        if (map != null) {
+            val latLng = LatLng(lat, lng)
+            val position = CameraPosition.Builder()
+                .target(latLng)
+                .bearing(30f)
+                .tilt(45f)
+                .zoom(17f)
+                .build()
+            val update = CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            //            CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+            map!!.moveCamera(update)
+            //        map.animateCamera(update);
+        }
+    }
+
+    var mListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            moveMap(location.latitude, location.longitude)
+        }
+
+        override fun onStatusChanged(s: String, i: Int, bundle: Bundle) {}
+        override fun onProviderEnabled(s: String) {}
+        override fun onProviderDisabled(s: String) {}
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        //        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//        map.setIndoorEnabled(true);
+//        map.setBuildingsEnabled(true);
+//        map.setTrafficEnabled(true);
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        val mylocation = getMyLocation()
+        map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mylocation.latitude, mylocation.longitude), 14f))
+        map!!.isMyLocationEnabled = true
+        map!!.setOnCameraMoveListener(this)
+        map!!.setOnMapClickListener(this)
+        map!!.setOnInfoWindowClickListener(this)
+        map!!.setOnMarkerDragListener(this)
+        val mapui = map!!.uiSettings
+        mapui.isZoomControlsEnabled = false
+        mapui.isMapToolbarEnabled = false
+        mapui.isZoomGesturesEnabled = false
+        mapui.isTiltGesturesEnabled = false
+        mapui.isRotateGesturesEnabled = false
+        mapui.isScrollGesturesEnabled = false
+        mapui.isScrollGesturesEnabledDuringRotateOrZoom = false
+        mapui.isCompassEnabled = false
+//        val position = map!!.cameraPosition
+//        val target = position.target
+//
+//        target.latitude
+//        target.longitude
+//        btn_map_add.setOnClickListener {
+//            val intent = Intent(this,MatchingRegistrationActivity::class.java)
+//            Log.e("joo", target.toString())
+//            intent.putExtra("choice_lat", target.latitude)
+//            intent.putExtra("choice_lon", target.longitude)
+//            setResult(Activity.RESULT_OK,intent)
+//            finish()
+//        }
+    }
+
+
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(resultCode == Activity.RESULT_OK){
             Log.d("yb","result_ok")
+
+            when (requestCode){
+                110 -> {
+                    db = FirebaseFirestore.getInstance()
+                    auth = FirebaseAuth.getInstance()
+                    val uid = auth.currentUser!!.uid
+                    val dog_id= data!!.getStringExtra("dog").toString()
+
+                    val dog_name = data!!.getStringExtra("dog_name").toString()
+
+                    db.collection("users").document(uid).collection("dogprofiles").document(dog_id).get().addOnSuccessListener {
+                        val dog_img = it.get("photoUrl").toString()
+                        Glide.with(this).load(dog_img).centerCrop().into(img_dog)
+                        Log.d("yb","dog_img -> ${dog_img}")
+                    }
+                    Log.d("yb","dog_id-> ${dog_id}")
+                    Log.d("yb","강아지 선택 화면에서 돌아온 상태")
+                    Log.d("yb","dog_name = > ${dog_name}")
+                }
+                100 -> {
+                    // 좌표를 가지고 와서 위치 정보 가져오기
+                    val choice_lat= data!!.getStringExtra("choice_lat").toString()
+                    val choice_lon = data!!.getStringExtra("choice_lon").toString()
+                    Log.e("joo", choice_lat + choice_lon)
+                    moveMap(choice_lat.toDouble(), choice_lon.toDouble())
+                    addMarker(choice_lat.toDouble(), choice_lon.toDouble(), "선택한 위치")
+                }
+
+            }
 
             if(requestCode==110){
                 db = FirebaseFirestore.getInstance()
@@ -138,6 +307,8 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 Log.d("yb","dog_name = > ${dog_name}")
 
             }
+
+
         }
 
 
@@ -388,6 +559,66 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         }
 
     }
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation(): LatLng {
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        when {
+            isNetworkEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+            isGPSEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+
+            else -> {
+                Toast.makeText(
+                    this,
+                    "GPS 권한 오류",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return LatLng(37.537523, 126.96558)
+            }
+        }
+    }
+
+    override fun onCameraMove() {
+    }
+
+    override fun onMapClick(p0: LatLng) {
+        Log.e("joo", "mapclick hello")
+            Intent(this,MatchingRegistration_Area::class.java).apply {
+                putExtra("dogchoice_state", "matching_registration")
+            }.run { startActivityForResult(this,100) }
+
+    }
+
+
+    override fun onInfoWindowClick(p0: Marker) {
+    }
+
+    override fun onMarkerDragStart(p0: Marker) {
+    }
+
+    override fun onMarkerDrag(p0: Marker) {
+    }
+
+    override fun onMarkerDragEnd(p0: Marker) {
+    }
 
 
 //    private fun put33(
@@ -445,4 +676,49 @@ class MatchingRegistrationActivity : AppCompatActivity() {
 //
 //    }
 
+    private fun getCurrentAddress(latitude: Double, longitude: Double): String {
+
+        //지오코더... GPS를 주소로 변환
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses: List<Address>?
+        addresses = try {
+            geocoder.getFromLocation(
+                latitude,
+                longitude,
+                7
+            )
+        } catch (ioException: IOException) {
+            //네트워크 문제
+            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show()
+            return "지오코더 서비스 사용불가"
+        } catch (illegalArgumentException: IllegalArgumentException) {
+            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show()
+            return "잘못된 GPS 좌표"
+        }
+        if (addresses == null || addresses.size == 0) {
+            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show()
+            return "주소 미발견"
+        }
+        val address: Address = addresses[0]
+        Log.e("joo", address.getAddressLine(0).toString())
+        val area = address.getAddressLine(0).toString()
+        val arealist = area.split(" ")
+        return "${arealist[1]} ${arealist[2]} ${arealist[3]} ${arealist[4]}"
+    }
+
+    var marker: Marker? = null
+    private fun addMarker(lat: Double, lng: Double, title: String) {
+        if (marker != null) {
+            marker!!.remove()
+            marker = null
+        }
+        val options = MarkerOptions()
+        options.position(LatLng(lat, lng))
+        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        options.anchor(0.5f, 1f)
+        options.title(title)
+        options.snippet("snippet - $title")
+        options.draggable(true)
+        marker = map!!.addMarker(options)
+    }
 }
