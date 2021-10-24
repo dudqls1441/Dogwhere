@@ -80,6 +80,7 @@ class DogProfileActivity : AppCompatActivity() {
                         adapter.add(
                             Dog_Profile_Item(
                                 dogs.uid,
+                                document.id,
                                 dogs?.dogAge + "살",
                                 dogs?.dogName,
                                 dogs?.dogBreed,

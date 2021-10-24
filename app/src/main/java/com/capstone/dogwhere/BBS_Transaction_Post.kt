@@ -17,7 +17,6 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
 import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,7 +54,9 @@ class BBS_Transaction_Post : AppCompatActivity() {
         getComment(bbs_tabname, bbs_oid)
         // 댓글 작성 이벤트
         btn_bbsTrans_send.setOnClickListener {
-            writeComment(uid, bbs_tabname, bbs_oid)
+            if(edittext_bbsTrans_comment.text.toString() != ""){
+                writeComment(uid, bbs_tabname, bbs_oid)
+            }
         }
         // 게시물 하트 버튼 이벤트
         img_bbsTrans_writerLike.setOnClickListener{
@@ -72,7 +73,7 @@ class BBS_Transaction_Post : AppCompatActivity() {
             startActivity(intent)
         }
 
-        img_bbsCommon_writer.setOnClickListener {
+        img_bbsTrans_writer.setOnClickListener {
             Intent(this, UserProfileActivity::class.java).apply {
                 putExtra("name", name)
                 putExtra("uid", your_uid)
@@ -85,6 +86,9 @@ class BBS_Transaction_Post : AppCompatActivity() {
         text_bbsTrans_writerTime.setText(intent.getStringExtra("time"))
         text_bbsTrans_price.setText("\\" + intent.getStringExtra("price"))
 
+        btn_bbsTrans_back.setOnClickListener {
+            finish()
+        }
 
         adapter.setOnItemClickListener { item, view ->
             val comment = item as BBS_CommentItem
@@ -150,8 +154,7 @@ class BBS_Transaction_Post : AppCompatActivity() {
 
 
     private fun writeComment(uid : String, bbs_tabname: String, bbs_oid: String) {
-        if(edittext_bbsTrans_comment.text.toString() == ""){
-        } else{
+
             db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                 .addOnSuccessListener { result ->
                     val result = result.toObject<UserProfile>()
@@ -169,7 +172,7 @@ class BBS_Transaction_Post : AppCompatActivity() {
                         e.printStackTrace()
                     }
                 }
-        }
+
     }
 
 
@@ -212,10 +215,11 @@ class BBS_Transaction_Post : AppCompatActivity() {
         val time = currenttime().toString()
         val bbscomment = BBS_Comment(uid, comment, nickname, time, profile)
 
+        edittext_bbsTrans_comment.setText("")
+
         val doc = db.collection(bbs_tab).document(bbs_oid).collection("Comment").document()
         Log.e("joo", "postComment id :"+ doc.id)
         doc.set(bbscomment)
-        edittext_bbsTrans_comment.setText("")
     }
 
     private fun currenttime(): String? {
