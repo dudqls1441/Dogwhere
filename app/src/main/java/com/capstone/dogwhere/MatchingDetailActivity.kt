@@ -52,12 +52,9 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
         init()
-        val btn_back = findViewById<ImageButton>(R.id.btn_back)
 
         btn_back.setOnClickListener {
-            val intent = Intent(this, MatchingListActivity::class.java)
-            startActivity(intent)
-            finish()
+                finish()
         }
         btn_chatting.setOnClickListener {
             goChatting()
@@ -69,7 +66,7 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
         matching_tab_layout.addTab(matching_tab_layout.newTab().setText("모임설명"))
-        matching_tab_layout.addTab(matching_tab_layout.newTab().setText("참여 명단"))
+        matching_tab_layout.addTab(matching_tab_layout.newTab().setText("참여 반려견 명단"))
 
 
         matching_view_pager.adapter = MatchingPagerAdapter(supportFragmentManager, 2)
@@ -312,6 +309,7 @@ class MatchingDetailActivity : AppCompatActivity() {
         val uid = auth.currentUser!!.uid.toString()
         db = FirebaseFirestore.getInstance()
         if (intent.hasExtra("leaderuid") && (intent.hasExtra("documentId"))) {
+            //강아지 선택하는 다이얼로그 띄우고
             val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
             val matchingtitle = intent.getStringExtra("title").toString()
             val documentId = intent.getStringExtra("documentId").toString()

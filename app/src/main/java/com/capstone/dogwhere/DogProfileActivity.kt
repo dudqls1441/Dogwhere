@@ -84,7 +84,6 @@ class DogProfileActivity : AppCompatActivity() {
                                 dogs?.dogName,
                                 dogs?.dogBreed,
                                 dogs?.dogSex,
-                                true,
                                 dogs?.photoUrl.toString()
                             )
                         )

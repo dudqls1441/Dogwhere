@@ -36,9 +36,26 @@ class MatchingExplanationFragment : Fragment() {
             db.collection("Matching").document(documentId).get().addOnSuccessListener {
                 val result = it.toObject<Matching>()
                 text_explain!!.setText(result!!.explanation)
-                condition_size!!.setText(result!!.condition_dog_size)
-                condition_neutralization!!.setText(result!!.condition_dog_neutralization)
-                condition_gender!!.setText(result!!.condition_owner_gender)
+                var size=result!!.condition_dog_size
+                when(size){
+                    "all" -> condition_size.setText("제한 없음")
+                    "all,small" -> condition_size.setText("소형견")
+                    "all,middle" -> condition_size.setText("중형견")
+                    "all,big" -> condition_size.setText("대형견")
+                }
+                var neu=result!!.condition_dog_neutralization
+                when(neu){
+                    "all" ->  condition_neutralization.setText("제한 없음")
+                    "all,neutralization" -> condition_neutralization.setText("중성화 필수")
+                }
+                var gen=result!!.condition_owner_gender
+                when(gen){
+                    "all" ->  condition_gender!!.setText("제한 없음")
+                    "all,man" ->  condition_gender!!.setText("남자")
+                    "all,woman" ->  condition_gender!!.setText("여자")
+                }
+
+
             }.addOnFailureListener {
                 Log.e("getdb", "getdb실패")
             }
@@ -48,6 +65,7 @@ class MatchingExplanationFragment : Fragment() {
 
         return view
     }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

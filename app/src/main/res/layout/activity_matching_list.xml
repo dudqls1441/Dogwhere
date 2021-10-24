@@ -52,6 +52,7 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:checked="true"
                 android:id="@+id/search_all"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -94,6 +95,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:checked="true"
                     android:id="@+id/size_all"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -146,6 +148,7 @@
             android:orientation="horizontal">
 
         <RadioButton
+            android:checked="true"
             android:id="@+id/neutralization_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -181,6 +184,7 @@
 
                 <RadioButton
                     android:id="@+id/gender_all"
+                    android:checked="true"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

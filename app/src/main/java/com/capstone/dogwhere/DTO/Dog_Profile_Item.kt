@@ -14,7 +14,6 @@ class Dog_Profile_Item (
         val name: String,
         val breed: String,
         val sex: String,
-        val authentication: Boolean,
         val img : String
     ) : Item<GroupieViewHolder>() {
 
@@ -24,7 +23,6 @@ class Dog_Profile_Item (
             viewHolder.itemView.dog_breed.text = breed
             viewHolder.itemView.dog_name.text = name
             viewHolder.itemView.dog_sex.text = sex
-
             Glide.with(viewHolder.itemView).load(img).circleCrop().into(viewHolder.itemView.img_dog_profile)
 
         }

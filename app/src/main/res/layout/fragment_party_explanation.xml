@@ -21,7 +21,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/nightl"
-            android:text="매칭 조건"
+            android:text="산책 모임 참여 조건"
             android:textColor="@color/main_mint"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -103,7 +103,7 @@
                 android:layout_weight="3"
                 android:fontFamily="@font/nightl"
                 android:gravity="center"
-                android:text="주인 성별"
+                android:text="견주 성별"
                 android:textColor="@color/main_mint"
                 android:textSize="18dp"
                 android:textStyle="bold" />

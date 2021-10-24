@@ -148,8 +148,9 @@ class BBS_Common_Writing : AppCompatActivity() {
         doc.set(post)
             .addOnSuccessListener { documentReference ->
                 Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
-                val intent = Intent(this, MainMenuActivity::class.java)
-                startActivity(intent)
+                val Intent = Intent(this, MainMenuActivity::class.java)
+                Intent.putExtra("state", intent.getStringExtra("tab").toString())
+                startActivity(Intent)
                 finish()
             }
             .addOnFailureListener { e ->

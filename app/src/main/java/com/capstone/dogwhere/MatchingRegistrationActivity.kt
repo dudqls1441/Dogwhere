@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,7 @@ import com.capstone.dogwhere.DTO.Participant
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_matching_registration.*
-import kotlinx.android.synthetic.main.activity_register_user_profile.*
+
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,7 +24,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     lateinit var party_address:String
-    lateinit var doguid:String
+    private var dogname=ArrayList<kotlin.String>()
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
@@ -44,7 +45,9 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         btn_registration.setOnClickListener {
             register()
         }
-
+        btn_back.setOnClickListener{
+            this.finish()
+        }
         val yearList = (21..25).toList()
         val monthList = (1..12).toList()
         val dayList = (1..31).toList()
@@ -100,11 +103,10 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         participation_dog_layout.setOnClickListener {
             Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
                 putExtra("dogchoice_state", "matching_registration")
-            }.run { startActivity(this) }
+            }.run { startActivityForResult(this,110) }
         }
-//여기
-        doguid= intent.getStringArrayExtra("select_doguid").toString()
-        Log.d("yy","선택한 강아지 리스트"+doguid)
+
+
         party_address = intent.getStringExtra("address").toString()
         Log.d("yy",party_address)
         if (party_address!="null"){
@@ -115,6 +117,14 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode==110){
+                dogname= intent.getSerializableExtra("select_dogname") as ArrayList<String>
+                Log.d("yy","저장할 강아지 리스트"+dogname)
+                participation_dog_layout.text= dogname.toString()
+            }
+        }
 
 
     }
@@ -173,7 +183,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
         size_big.setTextColor(Color.parseColor("#52443C3C"))
 
-        condition_size ="small"
+        condition_size ="all,small"
     }
     private fun checked_size_middle() {
         size_all.setBackgroundResource(R.drawable.backgroundgraycircle)
@@ -185,7 +195,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
         size_big.setTextColor(Color.parseColor("#52443C3C"))
 
-        condition_size ="middle"
+        condition_size ="all,middle"
     }
     private fun checked_size_big() {
         size_all.setBackgroundResource(R.drawable.backgroundgraycircle)
@@ -197,7 +207,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         size_big.setBackgroundResource(R.drawable.backgroundgreencircle)
         size_big.setTextColor(Color.parseColor("#00C09F"))
 
-        condition_size ="big"
+        condition_size ="all,big"
     }
 
     private fun checked_dontCare_neutralization() {
@@ -215,7 +225,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         neutralization.setBackgroundResource(R.drawable.backgroundgraycircle)
         neutralization.setTextColor(Color.parseColor("#00C09F"))
 
-        condition_neutralization ="neutralization"
+        condition_neutralization ="all,neutralization"
     }
 
     private fun checked_gender_all() {
@@ -239,7 +249,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         gender_woman.setTextColor(Color.parseColor("#52443C3C"))
 
 
-        condition_owner_gender ="man"
+        condition_owner_gender ="all,man"
     }
 
     private fun checked_gender_woman() {
@@ -251,7 +261,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         gender_woman.setTextColor(Color.parseColor("#00C09F"))
 
 
-        condition_owner_gender ="woman"
+        condition_owner_gender ="all,woman"
     }
 
     private fun register() {
@@ -328,6 +338,13 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                     .set( Participant(uid, uid, curTime.toString()))
                     .addOnSuccessListener {
                         Log.d("Participant", "MatchingDetailActivity_participant  성공")
+//                        db.collection("Matching").document(documentId).collection("participant").document(uid)
+//                            .set( Participant(uid, uid, curTime.toString()))
+//                            .addOnSuccessListener {
+//                                Log.d("Participant", "MatchingDetailActivity_participant  성공")
+//
+//                            }
+
                     }.addOnFailureListener {
                         Log.d("Participant", "Participant 실패 이유 : ${it}")
                     }
@@ -343,21 +360,19 @@ class MatchingRegistrationActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     Log.d("InsertMatchingUsers", "InsertMatchingUsers_실패")
                 }
-                Intent(this, MatchingDetailActivity::class.java).apply {
-                    putExtra("title", title)
-                    putExtra("explain", explain)
-                    putExtra("leaderuid", uid)
-                    putExtra("documentId", documentId)
-                }.run { startActivity(this) }
-                finish()
-
             }.addOnFailureListener {
                 Log.d("InsertParty", "InsertParty_실패")
             }
-
-
-
-        } else {
+            val intent=Intent(this, MatchingDetailActivity::class.java)
+            intent.putExtra("state", "after matching registered")
+            intent.putExtra("title", title)
+            intent.putExtra("explain", explain)
+            intent.putExtra("leaderuid", uid)
+            intent. putExtra("documentId", documentId)
+            startActivity(intent)
+            this.finish()
+        }
+        else {
             Toast.makeText(this, "빈 칸을 확인해주세요.", Toast.LENGTH_SHORT)
                 .show()
         }

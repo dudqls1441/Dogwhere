@@ -5,8 +5,10 @@ data class DogProfile(    val uid: String,
                           val photoUrl: String,
                           val dogAge: String,
                           val dogBreed: String,
-                          val dogSex: String
+                          val dogSex: String,
+                          val dogSize: String="null",
+                          val neutering: Boolean=false,
 ) {
 
-    constructor() : this("", "", "", "", "", "")
+    constructor() : this("", "", "", "", "","")
 }
