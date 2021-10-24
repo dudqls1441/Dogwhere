@@ -261,7 +261,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         gender_woman.setTextColor(Color.parseColor("#00C09F"))
 
 
-        condition_owner_gender ="all,woman"
+        condition_owner_gender ="all,wm"
     }
 
     private fun register() {
