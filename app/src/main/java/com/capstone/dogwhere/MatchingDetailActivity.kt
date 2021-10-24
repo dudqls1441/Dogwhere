@@ -51,12 +51,12 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
         init()
-        val btn_back = findViewById<ImageButton>(R.id.btn_back)
 
         btn_back.setOnClickListener {
-            val intent = Intent(this, MatchingListActivity::class.java)
-            startActivity(intent)
-            finish()
+                finish()
+        }
+        btn_trash.setOnClickListener {
+            deleteDialog()
         }
         btn_chatting.setOnClickListener {
             goChatting()
@@ -68,7 +68,7 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
         matching_tab_layout.addTab(matching_tab_layout.newTab().setText("모임설명"))
-        matching_tab_layout.addTab(matching_tab_layout.newTab().setText("참여 명단"))
+        matching_tab_layout.addTab(matching_tab_layout.newTab().setText("참여 반려견 명단"))
 
 
         matching_view_pager.adapter = MatchingPagerAdapter(supportFragmentManager, 2)
@@ -102,6 +102,10 @@ class MatchingDetailActivity : AppCompatActivity() {
         val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         val matchingDocumentId = intent.getStringExtra("documentId").toString()
         val matchingTitle = intent.getStringExtra("title").toString()
+
+        if(uid==matchingLeaderUid){
+            btn_trash.visibility=View.VISIBLE
+        }
 
         db.collection("Matching").document(matchingDocumentId).collection("participant")
             .document(uid).get().addOnSuccessListener {
@@ -288,6 +292,40 @@ class MatchingDetailActivity : AppCompatActivity() {
             }
     }
 
+    //매칭 삭제 다이얼로그
+    private fun deleteDialog(){
+        val dialog = CustomDialog_bbs_delete_check(this)
+        val title="매칭 삭제"
+        val description="매칭을 삭제하시겠습니까?"
+        val action_text="삭제"
+        dialog.mydialog(title,description,action_text)
+        dialog.setOnclickedListener(object :
+            CustomDialog_bbs_delete_check.ButtonClickListener {
+            override fun onclickAction() {
+                try {
+                    matchingDelete()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onlcickClose() {
+
+            }
+        })
+    }
+
+    private fun matchingDelete() {
+        val matchingDocumentId = intent.getStringExtra("documentId").toString()
+        db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
+            Log.d("yb","ybyb 매칭 삭제 성공")
+            val intent = Intent(this,Search_Region::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+            finish()
+        }
+    }
+
     //채팅 메서드
     private fun goChatting() {
         auth = FirebaseAuth.getInstance()
@@ -311,6 +349,7 @@ class MatchingDetailActivity : AppCompatActivity() {
         val uid = auth.currentUser!!.uid.toString()
         db = FirebaseFirestore.getInstance()
         if (intent.hasExtra("leaderuid") && (intent.hasExtra("documentId"))) {
+            //강아지 선택하는 다이얼로그 띄우고
             val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
             val matchingtitle = intent.getStringExtra("title").toString()
             val documentId = intent.getStringExtra("documentId").toString()
@@ -378,55 +417,56 @@ class MatchingDetailActivity : AppCompatActivity() {
 
 
 
+    //푸시 알림을 위함..--> 아마 안 쓸듯?
     //누군가 나의 매칭에 참여했을 때 푸시 알림//
-    private fun matchingAdded() {
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        val uid = auth.currentUser?.uid.toString()
-        val documentIdlist = mutableListOf<String>()
-
-
-        val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
-        val matchingDocumentId = intent.getStringExtra("documentId").toString()
-        val matchingTitle = intent.getStringExtra("title").toString()
-
-        val matching =
-            FirebaseFirestore.getInstance().collection("users").document(uid).collection("matching")
-                .whereEqualTo("matchingLeaderUid", uid)
-
-
-        matching.get().addOnSuccessListener {
-            for (document in it) {
-                documentIdlist.add(document["documentId"].toString())
-            }
-            Log.d("matchingAdded", "matchingAdded : documentId -> ${documentIdlist}")
-
-            for (i in documentIdlist) {
-                db.collection("Matching").document(i).collection("participant")
-                    .addSnapshotListener { snapshot, e ->
-                        if (e != null) {
-                            Log.w("MacthingDetail", "matchingadded 메서드 snapshot 에러 : ${e.message}")
-                            return@addSnapshotListener
-                        }
-                        if (snapshot!!.metadata.isFromCache) return@addSnapshotListener
-                        for (doc in snapshot.documentChanges) {
-                            //documet 에 문서가 추가되었을 때
-                            if (doc.type == DocumentChange.Type.ADDED) {
-                                //내 매칭에 참여한 uid
-                                val addedUid = doc.document["uid"].toString()
-                                val addedTime = doc.document["time"].toString()
-                                Log.d("MatchingDetail", "matchingAdded - addedUid -> ${addedUid}")
-                                Log.d("MatchingDetail", "matchingAdded - addedTime -> ${addedTime}")
-
-
-                            }
-                        }
-                    }
-            }
-
-
-        }
-    }
+//    private fun matchingAdded() {
+//        auth = FirebaseAuth.getInstance()
+//        db = FirebaseFirestore.getInstance()
+//        val uid = auth.currentUser?.uid.toString()
+//        val documentIdlist = mutableListOf<String>()
+//
+//
+//        val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
+//        val matchingDocumentId = intent.getStringExtra("documentId").toString()
+//        val matchingTitle = intent.getStringExtra("title").toString()
+//
+//        val matching =
+//            FirebaseFirestore.getInstance().collection("users").document(uid).collection("matching")
+//                .whereEqualTo("matchingLeaderUid", uid)
+//
+//
+//        matching.get().addOnSuccessListener {
+//            for (document in it) {
+//                documentIdlist.add(document["documentId"].toString())
+//            }
+//            Log.d("matchingAdded", "matchingAdded : documentId -> ${documentIdlist}")
+//
+//            for (i in documentIdlist) {
+//                db.collection("Matching").document(i).collection("participant")
+//                    .addSnapshotListener { snapshot, e ->
+//                        if (e != null) {
+//                            Log.w("MacthingDetail", "matchingadded 메서드 snapshot 에러 : ${e.message}")
+//                            return@addSnapshotListener
+//                        }
+//                        if (snapshot!!.metadata.isFromCache) return@addSnapshotListener
+//                        for (doc in snapshot.documentChanges) {
+//                            //documet 에 문서가 추가되었을 때
+//                            if (doc.type == DocumentChange.Type.ADDED) {
+//                                //내 매칭에 참여한 uid
+//                                val addedUid = doc.document["uid"].toString()
+//                                val addedTime = doc.document["time"].toString()
+//                                Log.d("MatchingDetail", "matchingAdded - addedUid -> ${addedUid}")
+//                                Log.d("MatchingDetail", "matchingAdded - addedTime -> ${addedTime}")
+//
+//
+//                            }
+//                        }
+//                    }
+//            }
+//
+//
+//        }
+//    }
 
 
 

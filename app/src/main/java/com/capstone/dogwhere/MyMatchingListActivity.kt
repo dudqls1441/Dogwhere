@@ -14,6 +14,11 @@ class MyMatchingListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_matching_list)
 
+
+        btn_back_in_mymatchingList.setOnClickListener {
+            finish()
+        }
+        mymatchinglist_tablayout.addTab(mymatchinglist_tablayout.newTab().setText("등록한 매칭"))
         mymatchinglist_tablayout.addTab(mymatchinglist_tablayout.newTab().setText("예약된 매칭"))
         mymatchinglist_tablayout.addTab(mymatchinglist_tablayout.newTab().setText("완료한 매칭"))
 
@@ -51,8 +56,9 @@ class MyMatchingListPagerAdapter(
     override fun getItem(position: Int): Fragment {
 
         when (position) {
-            0 -> return ReservedMatchingFragment()
-            1 -> return CompletedMatchingFragment()
+            0 -> return RegisteredMatchingFragment()
+            1 -> return ReservedMatchingFragment()
+            2 -> return CompletedMatchingFragment()
             else -> return ReservedMatchingFragment()
         }
     }

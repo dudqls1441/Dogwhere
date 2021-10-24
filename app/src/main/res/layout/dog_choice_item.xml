@@ -25,6 +25,13 @@
             android:id="@+id/dog_name"
             android:fontFamily="@font/nightl"
             android:text="이름"/>
+        <CheckBox
+            android:layout_marginTop="207dp"
+            android:id="@+id/check"
+            android:layout_toRightOf="@+id/dog_name"
+            android:layout_centerHorizontal="true"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
 
         <RelativeLayout
             android:layout_marginTop="10dp"

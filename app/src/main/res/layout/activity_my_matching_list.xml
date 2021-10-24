@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyMatchingListActivity">
+
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
@@ -13,25 +14,26 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/btn_back_in_mymatchingList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/sebanggothic"
             android:text="매칭 리스트"
-
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
             android:textColor="@color/main_labelText"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14dp" />
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout

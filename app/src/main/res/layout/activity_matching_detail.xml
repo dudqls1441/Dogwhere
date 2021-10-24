@@ -37,6 +37,18 @@
             android:textColor="@color/main_labelText"
             android:textSize="14dp" />
 
+        <ImageButton
+            android:id="@+id/btn_trash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"
+            android:background="@color/white"
+            android:src="@drawable/item_cancle" />
+
+
 
     </RelativeLayout>
 
@@ -51,12 +63,13 @@
                 android:id="@+id/maininlinelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:id="@+id/matchinggeofragment"
-                    android:src="@drawable/map1"
-                    android:scaleType="fitXY"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp" />
+                    android:layout_height="400dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/map1" />
 
                 <TextView
                     android:id="@+id/matching_title"

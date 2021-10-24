@@ -1,10 +1,12 @@
 package com.capstone.dogwhere
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main_menu.*
+import kotlinx.android.synthetic.main.common_bbs_item.*
 
 class MainMenuActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
@@ -22,10 +24,14 @@ class MainMenuActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
         bottom_nav.setOnNavigationItemSelectedListener(this)
-        homeFragment = HomeFragment.newInstance()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_frame, homeFragment).commit()
 
+        if(intent.getStringExtra("state").toString()!="null"){
+            Log.e("yy",intent.getStringExtra("state").toString())
+            bottom_nav.selectedItemId= R.id.bbsItem
+
+        }else{
+            bottom_nav.selectedItemId= R.id.homeItem
+        }
     }
 
 

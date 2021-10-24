@@ -3,7 +3,6 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/matching_list"
-
             android:title="매칭 리스트"></item>
         <item
             android:id="@+id/my_matching"

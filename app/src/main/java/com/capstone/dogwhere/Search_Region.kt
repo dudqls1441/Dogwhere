@@ -97,7 +97,9 @@ class Search_Region : AppCompatActivity() {
         listview_3.setOnItemClickListener { parent, view, position, id ->
             gu=listview_3.getItemAtPosition(position).toString()
         }
-
+        btn_back.setOnClickListener {
+            finish()
+        }
         btn_add.setOnClickListener {
             if(si!=""){
                 address=si
@@ -113,6 +115,7 @@ class Search_Region : AppCompatActivity() {
                     Intent(this, MatchingListActivity::class.java).apply {
                         putExtra("address", address)
                     }.run { startActivity(this) }
+                    finish()
                 }else{
                     Intent(this, MatchingRegistrationActivity::class.java).apply {
                         putExtra("address", address)

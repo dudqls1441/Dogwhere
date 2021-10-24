@@ -52,7 +52,7 @@ class ParticipantListFragment : Fragment() {
 
         val documentId =
             (activity as MatchingDetailActivity).intent.getStringExtra("documentId").toString()
-
+                //다 가져오는게 아니라 새로만든 거 .get()해서 가져오기
                 db.collection("Matching").document(documentId).collection("participant").get()
                     .addOnSuccessListener {
                         val it = it.toObjects<Matching>()
@@ -72,7 +72,6 @@ class ParticipantListFragment : Fragment() {
                                                     dogs?.dogName,
                                                     dogs?.dogBreed,
                                                     dogs?.dogSex,
-                                                    true,
                                                     dogs?.photoUrl.toString()
                                                 )
                                             )

@@ -9,114 +9,140 @@
     tools:context=".BBS_Transaction_Writing">
 
     <RelativeLayout
+        android:id="@+id/chatting_room_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:id="@+id/chatting_room_top"
         android:orientation="horizontal">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/l210beachofnight"
             android:text="글쓰기"
-            android:textSize="14dp"
-            android:layout_centerVertical="true"
             android:textColor="@color/main_labelText"
-            android:layout_marginTop="40dp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14dp" />
 
         <ImageButton
+            android:id="@+id/btn_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight = "true"
             android:layout_marginTop="40dp"
-            android:id="@+id/btn_post"
+            android:layout_marginRight="20dp"
             android:background="@color/white"
-            android:src="@drawable/ic_check"/>
+            android:src="@drawable/ic_check" />
     </RelativeLayout>
 
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="게시글 제목"
-            android:fontFamily="@font/l210beachofnight"
-            android:textColor="#52443C3C"
-            android:id="@+id/edit_title"
-            android:backgroundTint="#52443C3C"
-            android:textColorHint="#52443C3C"
-            android:paddingBottom="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            />
     <EditText
+        android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="가격"
-        android:fontFamily="@font/l210beachofnight"
-        android:textColor="#52443C3C"
-        android:id="@+id/edit_price"
-        android:backgroundTint="#52443C3C"
-        android:textColorHint="#52443C3C"
-        android:paddingBottom="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        />
+        android:backgroundTint="#52443C3C"
+        android:fontFamily="@font/l210beachofnight"
+        android:hint="게시글 제목"
+        android:paddingBottom="20dp"
+        android:textColor="#52443C3C"
+        android:textColorHint="#52443C3C" />
 
     <EditText
+        android:id="@+id/edit_price"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="11"
-        android:id="@+id/edit_content"
-        android:hint="내용을 입력해주세요"
-        android:gravity="start"
-        android:fontFamily="@font/l210beachofnight"
-        android:textColor="#52443C3C"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#52443C3C"
-        android:textColorHint="#52443C3C"
-        android:paddingBottom="20dp"
-        android:paddingStart="5dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@null"
-        />
-
-    <LinearLayout
+        android:backgroundTint="#52443C3C"
+        android:fontFamily="@font/l210beachofnight"
+        android:hint="가격"
+        android:paddingBottom="20dp"
+        android:textColor="#52443C3C"
+        android:textColorHint="#52443C3C" />
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:id="@+id/scrollview"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/linear_in_scrollview">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/img_product"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/stop"
+                android:visibility="gone"
+                android:layout_marginBottom="10dp"
+                />
+
+            <EditText
+                android:id="@+id/edit_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="11"
+                android:background="@null"
+                android:backgroundTint="#52443C3C"
+                android:fontFamily="@font/l210beachofnight"
+                android:gravity="start"
+                android:hint="내용을 입력해주세요"
+                android:paddingStart="5dp"
+                android:paddingBottom="20dp"
+                android:textColor="#52443C3C"
+                android:textColorHint="#52443C3C" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_gray_camera"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:id="@+id/btn_camera"/>
+                <ImageView
+                    android:id="@+id/btn_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/ic_gray_camera" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="카메라"
-            android:layout_marginStart="30dp"
-            android:id="@+id/btn_gallary"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_gray_gallery"/>
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/btn_gallary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_gray_gallery"
+                    android:text="카메라" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 
 </LinearLayout>

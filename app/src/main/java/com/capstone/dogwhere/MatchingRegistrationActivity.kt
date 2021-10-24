@@ -45,6 +45,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
     var map: GoogleMap? = null
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
+    private val FLAG_Select_Dog_Code = 1000
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +69,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             .findFragmentById(R.id.registration_mapfragment) as SupportMapFragment?
         fragment!!.getMapAsync(this)
 
+        btn_back.setOnClickListener{
+            this.finish()
+        }
         val yearList = (21..25).toList()
         val monthList = (1..12).toList()
         val dayList = (1..31).toList()
@@ -312,7 +317,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         }
 
 
-
     }
 
     private fun radio_size() {
@@ -369,7 +373,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
         size_big.setTextColor(Color.parseColor("#52443C3C"))
 
-        condition_size ="small"
+        condition_size ="all,small"
     }
     private fun checked_size_middle() {
         size_all.setBackgroundResource(R.drawable.backgroundgraycircle)
@@ -381,7 +385,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
         size_big.setTextColor(Color.parseColor("#52443C3C"))
 
-        condition_size ="middle"
+        condition_size ="all,middle"
     }
     private fun checked_size_big() {
         size_all.setBackgroundResource(R.drawable.backgroundgraycircle)
@@ -393,7 +397,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         size_big.setBackgroundResource(R.drawable.backgroundgreencircle)
         size_big.setTextColor(Color.parseColor("#00C09F"))
 
-        condition_size ="big"
+        condition_size ="all,big"
     }
 
     private fun checked_dontCare_neutralization() {
@@ -411,7 +415,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         neutralization.setBackgroundResource(R.drawable.backgroundgraycircle)
         neutralization.setTextColor(Color.parseColor("#00C09F"))
 
-        condition_neutralization ="neutralization"
+        condition_neutralization ="all,neutralization"
     }
 
     private fun checked_gender_all() {
@@ -435,7 +439,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         gender_woman.setTextColor(Color.parseColor("#52443C3C"))
 
 
-        condition_owner_gender ="man"
+        condition_owner_gender ="all,man"
     }
 
     private fun checked_gender_woman() {
@@ -447,7 +451,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         gender_woman.setTextColor(Color.parseColor("#00C09F"))
 
 
-        condition_owner_gender ="woman"
+        condition_owner_gender ="all,wm"
     }
 
     private fun register() {
@@ -524,6 +528,13 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                     .set( Participant(uid, uid, curTime.toString()))
                     .addOnSuccessListener {
                         Log.d("Participant", "MatchingDetailActivity_participant  성공")
+//                        db.collection("Matching").document(documentId).collection("participant").document(uid)
+//                            .set( Participant(uid, uid, curTime.toString()))
+//                            .addOnSuccessListener {
+//                                Log.d("Participant", "MatchingDetailActivity_participant  성공")
+//
+//                            }
+
                     }.addOnFailureListener {
                         Log.d("Participant", "Participant 실패 이유 : ${it}")
                     }
@@ -550,10 +561,16 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             }.addOnFailureListener {
                 Log.d("InsertParty", "InsertParty_실패")
             }
-
-
-
-        } else {
+            val intent=Intent(this, MatchingDetailActivity::class.java)
+            intent.putExtra("state", "after matching registered")
+            intent.putExtra("title", title)
+            intent.putExtra("explain", explain)
+            intent.putExtra("leaderuid", uid)
+            intent. putExtra("documentId", documentId)
+            startActivity(intent)
+            this.finish()
+        }
+        else {
             Toast.makeText(this, "빈 칸을 확인해주세요.", Toast.LENGTH_SHORT)
                 .show()
         }

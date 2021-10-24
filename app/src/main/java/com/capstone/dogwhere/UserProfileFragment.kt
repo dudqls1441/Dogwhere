@@ -50,7 +50,6 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
                                 dogs?.dogName,
                                 dogs?.dogBreed,
                                 dogs?.dogSex,
-                                true,
                                 dogs?.photoUrl.toString()
                             )
                         )
