@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.dog_choice_item.view.*
 
 class Dog_Choice_item (
     val uid:String,
+    val docId:String,
     val age: String,
     val name: String,
     val breed: String,

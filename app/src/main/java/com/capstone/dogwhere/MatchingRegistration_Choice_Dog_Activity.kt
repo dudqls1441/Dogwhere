@@ -79,16 +79,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                             Log.d("DogProfile읽기 성공", "강아지 이름 : ${dogs?.dogName}")
                         }
                         dog_profiles_recyclerview?.adapter = adapter
-                        adapter.setOnItemClickListener { item, view ->
-                            Log.d("yb", "selected dogname -> ${(item as Dog_Profile_Item).name}")
-                            Log.d("yb","selected dog document -> ${item.docId}")
 
-                            val intent = Intent(this,MatchingRegistrationActivity::class.java)
-                            intent.putExtra("dog_name",(item).name)
-                            intent.putExtra("dog",(item).docId)
-                            setResult(Activity.RESULT_OK,intent)
-                            finish()
-                        }
                     }
                 } else {
                     Toast.makeText(this,"등록된 강아지가 없습니다",Toast.LENGTH_SHORT)
