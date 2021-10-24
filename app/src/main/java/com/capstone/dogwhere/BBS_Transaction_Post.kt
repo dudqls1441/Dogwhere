@@ -3,8 +3,10 @@ package com.capstone.dogwhere
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.capstone.dogwhere.BBS.HeartPost
 import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
@@ -18,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
+import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.img_product
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +40,6 @@ class BBS_Transaction_Post : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
         val your_uid = intent.getStringExtra("uid").toString()
-
         val name = intent.getStringExtra("name").toString()
 
 
@@ -45,6 +47,19 @@ class BBS_Transaction_Post : AppCompatActivity() {
         setContentView(R.layout.activity_b_b_s__transaction__post)
 
 
+
+        //게시글 사진
+        setProductPhoto(bbs_oid)
+
+        btn_bbsTrans_trash.setOnClickListener {
+            Log.d("yb","myuid-> ${uid} your_uid-> ${your_uid}")
+            if(uid!!.equals(your_uid)){
+                deleteDialog(bbs_oid)
+                Log.d("yb","ybyb내 게시물")
+            }else{
+                Log.d("yb","ybyb내 게시물 아님")
+            }
+        }
 
         // 게시글 작성자 프로필
         getWriterProfile()
@@ -97,6 +112,49 @@ class BBS_Transaction_Post : AppCompatActivity() {
                 putExtra("name", comment.username)
                 putExtra("uid", comment.uid)
             }.run { startActivity(this) }
+        }
+
+    }
+    private fun deleteDialog(bbs_oid: String){
+        val dialog = CustomDialog_bbs_delete_check(this)
+        val title="게시글 삭제"
+        val description="게시글을 삭제하시겠습니까?"
+        val action_text="삭제"
+        dialog.mydialog(title,description,action_text)
+        dialog.setOnclickedListener(object :
+            CustomDialog_bbs_delete_check.ButtonClickListener {
+            override fun onclickAction() {
+                try {
+                    trash(bbs_oid)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onlcickClose() {
+
+            }
+        })
+    }
+
+    //게시물 지우기
+    private fun trash(bbs_oid:String){
+        db.collection("transaction_bbs").document(bbs_oid).delete().addOnSuccessListener {
+            Log.d("yb","게시물이 삭제되었습니다.")
+            val intent= Intent(this,MainMenuActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+    private fun setProductPhoto(bbs_oid: String) {
+        Log.d("yb","bbs_oid -> ${bbs_oid}")
+        db.collection("transaction_bbs").document(bbs_oid).get().addOnSuccessListener {
+            val img = it.get("uri").toString()
+            Log.d("yb","img ->${img}")
+            Log.d("yb","img -> ${img}")
+            img_product.visibility= View.VISIBLE
+            Glide.with(this).load(img).placeholder(R.drawable.backgroundgray)
+                .apply(RequestOptions()).into(img_product)
         }
 
     }

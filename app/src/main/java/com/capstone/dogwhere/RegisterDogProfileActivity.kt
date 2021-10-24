@@ -70,9 +70,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
             upload(ImagePath)
         }
 
-//        adddog.setOnClickListener {
-//            AddDog()
-//        }
 
     }
 
@@ -191,9 +188,9 @@ class RegisterDogProfileActivity : AppCompatActivity() {
 
         val uploadTask = ref.putFile(file)
 
-        val urlTask = uploadTask.continueWithTask { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
+        val urlTask = uploadTask.continueWithTask { it ->
+            if (!it.isSuccessful) {
+                it.exception?.let {
                     throw it
                 }
             }
@@ -201,6 +198,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val downloadUri = task.result
+                Log.d("yb","dogprofile img -> ${downloadUri}")
                 val uid = auth.currentUser!!.uid
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()

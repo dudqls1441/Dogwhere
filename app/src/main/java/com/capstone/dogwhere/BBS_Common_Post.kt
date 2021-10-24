@@ -3,6 +3,7 @@ package com.capstone.dogwhere
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.BBS.HeartPost
@@ -42,6 +43,13 @@ class BBS_Common_Post : AppCompatActivity() {
         val name = intent.getStringExtra("name").toString()
         val your_uid = intent.getStringExtra("uid").toString()
 
+
+        if(uid==your_uid){
+            btn_trash.visibility= View.VISIBLE
+            btn_trash.setOnClickListener {
+                deleteDialog(bbs_tabname,bbs_oid)
+            }
+        }
         // 게시글 작성자 프로필
         getWriterProfile()
         // Like 유무 확인
@@ -93,6 +101,37 @@ class BBS_Common_Post : AppCompatActivity() {
             }.run { startActivity(this) }
         }
 
+    }
+    private fun deleteDialog(bbs_tabname : String,bbs_oid: String){
+        val dialog = CustomDialog_bbs_delete_check(this)
+        val title="게시글 삭제"
+        val description="게시글을 삭제하시겠습니까?"
+        val action_text="삭제"
+        dialog.mydialog(title,description,action_text)
+        dialog.setOnclickedListener(object :
+            CustomDialog_bbs_delete_check.ButtonClickListener {
+            override fun onclickAction() {
+                try {
+                    trash(bbs_tabname,bbs_oid)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onlcickClose() {
+
+            }
+        })
+    }
+
+    //게시물 지우기
+    private fun trash(bbs_tabname : String,bbs_oid:String){
+        db.collection(bbs_tabname).document(bbs_oid).delete().addOnSuccessListener {
+            Log.d("yb","게시물이 삭제되었습니다.")
+            val intent= Intent(this,MainMenuActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun getWriterProfile() {

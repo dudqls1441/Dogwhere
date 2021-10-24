@@ -24,6 +24,15 @@
             android:layout_marginLeft="20dp"
             android:background="@color/white"
             android:src="@drawable/ic_back" />
+        <ImageButton
+            android:id="@+id/btn_bbsTrans_trash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/btn_bbsTrans_refresh"
+            android:background="@color/white"
+            android:src="@drawable/item_cancle" />
 
         <ImageButton
             android:id="@+id/btn_bbsTrans_refresh"
@@ -149,12 +158,21 @@
                     android:textColor="#DE443C3C"
                     android:textSize="16dp"
                     android:textStyle="bold"/>
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/img_product"
+                    android:visibility="gone"
+                    android:src="@drawable/stop"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/text_bbsTrans_postTitle"/>
 
                 <TextView
                     android:id="@+id/text_bbsTrans_postContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/text_bbsTrans_postTitle"
+                    android:layout_below="@+id/img_product"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/nanumsquarel"
                     android:lineSpacingExtra="10dp"

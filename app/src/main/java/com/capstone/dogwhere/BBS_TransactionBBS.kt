@@ -43,6 +43,7 @@ class BBS_TransactionBBS(var tab:String) : Fragment() {
                         document.get("price").toString(),
                         document.get("uid").toString(),
                         document.get("oid").toString(),
+                        document.get("uri").toString(),
                         Integer.parseInt(document.get("heartCnt").toString()),
                         Integer.parseInt(document.get("visitCnt").toString())
                     )

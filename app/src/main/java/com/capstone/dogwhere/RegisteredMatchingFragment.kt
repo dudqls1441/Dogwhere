@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.capstone.dogwhere.DTO.Matching_Completed_List_Item
+import com.capstone.dogwhere.DTO.Matching_Registered_List_Item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_completed_matching.*
+import kotlinx.android.synthetic.main.fragment_registered_matching.*
 import kotlinx.android.synthetic.main.fragment_reserved_matching.*
 
-class CompletedMatchingFragment : Fragment() {
+class RegisteredMatchingFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class CompletedMatchingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_completed_matching, container, false)
+        val view = inflater.inflate(R.layout.fragment_registered_matching, container, false)
 
         init()
         return view
@@ -39,20 +41,22 @@ class CompletedMatchingFragment : Fragment() {
         val uid = auth.currentUser!!.uid
         val matchinglist = mutableListOf<String>()
 
+        //내가 등록한 매칭
         db.collection("users").document(uid).collection("matching").get().addOnSuccessListener {
             for (document in it) {
-                if (!uid.equals(document["matchingLeaderUid"].toString())) {
+                if (uid.equals(document["matchingLeaderUid"].toString())) {
                     matchinglist.add(document["documentId"].toString())
                 }
             }
+            Log.d("yb","ybyb matchingList -> ${matchinglist}")
             if(!matchinglist.isEmpty()){
                 //.whereEqualTo("ongoing",false)
-                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",false).get()
+                db.collection("Matching").whereIn("documentId", matchinglist).get()
                     .addOnSuccessListener {
                         for (document in it) {
-                            Log.d("CompletedMatching", "Completed:documnet_Id8 = ${document.id}")
+                            Log.d("Registerd", "Registerd:documnet_Id8 = ${document.id}")
                             adapter.add(
-                                Matching_Completed_List_Item(
+                                Matching_Registered_List_Item(
                                     document.id,
                                     document.get("title").toString(),
                                     document.get("date").toString() + "-" + document.get("startime")
@@ -61,12 +65,12 @@ class CompletedMatchingFragment : Fragment() {
                                 )
 
                             )
-                            recycler_completed_matching?.adapter = adapter
+                            recycler_registered_matching?.adapter = adapter
                         }
                     }
             }else{
                 Log.d("yb","yb matchingList 비어있음")
-                completedMatching_text_empty.setText("완료한 매칭 없음")
+                registeredMatching_text_empty.setText("등록한 매칭 없음")
             }
 
         }

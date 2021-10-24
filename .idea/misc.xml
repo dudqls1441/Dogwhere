@@ -4,14 +4,33 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Dogwhere/app/src/main/res/drawable/layout_border_mint.xml" value="0.14444444444444443" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_b_b_s__common_post.xml" value="0.11956521739130435" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_b_b_s__transaction__post.xml" value="0.36511156186612576" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_b_b_s__transaction__writing.xml" value="0.11956521739130435" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_dog_profile.xml" value="0.10400000000000001" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_home.xml" value="0.152" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_detail.xml" value="0.2" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_list.xml" value="0.20701754385964913" />
-        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_registration.xml" value="0.10400000000000001" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_registration.xml" value="0.2" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_my_matching_list.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_register_user_profile.xml" value="0.176" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/bbs_cancle_check_dialog.xml" value="0.2463768115942029" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/cancle_check_matching_dialog.xml" value="0.2463768115942029" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/dog_profile_item.xml" value="0.12335359675785208" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_common_bbs.xml" value="0.11956521739130435" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_completed_matching.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_party_explanation.xml" value="0.264" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_party_list.xml" value="0.10185185185185185" />
-        <entry key="..\:/Dogwhere/app/src/main/res/layout/home_hot_bbs_item.xml" value="0.1" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_registered_matching.xml" value="0.2463768115942029" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_transaction_bbs.xml" value="0.12335359675785208" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/home_hot_bbs_item.xml" value="0.2" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_completed_matching_item.xml" value="0.12335359675785208" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_registered_matching_item.xml" value="0.264" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/navi_header.xml" value="0.4557823129251701" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/register_matching_dialog.xml" value="0.12335359675785208" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/transaction_bbs_item.xml" value="0.25364583333333335" />
+        <entry key="..\:/Dogwhere/app/src/main/res/menu/drawer_navigation.xml" value="0.24444444444444444" />
       </map>
     </option>
   </component>
