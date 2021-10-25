@@ -20,14 +20,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:background="@color/white"
             android:src="@drawable/ic_back" />
+
         <ImageButton
             android:id="@+id/btn_bbsTrans_trash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/btn_bbsTrans_refresh"

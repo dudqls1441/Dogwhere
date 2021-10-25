@@ -220,7 +220,10 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                                 }
 
                         } else if (intent.getStringExtra("preActivity")
-                                .toString() == "MatchingDetailActivity"
+                                .toString() == "MatchingDetailActivity" || intent.getStringExtra("preActivity")
+                                .toString() == "RegisteredMatchingFragment" || intent.getStringExtra("preActivity")
+                                .toString() == "ReservedMatchingFragment" || intent.getStringExtra("preActivity")
+                                .toString() == "CompletedMatchingFragment"
                         ) {
                             Log.d(
                                 "MatchingDetailActivity",

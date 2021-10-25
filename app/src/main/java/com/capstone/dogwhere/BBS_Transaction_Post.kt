@@ -21,6 +21,7 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.*
 import kotlinx.android.synthetic.main.activity_b_b_s__transaction__post.img_product
+import kotlinx.android.synthetic.main.activity_user_profile.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,15 +52,20 @@ class BBS_Transaction_Post : AppCompatActivity() {
         //게시글 사진
         setProductPhoto(bbs_oid)
 
-        btn_bbsTrans_trash.setOnClickListener {
-            Log.d("yb","myuid-> ${uid} your_uid-> ${your_uid}")
-            if(uid!!.equals(your_uid)){
-                deleteDialog(bbs_oid)
-                Log.d("yb","ybyb내 게시물")
-            }else{
-                Log.d("yb","ybyb내 게시물 아님")
+        if(uid.equals(your_uid)||your_uid =="null"){
+            btn_bbsTrans_trash.visibility= View.VISIBLE
+            btn_bbsTrans_trash.setOnClickListener {
+                Log.d("yb","myuid-> ${uid} your_uid-> ${your_uid}")
+                if(uid!!.equals(your_uid)){
+                    deleteDialog(bbs_oid)
+                    Log.d("yb","ybyb내 게시물")
+                }else{
+                    Log.d("yb","ybyb내 게시물 아님")
+                }
             }
         }
+
+
 
         // 게시글 작성자 프로필
         getWriterProfile()

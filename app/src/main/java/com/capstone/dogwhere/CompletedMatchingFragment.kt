@@ -68,6 +68,10 @@ class CompletedMatchingFragment : Fragment() {
                         adapter.setOnItemClickListener { item, view ->
                             val intent = Intent(activity,MatchingDetailActivity::class.java)
                             intent.putExtra("documentId",(item as Matching_Completed_List_Item).documentId)
+                            intent.putExtra("preActivity", "CompletedMatchingFragment")
+                            intent.putExtra("title", item.time)
+                            intent.putExtra("documentId", item.documentId)
+                            intent.putExtra("uid", uid)
                             startActivity(intent)
                         }
                     }

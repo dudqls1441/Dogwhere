@@ -104,6 +104,9 @@ class ReservedMatchingFragment : Fragment() {
                     val intent = Intent(context, MatchingDetailActivity::class.java)
                     intent.putExtra("documentId", (item).documentId)
                     intent.putExtra("preActivity", "ReservedMatchingFragment")
+                    intent.putExtra("title", item.time)
+                    intent.putExtra("documentId", item.documentId)
+                    intent.putExtra("uid", uid)
                     startActivity(intent)
                 }
             }else{
