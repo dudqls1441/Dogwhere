@@ -52,7 +52,7 @@ class MatchingExplanationFragment : Fragment() {
                 when(gen){
                     "all" ->  condition_gender!!.setText("제한 없음")
                     "all,man" ->  condition_gender!!.setText("남자")
-                    "all,woman" ->  condition_gender!!.setText("여자")
+                    "all,wm" ->  condition_gender!!.setText("여자")
                 }
 
 

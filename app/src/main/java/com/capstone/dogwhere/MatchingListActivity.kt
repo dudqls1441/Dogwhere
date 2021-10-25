@@ -122,7 +122,7 @@ class MatchingListActivity : AppCompatActivity() {
             when (checkedId) {
                 R.id.gender_all -> condition_owner_gender = "all"
                 R.id.gender_man -> condition_owner_gender = "man"
-                R.id.gender_woman -> condition_owner_gender = "woman"
+                R.id.gender_woman -> condition_owner_gender = "wm"
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.capstone.dogwhere
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +18,7 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_dog_profile.*
+import kotlinx.android.synthetic.main.activity_matching_registration.*
 import kotlinx.android.synthetic.main.activity_search_region.*
 import kotlinx.android.synthetic.main.fragment_party_list.*
 import kotlinx.coroutines.CoroutineScope
@@ -57,25 +60,23 @@ class ParticipantListFragment : Fragment() {
                     .addOnSuccessListener {
                         val it = it.toObjects<Matching>()
                         for (document in it) {
-                            db.collection("users").document(document.uid).collection("dogprofiles")
-                               .get()
+                            db.collection("Matching").document(documentId).collection("participant").document(
+                                document.uid).collection("dogprofile").get()
                                 .addOnSuccessListener { result ->
                                     for (document in result) {
-                                        val dogs = document.toObject<DogProfile>()
-                                        if (dogs != null) {
-                                            Log.d("dogprofile있음", result.toString())
+                                        if (document != null) {
                                             adapter.add(
                                                 Dog_Profile_Item(
-                                                    dogs.uid,
-                                                    document.id,
-                                                    dogs?.dogAge + "살",
-                                                    dogs?.dogName,
-                                                    dogs?.dogBreed,
-                                                    dogs?.dogSex,
-                                                    dogs?.photoUrl.toString()
+                                                    document["uid"].toString(),
+                                                    document["docid"].toString(),
+                                                    document["age"].toString() + "살",
+                                                    document["name"].toString(),
+                                                    document["breed"].toString(),
+                                                    document["sex"].toString(),
+                                                    document["img"].toString()
                                                 )
                                             )
-                                            Log.d("DogProfile읽기 성공", "강아지 이름 : ${dogs?.dogName}")
+                                            Log.d("DogProfile읽기 성공", "강아지 이름 :"+document["name"].toString())
                                         }
                                         recyclerview_participant_list?.adapter = adapter
                                     }
@@ -87,4 +88,5 @@ class ParticipantListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
     }
+
 }

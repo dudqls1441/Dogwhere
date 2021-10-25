@@ -18,7 +18,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_common_bbs.*
 
 
-class BBS_CommonBBS(var tab: String) : Fragment() {
+class BBS_CommonBBS (var tab: String) : Fragment() {
 
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
     override fun onCreateView(

@@ -26,7 +26,7 @@ class UserProfileActivity : AppCompatActivity() {
     // 필수 정보
 
     lateinit var db: FirebaseFirestore
-    private val adapter by lazy { PagerAdapter(supportFragmentManager, 2) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
@@ -34,6 +34,7 @@ class UserProfileActivity : AppCompatActivity() {
         val profile_name = intent.getStringExtra("name").toString()
         val profile_uid = intent.getStringExtra("uid").toString()
 
+        val adapter = PagerAdapter(supportFragmentManager, 2, profile_uid)
 
 
         Log.e("joo", "profile_name,profile_uid -> "+profile_name +"++"+ profile_uid)
@@ -113,7 +114,7 @@ class UserProfileActivity : AppCompatActivity() {
 
 
 class PagerAdapter(
-    fragmentmanager: FragmentManager, val tabcount: Int
+    fragmentmanager: FragmentManager, val tabcount: Int, val profile_uid: String
 ) : FragmentStatePagerAdapter(fragmentmanager) {
 
     override fun getCount(): Int {
@@ -123,9 +124,9 @@ class PagerAdapter(
     override fun getItem(position: Int): Fragment {
 
         when (position) {
-            0 -> return UserProfileFragment()
+            0 -> return UserProfileFragment(profile_uid)
             1 -> return BBS_CommonBBS("puppy_bbs")
-            else -> return UserProfileFragment()
+            else -> return UserProfileFragment(profile_uid)
         }
     }
 

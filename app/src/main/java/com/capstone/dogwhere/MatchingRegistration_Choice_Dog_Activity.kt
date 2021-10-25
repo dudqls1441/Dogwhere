@@ -40,11 +40,20 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                     dogname.add((list.name))
                 }
             }
+
             Log.e("yy","체크된 dogname: "+dogname)
-            val intent= Intent(this, MatchingRegistrationActivity::class.java)
-            intent.putExtra("select_dogname",dogname) //강아지 유아이디 리스트 넘겨주고
-            setResult(Activity.RESULT_OK,intent)
-            finish()
+            if(intent.getStringExtra("dogchoice_state")=="matching_registration"){
+                val intent= Intent(this, MatchingRegistrationActivity::class.java)
+                intent.putExtra("select_dogname",dogname) //강아지 유아이디 리스트 넘겨주고
+                setResult(Activity.RESULT_OK,intent)
+                finish()
+            }else{
+                val intent= Intent(this, MatchingDetailActivity::class.java)
+                intent.putExtra("select_dogname",dogname) //강아지 유아이디 리스트 넘겨주고
+                setResult(Activity.RESULT_OK,intent)
+                finish()
+            }
+
         }
     }
 

@@ -5,24 +5,20 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import com.capstone.dogwhere.Map.MarkerItem
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 
 
 class MapsActivity : FragmentActivity(), OnMapReadyCallback,
@@ -46,6 +42,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
         mMap!!.setOnMarkerClickListener(this)
         mMap!!.setOnMapClickListener(this)
         setCustomMarkerView()
+        getBoundsWithoutSpacing(0,0,0,0, googleMap)
         sampleMarkerItems
     }
 
@@ -75,7 +72,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
             tv_marker?.setTextColor(Color.BLACK)
         }
         val markerOptions = MarkerOptions()
-//        markerOptions.title(Integer.toString(price))
+        markerOptions.title(Integer.toString(markerItem.price))
         markerOptions.position(position)
         markerOptions.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -86,6 +83,21 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
             )
         )
         return mMap!!.addMarker(markerOptions)
+    }
+
+
+    fun getBoundsWithoutSpacing(top: Int, right: Int, bottom: Int, left: Int, googleMap: GoogleMap): LatLngBounds? {
+        val projection: Projection = googleMap.getProjection()
+        val bounds: LatLngBounds = projection.getVisibleRegion().latLngBounds
+        val northeast: Point = projection.toScreenLocation(bounds.northeast)
+        val toNortheast = Point(northeast.x - right, northeast.y + top)
+        val southwest: Point = projection.toScreenLocation(bounds.southwest)
+        val toSouthwest = Point(southwest.x + left, southwest.y - bottom)
+        val builder = LatLngBounds.Builder()
+        builder.include(projection.fromScreenLocation(toNortheast))
+        builder.include(projection.fromScreenLocation(toSouthwest))
+        Log.e("joo", "googleMap LatLng : ${projection.fromScreenLocation(toSouthwest)} , ${projection.fromScreenLocation(toNortheast)} ")
+        return builder.build()
     }
 
     // View를 Bitmap으로 변환
