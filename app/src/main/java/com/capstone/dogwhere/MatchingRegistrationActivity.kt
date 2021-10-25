@@ -120,6 +120,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
 
         if(resultCode == Activity.RESULT_OK){
             if(requestCode==110){
+                val sti = mutableListOf<String>()
 //                    dogname= intent.getSerializableExtra("select_dogname") as ArrayList<String>
 //                    Log.d("yy","저장할 강아지 리스트"+dogname)
 //                participation_dog_layout.text= dogname.toString()

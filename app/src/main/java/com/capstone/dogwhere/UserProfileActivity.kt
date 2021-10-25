@@ -4,6 +4,7 @@ import BBS_CommonBBS
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -32,6 +33,7 @@ class UserProfileActivity : AppCompatActivity() {
 
         val profile_name = intent.getStringExtra("name").toString()
         val profile_uid = intent.getStringExtra("uid").toString()
+
 
 
         Log.e("joo", "profile_name,profile_uid -> "+profile_name +"++"+ profile_uid)
@@ -81,6 +83,13 @@ class UserProfileActivity : AppCompatActivity() {
 
     private fun init(profile_name : String, profile_uid : String) {
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser!!.uid
+
+        Log.d("yb","uid -> ${uid} , profile -> ${profile_uid}")
+        if(uid.equals(profile_uid)||profile_uid =="null"){
+            btn_profile_chatting.visibility= View.GONE
+        }
 
         db.collection("users").document(profile_uid).collection("userprofiles").document(profile_uid).get()
             .addOnSuccessListener {

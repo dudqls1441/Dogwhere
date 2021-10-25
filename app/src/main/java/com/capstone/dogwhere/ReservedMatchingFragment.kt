@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.DTO.Matching_InUsers
 import com.capstone.dogwhere.DTO.Matching_List_Item
+import com.capstone.dogwhere.DTO.Matching_Registered_List_Item
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -90,6 +91,11 @@ class ReservedMatchingFragment : Fragment() {
                                 )
                             )
                             recycler_reserved_matching?.adapter = adapter
+                        }
+                        adapter.setOnItemClickListener { item, view ->
+                            val intent = Intent(activity,MatchingDetailActivity::class.java)
+                            intent.putExtra("documentId",(item as Matching_Reserved_List_Item).documentId)
+                            startActivity(intent)
                         }
 
                     }
