@@ -177,26 +177,19 @@
                         android:textSize="14dp"
                         />
 
-                    <FrameLayout
+                    <TextView
                         android:id="@+id/participation_dog_layout"
+                        android:hint="산책에 참여할 반려견을 선택해주세요!"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="50dp"
                         android:layout_below="@+id/registration_participate_dog"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/backgroundgraycircle3"
-                        android:foregroundGravity="center"
-                        android:minHeight="100dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/img_dog"
-                            android:layout_gravity="center"/>
-
-                    </FrameLayout>
+                        android:layout_margin="4dp"
+                        android:background="@drawable/edittext_round_black"
+                        android:fontFamily="@font/r210beachofnight"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:textSize="12dp">
+                    </TextView>
 
                     <TextView
                         android:id="@+id/text_time"
