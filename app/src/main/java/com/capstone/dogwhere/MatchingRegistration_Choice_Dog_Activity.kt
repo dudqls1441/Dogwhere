@@ -77,7 +77,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                                 Dog_Choice_item(
                                     dogs.uid,
                                     document.id,
-                                    dogs?.dogAge + "살",
+                                    dogs?.dogAge ,
                                     dogs?.dogName,
                                     dogs?.dogBreed,
                                     dogs?.dogSex,
