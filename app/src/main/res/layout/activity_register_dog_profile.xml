@@ -63,11 +63,15 @@
             android:layout_height="match_parent"
             android:id="@+id/dog_profile_RelativeLayout"
             android:layout_margin="16dp">
+
             <RelativeLayout
-                android:layout_width="match_parent"
                 android:id="@+id/dog_profile_RelativeLayout1"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
 
                 <ImageView
                     android:id="@+id/DogProfilePhoto"
@@ -87,23 +91,22 @@
                     android:layout_below="@+id/DogProfilePhoto"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="이름"
                     android:textColor="#80443C3C"
-                    android:textSize="12dp"
-                    android:text="이름"/>
+                    android:textSize="12dp" />
 
                 <EditText
                     android:id="@+id/dogprofilename"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dogname"
-                    android:hint="닉네임을 입력해주세요"
-                    android:textSize="14dp"
-                    android:paddingStart="20dp"
                     android:layout_margin="8dp"
-                    android:background="@drawable/backgroundgray"></EditText>
-
+                    android:background="@drawable/backgroundgray"
+                    android:hint="닉네임을 입력해주세요"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"></EditText>
 
 
                 <TextView
@@ -113,11 +116,11 @@
                     android:layout_below="@+id/dogprofilename"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="견종"
                     android:textColor="#80443C3C"
-                    android:textSize="12dp"
-                    android:text="견종">
+                    android:textSize="12dp">
 
                 </TextView>
 
@@ -126,11 +129,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dogbreed"
-                    android:hint="견종을 입력해주세요"
-                    android:textSize="14dp"
-                    android:paddingStart="20dp"
                     android:layout_margin="8dp"
-                    android:background="@drawable/backgroundgray"></EditText>
+                    android:background="@drawable/backgroundgray"
+                    android:hint="견종을 입력해주세요"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"></EditText>
 
 
                 <TextView
@@ -140,11 +143,11 @@
                     android:layout_below="@+id/dogprofilebreed"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="나이"
                     android:textColor="#80443C3C"
-                    android:textSize="12dp"
-                    android:text="나이"/>
+                    android:textSize="12dp" />
 
 
                 <EditText
@@ -152,11 +155,15 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textbox_age"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/backgroundgraymini"
                     android:hint="0"
-                    android:textSize="14dp"
                     android:paddingStart="20dp"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/backgroundgraymini"></EditText>
+                    android:textSize="14dp"></EditText>
+
 
                 <TextView
                     android:id="@+id/textbox_sex"
@@ -164,47 +171,105 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dogprofileage"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="28dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="성별"
                     android:textColor="#80443C3C"
-                    android:textSize="12dp"
-                    android:text="성별"/>
-
-
+                    android:textSize="12dp" />
 
                 <RadioGroup
                     android:id="@+id/dogprofilesex"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_below="@+id/textbox_sex"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/sex_male"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#52443C3C"
-                        android:gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:button="@null"
-                        android:textStyle="bold"
                         android:background="@drawable/backgroundgraycircle"
-                        android:text="수컷"></RadioButton>
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="수컷"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold"></RadioButton>
 
                     <RadioButton
                         android:id="@+id/sex_female"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:button="@null"
-                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
-                        android:textColor="#52443C3C"
                         android:background="@drawable/backgroundgraycircle"
-                        android:text="암컷"></RadioButton>
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="암컷"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold"></RadioButton>
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/textbox_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dogprofilesex"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="크기"
+                    android:textColor="#80443C3C"
+                    android:textSize="12dp" />
+
+                <RadioGroup
+                    android:id="@+id/dogprofilesize"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textbox_size"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/size_small"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/backgroundgraycircle"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="소형견"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold"></RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/size_middle"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/backgroundgraycircle"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="중현견"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold"></RadioButton>
+
+                    <RadioButton
+                        android:id="@+id/size_big"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/backgroundgraycircle"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="대형견"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold"></RadioButton>
 
                 </RadioGroup>
 
@@ -213,51 +278,50 @@
                     android:id="@+id/textbox_neutralization"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/dogprofilesex"
+                    android:layout_below="@+id/dogprofilesize"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="중성화 여부"
                     android:textColor="#80443C3C"
-                    android:textSize="12dp"
-                    android:text="중성화 여부">
+                    android:textSize="12dp">
 
                 </TextView>
-
 
 
                 <RadioGroup
                     android:id="@+id/dogpprofileneutralization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_below="@+id/textbox_neutralization"
+                    android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/neutralization_T"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#52443C3C"
-                        android:gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:button="@null"
-                        android:textStyle="bold"
                         android:background="@drawable/backgroundgraycircle"
-                        android:text="예"/>
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="예"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold" />
 
                     <RadioButton
                         android:id="@+id/neutralization_F"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:button="@null"
-                        android:textStyle="bold"
                         android:layout_marginStart="10dp"
-                        android:textColor="#52443C3C"
                         android:background="@drawable/backgroundgraycircle"
-                        android:text="아니요"/>
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="아니요"
+                        android:textColor="#52443C3C"
+                        android:textStyle="bold" />
                 </RadioGroup>
             </RelativeLayout>
 

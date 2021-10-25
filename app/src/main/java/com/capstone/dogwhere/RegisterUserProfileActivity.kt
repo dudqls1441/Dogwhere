@@ -35,7 +35,7 @@ import java.io.File
 
 class RegisterUserProfileActivity : AppCompatActivity() {
     private val FLAG_GALLERY_CODE: Int = 10
-    private val FLAG_IMAGECROP_CODE: Int = 11
+    private val FLAG_GALLERY_CODE2: Int = 11
     private val TAG = RegisterUserProfileActivity::class.java.simpleName
     private val RECORD_REQUEST_CODE = 1000
     private lateinit var auth: FirebaseAuth
@@ -122,16 +122,13 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
-        intent.type = "image/*"
-        intent.putExtra("crop", true)
-        intent.putExtra("aspectX", 1)
-        intent.putExtra("aspectY", 1)
-        intent.putExtra("outputX", 280)
-        intent.putExtra("outputY", 280)
-        intent.putExtra("return-data", true)
-
-
         startActivityForResult(intent, FLAG_GALLERY_CODE)
+    }
+
+    private fun selectPhoto2() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
+        startActivityForResult(intent, FLAG_GALLERY_CODE2)
     }
 
 
@@ -145,87 +142,32 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == FLAG_GALLERY_CODE) {
-            //if문에 &&resultCode ==Activity.RESULT_OK 넣어주기
             if (data != null) {
-//                Log.d(TAG, getImageFilePath(data!!.data!!))
-                Log.d(TAG, "확인 원래 data ${data}")
-                Log.d("ImageCrop", "확인 원래 data!!.data!!  ${data!!.data!!}")
+                Log.d(TAG, getImageFilePath(data!!.data!!))
 
                 ImagePath = getImageFilePath(data!!.data!!)
 
-                Log.d(TAG, "확인 원래 ImagePath ${ImagePath}")
-
-//                ImageCrop(data!!.data!!)
-
-                //a0929@naver.com
-                data?.data?.let { it ->
-                    launchImageCrop(it)
-                }
-//                ImageCrop()
                 var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
                 Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
                     .circleCrop().into(userProfilePhoto)
-
             } else {
                 Log.d(TAG, "가져온 데이터 없음")
                 ImagePath = ""
             }
-        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            val result = CropImage.getActivityResult(data)
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-                    Log.d("ImageCrop", "확인 ImageCrop path  result!!.uri.path ${result!!.uri.path}")
-                    Log.d("ImageCrop", "확인 ImageCrop uri ${result.uri}")
-                    Log.d(
-                        "ImageCrop",
-                        "확인 ImageCrop result!!.uri.authority ${result!!.uri.authority}"
-                    )
-
-                    Log.d("ImageCrop", "확인 result.uri!! ${result.uri!!}")
-                    Log.d("ImageCrop", "확인 data ${data}")
-                    Log.d("ImageCrop", "확인 result.originalUri ${result!!.uri}")
-
-                    val resultUri = result.uri!!
-
-                    Log.d(TAG, "확인 crop 이미지 패스 ${ImagePath}")
-                    ImagePath = resultUri!!.path!!
-                    Log.d(TAG, "확인 croped 이미지 패스 ${ImagePath}")
-
-
-                    Glide.with(this).load(resultUri).placeholder(R.drawable.zzarri)
-                        .apply(RequestOptions())
-                        .circleCrop().into(userProfilePhoto)
-                } else {
-                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
-                }
-
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                val error = result.error
-                Log.d("ImageCrop", "ImageCrop error ${error.message}")
+        } else if (requestCode == FLAG_GALLERY_CODE2) {
+            if (data != null) {
+                Log.d(TAG, getImageFilePath(data!!.data!!))
+                ImagePath = getImageFilePath(data!!.data!!)
+                var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+                Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                    .circleCrop().into(DogProfilePhoto2)
+            } else {
+                Log.d(TAG, "가져온 데이터 없음")
+                ImagePath = ""
             }
-
-        } else if (requestCode == FLAG_IMAGECROP_CODE) {
-            val result = CropImage.getActivityResult(data)
-            Log.d("ImageCrop", "99999  result ${result}")
-            Log.d("ImageCrop", "99999  data ${data}")
-            if (resultCode == Activity.RESULT_OK) {
-                if (data != null) {
-//                    val resultUri = result.uri!!
-//                    Log.d("ImageCrop", "99999 ${resultUri}")
-
-                    ImagePath = data!!.data!!.path!!
-
-//                    var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-                    Glide.with(this).load(data!!.data!!).placeholder(R.drawable.zzarri)
-                        .apply(RequestOptions())
-                        .circleCrop().into(DogProfilePhoto)
-
-                } else {
-                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
-                }
-            }
-
+        } else {
+            Log.d(TAG, "가져온 데이터 없음")
+            ImagePath = ""
         }
     }
 
@@ -286,18 +228,17 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private fun upload(uri: String) {
         var file = Uri.fromFile(File(uri))
         val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
-        val riversRef = storageRef.child("UserProfile/${file.lastPathSegment}")
-        Log.d("123", riversRef.toString())
-        val uploadTask = riversRef.putFile(file)
+        val ref = storageRef.child("DogProfile/${file.lastPathSegment}")
 
-        val urlTask = uploadTask.continueWithTask { task ->
-            if (!task.isSuccessful) {
-                task.exception?.let {
+        val uploadTask = ref.putFile(file)
+
+        val urlTask = uploadTask.continueWithTask { it ->
+            if (!it.isSuccessful) {
+                it.exception?.let {
                     throw it
                 }
             }
-            riversRef.downloadUrl
-
+            ref.downloadUrl
         }.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 if (Name_FLAG == true) {

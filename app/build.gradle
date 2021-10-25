@@ -130,6 +130,9 @@ dependencies {
     //이미지크롭
     implementation 'com.github.yalantis:ucrop:2.2.3'
 
+    //firebase저장소
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
+
 
 
 

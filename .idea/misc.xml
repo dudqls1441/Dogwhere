@@ -15,6 +15,7 @@
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_list.xml" value="0.20701754385964913" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_registration.xml" value="0.2" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_my_matching_list.xml" value="0.12335359675785208" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_register_dog_profile.xml" value="0.264" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_register_user_profile.xml" value="0.176" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_search_region.xml" value="0.12158054711246201" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_user_profile.xml" value="0.12335359675785208" />
@@ -38,7 +39,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

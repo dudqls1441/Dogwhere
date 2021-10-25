@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.RelativeLayout
 import androidx.core.view.setPadding
 import com.bumptech.glide.Glide
@@ -25,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.activity_matching_registration.*
 import kotlinx.android.synthetic.main.activity_register_dog_profile.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.*
 //import kotlinx.android.synthetic.main.activity_register_user_profile.btn_selectPhoto
@@ -44,6 +46,8 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private lateinit var ImagePath: String
     private var dogsex: String = ""
     private var dogneneutralization: String = ""
+    private var dognenu :Boolean = false
+    private var dogSize =""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +67,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
             selectPhoto2()
         }
 
+        radio_size()
         radio_sex()
         radio_dogneneutralization()
 
@@ -93,6 +98,58 @@ class RegisterDogProfileActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun radio_size() {
+        dogprofilesize.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.size_small ->let {
+                    checked_small()
+                    dogSize ="small"
+                }
+                R.id.size_middle ->let {
+                    checked_middle()
+                    dogSize ="middle"
+                }
+                R.id.size_big ->let {
+                    checked_big()
+                    dogSize ="big"
+                }
+            }
+        }
+    }
+    private fun checked_small() {
+        val size_small =findViewById<RadioButton>(R.id.size_small)
+        val size_middle =findViewById<RadioButton>(R.id.size_middle)
+        val size_big =findViewById<RadioButton>(R.id.size_big)
+        size_small.setBackgroundResource(R.drawable.backgroundgreencircle)
+        size_small.setTextColor(Color.parseColor("#00C09F"))
+        size_middle.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_middle.setTextColor(Color.parseColor("#52443C3C"))
+        size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_big .setTextColor(Color.parseColor("#52443C3C"))
+    }
+    private fun checked_middle() {
+        val size_small =findViewById<RadioButton>(R.id.size_small)
+        val size_middle =findViewById<RadioButton>(R.id.size_middle)
+        val size_big =findViewById<RadioButton>(R.id.size_big)
+        size_middle.setBackgroundResource(R.drawable.backgroundgreencircle)
+        size_middle.setTextColor(Color.parseColor("#00C09F"))
+        size_small.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_small.setTextColor(Color.parseColor("#52443C3C"))
+        size_big.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_big.setTextColor(Color.parseColor("#52443C3C"))
+    }
+    private fun checked_big() {
+        val size_small =findViewById<RadioButton>(R.id.size_small)
+        val size_middle =findViewById<RadioButton>(R.id.size_middle)
+        val size_big =findViewById<RadioButton>(R.id.size_big)
+        size_big.setBackgroundResource(R.drawable.backgroundgreencircle)
+        size_big.setTextColor(Color.parseColor("#00C09F"))
+        size_middle.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_middle.setTextColor(Color.parseColor("#52443C3C"))
+        size_small.setBackgroundResource(R.drawable.backgroundgraycircle)
+        size_small.setTextColor(Color.parseColor("#52443C3C"))
     }
 
     private fun checked_male() {
@@ -217,8 +274,22 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                     }
                     Log.d(TAG, dogsex)
                 }
+                dogprofilesize.setOnCheckedChangeListener { group, i ->
+                    when (i) {
+                        R.id.size_small -> dogSize = "small"
+                        R.id.size_middle -> dogSize = "middle"
+                        R.id.size_big -> dogSize = "big"
+                    }
+                    Log.d(TAG, dogsex)
+                }
                 Log.d(TAG, dogsex)
-                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex)
+                if(dogneneutralization =="예"){
+                    dognenu =true
+                }else{
+                    dognenu=false
+                }
+                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dognenu)
+                Log.d("yb","ybyb ->dogprofile ->${dog}")
                 val db = Firebase.firestore
                 db.collection("users").document(uid).collection("dogprofiles").add(dog)
                     .addOnSuccessListener { documentReference ->
