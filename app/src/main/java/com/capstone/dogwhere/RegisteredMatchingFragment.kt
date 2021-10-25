@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -66,6 +67,13 @@ class RegisteredMatchingFragment : Fragment() {
 
                             )
                             recycler_registered_matching?.adapter = adapter
+                        }
+                        adapter.setOnItemClickListener { item, view ->
+                            val intent = Intent(activity,MatchingDetailActivity::class.java)
+                            intent.putExtra("documentId",(item as Matching_Registered_List_Item).documentId)
+                            startActivity(intent)
+
+
                         }
                     }
             }else{

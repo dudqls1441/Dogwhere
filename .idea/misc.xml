@@ -15,6 +15,7 @@
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_matching_registration.xml" value="0.2" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_my_matching_list.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_register_user_profile.xml" value="0.176" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/activity_user_profile.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/bbs_cancle_check_dialog.xml" value="0.2463768115942029" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/cancle_check_matching_dialog.xml" value="0.2463768115942029" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/dog_profile_item.xml" value="0.12335359675785208" />
@@ -25,8 +26,9 @@
         <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_registered_matching.xml" value="0.2463768115942029" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/fragment_transaction_bbs.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/home_hot_bbs_item.xml" value="0.2" />
-        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_completed_matching_item.xml" value="0.12335359675785208" />
-        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_registered_matching_item.xml" value="0.264" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_completed_matching_item.xml" value="0.36645962732919257" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_ongoing_matching_item.xml" value="0.536" />
+        <entry key="..\:/Dogwhere/app/src/main/res/layout/my_registered_matching_item.xml" value="0.22264150943396227" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/navi_header.xml" value="0.4557823129251701" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/register_matching_dialog.xml" value="0.12335359675785208" />
         <entry key="..\:/Dogwhere/app/src/main/res/layout/transaction_bbs_item.xml" value="0.25364583333333335" />
