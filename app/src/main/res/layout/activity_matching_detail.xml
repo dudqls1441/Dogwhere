@@ -64,18 +64,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/matchinggeofragment"
+                <fragment
+                    android:id="@+id/matchingdetail_mapfragment"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/map1" />
+                    android:layout_height="250dp" />
+
 
                 <TextView
                     android:id="@+id/matching_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/matchinggeofragment"
+                    android:layout_below="@+id/matchingdetail_mapfragment"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="12dp"

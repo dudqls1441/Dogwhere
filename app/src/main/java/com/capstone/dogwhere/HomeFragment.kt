@@ -408,7 +408,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private fun matchingList() {
         activity?.let {
             Log.d("yeongbin", "매칭 리스트 ㄱㄱ")
-            val intent = Intent(activity, MatchingListActivity::class.java)
+            val intent = Intent(activity, Search_Region::class.java)
             startActivity(intent)
             it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
         }

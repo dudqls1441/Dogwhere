@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.DTO.Matching_Completed_List_Item
+import com.capstone.dogwhere.DTO.Matching_Reserved_List_Item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
@@ -62,6 +64,11 @@ class CompletedMatchingFragment : Fragment() {
 
                             )
                             recycler_completed_matching?.adapter = adapter
+                        }
+                        adapter.setOnItemClickListener { item, view ->
+                            val intent = Intent(activity,MatchingDetailActivity::class.java)
+                            intent.putExtra("documentId",(item as Matching_Completed_List_Item).documentId)
+                            startActivity(intent)
                         }
                     }
             }else{
