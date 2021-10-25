@@ -8,12 +8,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.Toast
-import com.capstone.dogwhere.DTO.Matching
-import com.capstone.dogwhere.DTO.Matching_InUsers
-import com.capstone.dogwhere.DTO.Participant
+import com.capstone.dogwhere.DTO.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_matching_registration.*
+import kotlinx.android.synthetic.main.fragment_party_list.*
 
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.text.SimpleDateFormat
@@ -24,7 +24,7 @@ class MatchingRegistrationActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     lateinit var party_address:String
-    private var dogname=ArrayList<kotlin.String>()
+    private var dogname=ArrayList<String>()
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
@@ -119,10 +119,10 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(resultCode == Activity.RESULT_OK){
-            if(requestCode==110){
-//                    dogname= intent.getSerializableExtra("select_dogname") as ArrayList<String>
-//                    Log.d("yy","저장할 강아지 리스트"+dogname)
-//                participation_dog_layout.text= dogname.toString()
+            if(requestCode==110){  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
+                    dogname= data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
+                Log.d("yy","저장할 강아지 리스트"+dogname.toString())
+                    participation_dog_layout.text= dogname.toString()
             }
         }
 
@@ -270,9 +270,9 @@ class MatchingRegistrationActivity : AppCompatActivity() {
         val party_address_detail = edittext_place_detail.text.toString()
         val title = edittext_registration_title.text.toString()
         db = FirebaseFirestore.getInstance()
-
+        val uid = auth.currentUser!!.uid
         //산책에 참여하는 dog 가져와야 한다.
-        val dog = ""
+        val dog = "" //얘 나중에 지워도될듯
         val party_date =
             npYear.value.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
         val party_time =
@@ -291,6 +291,33 @@ class MatchingRegistrationActivity : AppCompatActivity() {
             true,
             documentid.id
         )
+        for (i in dogname) {
+            db.collection("users").document(uid).collection("dogprofiles")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val dogs = document.toObject<DogProfile>()
+                        if (dogs.dogName == i) {
+                            db.collection("Matching").document(documentid.id).collection("participant").document(uid)
+                                .collection("dogprofile").document(i)
+                                .set(
+                                    Dog_Profile_Item(
+                                        dogs.uid,
+                                        document.id,//?
+                                        dogs?.dogAge + "살",
+                                        dogs?.dogName,
+                                        dogs?.dogBreed,
+                                        dogs?.dogSex,
+                                        dogs?.photoUrl.toString()
+                                    )
+                                )
+                                .addOnSuccessListener {
+                                    Log.d("Participant", "MatchingDetailActivity_participant  성공")
+                                }
+                        }
+                    }
+                }
+        }
 
 
     }
@@ -332,19 +359,13 @@ class MatchingRegistrationActivity : AppCompatActivity() {
             val time = System.currentTimeMillis()
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
             val curTime = dateFormat.format(Date(time))
+
             db.collection("Matching").document(documentId).set(matching).addOnSuccessListener {
                 Log.d("InsertMatching", "InsertMatching_성공")
                 db.collection("Matching").document(documentId).collection("participant").document(uid)
                     .set( Participant(uid, uid, curTime.toString()))
                     .addOnSuccessListener {
                         Log.d("Participant", "MatchingDetailActivity_participant  성공")
-//                        db.collection("Matching").document(documentId).collection("participant").document(uid)
-//                            .set( Participant(uid, uid, curTime.toString()))
-//                            .addOnSuccessListener {
-//                                Log.d("Participant", "MatchingDetailActivity_participant  성공")
-//
-//                            }
-
                     }.addOnFailureListener {
                         Log.d("Participant", "Participant 실패 이유 : ${it}")
                     }
