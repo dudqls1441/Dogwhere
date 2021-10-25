@@ -26,29 +26,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
-import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.activity_chat_list.*
 import kotlinx.android.synthetic.main.activity_register_dog_profile.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.btn_back
 import kotlinx.coroutines.*
 import java.io.File
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-
-import android.R
-import android.content.ContentValues.TAG
-import android.os.Environment
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-
-
-//import com.sun.scenario.effect.Crop
-
-
-
 
 class RegisterUserProfileActivity : AppCompatActivity() {
     private val FLAG_GALLERY_CODE: Int = 10
@@ -63,14 +46,6 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private var usersex: String = ""
     var Name_FLAG = false
     val db = Firebase.firestore
-    private lateinit var imageUri: Uri
-
-    private val PICK_FROM_ALBUM = 1
-    private val PICK_FROM_CAMERA = 2
-
-    private val isCamera = false
-    private var tempFile: File? = null
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +75,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         }
 
         btn_upload.setOnClickListener {
-            upload(imageUri.toString())
+            upload(ImagePath)
         }
     }
 
@@ -147,14 +122,13 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
-        intent.setType("image/*")
+        intent.type = "image/*"
         intent.putExtra("crop", true)
         intent.putExtra("aspectX", 1)
         intent.putExtra("aspectY", 1)
         intent.putExtra("outputX", 280)
         intent.putExtra("outputY", 280)
         intent.putExtra("return-data", true)
-        intent.setAction(Intent.ACTION_GET_CONTENT)
 
 
         startActivityForResult(intent, FLAG_GALLERY_CODE)
@@ -170,230 +144,89 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     //     error(실패 이미지) // ex) error(R.drawable.error) : 이미지를 불러오는데 실패 했을때 보여질 이미지를
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_OK) {
-            Toast.makeText(this, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
+        if (requestCode == FLAG_GALLERY_CODE) {
+            //if문에 &&resultCode ==Activity.RESULT_OK 넣어주기
+            if (data != null) {
+//                Log.d(TAG, getImageFilePath(data!!.data!!))
+                Log.d(TAG, "확인 원래 data ${data}")
+                Log.d("ImageCrop", "확인 원래 data!!.data!!  ${data!!.data!!}")
 
-            if(tempFile != null) {
-                if (tempFile!!.exists()) {
-                    if (tempFile!!.delete()) {
-                        Log.e(TAG, tempFile!!.getAbsolutePath() + " 삭제 성공");
-                        tempFile = null
-                    }
+                ImagePath = getImageFilePath(data!!.data!!)
+
+                Log.d(TAG, "확인 원래 ImagePath ${ImagePath}")
+
+//                ImageCrop(data!!.data!!)
+
+                //a0929@naver.com
+                data?.data?.let { it ->
+                    launchImageCrop(it)
+                }
+//                ImageCrop()
+                var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+                Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
+                    .circleCrop().into(userProfilePhoto)
+
+            } else {
+                Log.d(TAG, "가져온 데이터 없음")
+                ImagePath = ""
+            }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            val result = CropImage.getActivityResult(data)
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    Log.d("ImageCrop", "확인 ImageCrop path  result!!.uri.path ${result!!.uri.path}")
+                    Log.d("ImageCrop", "확인 ImageCrop uri ${result.uri}")
+                    Log.d(
+                        "ImageCrop",
+                        "확인 ImageCrop result!!.uri.authority ${result!!.uri.authority}"
+                    )
+
+                    Log.d("ImageCrop", "확인 result.uri!! ${result.uri!!}")
+                    Log.d("ImageCrop", "확인 data ${data}")
+                    Log.d("ImageCrop", "확인 result.originalUri ${result!!.uri}")
+
+                    val resultUri = result.uri!!
+
+                    Log.d(TAG, "확인 crop 이미지 패스 ${ImagePath}")
+                    ImagePath = resultUri!!.path!!
+                    Log.d(TAG, "확인 croped 이미지 패스 ${ImagePath}")
+
+
+                    Glide.with(this).load(resultUri).placeholder(R.drawable.zzarri)
+                        .apply(RequestOptions())
+                        .circleCrop().into(userProfilePhoto)
+                } else {
+                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
+                }
+
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                val error = result.error
+                Log.d("ImageCrop", "ImageCrop error ${error.message}")
+            }
+
+        } else if (requestCode == FLAG_IMAGECROP_CODE) {
+            val result = CropImage.getActivityResult(data)
+            Log.d("ImageCrop", "99999  result ${result}")
+            Log.d("ImageCrop", "99999  data ${data}")
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+//                    val resultUri = result.uri!!
+//                    Log.d("ImageCrop", "99999 ${resultUri}")
+
+                    ImagePath = data!!.data!!.path!!
+
+//                    var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
+                    Glide.with(this).load(data!!.data!!).placeholder(R.drawable.zzarri)
+                        .apply(RequestOptions())
+                        .circleCrop().into(DogProfilePhoto)
+
+                } else {
+                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
                 }
             }
-            return
+
         }
-
-        if(requestCode == PICK_FROM_ALBUM) {
-            val photoUri = data!!.data!!
-            Log.d(TAG, "PICK_FROM_ALBUM photoUri : " + photoUri);
-
-            cropImage(photoUri)
-
-        }else if(requestCode == PICK_FROM_CAMERA) {
-            val photoUri = Uri.fromFile(tempFile);
-            Log.d(TAG, "takePhoto photoUri : " + photoUri);
-
-            cropImage(photoUri);
-        }else if(requestCode == Crop.REQUEST_CROP) {
-            //File cropFile = new File(Crop.getOutput(data).getPath());
-            setImage();
-        }
-
-            PICK_FROM_CAMERA ->{
-
-
-
-                break;
-            }
-            case Crop.REQUEST_CROP: {
-                //File cropFile = new File(Crop.getOutput(data).getPath());
-                setImage();
-            }
-        }
-    }
-
-    /**
-     * Crop 기능
-     */
-    private fun cropImage(photoUri: Uri) {
-        Log.d(TAG, "tempFile : $tempFile")
-        /**
-         * 갤러리에서 선택한 경우에는 tempFile 이 없으므로 새로 생성해줍니다.
-         */
-        if (tempFile == null) {
-            try {
-                tempFile = createImageFile()
-            } catch (e: IOException) {
-                Toast.makeText(this, "이미지 처리 오류! 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-                finish()
-                e.printStackTrace()
-            }
-        }
-
-        //크롭 후 저장할 Uri
-        val savingUri = Uri.fromFile(tempFile)
-        Crop.of(photoUri, savingUri).asSquare().start(this)
-    }
-
-/**
- * 폴더 및 파일 만들기
- */
-@Throws(IOException::class)
-private fun createImageFile(): File? {
-
-    // 이미지 파일 이름 ( blackJin_{시간}_ )
-    val timeStamp: String = SimpleDateFormat("HHmmss").format(Date())
-    val imageFileName = "blackJin_" + timeStamp + "_"
-
-    // 이미지가 저장될 파일 이름 ( blackJin )
-    val storageDir: File = File(Environment.getExternalStorageDirectory().toString() + "/blackJin/")
-    if (!storageDir.exists()) storageDir.mkdirs()
-
-    // 빈 파일 생성
-    val image = File.createTempFile(imageFileName, ".jpg", storageDir)
-    Log.d(TAG, "createImageFile : " + image.absolutePath)
-    return image
-}
-
-/**
- * tempFile 을 bitmap 으로 변환 후 ImageView 에 설정한다.
- */
-private fun setImage() {
-    ImageResizeUtils.resizeFile(tempFile!!, tempFile, 1280, isCamera)
-    val options = BitmapFactory.Options()
-    val originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options)
-    Log.d(TAG, "setImage : " + tempFile.getAbsolutePath())
-    imageView.setImageBitmap(originalBm)
-    /**
-     * tempFile 사용 후 null 처리를 해줘야 합니다.
-     * (resultCode != RESULT_OK) 일 때 (tempFile != null)이면 해당 파일을 삭제하기 때문에
-     * 기존에 데이터가 남아 있게 되면 원치 않은 삭제가 이뤄집니다.
-     */
-    tempFile = null
-}
-
-
-//        if (resultCode == RESULT_OK) {
-//            if (requestCode == FLAG_GALLERY_CODE) {
-//                val sourceUri = data!!.data
-//                Log.d("yb","ybyb data!!.data ->${sourceUri}")
-//                if (sourceUri != null) {
-//                    val destinationUri = Uri.fromFile(File(cacheDir, "cropped"))
-//                    openCropActivity(sourceUri, destinationUri)
-//                } else {
-//                    Log.d("yb","ybyb 이미지 에러11")
-//                }
-//            } else if (requestCode == UCrop.REQUEST_CROP) {
-//                val resultUri = UCrop.getOutput(data!!)
-//                if (resultUri != null) {
-//                    Log.d("AAA","AAa")
-//                    //초기화
-//                    userProfilePhoto.setImageDrawable(null)
-//                    //이미지뷰에 세팅
-//                    imageUri = resultUri
-//                    Log.d("yb","ybyb imageUri -> ${imageUri}")
-//                    Glide.with(this).load(imageUri).fitCenter().into(userProfilePhoto)
-//                } else {
-//                    Log.d("yb","ybyb 이미지 에러22")
-//                }
-//            }
-//        } else if (resultCode == UCrop.RESULT_ERROR) {
-//            Log.d("yb","ybyb 이미지 에러33")
-//        }
-
-//        if (requestCode == FLAG_GALLERY_CODE) {
-//            if(resultCode == RESULT_OK){
-//                if (data != null) {
-////                Log.d(TAG, getImageFilePath(data!!.data!!))
-//                    Log.d(TAG, "확인 원래 data ${data}")
-//                    Log.d("ImageCrop", "확인 원래 data!!.data!!  ${data!!.data!!}")
-//
-//                    ImagePath = getImageFilePath(data!!.data!!)
-//
-//                    Log.d(TAG, "확인 원래 ImagePath ${ImagePath}")
-//
-////                ImageCrop(data!!.data!!)
-//
-//                    //a0929@naver.com
-//                    data?.data?.let { it ->
-//                        launchImageCrop(it)
-//                    }
-////                ImageCrop()
-//                    var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-//                    Glide.with(this).load(file).placeholder(R.drawable.zzarri).apply(RequestOptions())
-//                        .circleCrop().into(userProfilePhoto)
-//
-//                } else {
-//                    Log.d(TAG, "가져온 데이터 없음")
-//                    ImagePath = ""
-//                }
-//            }
-//        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-//            val result = CropImage.getActivityResult(data)
-//            if (resultCode == Activity.RESULT_OK) {
-//                if (data != null) {
-//                    Log.d("ImageCrop", "확인 ImageCrop path  result!!.uri.path ${result!!.uri.path}")
-//                    Log.d("ImageCrop", "확인 ImageCrop uri ${result.uri}")
-//                    Log.d(
-//                        "ImageCrop",
-//                        "확인 ImageCrop result!!.uri.authority ${result!!.uri.authority}"
-//                    )
-//
-//                    Log.d("ImageCrop", "확인 result.uri!! ${result.uri!!}")
-//                    Log.d("ImageCrop", "확인 data ${data}")
-//                    Log.d("ImageCrop", "확인 result.originalUri ${result!!.uri}")
-//
-//                    val resultUri = result.uri!!
-//
-//                    Log.d(TAG, "확인 crop 이미지 패스 ${ImagePath}")
-//                    ImagePath = resultUri!!.path!!
-//                    Log.d(TAG, "확인 croped 이미지 패스 ${ImagePath}")
-//
-//
-//                    Glide.with(this).load(resultUri).placeholder(R.drawable.zzarri)
-//                        .apply(RequestOptions())
-//                        .circleCrop().into(userProfilePhoto)
-//                } else {
-//                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
-//                }
-//
-//
-//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-//                val error = result.error
-//                Log.d("ImageCrop", "ImageCrop error ${error.message}")
-//            }
-//
-//        } else if (requestCode == FLAG_IMAGECROP_CODE) {
-//            val result = CropImage.getActivityResult(data)
-//            Log.d("ImageCrop", "99999  result ${result}")
-//            Log.d("ImageCrop", "99999  data ${data}")
-//            if (resultCode == Activity.RESULT_OK) {
-//                if (data != null) {
-////                    val resultUri = result.uri!!
-////                    Log.d("ImageCrop", "99999 ${resultUri}")
-//
-//                    ImagePath = data!!.data!!.path!!
-//
-////                    var file = Uri.fromFile(File(getImageFilePath(data!!.data!!)))
-//                    Glide.with(this).load(data!!.data!!).placeholder(R.drawable.zzarri)
-//                        .apply(RequestOptions())
-//                        .circleCrop().into(DogProfilePhoto)
-//
-//                } else {
-//                    Log.d("ImageCrop", "확인 ImageCrop : 데이터 없음")
-//                }
-//            }
-//
-//        }
-
-
-    private fun openCropActivity(
-        sourceUri: Uri,
-        destinationUri: Uri
-    ) {
-        UCrop.of(sourceUri, destinationUri)
-            .start(this)
     }
 
     private fun getImageFilePath(contentUri: Uri): String {
