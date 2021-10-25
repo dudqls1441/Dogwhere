@@ -1,45 +1,61 @@
 package com.capstone.dogwhere
 
 
+//import com.capstone.dogwhere.FCM.MyFirebaseMessagingService
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
-
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-
-import android.widget.ImageButton
-//import com.capstone.dogwhere.FCM.MyFirebaseMessagingService
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_matching_detail.*
 import kotlinx.android.synthetic.main.activity_matching_detail.btn_back
 import kotlinx.android.synthetic.main.activity_matching_registration.*
-import kotlinx.android.synthetic.main.register_matching_dialog.*
-import retrofit2.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 const val TOPIC = "/topics/myTopic"
 
-class MatchingDetailActivity : AppCompatActivity() {
+class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private var dogname=ArrayList<String>()
-
+    var map: GoogleMap? = null
+    var mLM: LocationManager? = null
+    var mProvider = LocationManager.NETWORK_PROVIDER
+    var mylocation :LatLng? = null
+    private lateinit var matchingLeaderUid : String
+    private lateinit var matchingDocumentId : String
+    private lateinit var matchingTitle : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_detail)
-
+        matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
+        matchingDocumentId = intent.getStringExtra("documentId").toString()
+        matchingTitle = intent.getStringExtra("title").toString()
 
 //        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 //        val tokenToDevice: String =
@@ -48,6 +64,11 @@ class MatchingDetailActivity : AppCompatActivity() {
 //            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
 //            tokenToDevice
 //        ).also { sendNotification(it) }
+
+        mLM = getSystemService(LOCATION_SERVICE) as LocationManager
+        val fragment = supportFragmentManager
+            .findFragmentById(R.id.matchingdetail_mapfragment) as SupportMapFragment?
+        fragment!!.getMapAsync(this)
 
 
         init()
@@ -99,9 +120,7 @@ class MatchingDetailActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         val uid = auth.currentUser?.uid.toString()
 
-        val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
-        val matchingDocumentId = intent.getStringExtra("documentId").toString()
-        val matchingTitle = intent.getStringExtra("title").toString()
+
 
         if(uid==matchingLeaderUid){
             btn_trash.visibility=View.VISIBLE
@@ -515,9 +534,164 @@ class MatchingDetailActivity : AppCompatActivity() {
 //        }
 //    }
 
+    override fun onStart() {
+        super.onStart()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        val location = mLM!!.getLastKnownLocation(mProvider)
+        if (location != null) {
+            mListener.onLocationChanged(location)
+        }
+        mLM!!.requestSingleUpdate(mProvider, mListener, null)
 
+    }
 
+    override fun onStop() {
+        super.onStop()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mLM!!.removeUpdates(mListener)
+    }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
+
+    private fun moveMap(lat: Double, lng: Double) {
+        if (map != null) {
+            val latLng = LatLng(lat, lng)
+            val position = CameraPosition.Builder()
+                .target(latLng)
+                .bearing(30f)
+                .tilt(45f)
+                .zoom(17f)
+                .build()
+            val update = CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            //            CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+            map!!.moveCamera(update)
+            //        map.animateCamera(update);
+        }
+    }
+
+    var mListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+        }
+
+        override fun onStatusChanged(s: String, i: Int, bundle: Bundle) {}
+        override fun onProviderEnabled(s: String) {}
+        override fun onProviderDisabled(s: String) {}
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        db = FirebaseFirestore.getInstance()
+        db.collection("Matching").document(matchingDocumentId).get()
+            .addOnSuccessListener {
+                val result = it.toObject<Matching>()
+                mylocation = LatLng(result!!.latitude, result!!.longitude)
+                map = googleMap
+                map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return@addOnSuccessListener
+                }
+                map!!.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            mylocation!!.latitude,
+                            mylocation!!.longitude
+                        ), 17f
+                    )
+                )
+                addMarker(mylocation!!.latitude, mylocation!!.longitude, "")
+
+//        map!!.isMyLocationEnabled = true
+                val mapui = map!!.uiSettings
+                mapui.isZoomControlsEnabled = false
+                mapui.isMapToolbarEnabled = false
+                mapui.isZoomGesturesEnabled = false
+                mapui.isTiltGesturesEnabled = false
+                mapui.isRotateGesturesEnabled = false
+                mapui.isScrollGesturesEnabled = false
+                mapui.isScrollGesturesEnabledDuringRotateOrZoom = false
+                mapui.isCompassEnabled = false
+            }
+
+    }
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation(): LatLng {
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        when {
+            isNetworkEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+            isGPSEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+
+            else -> {
+                Toast.makeText(
+                    this,
+                    "GPS 권한 오류",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return LatLng(37.537523, 126.96558)
+            }
+        }
+    }
+
+    var marker: Marker? = null
+    private fun addMarker(lat: Double, lng: Double, title: String) {
+        if (marker != null) {
+            marker!!.remove()
+            marker = null
+        }
+        val options = MarkerOptions()
+        options.position(LatLng(lat, lng))
+//        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mappoint))
+        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+        options.title(title)
+        options.draggable(true)
+        options.snippet("snippet - $title")
+        marker = map!!.addMarker(options)
+    }
 }
 
 
@@ -536,5 +710,6 @@ class MatchingPagerAdapter(
             else -> return MatchingExplanationFragment()
         }
     }
+
 
 }
