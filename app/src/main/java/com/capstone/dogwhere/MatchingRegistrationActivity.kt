@@ -15,9 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
-import com.capstone.dogwhere.DTO.Matching
-import com.capstone.dogwhere.DTO.Matching_InUsers
-import com.capstone.dogwhere.DTO.Participant
+import com.capstone.dogwhere.DTO.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.*
@@ -26,7 +24,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_matching_registration.*
+import kotlinx.android.synthetic.main.fragment_party_list.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +38,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     lateinit var party_address:String
-    lateinit var doguid:String
+    private var dogname=ArrayList<String>()
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
@@ -130,10 +130,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         }
 
         // 지도 클릭 시 위치 고르는 화면으로 전환 후 좌표 가지고 돌아오기
-
-
-        doguid= intent.getStringArrayExtra("select_doguid").toString()
-        Log.d("yy","선택한 강아지 리스트"+doguid)
 
     }
 
@@ -262,21 +258,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
 
             when (requestCode){
                 110 -> {
-                    db = FirebaseFirestore.getInstance()
-                    auth = FirebaseAuth.getInstance()
-                    val uid = auth.currentUser!!.uid
-                    val dog_id= data!!.getStringExtra("dog").toString()
-
-                    val dog_name = data!!.getStringExtra("dog_name").toString()
-
-                    db.collection("users").document(uid).collection("dogprofiles").document(dog_id).get().addOnSuccessListener {
-                        val dog_img = it.get("photoUrl").toString()
-                        Glide.with(this).load(dog_img).centerCrop().into(img_dog)
-                        Log.d("yb","dog_img -> ${dog_img}")
-                    }
-                    Log.d("yb","dog_id-> ${dog_id}")
-                    Log.d("yb","강아지 선택 화면에서 돌아온 상태")
-                    Log.d("yb","dog_name = > ${dog_name}")
+                    dogname= data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
+                    Log.d("yy","저장할 강아지 리스트"+dogname.toString())
+                    participation_dog_layout.text= dogname.toString()
                 }
                 100 -> {
                     // 좌표를 가지고 와서 위치 정보 가져오기
@@ -440,9 +424,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val party_address_detail = edittext_place_detail.text.toString()
         val title = edittext_registration_title.text.toString()
         db = FirebaseFirestore.getInstance()
-
+        val uid = auth.currentUser!!.uid
         //산책에 참여하는 dog 가져와야 한다.
-        val dog = ""
+        val dog = "" //얘 나중에 지워도될듯
         val party_date =
             npYear.value.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
         val party_time =
@@ -462,6 +446,33 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             choice_lat.toDouble(),
             choice_lon.toDouble()
         )
+        for (i in dogname) {
+            db.collection("users").document(uid).collection("dogprofiles")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        val dogs = document.toObject<DogProfile>()
+                        if (dogs.dogName == i) {
+                            db.collection("Matching").document(documentid.id).collection("participant").document(uid)
+                                .collection("dogprofile").document(i)
+                                .set(
+                                    Dog_Profile_Item(
+                                        dogs.uid,
+                                        document.id,//?
+                                        dogs?.dogAge + "살",
+                                        dogs?.dogName,
+                                        dogs?.dogBreed,
+                                        dogs?.dogSex,
+                                        dogs?.photoUrl.toString()
+                                    )
+                                )
+                                .addOnSuccessListener {
+                                    Log.d("Participant", "MatchingDetailActivity_participant  성공")
+                                }
+                        }
+                    }
+                }
+        }
 
 
     }
@@ -505,19 +516,13 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             val time = System.currentTimeMillis()
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
             val curTime = dateFormat.format(Date(time))
+
             db.collection("Matching").document(documentId).set(matching).addOnSuccessListener {
                 Log.d("InsertMatching", "InsertMatching_성공")
                 db.collection("Matching").document(documentId).collection("participant").document(uid)
                     .set( Participant(uid, uid, curTime.toString()))
                     .addOnSuccessListener {
                         Log.d("Participant", "MatchingDetailActivity_participant  성공")
-//                        db.collection("Matching").document(documentId).collection("participant").document(uid)
-//                            .set( Participant(uid, uid, curTime.toString()))
-//                            .addOnSuccessListener {
-//                                Log.d("Participant", "MatchingDetailActivity_participant  성공")
-//
-//                            }
-
                     }.addOnFailureListener {
                         Log.d("Participant", "Participant 실패 이유 : ${it}")
                     }

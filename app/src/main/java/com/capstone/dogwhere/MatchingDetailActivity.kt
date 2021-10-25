@@ -1,6 +1,7 @@
 package com.capstone.dogwhere
 
 
+import android.app.Activity
 import android.content.Intent
 
 import androidx.appcompat.app.AppCompatActivity
@@ -14,16 +15,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
-import com.capstone.dogwhere.DTO.Matching_InUsers
-import com.capstone.dogwhere.DTO.UserProfile
-import com.capstone.dogwhere.DTO.Participant
-import com.capstone.dogwhere.DTO.Matching
+import com.capstone.dogwhere.DTO.*
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_matching_detail.*
+import kotlinx.android.synthetic.main.activity_matching_detail.btn_back
+import kotlinx.android.synthetic.main.activity_matching_registration.*
 import kotlinx.android.synthetic.main.register_matching_dialog.*
 import retrofit2.*
 import java.text.SimpleDateFormat
@@ -34,7 +34,7 @@ const val TOPIC = "/topics/myTopic"
 class MatchingDetailActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
+    private var dogname=ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -350,6 +350,10 @@ class MatchingDetailActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         if (intent.hasExtra("leaderuid") && (intent.hasExtra("documentId"))) {
             //강아지 선택하는 다이얼로그 띄우고
+            Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
+                putExtra("dogchoice_state", "matching_participant")
+            }.run { startActivityForResult(this,110) }
+
             val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
             val matchingtitle = intent.getStringExtra("title").toString()
             val documentId = intent.getStringExtra("documentId").toString()
@@ -377,40 +381,83 @@ class MatchingDetailActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     Log.d("Participant", "Participant_inUser실패 이유 : ${it}")
                 }
-
-            val dialog = CustomDialog(this)
-            dialog.mydialog()
-            dialog.setOnclickedListener(object : CustomDialog.ButtonClickListener {
-                override fun onclickMyMatchingList() {
-                    val intent =
-                        Intent(this@MatchingDetailActivity, MyMatchingListActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
-                    finish()
-
-                }
-
-                override fun onlcickClose() {
-                    try {
-                        //TODO 액티비티 화면 재갱신 시키는 코드
-                        val intent = intent
-                        intent.putExtra("title", matchingtitle)
-                        intent.putExtra("documentId", documentId)
-                        intent.putExtra("uid", uid)
-                        intent.putExtra("leaderuid", matchingLeaderUid)
-                        intent.putExtra("preActivity", "MatchingDetailActivity")
-                        finish() //현재 액티비티 종료 실시
-                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                        startActivity(intent) //현재 액티비티 재실행 실시
-                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+            for (i in dogname) {
+                db.collection("users").document(uid).collection("dogprofiles")
+                    .get()
+                    .addOnSuccessListener { result ->
+                        for (document in result) {
+                            val dogs = document.toObject<DogProfile>()
+                            if (dogs.dogName == i) {
+                                db.collection("Matching").document(documentId).collection("participant").document(uid)
+                                    .collection("dogprofile").document(i)
+                                    .set(
+                                        Dog_Profile_Item(
+                                            dogs.uid,
+                                            document.id,//?
+                                            dogs?.dogAge + "살",
+                                            dogs?.dogName,
+                                            dogs?.dogBreed,
+                                            dogs?.dogSex,
+                                            dogs?.photoUrl.toString()
+                                        )
+                                    )
+                                    .addOnSuccessListener {
+                                        Log.d("Participant", "MatchingDetailActivity_participant dog  성공")
+                                    }
+                            }
+                        }
                     }
-                }
+            }
 
-            })
+//            val dialog = CustomDialog(this)
+//            dialog.mydialog()
+//            dialog.setOnclickedListener(object : CustomDialog.ButtonClickListener {
+//                override fun onclickMyMatchingList() {
+//                    val intent =
+//                        Intent(this@MatchingDetailActivity, MyMatchingListActivity::class.java)
+//                    startActivity(intent)
+//                    overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+//                    finish()
+//
+//                }
+//
+//                override fun onlcickClose() {
+//                    try {
+//                        //TODO 액티비티 화면 재갱신 시키는 코드
+//                        val intent = intent
+//                        intent.putExtra("title", matchingtitle)
+//                        intent.putExtra("documentId", documentId)
+//                        intent.putExtra("uid", uid)
+//                        intent.putExtra("leaderuid", matchingLeaderUid)
+//                        intent.putExtra("preActivity", "MatchingDetailActivity")
+//                        finish() //현재 액티비티 종료 실시
+//                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+//                        startActivity(intent) //현재 액티비티 재실행 실시
+//                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//
+//            })
 
+        }else{
+            Log.e("yy","없다는데?")
         }
+
+    }
+    //강아지 선택해서 돌아왔을 때 처리하기
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode==110){  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
+                dogname= data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
+                Log.d("yy","저장할 강아지 리스트Q!"+dogname.toString())
+                participation_dog_layout.text= dogname.toString()
+            }
+        }
+
 
     }
 
