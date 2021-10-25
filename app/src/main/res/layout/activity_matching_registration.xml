@@ -74,18 +74,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/registmapfragment"
+                <fragment
+                    android:id="@+id/registration_mapfragment"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/map2" />
+                    android:layout_height="250dp" />
 
                 <RelativeLayout
                     android:id="@+id/registration_place_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/registmapfragment"
+                    android:layout_below="@+id/registration_mapfragment"
                     android:padding="8dp">
 
                     <TextView
@@ -93,11 +92,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
+                        android:layout_marginStart="4dp"
                         android:layout_marginBottom="12dp"
-                        android:fontFamily="@font/sebanggothic"
+                        android:fontFamily="@font/nanumsquareb"
                         android:text="장소"
-                        android:textSize="18dp"
-                        android:textStyle="bold"></TextView>
+                        android:textSize="14dp" />
 
                     <TextView
                         android:id="@+id/edittext_place"
@@ -106,11 +105,11 @@
                         android:layout_below="@+id/textplace"
                         android:layout_margin="4dp"
                         android:background="@drawable/edittext_round_black"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/nanumsquarel"
                         android:gravity="center_vertical"
                         android:hint="어디시 어디동 어디구"
                         android:paddingLeft="8dp"
-                        android:textSize="12dp" />
+                        android:textSize="14dp" />
 
                     <EditText
                         android:id="@+id/edittext_place_detail"
@@ -121,11 +120,11 @@
                         android:layout_marginHorizontal="12dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/edittext_round_black"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/nanumsquarel"
                         android:gravity="center_vertical"
                         android:hint="상세 위치"
                         android:paddingLeft="8dp"
-                        android:textSize="12dp"></EditText>
+                        android:textSize="14dp"></EditText>
 
                     <TextView
                         android:id="@+id/line1"
@@ -134,7 +133,7 @@
                         android:layout_below="@id/edittext_place_detail"
                         android:layout_marginVertical="24dp"
                         android:layout_marginLeft="4dp"
-                        android:background="#808080"></TextView>
+                        android:background="#52BCB4B4"></TextView>
 
 
                     <TextView
@@ -144,11 +143,11 @@
                         android:layout_below="@+id/line1"
                         android:layout_marginTop="24dp"
                         android:layout_marginBottom="12dp"
-                        android:fontFamily="@font/sebanggothic"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/nanumsquareb"
                         android:text="제목"
-                        android:textSize="18dp"
-                        android:textStyle="bold"></TextView>
-
+                        android:textSize="14dp"
+                        />
                     <EditText
                         android:id="@+id/edittext_registration_title"
                         android:layout_width="match_parent"
@@ -160,11 +159,11 @@
                         android:layout_marginEnd="4dp"
                         android:layout_marginBottom="4dp"
                         android:background="@drawable/edittext_round_black"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/nanumsquarel"
                         android:gravity="center_vertical|left"
-                        android:hint="ㅋㅋㅋ"
+                        android:hint="제목을 입력하세요 "
                         android:padding="8dp"
-                        android:textSize="12dp"></EditText>
+                        android:textSize="14dp"/>
 
                     <TextView
                         android:id="@+id/registration_participate_dog"
@@ -172,10 +171,11 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/edittext_registration_title"
                         android:layout_marginTop="24dp"
-                        android:fontFamily="@font/sebanggothic"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/nanumsquareb"
                         android:text="참여 반려견"
-                        android:textSize="18dp"
-                        android:textStyle="bold"></TextView>
+                        android:textSize="14dp"
+                        />
 
                     <TextView
                         android:id="@+id/participation_dog_layout"
@@ -197,10 +197,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/participation_dog_layout"
                         android:layout_marginTop="24dp"
-                        android:fontFamily="@font/sebanggothic"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/nanumsquareb"
                         android:text="모임 시간"
-                        android:textSize="16dp"
-                        android:textStyle="bold"></TextView>
+                        android:textSize="14dp"/>
 
                     <RelativeLayout
                         android:id="@+id/party_year_layout"
@@ -215,6 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:animationCache="true"
+
                             android:theme="@style/AppTheme.NumberPicker"></NumberPicker>
 
                         <TextView
@@ -225,9 +226,9 @@
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/npYear"
-                            android:fontFamily="@font/r210beachofnight"
+                            android:fontFamily="@font/nanumsquarel"
                             android:text="년"
-                            android:textSize="18dp"></TextView>
+                            android:textSize="14dp"></TextView>
 
 
                         <NumberPicker
@@ -245,9 +246,9 @@
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/npMonth"
-                            android:fontFamily="@font/r210beachofnight"
+                            android:fontFamily="@font/nanumsquarel"
                             android:text="월"
-                            android:textSize="18dp"></TextView>
+                            android:textSize="14dp"></TextView>
 
                         <NumberPicker
                             android:id="@+id/npDay"
@@ -264,9 +265,9 @@
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/npDay"
-                            android:fontFamily="@font/r210beachofnight"
+                            android:fontFamily="@font/nanumsquarel"
                             android:text="일"
-                            android:textSize="18dp"></TextView>
+                            android:textSize="14dp"></TextView>
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -290,9 +291,9 @@
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/npHours"
-                            android:fontFamily="@font/r210beachofnight"
+                            android:fontFamily="@font/nanumsquarel"
                             android:text="시"
-                            android:textSize="18dp"></TextView>
+                            android:textSize="14dp"></TextView>
 
                         <NumberPicker
                             android:id="@+id/npMinute"
@@ -308,9 +309,9 @@
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@+id/npMinute"
-                            android:fontFamily="@font/r210beachofnight"
+                            android:fontFamily="@font/nanumsquarel"
                             android:text="분 부터"
-                            android:textSize="18dp"></TextView>
+                            android:textSize="14dp"></TextView>
 
 
                     </RelativeLayout>
@@ -321,11 +322,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/party_time_layout"
                         android:layout_marginTop="24dp"
-                        android:fontFamily="@font/sebanggothic"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/nanumsquareb"
                         android:text="설명"
-                        android:textSize="18dp"
-                        android:textStyle="bold"></TextView>
-
+                        android:textSize="14dp"/>
                     <EditText
                         android:id="@+id/edit_registration_explain"
                         android:layout_width="match_parent"
@@ -336,12 +336,12 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/edittext_round_black"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:background="@drawable/backgroundgraycircle4"
+                        android:fontFamily="@font/nanumsquarel"
                         android:gravity="start"
                         android:hint="입력하세요"
                         android:padding="12dp"
-                        android:textSize="12dp"></EditText>
+                        android:textSize="14dp"></EditText>
 
                     <RelativeLayout
                         android:id="@+id/layout_search_condition"
@@ -356,9 +356,9 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="10dp"
-                            android:fontFamily="@font/sebanggothic"
+                            android:fontFamily="@font/nanumsquareb"
                             android:text="조건 설정"
-                            android:textSize="20dp" />
+                            android:textSize="14dp" />
 
                         <RelativeLayout
                             android:id="@+id/layout_condition_breed"
@@ -373,9 +373,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="8dp"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="크기"
-                                android:textSize="18dp" />
+                                android:textSize="14dp" />
 
                             <RadioGroup
                                 android:id="@+id/radiogroup_size"
@@ -452,9 +452,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="8dp"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="중성화"
-                                android:textSize="18dp" />
+                                android:textSize="14dp" />
 
                             <RadioGroup
                                 android:id="@+id/radiogroup_neutralization"
@@ -509,7 +509,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="8dp"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="주인성별"
                                 android:textSize="13dp" />
 

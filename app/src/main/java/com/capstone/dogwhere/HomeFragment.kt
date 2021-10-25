@@ -376,7 +376,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 val intent = Intent(activity, WebView::class.java)
                 startActivity(intent)
             }
-            R.id.setting -> Toast.makeText(activity, "rwerqwer", Toast.LENGTH_SHORT).show()
+            R.id.setting -> testmap()
             R.id.btn_logout -> clicklogut()
         }
         layout_drawer.closeDrawers()
@@ -417,6 +417,12 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private fun gpsstart() {
         Log.e("joo", "gps 이동")
         val intent = Intent(activity, GpsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun testmap() {
+        Log.e("joo", "지도 이동")
+        val intent = Intent(activity, MatchingRegistration_Area::class.java)
         startActivity(intent)
     }
 

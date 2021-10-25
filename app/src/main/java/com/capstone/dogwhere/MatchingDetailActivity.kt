@@ -36,7 +36,6 @@ class MatchingDetailActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private var dogname=ArrayList<String>()
 
-    private val adapter by lazy { PagerAdapter(supportFragmentManager, 2) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_detail)

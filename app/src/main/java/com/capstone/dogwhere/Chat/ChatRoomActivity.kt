@@ -33,9 +33,14 @@ class ChatRoomActivity : AppCompatActivity() {
         val yourUid = intent.getStringExtra("yourUid")
         val name = intent.getStringExtra("name")
         val adapter = GroupAdapter<GroupieViewHolder>()
-
+        var myname : String?= null
         val db = FirebaseFirestore.getInstance()
 
+        db.collection("users").document(myUid.toString()).collection("userprofiles").document(myUid.toString())
+            .get().addOnSuccessListener {
+                val result = it.toObject<UserProfile>()
+                myname = result?.userName.toString()
+            }
 
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("message")
@@ -73,7 +78,7 @@ class ChatRoomActivity : AppCompatActivity() {
                         } else {
                             adapter.add(
                                 ChatLeftYou(
-                                    name.toString(),
+                                    nickname.toString(),
                                     msg.toString(),
                                     str_date.toString(),
                                     profilephoto.toString()
@@ -108,6 +113,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         btn_chatroom_send.setOnClickListener {
 
+
             val message = edittext_chatroom_msg.text.toString()
 
             val chat = ChatNewModel(
@@ -125,7 +131,7 @@ class ChatRoomActivity : AppCompatActivity() {
             val chat_get = ChatNewModel(
                 yourUid.toString(),
                 myUid.toString(),
-                name.toString(),
+                myname.toString(),
                 message,
                 System.currentTimeMillis(),
                 "you"
