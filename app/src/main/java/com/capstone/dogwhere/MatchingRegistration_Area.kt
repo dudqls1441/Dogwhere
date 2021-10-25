@@ -136,8 +136,8 @@ class MatchingRegistration_Area : AppCompatActivity(), OnMapReadyCallback,
             val projection = map!!.projection
             val intent = Intent(this,MatchingRegistrationActivity::class.java)
             Log.e("joo", target.toString())
-            intent.putExtra("choice_lat", target.latitude)
-            intent.putExtra("choice_lon", target.longitude)
+            intent.putExtra("choice_lat", target.latitude.toString())
+            intent.putExtra("choice_lon", target.longitude.toString())
             setResult(Activity.RESULT_OK,intent)
             finish()
         }

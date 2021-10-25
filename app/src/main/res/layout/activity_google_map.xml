@@ -73,11 +73,11 @@
 
     </LinearLayout>
 
-        <fragment
-            android:id="@+id/map_fragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/top_layout"
-            android:layout_height="match_parent" />
+            <fragment
+                android:id="@+id/map_fragment"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/top_layout"
+                android:layout_height="match_parent" />
 
 </RelativeLayout>

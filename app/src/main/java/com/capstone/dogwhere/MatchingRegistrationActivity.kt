@@ -42,16 +42,19 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
     lateinit var condition_size :String
     lateinit var condition_owner_gender :String
     lateinit var condition_neutralization : String
+    lateinit var choice_lat : String
+    lateinit var choice_lon : String
     var map: GoogleMap? = null
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
+    var mylocation :LatLng? = null
     private val FLAG_Select_Dog_Code = 1000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_registration)
-
+        mylocation = getMyLocation()
         condition_size = "all"
         condition_neutralization ="all"
         condition_owner_gender ="all"
@@ -118,11 +121,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
-        edittext_place.setOnClickListener {
-            Intent(this,Search_Region::class.java).apply {
-                putExtra("address_state", "matching_registration")
-            }.run { startActivity(this) }
-        }
+
 
         participation_dog_layout.setOnClickListener {
             Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
@@ -135,11 +134,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
 
         doguid= intent.getStringArrayExtra("select_doguid").toString()
         Log.d("yy","선택한 강아지 리스트"+doguid)
-        party_address = intent.getStringExtra("address").toString()
-        Log.d("yy",party_address)
-        if (party_address!="null"){
-            edittext_place.text=party_address
-        }
+
     }
 
     override fun onStart() {
@@ -226,8 +221,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             return
         }
 
-        val mylocation = getMyLocation()
-        map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mylocation.latitude, mylocation.longitude), 14f))
+
+        map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mylocation!!.latitude, mylocation!!.longitude), 14f))
         map!!.isMyLocationEnabled = true
         map!!.setOnCameraMoveListener(this)
         map!!.setOnMapClickListener(this)
@@ -285,34 +280,19 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 }
                 100 -> {
                     // 좌표를 가지고 와서 위치 정보 가져오기
-                    val choice_lat= data!!.getStringExtra("choice_lat").toString()
-                    val choice_lon = data!!.getStringExtra("choice_lon").toString()
+                    choice_lat = data!!.getStringExtra("choice_lat").toString()
+                    choice_lon = data!!.getStringExtra("choice_lon").toString()
                     Log.e("joo", choice_lat + choice_lon)
-                    moveMap(choice_lat.toDouble(), choice_lon.toDouble())
+                    map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(choice_lat.toDouble(), choice_lon.toDouble()), 14f))
+//                    moveMap(choice_lat.toDouble(), choice_lon.toDouble())
                     addMarker(choice_lat.toDouble(), choice_lon.toDouble(), "선택한 위치")
+                    party_address = getCurrentAddress(choice_lat.toDouble(), choice_lon.toDouble())
+                    if (party_address!="null"){
+                        edittext_place.text=party_address
+                    }
                 }
 
             }
-
-            if(requestCode==110){
-                db = FirebaseFirestore.getInstance()
-                auth = FirebaseAuth.getInstance()
-                val uid = auth.currentUser!!.uid
-                val dog_id= data!!.getStringExtra("dog").toString()
-
-                val dog_name = data!!.getStringExtra("dog_name").toString()
-
-                db.collection("users").document(uid).collection("dogprofiles").document(dog_id).get().addOnSuccessListener {
-                    val dog_img = it.get("photoUrl").toString()
-                    Glide.with(this).load(dog_img).centerCrop().into(img_dog)
-                    Log.d("yb","dog_img -> ${dog_img}")
-                }
-                Log.d("yb","dog_id-> ${dog_id}")
-                Log.d("yb","강아지 선택 화면에서 돌아온 상태")
-                Log.d("yb","dog_name = > ${dog_name}")
-
-            }
-
 
         }
 
@@ -477,9 +457,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             party_time,
             title,
             explain,
-            "",
             true,
-            documentid.id
+            documentid.id,
+            choice_lat.toDouble(),
+            choice_lon.toDouble()
         )
 
 
@@ -492,9 +473,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         party_time: String,
         title: String,
         explain: String,
-        dog: String,
         ongoing: Boolean,
-        documentId: String
+        documentId: String,
+        latitude : Double,
+        longitude: Double
     ) {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid
@@ -505,7 +487,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         ) {
             val matching = Matching(
                 uid,
-                dog,
                 party_address,
                 party_address_detail,
                 title,
@@ -516,7 +497,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 documentId,
                 condition_size,
                 condition_neutralization,
-                condition_owner_gender
+                condition_owner_gender,
+                latitude,
+                longitude
             )
             Log.d("33 -> ", matching.toString())
             val time = System.currentTimeMillis()
@@ -693,6 +676,24 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
 //
 //    }
 
+
+    var marker: Marker? = null
+    private fun addMarker(lat: Double, lng: Double, title: String) {
+        if (marker != null) {
+            marker!!.remove()
+            marker = null
+        }
+        val options = MarkerOptions()
+        options.position(LatLng(lat, lng))
+//        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mappoint))
+        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+        options.anchor(0.5f, 1f)
+        options.title(title)
+        options.draggable(true)
+        options.snippet("snippet - $title")
+        marker = map!!.addMarker(options)
+    }
+
     private fun getCurrentAddress(latitude: Double, longitude: Double): String {
 
         //지오코더... GPS를 주소로 변환
@@ -720,22 +721,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         Log.e("joo", address.getAddressLine(0).toString())
         val area = address.getAddressLine(0).toString()
         val arealist = area.split(" ")
-        return "${arealist[1]} ${arealist[2]} ${arealist[3]} ${arealist[4]}"
-    }
-
-    var marker: Marker? = null
-    private fun addMarker(lat: Double, lng: Double, title: String) {
-        if (marker != null) {
-            marker!!.remove()
-            marker = null
-        }
-        val options = MarkerOptions()
-        options.position(LatLng(lat, lng))
-        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-        options.anchor(0.5f, 1f)
-        options.title(title)
-        options.snippet("snippet - $title")
-        options.draggable(true)
-        marker = map!!.addMarker(options)
+        return "${arealist[1]} ${arealist[2]} ${arealist[3]}"
     }
 }
