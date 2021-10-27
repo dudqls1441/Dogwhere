@@ -26,11 +26,13 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.Chat.ChatListActivity
-import com.capstone.dogwhere.DTO.*
+import com.capstone.dogwhere.DTO.Matching
+import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.DTO.Walk_Recommend_Item
+import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -38,7 +40,6 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_completed_matching.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -158,12 +159,12 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             val beforeweek = SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(week.time)
             Log.d("yb", "yb 일주일 전 -> ${beforeweek}")
 
-            db.collection("information_bbs").orderBy("visitCnt", Query.Direction.DESCENDING)
+            db.collection("free_bbs").orderBy("heartCnt", Query.Direction.DESCENDING)
                 .limit(2).get().addOnSuccessListener {
                     for (document in it) {
                         val hot_bbs_item = home_hot_bbs_Item(
                             document.get("title").toString(),
-                            document.get("comment").toString(),
+                            document.get("content").toString(),
                             Integer.parseInt(document.get("heartCnt").toString()),
                             Integer.parseInt(document.get("visitCnt").toString()),
                             document.get("username").toString(),
@@ -176,10 +177,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                     recyclerview_hot_bbs?.adapter = adapters
                 }
             adapters.setOnItemClickListener { item, view ->
-                db.collection("information_bbs").document((item as home_hot_bbs_Item).oid)
-                    .update("visitCnt", FieldValue.increment(1))
-                    .addOnSuccessListener { Log.d("yb", "Success Plus Visit Count") }
-                    .addOnFailureListener { e -> Log.w("yb", "Error Visit Count", e) }
+                item as home_hot_bbs_Item
                 Intent(context, BBS_Common_Post::class.java).apply {
                     putExtra("tab", "information_bbs")
                     putExtra("title", (item).title)

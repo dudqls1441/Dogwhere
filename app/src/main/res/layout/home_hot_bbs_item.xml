@@ -5,36 +5,34 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="90dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="7dp"
-        android:background="@drawable/round_gray">
+        android:layout_margin="14dp"
+        android:background="@drawable/backgroundgraycircle3">
 
         <TextView
             android:id="@+id/bbs_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/nanumsquareb"
             android:text="게시물 제목"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            android:textSize="16dp"
+            />
 
         <TextView
             android:id="@+id/bbs_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bbs_title"
-            android:layout_marginLeft="18dp"
-            android:fontFamily="@font/nanumsquareb"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/nanumsquarer"
             android:maxLines="2"
             android:text="이래라 저래라 얼레리 꼴레리 이쪽 저쪽"
+            android:textSize="12dp"
             android:textColor="@color/main_gray" />
 
         <RelativeLayout
@@ -48,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/bbs_heart"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_marginStart="15dp"
                 android:src="@drawable/ic_gray_heart" />
 
@@ -58,6 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:fontFamily="@font/nanumsquarel"
+                android:textSize="12dp"
                 android:layout_toRightOf="@+id/bbs_heart"
                 android:text="0" />
 
@@ -66,6 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:fontFamily="@font/nanumsquarel"
+                android:textSize="12dp"
                 android:layout_toRightOf="@+id/heart_count"
                 android:text="조회수" />
 
@@ -74,6 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:fontFamily="@font/nanumsquarel"
                 android:layout_toRightOf="@+id/text_view_count"
                 android:text="0" />
         </RelativeLayout>

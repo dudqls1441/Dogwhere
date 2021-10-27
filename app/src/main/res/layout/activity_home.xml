@@ -101,7 +101,7 @@
                                 android:fontFamily="@font/nanumsquareb"
                                 android:text="산책습관"
                                 android:textColor="@color/main_mint"
-                                android:textSize="21dp"></TextView>
+                                android:textSize="16dp"></TextView>
 
                             <TextView
                                 android:id="@+id/bb"
@@ -111,7 +111,7 @@
                                 android:fontFamily="@font/nanumsquareb"
                                 android:text="을 점검해보세요"
                                 android:textColor="@color/main_gray"
-                                android:textSize="21dp"></TextView>
+                                android:textSize="16dp"></TextView>
                         </RelativeLayout>
 
 
@@ -262,7 +262,7 @@
                                 android:fontFamily="@font/nanumsquareb"
                                 android:gravity="center_vertical"
                                 android:text="오늘의"
-                                android:textSize="21dp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -274,7 +274,7 @@
                                 android:gravity="center_vertical"
                                 android:text=" 핫 게시글"
                                 android:textColor="@color/main_mint"
-                                android:textSize="21dp"
+                                android:textSize="16dp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
 
@@ -311,10 +311,10 @@
                                 android:id="@+id/text_work1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="현재 주소"
                                 android:textColor="@color/main_mint"
-                                android:textSize="20dp"></TextView>
+                                android:textSize="16dp"></TextView>
 
                             <TextView
                                 android:id="@+id/text_work2"
@@ -322,19 +322,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_toRightOf="@+id/text_work1"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="산책 모임"
                                 android:textColor="@color/main_mint"
-                                android:textSize="20dp"></TextView>
+                                android:textSize="16dp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_toRightOf="@+id/text_work2"
-                                android:fontFamily="@font/sebanggothic"
+                                android:fontFamily="@font/nanumsquareb"
                                 android:text="에 참여해보세요"
                                 android:textColor="@color/main_gray"
-                                android:textSize="20dp"></TextView>
+                                android:textSize="16dp"></TextView>
 
                             <TextView
                                 android:id="@+id/full"
