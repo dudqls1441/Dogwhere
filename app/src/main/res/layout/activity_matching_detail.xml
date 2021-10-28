@@ -80,7 +80,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
-                    android:fontFamily="@font/r210beachofnight"
+                    android:fontFamily="@font/sebanggothic"
                     android:gravity="center"
                     android:maxLines="2"
                     android:text="매칭 제목"
@@ -107,9 +107,11 @@
                         android:id="@+id/matching_profile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="12dp"
                         android:layout_toRightOf="@+id/matching_profile_img"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/sebanggothic"
                         android:text="글쓴이"
                         android:textSize="20dp"
                         android:textStyle="bold"></TextView>
@@ -154,7 +156,7 @@
                         android:layout_weight="1"
                         android:layout_margin="4dp"
                         android:textColor="#00C09F"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/sebanggothic"
                         android:text="채팅하기"
                         android:background="@drawable/edittext_round"
                         android:id="@+id/btn_chatting"></Button>
@@ -164,7 +166,7 @@
                         android:layout_weight="1"
                         android:layout_margin="4dp"
                         android:textColor="#00C09F"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/sebanggothic"
                         android:text="참여하기"
                         android:background="@drawable/edittext_round"
                         android:id="@+id/btn_participate"></Button>
@@ -175,7 +177,7 @@
                         android:layout_margin="4dp"
                         android:textColor="#00C09F"
                         android:visibility="gone"
-                        android:fontFamily="@font/r210beachofnight"
+                        android:fontFamily="@font/sebanggothic"
                         android:text="매칭 취소"
                         android:background="@drawable/edittext_round"
                         android:id="@+id/btn_matching_cancle"></Button>

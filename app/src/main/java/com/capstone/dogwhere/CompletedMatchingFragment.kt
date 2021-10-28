@@ -55,6 +55,7 @@ class CompletedMatchingFragment : Fragment() {
                             Log.d("CompletedMatching", "Completed:documnet_Id8 = ${document.id}")
                             adapter.add(
                                 Matching_Completed_List_Item(
+                                    document.get("uid").toString(),
                                     document.id,
                                     document.get("title").toString(),
                                     document.get("date").toString() + "-" + document.get("startime")
@@ -71,7 +72,7 @@ class CompletedMatchingFragment : Fragment() {
                             intent.putExtra("preActivity", "CompletedMatchingFragment")
                             intent.putExtra("title", item.time)
                             intent.putExtra("documentId", item.documentId)
-                            intent.putExtra("uid", uid)
+                            intent.putExtra("leaderuid", uid)
                             startActivity(intent)
                         }
                     }

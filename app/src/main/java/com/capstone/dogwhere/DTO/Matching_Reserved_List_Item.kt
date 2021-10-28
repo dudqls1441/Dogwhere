@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.my_ongoing_matching_item.view.*
 import kotlinx.android.synthetic.main.navi_header.*
 
 class Matching_Reserved_List_Item(
+    val leaderUid : String,
     val documentId : String,
     val title: String,
     val time: String,

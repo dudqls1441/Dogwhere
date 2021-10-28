@@ -442,7 +442,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
 
         btn_profile.setOnClickListener {
-            startActivity(Intent(context, UserProfileActivity::class.java))
+            auth = FirebaseAuth.getInstance()
+            val uid = auth.uid.toString()
+            val intent = Intent(activity,UserProfileActivity::class.java)
+            intent.putExtra("uid",uid)
+            startActivity(intent)
         }
         full.setOnClickListener {
             Intent(context, MatchingListActivity::class.java).apply {

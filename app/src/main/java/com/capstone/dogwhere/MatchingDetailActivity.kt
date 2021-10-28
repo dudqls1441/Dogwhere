@@ -39,23 +39,26 @@ import java.util.*
 
 const val TOPIC = "/topics/myTopic"
 
-class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
+class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var dogname=ArrayList<String>()
+    private var dogname = ArrayList<String>()
     var map: GoogleMap? = null
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
-    var mylocation :LatLng? = null
-    private lateinit var matchingLeaderUid : String
-    private lateinit var matchingDocumentId : String
-    private lateinit var matchingTitle : String
+    var mylocation: LatLng? = null
+    private lateinit var matchingLeaderUid: String
+    private lateinit var matchingDocumentId: String
+    private lateinit var matchingTitle: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_detail)
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         matchingDocumentId = intent.getStringExtra("documentId").toString()
         matchingTitle = intent.getStringExtra("title").toString()
+
+//        auth = FirebaseAuth.getInstance()
+//        val uid = auth.currentUser?.uid.toString()
 
 //        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
 //        val tokenToDevice: String =
@@ -73,8 +76,10 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
 
         init()
 
+
+
         btn_back.setOnClickListener {
-                finish()
+            finish()
         }
         btn_trash.setOnClickListener {
             deleteDialog()
@@ -84,9 +89,9 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
         }
 
         btn_participate.setOnClickListener {
-            Intent(this,MatchingRegistration_Choice_Dog_Activity::class.java).apply {
+            Intent(this, MatchingRegistration_Choice_Dog_Activity::class.java).apply {
                 putExtra("dogchoice_state", "matching_participant")
-            }.run { startActivityForResult(this,110) }
+            }.run { startActivityForResult(this, 110) }
         }
 
 
@@ -122,183 +127,46 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
         db = FirebaseFirestore.getInstance()
         val uid = auth.currentUser?.uid.toString()
 
+        matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
+        matchingDocumentId = intent.getStringExtra("documentId").toString()
+        matchingTitle = intent.getStringExtra("title").toString()
+
+        //내가 올린 매칭일 때
+        if (uid == matchingLeaderUid) {
+            btn_trash.visibility = View.VISIBLE
+            btn_participate.visibility = View.GONE
+            btnLayout.visibility = View.GONE
+
+            db.collection("users").document(uid).collection("userprofiles")
+                .document(uid).get().addOnSuccessListener {
+                    val result = it.toObject<UserProfile>()
+                    Glide.with(this).load(result?.profilePhoto).circleCrop()
+                        .into(matching_profile_img)
+                    matching_profile_name.setText(result?.userName)
+                }
+            db.collection("Matching").document(matchingDocumentId).get()
+                .addOnSuccessListener {
+                    val result = it.toObject<Matching>()
+                    matching_title.setText(result!!.title)
+                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                    text_matching_time.setText(result!!.startime)
+                }
 
 
-        if(uid==matchingLeaderUid){
-            btn_trash.visibility=View.VISIBLE
-        }
+        } else {
+            //내가 올린 매칭이 아닐 때
+            btn_participate.visibility = View.VISIBLE
 
-        db.collection("Matching").document(matchingDocumentId).collection("participant")
-            .document(uid).get().addOnSuccessListener {
-                Log.d("123456789", "123456 --> it -->${it.data}")
-                //매칭에 참가 했을 때
-                if (it.data != null) {
-                    btn_participate.visibility = View.GONE
-                    btn_matching_cancle.visibility = View.VISIBLE
-                    db.collection("users").document(matchingLeaderUid).collection("userprofiles")
-                        .document(matchingLeaderUid).get().addOnSuccessListener {
-                            val result = it.toObject<UserProfile>()
-                            Glide.with(this).load(result?.profilePhoto).circleCrop()
-                                .into(matching_profile_img)
-                            matching_profile_name.setText(result?.userName)
-                        }.addOnFailureListener {
-                            Log.d(
-                                "MatchingDetailActivity",
-                                "MatchingDetailActivity ..userprofile 가져오기 실패 : ${it}"
-                            )
-                        }
+            db.collection("Matching").document(matchingDocumentId).collection("participant")
+                .document(uid).get().addOnSuccessListener {
+                    //매칭에 참가하지 않았을 때
+                    if (it.data == null) {
+                        btn_participate.visibility = View.VISIBLE
+                        btn_matching_cancle.visibility = View.GONE
 
-                    db.collection("Matching").document(matchingDocumentId).get()
-                        .addOnSuccessListener {
-                            val result = it.toObject<Matching>()
-                            matching_title.setText(result!!.title)
-                            text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                            text_matching_time.setText(result!!.startime)
-                        }
-                    btn_matching_cancle.setOnClickListener {
-                        db.collection("Matching").document(matchingDocumentId)
-                            .collection("participant")
-                            .document(uid).delete()
-                        db.collection("users").document(uid).collection("matching")
-                            .document(matchingDocumentId).delete()
-                        //새로고침
-                        val dialog = CustomDialog_Cancle_Check(this)
-                        dialog.mydialog()
-                        dialog.setOnclickedListener(object :
-                            CustomDialog_Cancle_Check.ButtonClickListener {
-                            override fun onclickCancle() {
-                                try {
-                                    //TODO 액티비티 화면 재갱신 시키는 코드
-                                    val intent = intent
-                                    intent.putExtra("title", matchingTitle)
-                                    intent.putExtra("documentId", matchingDocumentId)
-                                    intent.putExtra("uid", uid)
-                                    intent.putExtra("leaderuid", matchingLeaderUid)
-                                    intent.putExtra("preActivity", "MatchingDetailActivity")
-                                    finish() //현재 액티비티 종료 실시
-                                    overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                                    startActivity(intent) //현재 액티비티 재실행 실시
-                                    overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-                            }
-
-                            override fun onlcickClose() {
-
-                            }
-                        })
-                    }
-                } else {
-                    //Matching에 참가하지 않았을 때
-                    btn_participate.visibility = View.VISIBLE
-                    btn_matching_cancle.visibility = View.GONE
-                    if (!uid.equals(intent.getStringExtra("leaderuid").toString())) {
-                        if (intent.getStringExtra("preActivity")
-                                .toString() == "MatchingListActivity"
-                        ) {
-                            matching_title.setText(matchingTitle)
-                            db.collection("users").document(matchingLeaderUid)
-                                .collection("userprofiles")
-                                .document(matchingLeaderUid).get().addOnSuccessListener {
-                                    val result = it.toObject<UserProfile>()
-                                    Glide.with(this).load(result?.profilePhoto).circleCrop()
-                                        .into(matching_profile_img)
-                                    matching_profile_name.setText(result?.userName)
-                                }.addOnFailureListener {
-                                    Log.d(
-                                        "MatchingDetailActivity",
-                                        "MatchingDetailActivity ..userprofile 가져오기 실패 : ${it}"
-                                    )
-                                }
-                            db.collection("Matching").document(matchingDocumentId).get()
-                                .addOnSuccessListener {
-                                    val result = it.toObject<Matching>()
-                                    matching_title.setText(result!!.title)
-                                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                                    text_matching_time.setText(result!!.startime)
-                                }
-
-                        } else if (intent.getStringExtra("preActivity")
-                                .toString() == "MatchingDetailActivity" || intent.getStringExtra("preActivity")
-                                .toString() == "RegisteredMatchingFragment" || intent.getStringExtra("preActivity")
-                                .toString() == "ReservedMatchingFragment" || intent.getStringExtra("preActivity")
-                                .toString() == "CompletedMatchingFragment"
-                        ) {
-                            Log.d(
-                                "MatchingDetailActivity",
-                                "MatchingDetailActivity : MatchingDetailActivity에서 preActivity 값 ${
-                                    intent.getStringExtra(
-                                        "preActivity"
-                                    ).toString()
-                                }"
-                            )
-                            matching_title.setText(matchingTitle)
-                            db.collection("users").document(matchingLeaderUid)
-                                .collection("userprofiles")
-                                .document(matchingLeaderUid).get().addOnSuccessListener {
-                                    val result = it.toObject<UserProfile>()
-                                    Log.d(
-                                        "MatchingDetailActivity",
-                                        "MatchingDetailActivity : MatchingDetailActivity에서 왔을 때 db값 : ${result.toString()}"
-                                    )
-                                    Glide.with(this).load(result?.profilePhoto).circleCrop()
-                                        .into(matching_profile_img)
-                                    matching_profile_name.setText(result?.userName)
-                                }.addOnFailureListener {
-                                    Log.d(
-                                        "MatchingDetailActivity",
-                                        "MatchingDetailActivity ..userprofile 가져오기 실패 : ${it}"
-                                    )
-                                }
-                            db.collection("Matching").document(matchingDocumentId).get()
-                                .addOnSuccessListener {
-                                    val result = it.toObject<Matching>()
-                                    matching_title.setText(result!!.title)
-                                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                                    text_matching_time.setText(result!!.startime)
-                                }
-
-                        } else if (intent.getStringExtra("preActivity")
-                                .toString() == "ReservedMatchingFragment"
-                        ) {
-                            db.collection("Matching").document(matchingDocumentId).get()
-                                .addOnSuccessListener {
-                                    val result = it.toObject<Matching>()
-                                    matching_title.setText(result!!.title)
-                                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                                    text_matching_time.setText(result!!.startime)
-                                    matching_title.setText(result!!.title)
-                                    val matchingLeaderUid = result!!.uid
-                                    db.collection("users").document(matchingLeaderUid)
-                                        .collection("userprofiles")
-                                        .document(matchingLeaderUid).get().addOnSuccessListener {
-                                            val result = it.toObject<UserProfile>()
-                                            Glide.with(this).load(result?.profilePhoto).circleCrop()
-                                                .into(matching_profile_img)
-                                            Log.d("yb","yb111 -> ${result!!.profilePhoto}")
-                                            matching_profile_name.setText(result?.userName)
-
-                                        }.addOnFailureListener {
-                                            Log.d(
-                                                "MatchingDetailActivity",
-                                                "MatchingDetailActivity,,In_ReservedMatchingFragment ..userprofile 가져오기 실패 : ${it}"
-                                            )
-                                        }
-                                }.addOnFailureListener {
-                                    Log.d(
-                                        "MatchingDetailActivity",
-                                        "MatchingDetailActivity,,In_ReservedMatchingFragment ..userprofile 가져오기 실패 : ${it}"
-                                    )
-                                }
-                        } else {
-
-                        }
-                        //내 매칭 들어갔을 때
-                    } else {
-                        btnLayout.visibility = View.GONE
-                        db.collection("users").document(uid).collection("userprofiles")
-                            .document(uid).get().addOnSuccessListener {
+                        db.collection("users").document(matchingLeaderUid)
+                            .collection("userprofiles")
+                            .document(matchingLeaderUid).get().addOnSuccessListener {
                                 val result = it.toObject<UserProfile>()
                                 Glide.with(this).load(result?.profilePhoto).circleCrop()
                                     .into(matching_profile_img)
@@ -311,18 +179,87 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                                 text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
                                 text_matching_time.setText(result!!.startime)
                             }
+
+
+                        //매칭에 참가했을 때
+                    } else {
+                        btn_participate.visibility = View.GONE
+                        btn_matching_cancle.visibility = View.VISIBLE
+
+                        matching_title.setText(matchingTitle)
+                        db.collection("users").document(matchingLeaderUid)
+                            .collection("userprofiles")
+                            .document(matchingLeaderUid).get().addOnSuccessListener {
+                                val result = it.toObject<UserProfile>()
+                                Glide.with(this).load(result?.profilePhoto).circleCrop()
+                                    .into(matching_profile_img)
+                                matching_profile_name.setText(result?.userName)
+                            }.addOnFailureListener {
+                                Log.d(
+                                    "MatchingDetailActivity",
+                                    "MatchingDetailActivity ..userprofile 가져오기 실패 : ${it}"
+                                )
+                            }
+                        db.collection("Matching").document(matchingDocumentId).get()
+                            .addOnSuccessListener {
+                                val result = it.toObject<Matching>()
+                                matching_title.setText(result!!.title)
+                                text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                                text_matching_time.setText(result!!.startime)
+                            }
                     }
                 }
-            }
+        }
+
+
+        btn_matching_cancle.setOnClickListener {
+
+            val dialog = CustomDialog_Cancle_Check(this)
+            dialog.mydialog()
+            dialog.setOnclickedListener(object :
+                CustomDialog_Cancle_Check.ButtonClickListener {
+                override fun onclickCancle() {
+                    try {
+                        //TODO 액티비티 화면 재갱신 시키는 코드
+                        val intent = intent
+                        intent.putExtra("title", matchingTitle)
+                        intent.putExtra("documentId", matchingDocumentId)
+                        intent.putExtra("uid", uid)
+                        intent.putExtra("leaderuid", matchingLeaderUid)
+                        intent.putExtra("preActivity", "MatchingDetailActivity")
+                        finish() //현재 액티비티 종료 실시
+                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+                        startActivity(intent) //현재 액티비티 재실행 실시
+                        overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+
+
+                        db.collection("Matching").document(matchingDocumentId)
+                            .collection("participant")
+                            .document(uid).delete()
+                        db.collection("users").document(uid).collection("matching")
+                            .document(matchingDocumentId).delete()
+
+                        //새로고침
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onlcickClose() {
+
+                }
+            })
+        }
     }
 
+
     //매칭 삭제 다이얼로그
-    private fun deleteDialog(){
+    private fun deleteDialog() {
         val dialog = CustomDialog_bbs_delete_check(this)
-        val title="매칭 삭제"
-        val description="매칭을 삭제하시겠습니까?"
-        val action_text="삭제"
-        dialog.mydialog(title,description,action_text)
+        val title = "매칭 삭제"
+        val description = "매칭을 삭제하시겠습니까?"
+        val action_text = "삭제"
+        dialog.mydialog(title, description, action_text)
         dialog.setOnclickedListener(object :
             CustomDialog_bbs_delete_check.ButtonClickListener {
             override fun onclickAction() {
@@ -342,10 +279,10 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
     private fun matchingDelete() {
         val matchingDocumentId = intent.getStringExtra("documentId").toString()
         db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
-            Log.d("yb","ybyb 매칭 삭제 성공")
-            val intent = Intent(this,Search_Region::class.java)
+            Log.d("yb", "ybyb 매칭 삭제 성공")
+            val intent = Intent(this, Search_Region::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
         }
     }
@@ -401,25 +338,26 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                     Log.d("Participant", "Participant_inUser실패 이유 : ${it}")
                 }
 
-                db.collection("users").document(uid).collection("dogprofiles")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        for (document in result) {
-                            Log.e("yy","너야?  "+document.toString())
-                            val dogs = document.toObject<DogProfile>()
-                            for (i in dogname) {
-                                Log.e("yy","i="+i)
-                                Log.e("yy","dogName="+dogs.dogName)
+            db.collection("users").document(uid).collection("dogprofiles")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        Log.e("yy", "너야?  " + document.toString())
+                        val dogs = document.toObject<DogProfile>()
+                        for (i in dogname) {
+                            Log.e("yy", "i=" + i)
+                            Log.e("yy", "dogName=" + dogs.dogName)
                             if (dogs.dogName == i) {
-                                Log.e("yy",dogs.dogName)
+                                Log.e("yy", dogs.dogName)
 
-                                db.collection("Matching").document(documentId).collection("participant").document(uid)
+                                db.collection("Matching").document(documentId)
+                                    .collection("participant").document(uid)
                                     .collection("dogprofile").document(i)
                                     .set(
                                         Dog_Profile_Item(
                                             dogs.uid,
                                             document.id,//?
-                                            dogs?.dogAge ,
+                                            dogs?.dogAge,
                                             dogs?.dogName,
                                             dogs?.dogBreed,
                                             dogs?.dogSex,
@@ -427,12 +365,15 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                                         )
                                     )
                                     .addOnSuccessListener {
-                                        Log.d("Participant", "MatchingDetailActivity_participant dog  성공")
+                                        Log.d(
+                                            "Participant",
+                                            "MatchingDetailActivity_participant dog  성공"
+                                        )
                                     }
                             }
                         }
                     }
-            }
+                }
 
             val dialog = CustomDialog(this)
             dialog.mydialog()
@@ -466,27 +407,26 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
 
             })
 
-        }else{
+        } else {
 
         }
 
     }
+
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode==110){  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
-                dogname= data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
-                Log.d("yy","저장할 강아지 리스트Q!"+dogname.toString())
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 110) {  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
+                dogname = data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
+                Log.d("yy", "저장할 강아지 리스트Q!" + dogname.toString())
                 participation()
             }
         }
 
 
     }
-
-
 
 
     //푸시 알림을 위함..--> 아마 안 쓸듯?
@@ -646,6 +586,7 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
             }
 
     }
+
     @SuppressLint("MissingPermission")
     private fun getMyLocation(): LatLng {
         val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -656,7 +597,10 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                 val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 val getLongtitude = location?.longitude
                 val getLatitude = location?.latitude
-                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+                Log.e(
+                    "joo",
+                    "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
+                )
                 var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
 
                 return currentLocation
@@ -665,7 +609,10 @@ class MatchingDetailActivity : AppCompatActivity() , OnMapReadyCallback{
                 val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 val getLongtitude = location?.longitude
                 val getLatitude = location?.latitude
-                Log.e("joo", "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}")
+                Log.e(
+                    "joo",
+                    "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
+                )
 
                 var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
 

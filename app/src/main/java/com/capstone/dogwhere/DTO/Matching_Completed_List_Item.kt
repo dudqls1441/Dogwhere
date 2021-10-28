@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.my_ongoing_matching_item.view.*
 
 
 class Matching_Completed_List_Item(
+    val leaderUid : String,
     val documentId : String,
     val title: String,
     val time: String,

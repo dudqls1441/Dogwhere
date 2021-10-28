@@ -22,7 +22,7 @@ class MyMatchingListActivity : AppCompatActivity() {
         mymatchinglist_tablayout.addTab(mymatchinglist_tablayout.newTab().setText("예약된 매칭"))
         mymatchinglist_tablayout.addTab(mymatchinglist_tablayout.newTab().setText("완료한 매칭"))
 
-        mymatchinglist_ViewPager.adapter = MyMatchingListPagerAdapter(supportFragmentManager, 2)
+        mymatchinglist_ViewPager.adapter = MyMatchingListPagerAdapter(supportFragmentManager, 3)
         mymatchinglist_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 mymatchinglist_ViewPager.currentItem = tab!!.position
@@ -59,7 +59,7 @@ class MyMatchingListPagerAdapter(
             0 -> return RegisteredMatchingFragment()
             1 -> return ReservedMatchingFragment()
             2 -> return CompletedMatchingFragment()
-            else -> return ReservedMatchingFragment()
+            else -> return RegisteredMatchingFragment()
         }
     }
 

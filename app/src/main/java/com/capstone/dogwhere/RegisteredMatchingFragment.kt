@@ -71,10 +71,7 @@ class RegisteredMatchingFragment : Fragment() {
                         adapter.setOnItemClickListener { item, view ->
                             val intent = Intent(activity,MatchingDetailActivity::class.java)
                             intent.putExtra("documentId",(item as Matching_Registered_List_Item).documentId)
-                            intent.putExtra("preActivity","RegisteredMatchingFragment")
-                            intent.putExtra("title", item.time)
-                            intent.putExtra("documentId", item.documentId)
-                            intent.putExtra("uid", uid)
+                            intent.putExtra("leaderuid", uid)
                             startActivity(intent)
 
 

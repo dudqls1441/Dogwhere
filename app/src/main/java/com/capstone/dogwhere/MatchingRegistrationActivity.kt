@@ -73,7 +73,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         btn_back.setOnClickListener{
             this.finish()
         }
-        val yearList = (21..25).toList()
+//        val yearList = (21..25).toList()
         val monthList = (1..12).toList()
         val dayList = (1..31).toList()
         val hoursList = (1..24).toList()
@@ -81,30 +81,21 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         var mList  = listOf("00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30"
             ,"31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59")
 
-        var yearStrConvertList = yearList.map { it.toString() }
         var monthStrConvertList = monthList.map { it.toString() }
         var dayStrConvertList = dayList.map { it.toString() }
         var hoursStrCovertList = hoursList.map { it.toString() }
         var minuteStrCovertList = mList.map { it }
 
-        npYear.run {
-            minValue = 21
-            wrapSelectorWheel = false
-            maxValue = 25
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-//            displayedValues = yearStrConvertList.toTypedArray()
-        }
         npMonth.run {
             minValue = 1
             maxValue = monthStrConvertList.size
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-//            displayedValues = monthStrConvertList.toTypedArray()
         }
         npDay.run {
             minValue = 1
             wrapSelectorWheel = false
-            maxValue = dayStrConvertList.size - 1
+            maxValue = dayStrConvertList.size
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
         npHours.run {
@@ -425,8 +416,12 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val uid = auth.currentUser!!.uid
         //산책에 참여하는 dog 가져와야 한다.
         val dog = "" //얘 나중에 지워도될듯
-        val party_date =
-            npYear.value.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
+
+        var party_date = npYear.text.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
+        if(npDay.value.toString().length ==1){
+            party_date = npYear.text.toString() + "/" + npMonth.value.toString() + "/" + "0"+npDay.value.toString()
+        }
+
         val party_time =
             npHours.value.toString() + "시" + npMinute.value.toString() + "분"
         val explain = edit_registration_explain.text.toString()
