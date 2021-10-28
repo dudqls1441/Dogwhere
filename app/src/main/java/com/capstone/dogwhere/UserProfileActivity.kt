@@ -38,7 +38,7 @@ class UserProfileActivity : AppCompatActivity() {
 
 
         Log.e("joo", "profile_name,profile_uid -> "+profile_name +"++"+ profile_uid)
-        init(profile_name, profile_uid)
+        init(profile_uid)
         val btn_back = findViewById<ImageButton>(R.id.btn_back)
         btn_back.setOnClickListener {
             val intent = Intent(this,MainMenuActivity::class.java)
@@ -82,7 +82,7 @@ class UserProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun init(profile_name : String, profile_uid : String) {
+    private fun init(profile_uid : String) {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid

@@ -180,6 +180,7 @@ class BBS_Transaction_Writing : AppCompatActivity() {
             .addOnSuccessListener { documentReference ->
                 Log.d("joo", "tab2 : " + intent.getStringExtra("tab"))
                 val intent = Intent(this, MainMenuActivity::class.java)
+                intent.putExtra("state", intent.getStringExtra("tab").toString())
                 startActivity(intent)
                 finish()
             }

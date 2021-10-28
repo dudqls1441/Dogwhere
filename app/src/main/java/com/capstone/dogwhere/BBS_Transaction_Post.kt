@@ -148,6 +148,7 @@ class BBS_Transaction_Post : AppCompatActivity() {
         db.collection("transaction_bbs").document(bbs_oid).delete().addOnSuccessListener {
             Log.d("yb","게시물이 삭제되었습니다.")
             val intent= Intent(this,MainMenuActivity::class.java)
+            intent.putExtra("state", intent.getStringExtra("tab").toString())
             startActivity(intent)
             finish()
         }

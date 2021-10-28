@@ -93,6 +93,11 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 putExtra("dogchoice_state", "matching_participant")
             }.run { startActivityForResult(this, 110) }
         }
+        matching_profile_img.setOnClickListener {
+            val intent = Intent(this,UserProfileActivity::class.java)
+            intent.putExtra("uid",matchingLeaderUid)
+            startActivity(intent)
+        }
 
 
         matching_tab_layout.addTab(matching_tab_layout.newTab().setText("모임설명"))
