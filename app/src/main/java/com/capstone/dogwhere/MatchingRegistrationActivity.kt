@@ -452,10 +452,11 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                                     Dog_Profile_Item(
                                         dogs.uid,
                                         document.id,//?
-                                        dogs?.dogAge + "살",
+                                        dogs?.dogAge ,
                                         dogs?.dogName,
                                         dogs?.dogBreed,
                                         dogs?.dogSex,
+                                        dogs?.neutering,
                                         dogs?.photoUrl.toString()
                                     )
                                 )
