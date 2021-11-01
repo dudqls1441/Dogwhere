@@ -73,7 +73,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/dog_sex"
                 android:fontFamily="@font/nightl"
-                android:text="중성화O"
+                android:text="중성화 여부"
                 android:textColor="@color/white"
                 android:textSize="20dp"></TextView>
         </RelativeLayout>

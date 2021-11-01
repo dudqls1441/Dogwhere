@@ -15,6 +15,7 @@ class Dog_Profile_Item (
         val name: String,
         val breed: String,
         val sex: String,
+        val neu:Boolean,
         val img : String
     ) : Item<GroupieViewHolder>() {
 
@@ -24,6 +25,11 @@ class Dog_Profile_Item (
             viewHolder.itemView.dog_breed.text = breed
             viewHolder.itemView.dog_name.text = name
             viewHolder.itemView.dog_sex.text = sex
+            if(neu){
+                viewHolder.itemView.dog_neutralization.text ="중성화 O"
+            } else{
+                viewHolder.itemView.dog_neutralization.text = "중성화 X"
+            }
             Glide.with(viewHolder.itemView).load(img).circleCrop().into(viewHolder.itemView.img_dog_profile)
 
         }

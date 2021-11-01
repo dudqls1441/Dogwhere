@@ -56,7 +56,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         matchingDocumentId = intent.getStringExtra("documentId").toString()
         matchingTitle = intent.getStringExtra("title").toString()
-
 //        auth = FirebaseAuth.getInstance()
 //        val uid = auth.currentUser?.uid.toString()
 
@@ -133,7 +132,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val uid = auth.currentUser?.uid.toString()
 
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
-        matchingDocumentId = intent.getStringExtra("documentId").toString()
         matchingTitle = intent.getStringExtra("title").toString()
 
         //내가 올린 매칭일 때
@@ -366,6 +364,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                             dogs?.dogName,
                                             dogs?.dogBreed,
                                             dogs?.dogSex,
+                                            dogs?.neutering,
                                             dogs?.photoUrl.toString()
                                         )
                                     )
@@ -421,12 +420,58 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val uid = auth.currentUser?.uid.toString()
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 110) {  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
                 dogname = data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
                 Log.d("yy", "저장할 강아지 리스트Q!" + dogname.toString())
-                participation()
+                //유저가 조건에 충족하는지 확인
+                var matching_dog_neu=""
+                var matching_dog_size=""
+                var matching_owner_gender=""
+                db.collection("Matching").document(matchingDocumentId).get()
+                    .addOnSuccessListener {
+                        val result = it.toObject<Matching>()
+                        matching_dog_neu=result!!.condition_dog_neutralization
+                        matching_dog_size=result!!.condition_dog_size
+                        matching_owner_gender=result!!.condition_owner_gender
+                    }
+                db.collection("users").document(uid).collection("userprofiles")
+                    .document(uid).get()
+                    .addOnSuccessListener {
+                        if(matching_owner_gender==it["userSex"].toString()){
+                            db.collection("users").document(uid).collection("dogprofiles")
+                                .get()
+                                .addOnSuccessListener {
+                                    for (document in it) {
+                                        for(name in dogname){
+                                            if(document.get("name").toString()==name){
+                                                Log.e("yy",matching_dog_neu)
+                                                Log.e("yy",matching_dog_size)
+                                                Log.e("yy",document.get("dogSize").toString())
+                                                Log.e("yy",document.get("neutering").toString())
+                                                if(matching_dog_size.contains(document.get("dogSize").toString())
+                                                    &&matching_dog_neu.contains(document.get("neutering").toString())){
+                                                    Toast.makeText(
+                                                        this,
+                                                        "반려견 정보가 매칭모임 조건에 충족하지 않습니다",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    participation()
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                        }
+                        Toast.makeText(
+                            this,
+                            "주인 성별이 매칭모임 조건에 충족하지 않습니다",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
             }
         }
 

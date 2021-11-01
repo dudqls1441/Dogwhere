@@ -73,6 +73,7 @@ class ParticipantListFragment : Fragment() {
                                                     document["name"].toString(),
                                                     document["breed"].toString(),
                                                     document["sex"].toString(),
+                                                    document["neu"] as Boolean,
                                                     document["img"].toString()
                                                 )
                                             )
