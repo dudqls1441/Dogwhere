@@ -70,14 +70,7 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
         ) {
             return
         }
-        map!!.setInfoWindowAdapter(
-            CustomInfoWindowAdapter(
-                window = layoutInflater.inflate(
-                    R.layout.custom_marker_window_info,
-                    null
-                )
-            )
-        )
+
         val mylocation = getMyLocation()
         map!!.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
