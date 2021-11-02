@@ -40,6 +40,7 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -203,7 +204,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         db.collection("users").document(uid!!).collection("dogprofiles").document("bdutQXeI1LreRVPjh9aI").get().addOnSuccessListener {
             val state = it.get("dogState").toString()
             Log.d("ybyb","ybyb state -> ${state}")
-            if(state.equals("true")){
+            if(state.equals("false")){ //분실
                 Glide.with(this).load(R.drawable.red_icon_background).circleCrop()
                     .into(dog_state)
             }else{
@@ -211,7 +212,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                     .into(dog_state)
             }
         }
-
 
 
         db.collection("Matching").get()
