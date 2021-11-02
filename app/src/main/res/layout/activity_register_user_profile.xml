@@ -184,18 +184,6 @@
                 android:button="@null"
                 android:background="@drawable/backgroundgraycircle"
                 android:text="여자"></RadioButton>
-
-            <RadioButton
-                android:id="@+id/Nondisclosure"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:textColor="#52443C3C"
-                android:gravity="center"
-                android:button="@null"
-                android:background="@drawable/backgroundgraycircle"
-                android:text="비공개"></RadioButton>
         </RadioGroup>
 
 

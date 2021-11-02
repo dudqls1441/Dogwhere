@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.activity_matching_detail.btn_back
 import kotlinx.android.synthetic.main.activity_matching_registration.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 const val TOPIC = "/topics/myTopic"
 
@@ -47,6 +48,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
     var mylocation: LatLng? = null
+    var matching_dog_neu=""
+    var matching_dog_size=""
+    var matching_owner_gender=""
     private lateinit var matchingLeaderUid: String
     private lateinit var matchingDocumentId: String
     private lateinit var matchingTitle: String
@@ -93,8 +97,8 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }.run { startActivityForResult(this, 110) }
         }
         matching_profile_img.setOnClickListener {
-            val intent = Intent(this,UserProfileActivity::class.java)
-            intent.putExtra("uid",matchingLeaderUid)
+            val intent = Intent(this, UserProfileActivity::class.java)
+            intent.putExtra("uid", matchingLeaderUid)
             startActivity(intent)
         }
 
@@ -420,62 +424,74 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     //강아지 선택해서 돌아왔을 때 처리하기
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        val uid = auth.currentUser?.uid.toString()
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 110) {  // 나중에 디비 다 지우고 강아지 uid로 바꾸기
                 dogname = data?.getStringArrayListExtra("select_dogname") as ArrayList<String>
                 Log.d("yy", "저장할 강아지 리스트Q!" + dogname.toString())
                 //유저가 조건에 충족하는지 확인
-                var matching_dog_neu=""
-                var matching_dog_size=""
-                var matching_owner_gender=""
                 db.collection("Matching").document(matchingDocumentId).get()
                     .addOnSuccessListener {
-                        val result = it.toObject<Matching>()
-                        matching_dog_neu=result!!.condition_dog_neutralization
-                        matching_dog_size=result!!.condition_dog_size
-                        matching_owner_gender=result!!.condition_owner_gender
-                    }
-                db.collection("users").document(uid).collection("userprofiles")
-                    .document(uid).get()
-                    .addOnSuccessListener {
-                        if(matching_owner_gender==it["userSex"].toString()){
-                            db.collection("users").document(uid).collection("dogprofiles")
-                                .get()
-                                .addOnSuccessListener {
-                                    for (document in it) {
-                                        for(name in dogname){
-                                            if(document.get("name").toString()==name){
-                                                Log.e("yy",matching_dog_neu)
-                                                Log.e("yy",matching_dog_size)
-                                                Log.e("yy",document.get("dogSize").toString())
-                                                Log.e("yy",document.get("neutering").toString())
-                                                if(matching_dog_size.contains(document.get("dogSize").toString())
-                                                    &&matching_dog_neu.contains(document.get("neutering").toString())){
-                                                    Toast.makeText(
-                                                        this,
-                                                        "반려견 정보가 매칭모임 조건에 충족하지 않습니다",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    participation()
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                        matching_dog_neu= it.get("condition_dog_neutralization").toString()
+                        if(matching_dog_neu=="all,neutralization"){
+                            matching_dog_neu="true"
+                        }else{
+                            matching_dog_neu="true,false"
                         }
-                        Toast.makeText(
-                            this,
-                            "주인 성별이 매칭모임 조건에 충족하지 않습니다",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        matching_dog_size=it.get("condition_dog_size").toString()
+                        if(matching_dog_size=="all"){
+                            matching_dog_size="big,small,middle"
+                        }
+                        matching_owner_gender=it.get("condition_owner_gender").toString()
+                        if(matching_owner_gender=="all"){
+                            matching_owner_gender="wm,man"
+                        }
+                        condition()
                     }
             }
         }
-
-
+    }
+    fun condition(){
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val uid = auth.currentUser?.uid.toString()
+        var check=ArrayList<String>()
+        db.collection("users").document(uid).collection("userprofiles")
+            .document(uid).get()
+            .addOnSuccessListener {
+                if(matching_owner_gender.contains(it.get("userSex").toString())){
+                    db.collection("users").document(uid).collection("dogprofiles")
+                        .get()
+                        .addOnSuccessListener {
+                            for (document in it) {
+                                for(name in dogname){
+                                    if(document.get("dogName").toString()==name){
+                                        if(matching_dog_size.contains(document.get("dogSize").toString())
+                                            &&matching_dog_neu.contains(document.get("neutering").toString())){
+                                            check.add("true")
+                                        }else{
+                                            check.add("false")
+                                        }
+                                    }
+                                }
+                            }
+                            if(check.contains("false")){
+                                Toast.makeText(
+                                    this,
+                                    "반려견 정보가 매칭모임 조건에 충족하지 않습니다",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }else{
+                                participation()
+                            }
+                        }
+                }else{
+                    Toast.makeText(
+                        this,
+                        "주인 성별이 매칭모임 조건에 충족하지 않습니다",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
     }
 
 
