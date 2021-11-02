@@ -308,8 +308,8 @@ class Modify_dog_profile : AppCompatActivity() {
 
         dogprofilestate.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.state_true -> dogstate = true
-                R.id.state_false -> dogstate = false
+                R.id.state_true -> dogstate = true // 미분실
+                R.id.state_false -> dogstate = false // 분실
             }
         }
 

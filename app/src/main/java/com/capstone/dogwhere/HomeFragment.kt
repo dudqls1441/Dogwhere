@@ -204,7 +204,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         db.collection("users").document(uid!!).collection("dogprofiles").document("bdutQXeI1LreRVPjh9aI").get().addOnSuccessListener {
             val state = it.get("dogState").toString()
             Log.d("ybyb","ybyb state -> ${state}")
-            if(state.equals("true")){
+            if(state.equals("false")){ //분실
                 Glide.with(this).load(R.drawable.red_icon_background).circleCrop()
                     .into(dog_state)
             }else{
@@ -213,7 +213,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
 
- q  
 
         db.collection("Matching").get()
             .addOnSuccessListener {
