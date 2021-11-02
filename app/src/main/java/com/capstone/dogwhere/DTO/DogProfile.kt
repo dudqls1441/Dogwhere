@@ -7,8 +7,9 @@ data class DogProfile(    val uid: String,
                           val dogBreed: String,
                           val dogSex: String,
                           val dogSize: String,
-                          val neutering: Boolean
+                          val neutering: Boolean,
+                          val dogstate : Boolean =true
 ) {
 
-    constructor() : this("", "", "", "", "","","",true)
+    constructor() : this("", "", "", "", "","","",true,true)
 }
