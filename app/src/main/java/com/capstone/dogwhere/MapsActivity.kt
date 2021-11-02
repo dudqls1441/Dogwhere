@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -24,6 +25,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
+import com.capstone.dogwhere.DTO.Matching_InUsers
 import com.capstone.dogwhere.DTO.Matching_MapList_Item
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -70,7 +72,6 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
         ) {
             return
         }
-
         val mylocation = getMyLocation()
         map!!.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -110,7 +111,31 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
 
     override fun onInfoWindowClick(marker: Marker) {
         Toast.makeText(this, "markeroption click", Toast.LENGTH_SHORT).show()
-        marker.position
+        val markerLat = marker.position.latitude
+        val markerLon = marker.position.longitude
+        db.collection("Matching").whereEqualTo("latitude", markerLat).whereEqualTo("longitude",markerLon).get()
+            .addOnSuccessListener {
+                var detailMatching : Matching_InUsers? = null
+                for (document in it) {
+                    detailMatching = Matching_InUsers(
+                        document.get("uid").toString(),
+                        "",
+                        document.get("title").toString(),
+                        document.get("documentId").toString()
+                    )
+                }
+                Log.e("joo", detailMatching.toString())
+                Intent(
+                    this,
+                    MatchingDetailActivity::class.java
+                ).apply {
+                    putExtra("title", detailMatching?.title)
+                    putExtra("leaderuid", detailMatching?.matchingLeaderUid)
+                    putExtra("documentId", detailMatching?.documentId)
+                }.run {
+                    startActivity(this)
+                }
+            }
     }
 
     var mHandler = Handler(Looper.getMainLooper())

@@ -61,15 +61,5 @@
     <!--        android:scaleType="center"-->
     <!--        android:id="@+id/mapfragment" />-->
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="내 위치"
-        android:layout_below="@+id/map_top_layout"
-        android:background="@drawable/edittext_round"
-        android:layout_margin="8dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/nightl"
-        android:id="@+id/btn_mylocation"></Button>
 
 </RelativeLayout>
