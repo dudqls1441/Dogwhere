@@ -246,11 +246,9 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                     val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
                     val userage = findViewById<EditText>(R.id.userprofileAge).getText().toString()
                     if (sex_man.isChecked) {
-                        usersex = "남자"
+                        usersex = "man"
                     } else if (sex_woman.isChecked) {
-                        usersex = "여자"
-                    } else {
-                        usersex = "선택안함"
+                        usersex = "wm"
                     }
                     // 지금 저거 하면 버튼 눌렀을 때 중복 확인은 되는데
                     val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex)

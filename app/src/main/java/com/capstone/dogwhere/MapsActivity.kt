@@ -1,69 +1,155 @@
 package com.capstone.dogwhere
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Point
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
-import com.capstone.dogwhere.Map.MarkerItem
-import com.google.android.gms.maps.*
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
+import com.capstone.dogwhere.DTO.Matching_InUsers
+import com.capstone.dogwhere.DTO.Matching_MapList_Item
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.*
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 
 class MapsActivity : FragmentActivity(), OnMapReadyCallback,
-    OnMarkerClickListener, OnMapClickListener {
+    OnCameraMoveListener, OnMarkerClickListener, OnInfoWindowClickListener {
     var selectedMarker: Marker? = null
     var marker_root_view: View? = null
     var tv_marker: TextView? = null
-    private var mMap: GoogleMap? = null
+    var map: GoogleMap? = null
+    var mLM: LocationManager? = null
+    val db = Firebase.firestore
+    var mProvider = LocationManager.NETWORK_PROVIDER
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
+//        center_marker.bringToFront()
+        mLM = getSystemService(LOCATION_SERVICE) as LocationManager
+        val fragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment!!.getMapAsync(this)
+        fragment!!.getMapAsync(this)
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(37.537523, 126.96558), 14f))
-        mMap!!.setOnMarkerClickListener(this)
-        mMap!!.setOnMapClickListener(this)
-        setCustomMarkerView()
-        getBoundsWithoutSpacing(0,0,0,0, googleMap)
-        sampleMarkerItems
-    }
-
-    private fun setCustomMarkerView() {
-        marker_root_view = LayoutInflater.from(this).inflate(R.layout.marker_layout, null)
-    }
-
-    private val sampleMarkerItems: Unit
-        private get() {
-            val sampleList: ArrayList<MarkerItem> = ArrayList()
-            sampleList.add(MarkerItem(37.538523, 126.96568, 2500000))
-            sampleList.add(MarkerItem(37.527523, 126.96568, 100000))
-            sampleList.add(MarkerItem(37.549523, 126.96568, 15000))
-            sampleList.add(MarkerItem(37.538523, 126.95768, 5000))
-            for (markerItem in sampleList) {
-                addMarker(markerItem, false)
-            }
+        map = googleMap
+        map!!.mapType = MAP_TYPE_NORMAL
+        map!!.setOnInfoWindowClickListener(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
         }
+        val mylocation = getMyLocation()
+        map!!.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    mylocation.latitude,
+                    mylocation.longitude
+                ), 14f
+            )
+        )
+        map!!.isMyLocationEnabled = true
+        map!!.uiSettings.isCompassEnabled = true
+        map!!.uiSettings.isZoomControlsEnabled = true
+        map!!.setOnCameraMoveListener(this)
+        map!!.setOnMarkerClickListener(this)
 
-    private fun addMarker(markerItem: MarkerItem, isSelectedMarker: Boolean): Marker {
-        val position = LatLng(markerItem.lat, markerItem.lon)
+        setCustomMarkerView()
+        db.collection("Matching").get()
+            .addOnSuccessListener { result ->
+                val matchingList: ArrayList<Matching_MapList_Item> = ArrayList()
+                for (document in result) {
+                    val matchingData = document.toObject<Matching_MapList_Item>()
+                    matchingList.add(matchingData)
+                }
+                for (markerItem in matchingList) {
+                    addMarker(markerItem, false)
+                }
+
+            }
+    }
+
+    override fun onActionModeFinished(mode: ActionMode?) {
+        super.onActionModeFinished(mode)
+
+    }
+
+
+
+    override fun onInfoWindowClick(marker: Marker) {
+        Toast.makeText(this, "markeroption click", Toast.LENGTH_SHORT).show()
+        val markerLat = marker.position.latitude
+        val markerLon = marker.position.longitude
+        db.collection("Matching").whereEqualTo("latitude", markerLat).whereEqualTo("longitude",markerLon).get()
+            .addOnSuccessListener {
+                var detailMatching : Matching_InUsers? = null
+                for (document in it) {
+                    detailMatching = Matching_InUsers(
+                        document.get("uid").toString(),
+                        "",
+                        document.get("title").toString(),
+                        document.get("documentId").toString()
+                    )
+                }
+                Log.e("joo", detailMatching.toString())
+                Intent(
+                    this,
+                    MatchingDetailActivity::class.java
+                ).apply {
+                    putExtra("title", detailMatching?.title)
+                    putExtra("leaderuid", detailMatching?.matchingLeaderUid)
+                    putExtra("documentId", detailMatching?.documentId)
+                }.run {
+                    startActivity(this)
+                }
+            }
+    }
+
+    var mHandler = Handler(Looper.getMainLooper())
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val center = CameraUpdateFactory.newLatLng(marker.position)
+        map!!.animateCamera(center)
+        Toast.makeText(this, marker.title, Toast.LENGTH_SHORT).show()
+        mHandler.postDelayed({ marker.showInfoWindow() }, 500)
+        return true
+    }
+
+    private fun addMarker(markerItem: Matching_MapList_Item, isSelectedMarker: Boolean): Marker {
+        val position = LatLng(markerItem.latitude, markerItem.longitude)
+        //마커 선택 여부
         if (isSelectedMarker) {
             tv_marker?.setBackgroundResource(R.drawable.ic_mappoint)
             tv_marker?.setTextColor(Color.WHITE)
@@ -72,7 +158,8 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
             tv_marker?.setTextColor(Color.BLACK)
         }
         val markerOptions = MarkerOptions()
-        markerOptions.title(Integer.toString(markerItem.price))
+        markerOptions.title(markerItem.title)
+        markerOptions.snippet(markerItem.place)
         markerOptions.position(position)
         markerOptions.icon(
             BitmapDescriptorFactory.fromBitmap(
@@ -82,23 +169,16 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
                 )
             )
         )
-        return mMap!!.addMarker(markerOptions)
+        return map!!.addMarker(markerOptions)
     }
 
-
-    fun getBoundsWithoutSpacing(top: Int, right: Int, bottom: Int, left: Int, googleMap: GoogleMap): LatLngBounds? {
-        val projection: Projection = googleMap.getProjection()
-        val bounds: LatLngBounds = projection.getVisibleRegion().latLngBounds
-        val northeast: Point = projection.toScreenLocation(bounds.northeast)
-        val toNortheast = Point(northeast.x - right, northeast.y + top)
-        val southwest: Point = projection.toScreenLocation(bounds.southwest)
-        val toSouthwest = Point(southwest.x + left, southwest.y - bottom)
-        val builder = LatLngBounds.Builder()
-        builder.include(projection.fromScreenLocation(toNortheast))
-        builder.include(projection.fromScreenLocation(toSouthwest))
-        Log.e("joo", "googleMap LatLng : ${projection.fromScreenLocation(toSouthwest)} , ${projection.fromScreenLocation(toNortheast)} ")
-        return builder.build()
-    }
+//    private fun addMarker(marker: Marker, isSelectedMarker: Boolean): Marker {
+//        val lat = marker.position.latitude
+//        val lon = marker.position.longitude
+//        val price = marker.title.toInt()
+//        val temp = MarkerItem(lat, lon, price)
+//        return addMarker(temp, isSelectedMarker)
+//    }
 
     // View를 Bitmap으로 변환
     private fun createDrawableFromView(context: Context, view: View?): Bitmap {
@@ -123,36 +203,149 @@ class MapsActivity : FragmentActivity(), OnMapReadyCallback,
         return bitmap
     }
 
-    private fun addMarker(marker: Marker, isSelectedMarker: Boolean): Marker {
-        val lat = marker.position.latitude
-        val lon = marker.position.longitude
-        val price = marker.title.toInt()
-        val temp = MarkerItem(lat, lon, price)
-        return addMarker(temp, isSelectedMarker)
+    private fun setCustomMarkerView() {
+        marker_root_view = LayoutInflater.from(this).inflate(R.layout.marker_layout, null)
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        val center = CameraUpdateFactory.newLatLng(marker.position)
-        mMap!!.animateCamera(center)
-        changeSelectedMarker(marker)
-        return true
+//    private val matchingMarkerItems: Unit
+//        private get() {
+//
+//            val matchingList: ArrayList<MarkerItem> = ArrayList()
+//            matchingList.add(MarkerItem(37.538523, 126.96568, 2500000))
+//            matchingList.add(MarkerItem(37.527523, 126.96568, 100000))
+//            matchingList.add(MarkerItem(37.549523, 126.96568, 15000))
+//            matchingList.add(MarkerItem(37.538523, 126.95768, 5000))
+//            for (markerItem in matchingList) {
+//                addMarker(markerItem, false)
+//            }
+//        }
+
+//    private fun changeSelectedMarker(marker: Marker?) {
+//        // 선택했던 마커 되돌리기
+//        if (selectedMarker != null) {
+//            addMarker(selectedMarker!!, false)
+//            selectedMarker!!.remove()
+//        }
+//
+//        // 선택한 마커 표시
+//        if (marker != null) {
+//            selectedMarker = addMarker(marker, true)
+//            marker.remove()
+//        }
+//    }
+
+    override fun onCameraMove() {
+        val position = map!!.cameraPosition
+        val target = position.target
+        val projection = map!!.projection
+
+//        addMarker(target.latitude, target.longitude, "my title")
     }
 
-    private fun changeSelectedMarker(marker: Marker?) {
-        // 선택했던 마커 되돌리기
-        if (selectedMarker != null) {
-            addMarker(selectedMarker!!, false)
-            selectedMarker!!.remove()
+    override fun onStart() {
+        super.onStart()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        val location = mLM!!.getLastKnownLocation(mProvider)
+        if (location != null) {
+            mListener.onLocationChanged(location)
+        }
+        mLM!!.requestSingleUpdate(mProvider, mListener, null)
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mLM!!.removeUpdates(mListener)
+    }
+
+    private fun moveMap(lat: Double, lng: Double) {
+        if (map != null) {
+            val latLng = LatLng(lat, lng)
+            val position = CameraPosition.Builder()
+                .target(latLng)
+                .bearing(30f)
+                .tilt(45f)
+                .zoom(17f)
+                .build()
+            val update = CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            //            CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
+            map!!.moveCamera(update)
+            //        map.animateCamera(update);
+        }
+    }
+
+    var mListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            moveMap(location.latitude, location.longitude)
         }
 
-        // 선택한 마커 표시
-        if (marker != null) {
-            selectedMarker = addMarker(marker, true)
-            marker.remove()
+        override fun onStatusChanged(s: String, i: Int, bundle: Bundle) {}
+        override fun onProviderEnabled(s: String) {}
+        override fun onProviderDisabled(s: String) {}
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun getMyLocation(): LatLng {
+        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        when {
+            isNetworkEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e(
+                    "joo",
+                    "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
+                )
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+            isGPSEnabled -> {
+                val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val getLongtitude = location?.longitude
+                val getLatitude = location?.latitude
+                Log.e(
+                    "joo",
+                    "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
+                )
+
+                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+
+                return currentLocation
+            }
+
+            else -> {
+                Toast.makeText(
+                    this,
+                    "GPS 권한 오류",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return LatLng(37.537523, 126.96558)
+            }
         }
     }
 
-    override fun onMapClick(latLng: LatLng) {
-        changeSelectedMarker(null)
-    }
+
 }

@@ -46,7 +46,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private lateinit var ImagePath: String
     private var dogsex: String = ""
     private var dogneneutralization: String = ""
-    private var dognenu :Boolean = false
     private var dogSize =""
 
 
@@ -92,8 +91,14 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private fun radio_dogneneutralization() {
         dogpprofileneutralization.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.neutralization_T -> checked_dogneneutralization_T()
-                R.id.neutralization_F -> checked_dogneneutralization_F()
+                R.id.neutralization_T -> {
+                    checked_dogneneutralization_T()
+                    dogneneutralization = "예"
+                }
+                R.id.neutralization_F -> {
+                    checked_dogneneutralization_F()
+                    dogneneutralization = "아니요"
+                }
 
 
             }
@@ -260,7 +265,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
-                val dogstate : Boolean = true
                 if (sex_male.isChecked) {
                     dogsex = "수컷"
                 } else if (sex_female.isChecked) {
@@ -268,28 +272,23 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 } else {
                     dogsex = "선택안함"
                 }
-                dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
-                    when (i) {
-                        R.id.neutralization_T -> dogneneutralization = "예"
-                        R.id.neutralization_F -> dogneneutralization = "아니요"
-                    }
-                    Log.d(TAG, dogsex)
-                }
-                dogprofilesize.setOnCheckedChangeListener { group, i ->
-                    when (i) {
-                        R.id.size_small -> dogSize = "small"
-                        R.id.size_middle -> dogSize = "middle"
-                        R.id.size_big -> dogSize = "big"
-                    }
-                    Log.d(TAG, dogsex)
-                }
-                Log.d(TAG, dogsex)
-                if(dogneneutralization =="예"){
-                    dognenu =true
-                }else{
-                    dognenu=false
-                }
-                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dognenu,dogstate)
+//                dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
+//                    when (i) {
+//                        R.id.neutralization_T -> dogneneutralization = "예"
+//                        R.id.neutralization_F -> dogneneutralization = "아니요"
+//                    }
+//                    Log.e("yy", dogneneutralization)
+//                }
+//                dogprofilesize.setOnCheckedChangeListener { group, i ->
+//                    when (i) {
+//                        R.id.size_small -> dogSize = "small"
+//                        R.id.size_middle -> dogSize = "middle"
+//                        R.id.size_big -> dogSize = "big"
+//                    }
+//                }
+                val dogneu:Boolean = dogneneutralization =="예"
+                Log.e("yy", "true나오라고"+dogneu.toString())
+                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dogneu)
                 Log.d("yb","ybyb ->dogprofile ->${dog}")
                 val db = Firebase.firestore
                 db.collection("users").document(uid).collection("dogprofiles").add(dog)
