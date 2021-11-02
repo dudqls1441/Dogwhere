@@ -83,7 +83,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             when (checkedId) {
                 R.id.sex_man -> checked_sex_man()
                 R.id.sex_woman -> checked_sex_woman()
-                R.id.Nondisclosure -> checked_Nondisclosure()
+
 
 
             }
@@ -95,8 +95,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         sex_man.setTextColor(Color.parseColor("#00C09F"))
         sex_woman.setBackgroundResource(R.drawable.backgroundgraycircle)
         sex_woman.setTextColor(Color.parseColor("#52443C3C"))
-        Nondisclosure.setBackgroundResource(R.drawable.backgroundgraycircle)
-        Nondisclosure.setTextColor(Color.parseColor("#52443C3C"))
+
     }
 
     private fun checked_sex_woman() {
@@ -104,13 +103,11 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         sex_woman.setTextColor(Color.parseColor("#00C09F"))
         sex_man.setBackgroundResource(R.drawable.backgroundgraycircle)
         sex_man.setTextColor(Color.parseColor("#52443C3C"))
-        Nondisclosure.setBackgroundResource(R.drawable.backgroundgraycircle)
-        Nondisclosure.setTextColor(Color.parseColor("#52443C3C"))
+
     }
 
     private fun checked_Nondisclosure() {
-        Nondisclosure.setBackgroundResource(R.drawable.backgroundgreencircle)
-        Nondisclosure.setTextColor(Color.parseColor("#00C09F"))
+
         sex_man.setBackgroundResource(R.drawable.backgroundgraycircle)
         sex_man.setTextColor(Color.parseColor("#52443C3C"))
         sex_woman.setBackgroundResource(R.drawable.backgroundgraycircle)
