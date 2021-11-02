@@ -40,7 +40,6 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -213,7 +212,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
 
- q  
+
 
         db.collection("Matching").get()
             .addOnSuccessListener {

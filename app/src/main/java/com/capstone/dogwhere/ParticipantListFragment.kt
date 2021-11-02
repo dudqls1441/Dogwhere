@@ -1,36 +1,26 @@
 package com.capstone.dogwhere
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.capstone.dogwhere.DTO.*
-import com.google.firebase.FirebaseException
+import com.capstone.dogwhere.DTO.Dog_Profile_Item
+import com.capstone.dogwhere.DTO.Matching
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_dog_profile.*
-import kotlinx.android.synthetic.main.activity_matching_registration.*
-import kotlinx.android.synthetic.main.activity_search_region.*
 import kotlinx.android.synthetic.main.fragment_party_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
 
 
 class ParticipantListFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+//    var gridLayoutManager = GridLayoutManager(this.context, 2)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,8 +31,8 @@ class ParticipantListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_party_list, container, false)
-
         init()
+
 
         return view
     }
@@ -55,37 +45,44 @@ class ParticipantListFragment : Fragment() {
 
         val documentId =
             (activity as MatchingDetailActivity).intent.getStringExtra("documentId").toString()
-                //다 가져오는게 아니라 새로만든 거 .get()해서 가져오기
-                db.collection("Matching").document(documentId).collection("participant").get()
-                    .addOnSuccessListener {
-                        val it = it.toObjects<Matching>()
-                        for (document in it) {
-                            db.collection("Matching").document(documentId).collection("participant").document(
-                                document.uid).collection("dogprofile").get()
-                                .addOnSuccessListener { result ->
-                                    for (document in result) {
-                                        if (document != null) {
-                                            adapter.add(
-                                                Dog_Profile_Item(
-                                                    document["uid"].toString(),
-                                                    document["docid"].toString(),
-                                                    document["age"].toString() + "살",
-                                                    document["name"].toString(),
-                                                    document["breed"].toString(),
-                                                    document["sex"].toString(),
-                                                    document["neu"] as Boolean,
-                                                    document["img"].toString()
-                                                )
-                                            )
-                                            Log.d("DogProfile읽기 성공", "강아지 이름 :"+document["name"].toString())
-                                        }
-                                        recyclerview_participant_list?.adapter = adapter
-                                    }
+        //다 가져오는게 아니라 새로만든 거 .get()해서 가져오기
+        db.collection("Matching").document(documentId).collection("participant").get()
+            .addOnSuccessListener {
+                val it = it.toObjects<Matching>()
+                for (document in it) {
+                    db.collection("Matching").document(documentId).collection("participant")
+                        .document(
+                            document.uid
+                        ).collection("dogprofile").get()
+                        .addOnSuccessListener { result ->
+                            for (document in result) {
+                                if (document != null) {
+                                    adapter.add(
+                                        Dog_Profile_Item(
+                                            document["uid"].toString(),
+                                            document["docid"].toString(),
+                                            document["age"].toString() + "살",
+                                            document["name"].toString(),
+                                            document["breed"].toString(),
+                                            document["sex"].toString(),
+                                            document["neu"] as Boolean,
+                                            document["img"].toString()
+                                        )
+                                    )
+                                    Log.d(
+                                        "DogProfile읽기 성공",
+                                        "강아지 이름 :" + document["name"].toString()
+                                    )
                                 }
+                                recyclerview_participant_list?.adapter = adapter
+//                                recyclerview_participant_list.layoutManager = gridLayoutManager
+                            }
                         }
+                }
 
-                    }
-        }
+            }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
     }
