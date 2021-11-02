@@ -40,6 +40,7 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -197,6 +198,22 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             Log.d("yy", area)
 
         }
+
+        //영빈구역
+        //강아지 여러마리 수정 필요
+        db.collection("users").document(uid!!).collection("dogprofiles").document("bdutQXeI1LreRVPjh9aI").get().addOnSuccessListener {
+            val state = it.get("dogState").toString()
+            Log.d("ybyb","ybyb state -> ${state}")
+            if(state.equals("false")){
+                Glide.with(this).load(R.drawable.red_icon_background).circleCrop()
+                    .into(dog_state)
+            }else{
+                Glide.with(this).load(R.drawable.green_icon_background).circleCrop()
+                    .into(dog_state)
+            }
+        }
+
+
 
         db.collection("Matching").get()
             .addOnSuccessListener {
