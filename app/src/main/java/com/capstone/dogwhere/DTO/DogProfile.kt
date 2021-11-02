@@ -8,7 +8,7 @@ data class DogProfile(    val uid: String,
                           val dogSex: String,
                           val dogSize: String,
                           val neutering: Boolean=false,
+                          val dogState : Boolean=true
 ) {
-
     constructor() : this("", "", "", "", "","","")
 }

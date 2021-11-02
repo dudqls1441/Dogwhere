@@ -260,6 +260,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
                 val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
+                val dogstate : Boolean = true
                 if (sex_male.isChecked) {
                     dogsex = "수컷"
                 } else if (sex_female.isChecked) {
@@ -288,7 +289,7 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 }else{
                     dognenu=false
                 }
-                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dognenu)
+                val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dognenu,dogstate)
                 Log.d("yb","ybyb ->dogprofile ->${dog}")
                 val db = Firebase.firestore
                 db.collection("users").document(uid).collection("dogprofiles").add(dog)

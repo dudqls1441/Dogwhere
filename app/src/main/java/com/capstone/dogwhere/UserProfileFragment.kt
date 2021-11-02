@@ -1,5 +1,6 @@
 package com.capstone.dogwhere
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.Dog_Profile_Item
+import com.capstone.dogwhere.DTO.Matching_Completed_List_Item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -56,6 +58,12 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
                         Log.d("DogProfile읽기 성공", "강아지 이름 : ${dogs?.dogName}")
                     }
                     dog_recyclerview?.adapter = adapter
+                }
+                adapter.setOnItemClickListener { item, view ->
+                    val intent = Intent(activity,Modify_dog_profile::class.java)
+                    intent.putExtra("docid", (item as Dog_Profile_Item).docId)
+                    startActivity(intent)
+
                 }
             }
 
