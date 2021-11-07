@@ -1,8 +1,11 @@
 package com.capstone.dogwhere
 
 import android.Manifest
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
@@ -19,15 +22,20 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.Chat.ChatListActivity
 import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.FCM.MyReceiver
+import com.capstone.dogwhere.DTO.DogProfile
+import com.capstone.dogwhere.DTO.home_dogstate_item
 import com.capstone.dogwhere.DTO.Walk_Recommend_Item
 import com.capstone.dogwhere.DTO.home_hot_bbs_Item
 import com.google.android.material.navigation.NavigationView
@@ -40,11 +48,11 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Arrays.toString
 
 
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -55,8 +63,9 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     private var Latitude = 0.0
     private var Longitude = 0.0
     private var area = "현재 위치"
-    val adapter = GroupAdapter<GroupieViewHolder>()
-    val adapters = GroupAdapter<GroupieViewHolder>()
+    val adapter1 = GroupAdapter<GroupieViewHolder>()
+    val adapter2 = GroupAdapter<GroupieViewHolder>()
+    val adapter3 = GroupAdapter<GroupieViewHolder>()
     val db = Firebase.firestore
     private val GPS_ENABLE_REQUEST_CODE = 2001
     private val PERMISSIONS_REQUEST_CODE = 100
@@ -94,10 +103,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         } else {
             checkRunTimePermission()
         }
-
-//        user_photo_img.setOnClickListener {
-//
-//        }
 
         init()
         gpsActivity = GpsActivity.newInstance()
@@ -173,11 +178,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                             document.get("uid").toString(),
                             document.get("oid").toString()
                         )
-                        adapters.add(hot_bbs_item)
+                        adapter2.add(hot_bbs_item)
                     }
-                    recyclerview_hot_bbs?.adapter = adapters
+                    recyclerview_hot_bbs?.adapter = adapter2
                 }
-            adapters.setOnItemClickListener { item, view ->
+            adapter2.setOnItemClickListener { item, view ->
                 item as home_hot_bbs_Item
                 Intent(context, BBS_Common_Post::class.java).apply {
                     putExtra("tab", "information_bbs")
@@ -199,20 +204,23 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
         }
 
-        //영빈구역
-        //강아지 여러마리 수정 필요
-        db.collection("users").document(uid!!).collection("dogprofiles").document("bdutQXeI1LreRVPjh9aI").get().addOnSuccessListener {
-            val state = it.get("dogState").toString()
-            Log.d("ybyb","ybyb state -> ${state}")
-            if(state.equals("false")){ //분실
-                Glide.with(this).load(R.drawable.red_icon_background).circleCrop()
-                    .into(dog_state)
-            }else{
-                Glide.with(this).load(R.drawable.green_icon_background).circleCrop()
-                    .into(dog_state)
-            }
-        }
+        db.collection("users").document(uid!!).collection("dogprofiles").get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    val result = document.toObject<DogProfile>()
+                    Log.d("ybyb", result!!.dogstate.toString())
+                    adapter3.add(
+                        home_dogstate_item(
+                            result?.dogName.toString(),
+                            document.id,
+                            result?.dogstate.toString()
+                        )
 
+                    )
+                    Log.d("ybyb","yb home -> ${document.id}//---${result?.dogName.toString()} $$$$$$${result?.dogstate.toString()}")
+                    recyclerview_dogstate.adapter=adapter3
+                }
+            }
 
         db.collection("Matching").get()
             .addOnSuccessListener {
@@ -221,7 +229,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                     val matching = result.toObject<Matching>()
                     if (matching.place.contains(area)) {
                         Log.d("yy", matching.place)
-                        adapter.add(
+                        adapter1.add(
                             Walk_Recommend_Item(
                                 matching?.uid,
                                 matching.documentId,
@@ -234,7 +242,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                         )
                     } else {
                     }
-                    recyclerview_recommendation_walk.adapter = adapter
+                    recyclerview_recommendation_walk.adapter = adapter1
                     text_work1.setText(area)
                 }
 
@@ -255,11 +263,13 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
             if (!matchinglist.isEmpty()) {
                 //.whereEqualTo("ongoing",false)
-                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",false).get()
+                db.collection("Matching").whereIn("documentId", matchinglist)
+                    .whereEqualTo("ongoing", false).get()
                     .addOnSuccessListener {
                         completedMatching_count.setText(it.count().toString())
                     }
-                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
+                db.collection("Matching").whereIn("documentId", matchinglist)
+                    .whereEqualTo("ongoing", true).get()
                     .addOnSuccessListener {
                         reservedMatching_count.setText(it.count().toString())
                     }
@@ -384,7 +394,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         when (item.itemId) {
             R.id.matching_list -> matchingList()
             R.id.my_matching -> mymatchingList()
-            R.id.choker_buy -> Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
+            R.id.choker_buy -> checkActivity()
+               // Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
             R.id.menu_list -> gpsstart()
             R.id.notice -> {
                 val intent = Intent(activity, WebView::class.java)
@@ -410,10 +421,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     }
 
-    private fun chattingstart() {
+    private fun checkActivity() {
         activity?.let {
             Log.e("joo", "채팅방으로 이동")
-            val intent = Intent(activity, ChatListActivity::class.java)
+            val intent = Intent(activity, CheckActivity::class.java)
             startActivity(intent)
             it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
         }
@@ -460,8 +471,8 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         btn_profile.setOnClickListener {
             auth = FirebaseAuth.getInstance()
             val uid = auth.uid.toString()
-            val intent = Intent(activity,UserProfileActivity::class.java)
-            intent.putExtra("uid",uid)
+            val intent = Intent(activity, UserProfileActivity::class.java)
+            intent.putExtra("uid", uid)
             startActivity(intent)
         }
         full.setOnClickListener {
@@ -469,7 +480,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                 putExtra("address", "전체")
             }.run { startActivity(this) }
         }
-        adapter.setOnItemClickListener { item, view ->
+        adapter1.setOnItemClickListener { item, view ->
             Log.d("ClickMatching", (item as Walk_Recommend_Item).title)
             Intent(context, MatchingDetailActivity::class.java).apply {
                 putExtra("title", (item).title)

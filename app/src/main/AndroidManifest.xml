@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 인터넷 사용 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".GlobalApplication"
@@ -27,6 +29,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Dogwhere"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".NotificationListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CheckActivity"
+            android:exported="true" />
+
+        <receiver
+            android:name=".FCM.MyReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".Modify_dog_profile"
             android:exported="true" />

@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.capstone.dogwhere.DTO.DogProfile
+import com.capstone.dogwhere.R.id.state_true
 import kotlinx.android.synthetic.main.activity_modify_dog_profile.*
 import kotlinx.android.synthetic.main.activity_modify_dog_profile.DogProfilePhoto
 import kotlinx.android.synthetic.main.activity_modify_dog_profile.dogpprofileneutralization
@@ -263,7 +264,10 @@ class Modify_dog_profile : AppCompatActivity() {
         val neutr = findViewById<RadioGroup>(R.id.dogpprofileneutralization)
         val checked_neut = neutr.checkedRadioButtonId
         var neutr_value :Boolean = false
-        var dogstate : Boolean = false
+
+        val state = findViewById<RadioGroup>(R.id.dogprofilestate)
+        val checked_state = state.checkedRadioButtonId
+        var state_value : Boolean = false
 
         when(checked_sex){
             R.id.sex_male -> sex_value ="수컷"
@@ -279,6 +283,10 @@ class Modify_dog_profile : AppCompatActivity() {
         when(checked_neut){
             R.id.neutralization_T -> neutr_value = true
             R.id.neutralization_F -> neutr_value = false
+        }
+        when(checked_state){
+            R.id.state_true -> state_value = true
+            R.id.state_false -> state_value = false
         }
 
 
@@ -308,12 +316,12 @@ class Modify_dog_profile : AppCompatActivity() {
 
         dogprofilestate.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.state_true -> dogstate = true // 미분실
-                R.id.state_false -> dogstate = false // 분실
+                R.id.state_true -> state_value = true // 미분실
+                R.id.state_false -> state_value = false // 분실
             }
         }
 
-        val dog = DogProfile(uid, dogname, downloadUri, dogage, dogbreed, sex_value, size_value,neutr_value,dogstate)
+        val dog = DogProfile(uid, dogname, downloadUri, dogage, dogbreed, sex_value, size_value,neutr_value,state_value)
         Log.d("ybyb","ybyb DogProfile ->${dog}")
 
         db.collection("users").document(uid).collection("dogprofiles").document(docid).set(dog).addOnSuccessListener {

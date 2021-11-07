@@ -45,6 +45,11 @@ class UserProfileActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        btn_add_dog.setOnClickListener {
+            val intent = Intent(this,DogProfileActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 
         profiletab_layout.addTab(profiletab_layout.newTab().setText("반려견 정보"))
@@ -125,7 +130,7 @@ class PagerAdapter(
 
         when (position) {
             0 -> return UserProfileFragment(profile_uid)
-            1 -> return BBS_CommonBBS("puppy_bbs")
+            1 -> return BBS_CommonBBS("free_bbs")
             else -> return UserProfileFragment(profile_uid)
         }
     }

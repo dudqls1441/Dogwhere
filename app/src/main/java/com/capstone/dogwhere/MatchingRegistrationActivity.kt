@@ -423,7 +423,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         }
 
         val party_time =
-            npHours.value.toString() + "시" + npMinute.value.toString() + "분"
+            npHours.value.toString() +"/"+ npMinute.value.toString()
         val explain = edit_registration_explain.text.toString()
         val documentid = db.collection("Matching").document()
 

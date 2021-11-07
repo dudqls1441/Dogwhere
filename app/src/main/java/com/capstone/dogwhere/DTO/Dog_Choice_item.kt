@@ -40,7 +40,7 @@ class Dog_Choice_item (
         } else{
             viewHolder.itemView.dog_neutralization.text = "중성화 X"
         }
-        Glide.with(viewHolder.itemView).load(img).circleCrop().into(viewHolder.itemView.img_dog_profile)
+
         var list=ArrayList<DogProfile>()
         viewHolder.itemView.check.setOnCheckedChangeListener { buttonView, isChecked ->
 //            Log.e("yy", "버튼뷰 : "+buttonView.toString())

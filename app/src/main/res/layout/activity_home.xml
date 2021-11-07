@@ -40,6 +40,7 @@
                 android:textColor="#BD3131"
                 android:textStyle="bold"></ImageView>
 
+
             <ImageView
                 android:id="@+id/btn_profile"
                 android:layout_width="wrap_content"

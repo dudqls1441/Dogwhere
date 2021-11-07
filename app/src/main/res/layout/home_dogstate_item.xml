@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:orientation="vertical"
+    android:layout_height="47dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:padding="10dp"
+        android:src="@drawable/red_icon_background"
+        android:id="@+id/img_dogstate"
+        />
+
+    <TextView
+        android:id="@+id/text_dogname"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:fontFamily="@font/sebanggothic"
+        android:gravity="center"
+        android:text="강아지 이름"
+        android:textSize="7dp"
+        android:textStyle="bold" />
+
+</LinearLayout>

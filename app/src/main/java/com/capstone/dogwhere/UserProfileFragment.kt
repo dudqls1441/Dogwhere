@@ -21,7 +21,7 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
 
-    val uid : String = profile_uid
+    val profile_uid : String = profile_uid
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +36,9 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
 
         auth = FirebaseAuth.getInstance()
         val db = FirebaseFirestore.getInstance()
-//        val uid = auth.currentUser!!.uid
+        val uid = auth.currentUser!!.uid
         adapter = GroupAdapter<GroupieViewHolder>()
-        db.collection("users").document(uid).collection("dogprofiles").get()
+        db.collection("users").document(profile_uid).collection("dogprofiles").get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     val dogs = document.toObject<DogProfile>()
@@ -61,10 +61,11 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
                     dog_recyclerview?.adapter = adapter
                 }
                 adapter.setOnItemClickListener { item, view ->
-                    val intent = Intent(activity,Modify_dog_profile::class.java)
-                    intent.putExtra("docid", (item as Dog_Profile_Item).docId)
-                    startActivity(intent)
-
+                    if(profile_uid.equals(uid)){
+                        val intent = Intent(activity,Modify_dog_profile::class.java)
+                        intent.putExtra("docid", (item as Dog_Profile_Item).docId)
+                        startActivity(intent)
+                    }
                 }
             }
 

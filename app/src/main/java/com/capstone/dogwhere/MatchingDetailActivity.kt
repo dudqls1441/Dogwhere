@@ -12,6 +12,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -31,9 +32,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.activity_check.*
 import kotlinx.android.synthetic.main.activity_matching_detail.*
 import kotlinx.android.synthetic.main.activity_matching_detail.btn_back
 import kotlinx.android.synthetic.main.activity_matching_registration.*
+import kotlinx.android.synthetic.main.activity_matching_registration.text_time
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,9 +51,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
     var mylocation: LatLng? = null
-    var matching_dog_neu=""
-    var matching_dog_size=""
-    var matching_owner_gender=""
+    var matching_dog_neu = ""
+    var matching_dog_size = ""
+    var matching_owner_gender = ""
     private lateinit var matchingLeaderUid: String
     private lateinit var matchingDocumentId: String
     private lateinit var matchingTitle: String
@@ -138,6 +141,13 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         matchingTitle = intent.getStringExtra("title").toString()
 
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yy/MM/dd")
+        val curTime = dateFormat.format(Date(time))
+
+        Log.d("ybybyb", "ybybyb curtime ->${curTime}")
+
         //내가 올린 매칭일 때
         if (uid == matchingLeaderUid) {
             btn_trash.visibility = View.VISIBLE
@@ -156,7 +166,33 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     val result = it.toObject<Matching>()
                     matching_title.setText(result!!.title)
                     text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                    text_matching_time.setText(result!!.startime)
+                    val date = result!!.date
+                    val splitedDate = date.split("/")
+                    Log.d("ybybyb", "date ->${date}")
+                    Log.d("ybybyb", "splitedDate ->${splitedDate}")
+                    val splitedstartime = result!!.startime.split("/")
+                    Log.d("ybybyb", "startime-> ${splitedstartime}")
+
+                    if(curTime.equals(date)){
+                        val countDownTimer = object : CountDownTimer(200000, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                text_matching_time.setText("오늘"+
+                                        getTime(
+                                            splitedDate[1].toInt(),
+                                            splitedDate[2].toInt(),
+                                            splitedstartime[0].toInt(),
+                                            splitedstartime[1].toInt()
+                                        )
+                                )
+                            }
+
+                            override fun onFinish() {}
+                        }
+
+                        countDownTimer.start()
+                    }else{
+                        text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                    }
                 }
 
 
@@ -184,7 +220,33 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 val result = it.toObject<Matching>()
                                 matching_title.setText(result!!.title)
                                 text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                                text_matching_time.setText(result!!.startime)
+                                val date = result!!.date
+                                val splitedDate = date.split("/")
+                                Log.d("ybybyb", "date ->${date}")
+                                Log.d("ybybyb", "splitedDate ->${splitedDate}")
+                                val splitedstartime = result!!.startime.split("/")
+                                Log.d("ybybyb", "startime-> ${splitedstartime}")
+
+                                if(curTime.equals(date)){
+                                    val countDownTimer = object : CountDownTimer(200000, 1000) {
+                                        override fun onTick(millisUntilFinished: Long) {
+                                            text_matching_time.setText("오늘"+
+                                                    getTime(
+                                                        splitedDate[1].toInt(),
+                                                        splitedDate[2].toInt(),
+                                                        splitedstartime[0].toInt(),
+                                                        splitedstartime[1].toInt()
+                                                    )
+                                            )
+                                        }
+
+                                        override fun onFinish() {}
+                                    }
+
+                                    countDownTimer.start()
+                                }else{
+                                    text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                                }
                             }
 
 
@@ -212,7 +274,33 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 val result = it.toObject<Matching>()
                                 matching_title.setText(result!!.title)
                                 text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
-                                text_matching_time.setText(result!!.startime)
+                                val date = result!!.date
+                                val splitedDate = date.split("/")
+                                Log.d("ybybyb", "date ->${date}")
+                                Log.d("ybybyb", "splitedDate ->${splitedDate}")
+                                val splitedstartime = result!!.startime.split("/")
+                                Log.d("ybybyb", "startime-> ${splitedstartime}")
+
+                                if(curTime.equals(date)){
+                                    val countDownTimer = object : CountDownTimer(200000, 1000) {
+                                        override fun onTick(millisUntilFinished: Long) {
+                                            text_matching_time.setText("오늘"+
+                                                    getTime(
+                                                        splitedDate[1].toInt(),
+                                                        splitedDate[2].toInt(),
+                                                        splitedstartime[0].toInt(),
+                                                        splitedstartime[1].toInt()
+                                                    )
+                                            )
+                                        }
+
+                                        override fun onFinish() {}
+                                    }
+
+                                    countDownTimer.start()
+                                }else{
+                                    text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                                }
                             }
                     }
                 }
@@ -306,6 +394,33 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    //시간 구하는 메서드
+    private fun getTime(month: Int, day: Int, hour: Int, minute: Int): String? {
+        val date = Date()
+        val calendar: Calendar = GregorianCalendar()
+        calendar.time = date
+        val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH]
+        val day = calendar[Calendar.DAY_OF_MONTH]
+        val c_hour = calendar[Calendar.HOUR_OF_DAY]
+        val c_min = calendar[Calendar.MINUTE]
+        val c_sec = calendar[Calendar.SECOND]
+
+
+        val baseCal: Calendar = GregorianCalendar(year, month, day, c_hour, c_min, c_sec)
+        val targetCal: Calendar = GregorianCalendar(year, month, day, hour, minute, 0) //비교대상날짜
+        val diffSec = (targetCal.timeInMillis - baseCal.timeInMillis) / 1000
+        val diffDays = diffSec / (24 * 60 * 60)
+        targetCal.add(Calendar.DAY_OF_MONTH, (-diffDays).toInt())
+        val hourTime = Math.floor((diffSec / 3600).toDouble()).toInt()
+        val minTime = Math.floor(((diffSec - 3600 * hourTime) / 60).toDouble()).toInt()
+        val secTime =
+            Math.floor((diffSec - 3600 * hourTime - 60 * minTime).toDouble()).toInt()
+        val hour = String.format("%02d", hourTime)
+        val min = String.format("%02d", minTime)
+        val sec = String.format("%02d", secTime)
+        return "매칭까지 " + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다."
+    }
 
     //해야할 것 : 이미 참여중인 매칭에 대해서 XML처리하기
 
@@ -431,60 +546,66 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 //유저가 조건에 충족하는지 확인
                 db.collection("Matching").document(matchingDocumentId).get()
                     .addOnSuccessListener {
-                        matching_dog_neu= it.get("condition_dog_neutralization").toString()
-                        if(matching_dog_neu=="all,neutralization"){
-                            matching_dog_neu="true"
-                        }else{
-                            matching_dog_neu="true,false"
+                        matching_dog_neu = it.get("condition_dog_neutralization").toString()
+                        if (matching_dog_neu == "all,neutralization") {
+                            matching_dog_neu = "true"
+                        } else {
+                            matching_dog_neu = "true,false"
                         }
-                        matching_dog_size=it.get("condition_dog_size").toString()
-                        if(matching_dog_size=="all"){
-                            matching_dog_size="big,small,middle"
+                        matching_dog_size = it.get("condition_dog_size").toString()
+                        if (matching_dog_size == "all") {
+                            matching_dog_size = "big,small,middle"
                         }
-                        matching_owner_gender=it.get("condition_owner_gender").toString()
-                        if(matching_owner_gender=="all"){
-                            matching_owner_gender="wm,man"
+                        matching_owner_gender = it.get("condition_owner_gender").toString()
+                        if (matching_owner_gender == "all") {
+                            matching_owner_gender = "wm,man"
                         }
                         condition()
                     }
             }
         }
     }
-    fun condition(){
+
+    fun condition() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
         val uid = auth.currentUser?.uid.toString()
-        var check=ArrayList<String>()
+        var check = ArrayList<String>()
         db.collection("users").document(uid).collection("userprofiles")
             .document(uid).get()
             .addOnSuccessListener {
-                if(matching_owner_gender.contains(it.get("userSex").toString())){
+                if (matching_owner_gender.contains(it.get("userSex").toString())) {
                     db.collection("users").document(uid).collection("dogprofiles")
                         .get()
                         .addOnSuccessListener {
                             for (document in it) {
-                                for(name in dogname){
-                                    if(document.get("dogName").toString()==name){
-                                        if(matching_dog_size.contains(document.get("dogSize").toString())
-                                            &&matching_dog_neu.contains(document.get("neutering").toString())){
+                                for (name in dogname) {
+                                    if (document.get("dogName").toString() == name) {
+                                        if (matching_dog_size.contains(
+                                                document.get("dogSize").toString()
+                                            )
+                                            && matching_dog_neu.contains(
+                                                document.get("neutering").toString()
+                                            )
+                                        ) {
                                             check.add("true")
-                                        }else{
+                                        } else {
                                             check.add("false")
                                         }
                                     }
                                 }
                             }
-                            if(check.contains("false")){
+                            if (check.contains("false")) {
                                 Toast.makeText(
                                     this,
                                     "반려견 정보가 매칭모임 조건에 충족하지 않습니다",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                            }else{
+                            } else {
                                 participation()
                             }
                         }
-                }else{
+                } else {
                     Toast.makeText(
                         this,
                         "주인 성별이 매칭모임 조건에 충족하지 않습니다",
