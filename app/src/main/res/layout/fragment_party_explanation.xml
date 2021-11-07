@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
-            android:fontFamily="@font/sebanggothic"
+            android:fontFamily="@font/nanumsquareb"
             android:text="산책 모임 참여 조건"
             android:textColor="@color/main_mint"
             android:textSize="16dp"
@@ -38,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="크기"
                 android:textColor="@color/main_mint"
@@ -50,10 +50,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="모두"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
 
@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="중성화 여부"
                 android:textColor="@color/main_mint"
@@ -82,10 +82,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="모두"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
 
@@ -102,7 +102,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="견주 성별"
                 android:textColor="@color/main_mint"
@@ -114,10 +114,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="7"
-                android:fontFamily="@font/sebanggothic"
+                android:fontFamily="@font/nanumsquarel"
                 android:gravity="center"
                 android:text="모두"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -129,11 +129,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_condition"
-        android:fontFamily="@font/nightb"
+        android:fontFamily="@font/nanumsquarel"
         android:hint="이 곳은 매칭의 설명란입니다.이 곳은 매칭의 설명란입니다.이 곳은 매칭의 설명란입니다.이 곳은 매칭의 설명란입니다."
         android:padding="12dp"
-        android:textSize="20dp"
-        android:textStyle="bold"></TextView>
+        android:textSize="14dp"
+        ></TextView>
 
 
 </RelativeLayout>
