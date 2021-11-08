@@ -112,7 +112,7 @@ class CheckActivity : AppCompatActivity() {
                             val alarmIntent = Intent(this, MyReceiver::class.java).apply {
                                 action = "com.check.up.setAlarm"
                                 putExtra("title","김영빈")
-                                putExtra("context","님에게 메시지가 도착했습니다.")
+                                putExtra("content","님에게 메시지가 도착했습니다.")
                             }
                             val alarmManager =
                                 this.getSystemService(Context.ALARM_SERVICE) as AlarmManager

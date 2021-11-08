@@ -105,7 +105,7 @@ class MyReceiver : BroadcastReceiver() {
 
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.divider_horizontal_dim_dark)
+            .setSmallIcon(android.R.drawable.ic_popup_disk_full)
             .setContentTitle(title) // 제목
             .setContentText(content) // 내용
             .setContentIntent(contentPendingIntent)

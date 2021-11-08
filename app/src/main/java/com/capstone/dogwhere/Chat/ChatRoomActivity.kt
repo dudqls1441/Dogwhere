@@ -175,7 +175,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val alarmIntent = Intent(this, MyReceiver::class.java).apply {
             action = "com.check.up.setAlarm"
             putExtra("title", title)
-            putExtra("context", content)
+            putExtra("content", content)
         }
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
