@@ -23,6 +23,8 @@ import com.capstone.dogwhere.DTO.Alarm_data
 class MyReceiver : BroadcastReceiver() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var title :String
+    private lateinit var content :String
     lateinit var notificationManager: NotificationManager
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -30,6 +32,10 @@ class MyReceiver : BroadcastReceiver() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        title =""
+        content=""
+        title =intent.getStringExtra("title").toString()
+        content =intent.getStringExtra("content").toString()
 
         if(intent != null){
             val dateAndtime: LocalDateTime = LocalDateTime.now()
@@ -97,10 +103,11 @@ class MyReceiver : BroadcastReceiver() {
              */
         )
 
+
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.divider_horizontal_dim_dark)
-            .setContentTitle("타이틀 입니다.") // 제목
-            .setContentText("내용 입니다.") // 내용
+            .setContentTitle(title) // 제목
+            .setContentText("메시지가 도착했습니다.") // 내용
             .setContentIntent(contentPendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)

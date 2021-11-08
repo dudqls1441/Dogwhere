@@ -8,8 +8,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.SystemClock
 import android.util.Log
 import com.capstone.dogwhere.FCM.MyReceiver
+import com.capstone.dogwhere.DTO.MyNotificationList_item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -42,115 +44,9 @@ class CheckActivity : AppCompatActivity() {
 
         btn_alarm.setOnClickListener {
             alarm()
+            add_notification()
         }
-
-
-//        val matchinglist = mutableListOf<String>()
-//        db.collection("users").document(uid).collection("matching").get().addOnSuccessListener {
-//            for (document in it) {
-//                matchinglist.add(document["documentId"].toString())
-//            }
-//            Log.d("yb", "ybybyb matchingList -> ${matchinglist}")
-//            if (!matchinglist.isEmpty()) {
-//                //.whereEqualTo("ongoing",false)
-//                db.collection("Matching").whereIn("documentId", matchinglist).get()
-//                    .addOnSuccessListener {
-//                        for (document in it) {
-//                            val date = document["date"].toString()
-//                            Log.d("ybybyb", "ybybyb date1 -> ${date}")
-//
-//                            val year = date.substring(0, 2)
-//                            val month: Int = date.substring(3, 5).toInt() - 1
-//                            val day = date.substring(6, 8)
-//                            Log.d("ybybyb", "ybybyb1  year ${year} month ${month}  day ${day}")
-//
-//                            val startime = document["startime"].toString()
-//                            Log.d("ybybyb", "ybybyb date1 -> ${startime}")
-//
-//                            val hour = startime.split("/")
-//                            Log.d("ybybyb","ybybyb hour -> ${hour}")
-//
-//                        }
-//                    }
-//            }
-//        }
-
-
     }
-
-//    private fun a() {
-//        db = FirebaseFirestore.getInstance()
-//        auth = FirebaseAuth.getInstance()
-//
-//        val uid = auth.currentUser!!.uid
-//
-//        db.collection("Matching").document("NJ9mdYjFK2uvN6ThGEzx").get()
-//            .addOnSuccessListener {
-//                val date = it.get("date").toString().split("/")
-//                Log.d("ybybyb", "ybybyb date -> ${date}")
-//
-//                val year = date[0]
-//                val month: Int = (date[1]).toInt() - 1
-//                val day = date[2]
-//
-//
-//
-//                Log.d("ybybyb", "ybybyb  year ${year} month ${month}  day ${day}")
-//
-//                val startime = it.get("startime").toString().split("/")
-//                Log.d("ybybyb", "ybybyb date1 -> ${startime}")
-//
-//                val hour = startime[0]
-//                Log.d("ybybyb", "ybybyb hour -> ${hour}")
-//
-//                val minute = startime[1]
-//                Log.d("ybybyb", "ybybyb minute -> ${minute}")
-//
-//            }
-//
-//
-//        val calendar = Calendar.getInstance()
-//        calendar.set(Calendar.YEAR, 2021)
-//        calendar.set(Calendar.MONTH, 10)
-//        calendar.set(Calendar.DAY_OF_MONTH, 7)
-//        calendar.set(Calendar.HOUR_OF_DAY, 12)
-//        calendar.set(Calendar.MINUTE, 0)
-//        calendar.set(Calendar.SECOND, 20)
-//
-//        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-//            action = "com.check.up.setAlarm"
-//        }
-//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val pendingIntent = PendingIntent.getBroadcast(
-//            this,
-//            0,
-//            alarmIntent,
-//            PendingIntent.FLAG_CANCEL_CURRENT
-//        )
-//
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            alarmManager.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                pendingIntent
-//            )
-//
-//        } else {
-//            if (Build.VERSION.SDK_INT >= 19) {
-//                alarmManager.setExact(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendar.timeInMillis,
-//                    pendingIntent
-//                )
-//            } else {
-//                alarmManager.set(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendar.timeInMillis,
-//                    pendingIntent
-//                )
-//            }
-//        }
-//    }
 
     private fun alarm() {
         db = FirebaseFirestore.getInstance()
@@ -205,13 +101,18 @@ class CheckActivity : AppCompatActivity() {
                             val calendar = Calendar.getInstance()
                             calendar.set(Calendar.YEAR, 2021)
                             calendar.set(Calendar.MONTH, month)
-                            calendar.set(Calendar.DAY_OF_MONTH, day.toInt())
-                            calendar.set(Calendar.HOUR_OF_DAY, 12)
-                            calendar.set(Calendar.MINUTE, 51)
+                            calendar.set(Calendar.DAY_OF_MONTH, 8)
+                            calendar.set(Calendar.HOUR_OF_DAY, 21)
+                            calendar.set(Calendar.MINUTE, 30)
                             calendar.set(Calendar.SECOND, 20)
+
+                            val sendTime_now = (SystemClock.elapsedRealtime()+ 1000)
+                            //calendar.timeInMillis
 
                             val alarmIntent = Intent(this, MyReceiver::class.java).apply {
                                 action = "com.check.up.setAlarm"
+                                putExtra("title","김영빈")
+                                putExtra("context","님에게 메시지가 도착했습니다.")
                             }
                             val alarmManager =
                                 this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -225,7 +126,7 @@ class CheckActivity : AppCompatActivity() {
                             if (Build.VERSION.SDK_INT >= 23) {
                                 alarmManager.setExactAndAllowWhileIdle(
                                     AlarmManager.RTC_WAKEUP,
-                                    calendar.timeInMillis,
+                                    sendTime_now,
                                     pendingIntent
                                 )
 
@@ -233,13 +134,13 @@ class CheckActivity : AppCompatActivity() {
                                 if (Build.VERSION.SDK_INT >= 19) {
                                     alarmManager.setExact(
                                         AlarmManager.RTC_WAKEUP,
-                                        calendar.timeInMillis,
+                                        sendTime_now,
                                         pendingIntent
                                     )
                                 } else {
                                     alarmManager.set(
                                         AlarmManager.RTC_WAKEUP,
-                                        calendar.timeInMillis,
+                                        sendTime_now,
                                         pendingIntent
                                     )
                                 }
@@ -250,98 +151,27 @@ class CheckActivity : AppCompatActivity() {
         }
     }
 
-//        db.collection("Matching").document("NJ9mdYjFK2uvN6ThGEzx").get()
-//            .addOnSuccessListener {
-//                val date = it.get("date").toString().split("/")
-//                Log.d("ybybyb", "ybybyb date -> ${date}")
-//
-//                val year = date[0]
-//                val month: Int = (date[1]).toInt() - 1
-//                val day = date[2]
-//
-//
-//                Log.d("ybybyb", "ybybyb  year ${year} month ${month}  day ${day}")
-//
-//                val startime = it.get("startime").toString().split("/")
-//                Log.d("ybybyb", "ybybyb date1 -> ${startime}")
-//
-//                val hour = startime[0]
-//                Log.d("ybybyb", "ybybyb hour -> ${hour}")
-//
-//                val minute = startime[1]
-//                Log.d("ybybyb", "ybybyb minute -> ${minute}")
-//
-//                val calendar = Calendar.getInstance()
-//                calendar.set(Calendar.YEAR, 2021)
-//                calendar.set(Calendar.MONTH, 10)
-//                calendar.set(Calendar.DAY_OF_MONTH, 7)
-//                calendar.set(Calendar.HOUR_OF_DAY, 10)
-//                calendar.set(Calendar.MINUTE, 59)
-//                calendar.set(Calendar.SECOND, 20)
-//
-//            }
+    private fun add_notification(){
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
+        val uid = auth.currentUser!!.uid
+
+        val username = "김영빈"
+        val topic :String = "매칭 참가"
+        val content = "님이 매칭에 참가하셨습니다."
+
+        val data = MyNotificationList_item(uid,topic,username,content,"3")
 
 
-//        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-//            action = "com.check.up.setAlarm"
-//        }
-//        val alarmManager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//        val pendingIntent = PendingIntent.getBroadcast(
-//            this,
-//            0,
-//            alarmIntent,
-//            PendingIntent.FLAG_CANCEL_CURRENT
-//        )
-//
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            alarmManager.setExactAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                pendingIntent
-//            )
-//
-//        } else {
-//            if (Build.VERSION.SDK_INT >= 19) {
-//                alarmManager.setExact(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendar.timeInMillis,
-//                    pendingIntent
-//                )
-//            } else {
-//                alarmManager.set(
-//                    AlarmManager.RTC_WAKEUP,
-//                    calendar.timeInMillis,
-//                    pendingIntent
-//                )
-//            }
-//        }
-//    }
+        db.collection("users").document(uid).collection("notification").add(data).addOnSuccessListener {
+            Log.d("ybybyb","알림 등록1 성공함")
+        }
+        db.collection("Notification").add(data).addOnSuccessListener {
+            Log.d("ybybyb","알림 등록2 성공함")
+        }
 
 
-//    private fun getTime(hour:Int,minute:Int): String? {
-//        val date = Date()
-//        val calendar: Calendar = GregorianCalendar()
-//        calendar.time = date
-//        val year = calendar[Calendar.YEAR]
-//        val month = calendar[Calendar.MONTH]
-//        val day = calendar[Calendar.DAY_OF_MONTH]
-//        val c_hour = calendar[Calendar.HOUR_OF_DAY]
-//        val c_min = calendar[Calendar.MINUTE]
-//        val c_sec = calendar[Calendar.SECOND]
-//
-//
-//        val baseCal: Calendar = GregorianCalendar(year, month, day, c_hour, c_min, c_sec)
-//        val targetCal: Calendar = GregorianCalendar(year, month, day, hour, minute, 0) //비교대상날짜
-//        val diffSec = (targetCal.timeInMillis - baseCal.timeInMillis) / 1000
-//        val diffDays = diffSec / (24 * 60 * 60)
-//        targetCal.add(Calendar.DAY_OF_MONTH, (-diffDays).toInt())
-//        val hourTime = Math.floor((diffSec / 3600).toDouble()).toInt()
-//        val minTime = Math.floor(((diffSec - 3600 * hourTime) / 60).toDouble()).toInt()
-//        val secTime =
-//            Math.floor((diffSec - 3600 * hourTime - 60 * minTime).toDouble()).toInt()
-//        val hour = String.format("%02d", hourTime)
-//        val min = String.format("%02d", minTime)
-//        val sec = String.format("%02d", secTime)
-//        return "오늘 매칭까지 " + hour + " 시간 " + min + " 분 " + sec + "초 남았습니다."
-//    }
+    }
+
 }

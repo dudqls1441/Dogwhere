@@ -1,11 +1,17 @@
 package com.capstone.dogwhere.Chat
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -33,10 +39,11 @@ class ChatRoomActivity : AppCompatActivity() {
         val yourUid = intent.getStringExtra("yourUid")
         val name = intent.getStringExtra("name")
         val adapter = GroupAdapter<GroupieViewHolder>()
-        var myname : String?= null
+        var myname: String? = null
         val db = FirebaseFirestore.getInstance()
 
-        db.collection("users").document(myUid.toString()).collection("userprofiles").document(myUid.toString())
+        db.collection("users").document(myUid.toString()).collection("userprofiles")
+            .document(myUid.toString())
             .get().addOnSuccessListener {
                 val result = it.toObject<UserProfile>()
                 myname = result?.userName.toString()
@@ -84,8 +91,11 @@ class ChatRoomActivity : AppCompatActivity() {
                                     profilephoto.toString()
                                 )
                             )
+                            sendNotification(nickname.toString()+"님에게 메시지가 도착했습니다.",msg.toString())
                         }
-                        recycler_chatroom_view.scrollToPosition(adapter.itemCount -1)
+
+
+                        recycler_chatroom_view.scrollToPosition(adapter.itemCount - 1)
                         recycler_chatroom_view.adapter = adapter
                     }
 
@@ -156,6 +166,48 @@ class ChatRoomActivity : AppCompatActivity() {
     fun hideKeyboard() {
         val hide = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
+    }
+
+    private fun sendNotification(title: String,content:String) {
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+        //calendar.timeInMillis
+
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("context", content)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
+        }
     }
 
 }

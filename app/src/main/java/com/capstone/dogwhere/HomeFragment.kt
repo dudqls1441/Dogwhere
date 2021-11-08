@@ -1,11 +1,8 @@
 package com.capstone.dogwhere
 
 import android.Manifest
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.ALARM_SERVICE
 import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
@@ -22,18 +19,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.capstone.dogwhere.Chat.ChatListActivity
 import com.capstone.dogwhere.DTO.Matching
 import com.capstone.dogwhere.DTO.UserProfile
-import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.DTO.DogProfile
 import com.capstone.dogwhere.DTO.home_dogstate_item
 import com.capstone.dogwhere.DTO.Walk_Recommend_Item
@@ -52,7 +45,6 @@ import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Arrays.toString
 
 
 class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -396,7 +388,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             R.id.my_matching -> mymatchingList()
             R.id.choker_buy -> checkActivity()
                // Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
-            R.id.menu_list -> gpsstart()
+            R.id.menu_list -> yeongbinFucntion()
             R.id.notice -> {
                 val intent = Intent(activity, WebView::class.java)
                 startActivity(intent)
@@ -439,9 +431,17 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         }
     }
 
-    private fun gpsstart() {
-        Log.e("joo", "gps 이동")
-        val intent = Intent(activity, GpsActivity::class.java)
+//    private fun gpsstart() {
+//        Log.e("joo", "gps 이동")
+//        val intent = Intent(activity, GpsActivity::class.java)
+//        startActivity(intent)
+//    }
+
+    private fun yeongbinFucntion() {
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.uid.toString()
+        val intent = Intent(activity, UserProfileActivity::class.java)
+        intent.putExtra("uid", uid)
         startActivity(intent)
     }
 
@@ -468,12 +468,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
         naviView.setNavigationItemSelectedListener(this)
 
 
-        btn_profile.setOnClickListener {
-            auth = FirebaseAuth.getInstance()
-            val uid = auth.uid.toString()
-            val intent = Intent(activity, UserProfileActivity::class.java)
-            intent.putExtra("uid", uid)
+        btn_my_notification.setOnClickListener {
+            Log.e("ybybyb", "알림 리스트 이동")
+            val intent = Intent(activity, NotificationListActivity::class.java)
             startActivity(intent)
+
         }
         full.setOnClickListener {
             Intent(context, MatchingListActivity::class.java).apply {

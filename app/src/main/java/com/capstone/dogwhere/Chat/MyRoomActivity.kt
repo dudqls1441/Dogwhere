@@ -62,6 +62,8 @@ class MyRoomActivity : AppCompatActivity() {
 
 
 
+
+
                 Log.d("joo", "p0: " + msg)
             }
 
