@@ -107,7 +107,7 @@ class MyReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.divider_horizontal_dim_dark)
             .setContentTitle(title) // 제목
-            .setContentText("메시지가 도착했습니다.") // 내용
+            .setContentText(content) // 내용
             .setContentIntent(contentPendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
