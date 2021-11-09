@@ -12,11 +12,15 @@ import android.os.SystemClock
 import android.util.Log
 import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.DTO.MyNotificationList_item
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_check.*
 import kotlinx.android.synthetic.main.activity_walk__calendar.*
+import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -40,11 +44,68 @@ class CheckActivity : AppCompatActivity() {
         Log.d("ybybyb", "ybybybCurrent date: $onlyDate")
 
 
-
+        myToken()
 
         btn_alarm.setOnClickListener {
-            alarm()
-            add_notification()
+            send()
+        }
+    }
+
+    private fun send() {
+        try {
+            val title = "확인 제목"
+            val content = "확인 내용"
+            sendNotification(title, content)
+            Log.d("ybybyb", "send 메서드 성공")
+
+        } catch (e: Exception) {
+            Log.d("ybybyb", "error -> ${e.toString()}")
+
+        }
+    }
+
+    private fun sendNotification(title: String, content: String) {
+        auth= FirebaseAuth.getInstance()
+        val uid = auth.currentUser!!.uid
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+        //calendar.timeInMillis
+
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+            putExtra("senderUid",uid)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
         }
     }
 
@@ -101,18 +162,18 @@ class CheckActivity : AppCompatActivity() {
                             val calendar = Calendar.getInstance()
                             calendar.set(Calendar.YEAR, 2021)
                             calendar.set(Calendar.MONTH, month)
-                            calendar.set(Calendar.DAY_OF_MONTH, 8)
-                            calendar.set(Calendar.HOUR_OF_DAY, 21)
-                            calendar.set(Calendar.MINUTE, 30)
+                            calendar.set(Calendar.DAY_OF_MONTH, 9)
+                            calendar.set(Calendar.HOUR_OF_DAY, 11)
+                            calendar.set(Calendar.MINUTE, 55)
                             calendar.set(Calendar.SECOND, 20)
 
-                            val sendTime_now = (SystemClock.elapsedRealtime()+ 1000)
+                            val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
                             //calendar.timeInMillis
 
                             val alarmIntent = Intent(this, MyReceiver::class.java).apply {
                                 action = "com.check.up.setAlarm"
-                                putExtra("title","김영빈")
-                                putExtra("content","님에게 메시지가 도착했습니다.")
+                                putExtra("title", "김영빈")
+                                putExtra("content", "님에게 메시지가 도착했습니다.")
                             }
                             val alarmManager =
                                 this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -151,27 +212,49 @@ class CheckActivity : AppCompatActivity() {
         }
     }
 
-    private fun add_notification(){
+    private fun add_notification() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
         val uid = auth.currentUser!!.uid
 
         val username = "김영빈"
-        val topic :String = "매칭 참가"
+        val topic: String = "매칭 참가"
         val content = "님이 매칭에 참가하셨습니다."
 
-        val data = MyNotificationList_item(uid,topic,username,content,"3")
+        val data = MyNotificationList_item(uid, topic, username, content, "3")
 
 
-        db.collection("users").document(uid).collection("notification").add(data).addOnSuccessListener {
-            Log.d("ybybyb","알림 등록1 성공함")
-        }
+        db.collection("users").document(uid).collection("notification").add(data)
+            .addOnSuccessListener {
+                Log.d("ybybyb", "알림 등록1 성공함")
+            }
         db.collection("Notification").add(data).addOnSuccessListener {
-            Log.d("ybybyb","알림 등록2 성공함")
+            Log.d("ybybyb", "알림 등록2 성공함")
         }
 
 
+    }
+
+    private fun myToken() {
+        //쓰레드 사용할것
+
+        val auth = FirebaseAuth.getInstance().currentUser
+        Thread(Runnable {
+            try {
+                auth!!.getIdToken(true).addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.i("ybybyb", "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+                    val token = task.result?.token
+                    text_time.text = token
+                    Log.d("ybybyb", token.toString())
+                })
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }).start()
     }
 
 }

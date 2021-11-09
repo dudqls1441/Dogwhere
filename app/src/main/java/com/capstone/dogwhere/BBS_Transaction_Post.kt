@@ -1,7 +1,12 @@
 package com.capstone.dogwhere
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +17,9 @@ import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
 import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.FCM.MyReceiver
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -51,6 +58,12 @@ class BBS_Transaction_Post : AppCompatActivity() {
 
         //게시글 사진
         setProductPhoto(bbs_oid)
+
+
+        //DB바꼈을 때 알림
+        changedDocument(bbs_tabname,your_uid)
+        Log.d("ybybyb","bbs_tabname - >${bbs_tabname}")
+        Log.d("ybybyb","writerUid - >${your_uid}")
 
         if(uid.equals(your_uid)||your_uid =="null"){
             btn_bbsTrans_trash.visibility= View.VISIBLE
@@ -302,6 +315,78 @@ class BBS_Transaction_Post : AppCompatActivity() {
         startActivity(intent) //현재 액티비티 재실행 실시
         overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
     }
+    private fun changedDocument(bbs_tabname: String,writerUid:String) {
+        auth = FirebaseAuth.getInstance()
+        db.collection(bbs_tabname).get().addOnSuccessListener {
+            for (document in it) {
+                if (writerUid.equals(document.get("uid").toString())) {
+                    Log.d("ybybyb","글쓴이 매칭 document.id->${document.id}")
+                    db.collection(bbs_tabname).document(document.id).collection("Comment")
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.w(
+                                    "ybybyb",
+                                    "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
+                                )
+                                return@addSnapshotListener
+                            }
+                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+                            for (doc in value.documentChanges) {
+                                //documet 에 문서가 추가되었을 때
+                                if (doc.type == DocumentChange.Type.ADDED) {
+                                    sendNotification(document.get("title").toString()+" 게시물에 댓글이 달렸습니다.",doc.document["comment"].toString(),doc.document["uid"].toString())
+                                    Log.d("ybybyb","transaction->알림 보내기 성공")
+                                }
 
+                            }
+                        }
+                }
+            }
+        }
+    }
+    private fun sendNotification(title: String,content:String,senderUid:String) {
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+
+        //calendar.timeInMillis
+
+        Log.d("ybybyb","보내는 쪽 senderUid->${senderUid}")
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+            putExtra("senderUid",senderUid)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP ,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP ,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP ,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
+        }
+    }
 
 }

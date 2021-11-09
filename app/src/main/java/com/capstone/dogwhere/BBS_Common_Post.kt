@@ -1,7 +1,12 @@
 package com.capstone.dogwhere
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +16,23 @@ import com.capstone.dogwhere.Chat.ChatRoomActivity
 import com.capstone.dogwhere.DTO.BBS_Comment
 import com.capstone.dogwhere.DTO.BBS_CommentItem
 import com.capstone.dogwhere.DTO.UserProfile
+import com.capstone.dogwhere.FCM.MyReceiver
+import com.capstone.dogwhere.FCM.PushNotification
+import com.capstone.dogwhere.FCM.NotificationData
+import com.capstone.dogwhere.FCM.RetrofitInstance
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_b_b_s__common_post.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,10 +40,10 @@ import java.util.*
 class BBS_Common_Post : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private var db = Firebase.firestore
-    private lateinit var commentnickname : String
-    private lateinit var commentProfile : String
+    private lateinit var commentnickname: String
+    private lateinit var commentProfile: String
     val adapter = GroupAdapter<GroupieViewHolder>()
-    var heartFlag : Boolean = false
+    var heartFlag: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -37,19 +51,23 @@ class BBS_Common_Post : AppCompatActivity() {
 
         val bbs_oid = intent.getStringExtra("oid").toString()
         val bbs_tabname = intent.getStringExtra("tab").toString()
-        Log.e("joo", "bbs_oid, bbs_tabname - " + bbs_oid + bbs_tabname )
+        Log.e("joo", "bbs_oid, bbs_tabname - " + bbs_oid + bbs_tabname)
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
         val name = intent.getStringExtra("name").toString()
         val your_uid = intent.getStringExtra("uid").toString()
 
 
-        if(uid==your_uid){
-            btn_trash.visibility= View.VISIBLE
+        if (uid == your_uid) {
+            btn_trash.visibility = View.VISIBLE
             btn_trash.setOnClickListener {
-                deleteDialog(bbs_tabname,bbs_oid)
+                deleteDialog(bbs_tabname, bbs_oid)
             }
         }
+
+        Log.d("ybybyb","tab_name ->${bbs_tabname}")
+        Log.d("ybybyb","WriterUid ->${your_uid}")
+        changedDocument(bbs_tabname,your_uid)
         // 게시글 작성자 프로필
         getWriterProfile()
         // Like 유무 확인
@@ -58,12 +76,12 @@ class BBS_Common_Post : AppCompatActivity() {
         getComment(bbs_tabname, bbs_oid)
         // 댓글 작성 이벤트
         btn_bbscommon_send.setOnClickListener {
-            if(edittext_bbscommon_comment.text.toString() != ""){
+            if (edittext_bbscommon_comment.text.toString() != "") {
                 writeComment(uid, bbs_tabname, bbs_oid)
             }
         }
         // 게시물 하트 버튼 이벤트
-        img_bbsCommon_writerLike.setOnClickListener{
+        img_bbsCommon_writerLike.setOnClickListener {
             heartClick(uid, bbs_oid, bbs_tabname)
         }
 
@@ -71,7 +89,7 @@ class BBS_Common_Post : AppCompatActivity() {
             val bbs_uid = intent.getStringExtra("uid").toString()
             val bbs_name = intent.getStringExtra("name").toString()
             val intent = Intent(this, ChatRoomActivity::class.java)
-            Log.e("joo", "yourUid:"+bbs_uid+"  name:"+bbs_name)
+            Log.e("joo", "yourUid:" + bbs_uid + "  name:" + bbs_name)
             intent.putExtra("yourUid", bbs_uid)
             intent.putExtra("name", bbs_name)
             startActivity(intent)
@@ -100,19 +118,18 @@ class BBS_Common_Post : AppCompatActivity() {
                 putExtra("uid", comment.uid)
             }.run { startActivity(this) }
         }
-
     }
-    private fun deleteDialog(bbs_tabname : String,bbs_oid: String){
+    private fun deleteDialog(bbs_tabname: String, bbs_oid: String) {
         val dialog = CustomDialog_bbs_delete_check(this)
-        val title="게시글 삭제"
-        val description="게시글을 삭제하시겠습니까?"
-        val action_text="삭제"
-        dialog.mydialog(title,description,action_text)
+        val title = "게시글 삭제"
+        val description = "게시글을 삭제하시겠습니까?"
+        val action_text = "삭제"
+        dialog.mydialog(title, description, action_text)
         dialog.setOnclickedListener(object :
             CustomDialog_bbs_delete_check.ButtonClickListener {
             override fun onclickAction() {
                 try {
-                    trash(bbs_tabname,bbs_oid)
+                    trash(bbs_tabname, bbs_oid)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -125,10 +142,10 @@ class BBS_Common_Post : AppCompatActivity() {
     }
 
     //게시물 지우기
-    private fun trash(bbs_tabname : String,bbs_oid:String){
+    private fun trash(bbs_tabname: String, bbs_oid: String) {
         db.collection(bbs_tabname).document(bbs_oid).delete().addOnSuccessListener {
-            Log.d("yb","게시물이 삭제되었습니다.")
-            val intent= Intent(this,MainMenuActivity::class.java)
+            Log.d("yb", "게시물이 삭제되었습니다.")
+            val intent = Intent(this, MainMenuActivity::class.java)
             intent.putExtra("state", intent.getStringExtra("tab").toString())
             startActivity(intent)
             finish()
@@ -138,25 +155,27 @@ class BBS_Common_Post : AppCompatActivity() {
     private fun getWriterProfile() {
 
         // 게시글 작성자 프로필 사진 가져오기
-        db.collection("users").document(intent.getStringExtra("uid").toString()).collection("userprofiles").document(intent.getStringExtra("uid").toString()).get()
+        db.collection("users").document(intent.getStringExtra("uid").toString())
+            .collection("userprofiles").document(intent.getStringExtra("uid").toString()).get()
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
-                Log.e("joo","uidddddd"+intent.getStringExtra("uid").toString())
+                Log.e("joo", "uidddddd" + intent.getStringExtra("uid").toString())
                 Glide.with(this).load(result?.profilePhoto).into(img_bbsCommon_writer)
             }
     }
 
     // 하트 Like 유무 확인
-    private fun showHeart(uid : String, bbs_oid: String) {
-        val heartPost = db.collection("users").document(uid).collection("HeartPost").document(bbs_oid).get()
+    private fun showHeart(uid: String, bbs_oid: String) {
+        val heartPost =
+            db.collection("users").document(uid).collection("HeartPost").document(bbs_oid).get()
         heartPost.addOnSuccessListener {
             //oid 존재하고 true면
             // 작성 해야됨
-            if (it.exists()){
+            if (it.exists()) {
                 heartFlag = true
                 Log.e("joo", "showHeart: 색깔 하트로 변경 ")
                 img_bbsCommon_writerLike.setImageResource(R.drawable.btn_pink_hearton)
-            }else{
+            } else {
                 heartFlag = false
                 Log.e("joo", "showHeart: 빈 하트로 번경")
             }
@@ -167,7 +186,7 @@ class BBS_Common_Post : AppCompatActivity() {
     }
 
     // 댓글 출력 이벤트
-    private fun getComment(bbs_tabname : String, bbs_oid: String) {
+    private fun getComment(bbs_tabname: String, bbs_oid: String) {
 
         db.collection(bbs_tabname).document(bbs_oid).collection("Comment").orderBy("time").get()
             .addOnSuccessListener { result ->
@@ -189,24 +208,27 @@ class BBS_Common_Post : AppCompatActivity() {
 
     // 게시물 하트 누르기
     private fun heartClick(uid: String, bbs_oid: String, bbs_tabname: String) {
-        if (heartFlag){
+        if (heartFlag) {
             db.collection("users").document(uid).collection("HeartPost").document(bbs_oid).delete()
                 .addOnSuccessListener {
                     Log.d("joo", "좋아요 취소 성공 빈하트로 변경 ")
-                    db.collection(bbs_tabname).document(bbs_oid).update("heartCnt", FieldValue.increment(-1))
+                    db.collection(bbs_tabname).document(bbs_oid)
+                        .update("heartCnt", FieldValue.increment(-1))
                         .addOnSuccessListener {
                             Log.d("joo", "좋아요 취소 카운드 감소 성공")
                             refresh()
                         }
                         .addOnFailureListener { e -> Log.w("joo", "Error writing document1", e) }
-                }.addOnFailureListener { e -> Log.w("joo", "Error 좋아요 취소 실패,", e)  }
-        }else{
+                }.addOnFailureListener { e -> Log.w("joo", "Error 좋아요 취소 실패,", e) }
+        } else {
             val likePost = HeartPost(bbs_oid, true)
             //내가 하트 누른 게시물은 내 프로필에 등록돼야됨
-            db.collection("users").document(uid).collection("HeartPost").document(bbs_oid).set(likePost)
+            db.collection("users").document(uid).collection("HeartPost").document(bbs_oid)
+                .set(likePost)
                 .addOnSuccessListener {
                     Log.d("joo", "Success 색깔 하트로 변경")
-                    db.collection(bbs_tabname).document(bbs_oid).update("heartCnt", FieldValue.increment(1))
+                    db.collection(bbs_tabname).document(bbs_oid)
+                        .update("heartCnt", FieldValue.increment(1))
                         .addOnSuccessListener {
                             Log.d("joo", "좋아요 취소 카운드 감소 성공")
                             refresh()
@@ -218,30 +240,30 @@ class BBS_Common_Post : AppCompatActivity() {
         }
     }
 
-    private fun writeComment(uid : String, bbs_tabname: String, bbs_oid: String) {
+    private fun writeComment(uid: String, bbs_tabname: String, bbs_oid: String) {
 
-            db.collection("users").document(uid).collection("userprofiles").document(uid).get()
-                .addOnSuccessListener { result ->
-                    val result = result.toObject<UserProfile>()
-                    Log.e("joo",result.toString())
-                    commentnickname = result?.userName.toString()
-                    commentProfile = result?.profilePhoto.toString()
-                    Log.e("joo","nickname,, profile : "+commentProfile+commentnickname )
-                    Log.e("joo", "tab:"+bbs_tabname)
+        db.collection("users").document(uid).collection("userprofiles").document(uid).get()
+            .addOnSuccessListener { result ->
+                val result = result.toObject<UserProfile>()
+                Log.e("joo", result.toString())
+                commentnickname = result?.userName.toString()
+                commentProfile = result?.profilePhoto.toString()
+                Log.e("joo", "nickname,, profile : " + commentProfile + commentnickname)
+                Log.e("joo", "tab:" + bbs_tabname)
 
-                    postComment(bbs_tabname, bbs_oid, commentnickname, commentProfile)
+                postComment(bbs_tabname, bbs_oid, commentnickname, commentProfile)
 
-                    try {
-                        refresh()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
+                try {
+                    refresh()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
+            }
 
     }
 
     // 게시물 댓글 입력 메서드
-    private fun postComment(bbs_tab : String, bbs_oid : String, nickname : String, profile : String){
+    private fun postComment(bbs_tab: String, bbs_oid: String, nickname: String, profile: String) {
 
         val uid = auth.uid.toString()
         val comment = edittext_bbscommon_comment.text.toString()
@@ -251,7 +273,7 @@ class BBS_Common_Post : AppCompatActivity() {
         edittext_bbscommon_comment.setText("")
 
         val doc = db.collection(bbs_tab).document(bbs_oid).collection("Comment").document()
-        Log.e("joo", "postComment id :"+ doc.id)
+        Log.e("joo", "postComment id :" + doc.id)
         doc.set(bbscomment)
     }
 
@@ -264,10 +286,85 @@ class BBS_Common_Post : AppCompatActivity() {
         return curTime
     }
 
-    private fun refresh(){
+    private fun refresh() {
         finish() //현재 액티비티 종료 실시
         overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
         startActivity(intent) //현재 액티비티 재실행 실시
         overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
     }
+
+    private fun changedDocument(bbs_tabname: String,writerUid:String) {
+        auth = FirebaseAuth.getInstance()
+        db.collection(bbs_tabname).get().addOnSuccessListener {
+            for (document in it) {
+                if (writerUid.equals(document.get("uid").toString())) {
+                    Log.d("ybybyb","글쓴이 매칭 document.id->${document.id}")
+                    db.collection(bbs_tabname).document(document.id).collection("Comment")
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.w(
+                                    "ybybyb",
+                                    "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
+                                )
+                                return@addSnapshotListener
+                            }
+                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+                            for (doc in value.documentChanges) {
+                                //documet 에 문서가 추가되었을 때
+                                if (doc.type == DocumentChange.Type.ADDED) {
+                                        sendNotification(document.get("title").toString()+" 게시물에 댓글이 달렸습니다.",doc.document["comment"].toString(),doc.document["uid"].toString())
+                                        Log.d("ybybyb","information->알림 보내기 성공")
+                                }
+
+                            }
+                        }
+                }
+            }
+        }
+    }
+    private fun sendNotification(title: String,content:String,senderUid:String) {
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+
+        //calendar.timeInMillis
+
+        Log.d("ybybyb","보내는 쪽 senderUid->${senderUid}")
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+            putExtra("senderUid",senderUid)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP ,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP ,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP ,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
+        }
+    }
+
 }

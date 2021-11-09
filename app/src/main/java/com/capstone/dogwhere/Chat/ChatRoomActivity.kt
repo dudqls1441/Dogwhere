@@ -91,7 +91,7 @@ class ChatRoomActivity : AppCompatActivity() {
                                     profilephoto.toString()
                                 )
                             )
-                            sendNotification(nickname.toString()+"님에게 메시지가 도착했습니다.",msg.toString())
+                            sendNotification(nickname.toString()+"님에게 메시지가 도착했습니다.",msg.toString(),yourUid.toString())
                         }
 
 
@@ -168,14 +168,17 @@ class ChatRoomActivity : AppCompatActivity() {
         hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
     }
 
-    private fun sendNotification(title: String,content:String) {
-        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+    private fun sendNotification(title: String,content:String,senderUid:String) {
+        val sendTime_now = (SystemClock.elapsedRealtime()+500)
         //calendar.timeInMillis
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser!!.uid
 
         val alarmIntent = Intent(this, MyReceiver::class.java).apply {
             action = "com.check.up.setAlarm"
             putExtra("title", title)
             putExtra("content", content)
+            putExtra("senderUid", senderUid)
         }
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -188,7 +191,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= 23) {
             alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
+                AlarmManager.RTC_WAKEUP ,
                 sendTime_now,
                 pendingIntent
             )
@@ -196,13 +199,13 @@ class ChatRoomActivity : AppCompatActivity() {
         } else {
             if (Build.VERSION.SDK_INT >= 19) {
                 alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
+                    AlarmManager.RTC_WAKEUP ,
                     sendTime_now,
                     pendingIntent
                 )
             } else {
                 alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
+                    AlarmManager.RTC_WAKEUP ,
                     sendTime_now,
                     pendingIntent
                 )

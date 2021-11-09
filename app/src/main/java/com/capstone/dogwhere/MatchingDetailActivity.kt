@@ -5,14 +5,18 @@ package com.capstone.dogwhere
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.SystemClock
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -23,6 +27,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.*
+import com.capstone.dogwhere.FCM.MyReceiver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -30,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_check.*
@@ -80,6 +86,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         fragment!!.getMapAsync(this)
 
 
+        matchingAdded()
         init()
 
 
@@ -173,16 +180,17 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     val splitedstartime = result!!.startime.split("/")
                     Log.d("ybybyb", "startime-> ${splitedstartime}")
 
-                    if(curTime.equals(date)){
+                    if (curTime.equals(date)) {
                         val countDownTimer = object : CountDownTimer(200000, 1000) {
                             override fun onTick(millisUntilFinished: Long) {
-                                text_matching_time.setText("오늘"+
-                                        getTime(
-                                            splitedDate[1].toInt(),
-                                            splitedDate[2].toInt(),
-                                            splitedstartime[0].toInt(),
-                                            splitedstartime[1].toInt()
-                                        )
+                                text_matching_time.setText(
+                                    "오늘" +
+                                            getTime(
+                                                splitedDate[1].toInt(),
+                                                splitedDate[2].toInt(),
+                                                splitedstartime[0].toInt(),
+                                                splitedstartime[1].toInt()
+                                            )
                                 )
                             }
 
@@ -190,8 +198,8 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
 
                         countDownTimer.start()
-                    }else{
-                        text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                    } else {
+                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
                     }
                 }
 
@@ -227,16 +235,17 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 val splitedstartime = result!!.startime.split("/")
                                 Log.d("ybybyb", "startime-> ${splitedstartime}")
 
-                                if(curTime.equals(date)){
+                                if (curTime.equals(date)) {
                                     val countDownTimer = object : CountDownTimer(200000, 1000) {
                                         override fun onTick(millisUntilFinished: Long) {
-                                            text_matching_time.setText("오늘"+
-                                                    getTime(
-                                                        splitedDate[1].toInt(),
-                                                        splitedDate[2].toInt(),
-                                                        splitedstartime[0].toInt(),
-                                                        splitedstartime[1].toInt()
-                                                    )
+                                            text_matching_time.setText(
+                                                "오늘" +
+                                                        getTime(
+                                                            splitedDate[1].toInt(),
+                                                            splitedDate[2].toInt(),
+                                                            splitedstartime[0].toInt(),
+                                                            splitedstartime[1].toInt()
+                                                        )
                                             )
                                         }
 
@@ -244,8 +253,8 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                     }
 
                                     countDownTimer.start()
-                                }else{
-                                    text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                                } else {
+                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
                                 }
                             }
 
@@ -281,16 +290,17 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 val splitedstartime = result!!.startime.split("/")
                                 Log.d("ybybyb", "startime-> ${splitedstartime}")
 
-                                if(curTime.equals(date)){
+                                if (curTime.equals(date)) {
                                     val countDownTimer = object : CountDownTimer(200000, 1000) {
                                         override fun onTick(millisUntilFinished: Long) {
-                                            text_matching_time.setText("오늘"+
-                                                    getTime(
-                                                        splitedDate[1].toInt(),
-                                                        splitedDate[2].toInt(),
-                                                        splitedstartime[0].toInt(),
-                                                        splitedstartime[1].toInt()
-                                                    )
+                                            text_matching_time.setText(
+                                                "오늘" +
+                                                        getTime(
+                                                            splitedDate[1].toInt(),
+                                                            splitedDate[2].toInt(),
+                                                            splitedstartime[0].toInt(),
+                                                            splitedstartime[1].toInt()
+                                                        )
                                             )
                                         }
 
@@ -298,8 +308,8 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                     }
 
                                     countDownTimer.start()
-                                }else{
-                                    text_matching_time.setText(splitedDate[1]+"월"+ splitedDate[2]+"일 " + splitedstartime[0]+"시" + splitedstartime[1]+"분")
+                                } else {
+                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
                                 }
                             }
                     }
@@ -615,14 +625,85 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
+    private fun changedDocument(bbs_oid: String) {
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.uid.toString()
+        db.collection(bbs_oid).get().addOnSuccessListener {
+            for (document in it) {
+                if (uid.equals(document.get("uid").toString())) {
+                    db.collection(bbs_oid).document(document.id).collection("Comment")
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.w(
+                                    "ybybyb",
+                                    "${bbs_oid} 메서드 snapshot 에러 : ${error.message}"
+                                )
+                                return@addSnapshotListener
+                            }
+                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+                            for (doc in value.documentChanges) {
+                                //documet 에 문서가 추가되었을 때
+                                if (doc.type == DocumentChange.Type.ADDED) {
+                                    if (!uid.equals(document.get("uid").toString())) {
+                                        sendNotification(
+                                            document.get("title").toString() + " 게시물에 댓글이 달렸습니다.",
+                                            doc.document["comment"].toString()
+                                        )
+                                        Log.d("ybybyb", "메세지 보내기 성공")
+                                    }
+                                    Log.d("ybybyb", "내 게시물의 내 댓글")
+                                }
+
+                            }
+                        }
+                }
+            }
+        }
+    }
 
     //푸시 알림을 위함..--> 아마 안 쓸듯?
     //누군가 나의 매칭에 참여했을 때 푸시 알림//
-//    private fun matchingAdded() {
-//        auth = FirebaseAuth.getInstance()
-//        db = FirebaseFirestore.getInstance()
-//        val uid = auth.currentUser?.uid.toString()
-//        val documentIdlist = mutableListOf<String>()
+    private fun matchingAdded() {
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val uid = auth.currentUser?.uid.toString()
+
+        db.collection("Matching").get().addOnSuccessListener {
+            for (document in it) {
+                if (uid.equals(document.get("uid").toString())) {
+                    db.collection("Matching").document(document.id).collection("participant")
+                        .addSnapshotListener { value, error ->
+                            if (error != null) {
+                                Log.w(
+                                    "ybybyb",
+                                    "매칭 참가 메서드 snapshot 에러 : ${error.message}"
+                                )
+                                return@addSnapshotListener
+                            }
+                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+                            for (doc in value.documentChanges) {
+                                //documet 에 문서가 추가되었을 때
+                                if (doc.type == DocumentChange.Type.ADDED) {
+                                    if (!uid.equals(doc.document["uid"].toString())){
+                                        sendNotification(
+                                            document.get("title").toString(),
+                                            "함께 산책할 강아지가 추가되었습니다."
+                                        )
+                                        Log.d("ybybyb","(추가)전송 보냄")
+                                    }
+                                }else if(doc.type ==DocumentChange.Type.REMOVED){
+                                    sendNotification(
+                                        document.get("title").toString(),
+                                        "산책 매칭에서 강아지가 나갔습니다."
+                                    )
+                                    Log.d("ybybyb","(삭제)전송 보냄")
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    }
 //
 //
 //        val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
@@ -716,28 +797,40 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 .tilt(45f)
                 .zoom(17f)
                 .build()
-            val update = CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            val update =
+                CameraUpdateFactory.newLatLngZoom(latLng, 17f)
             //            CameraUpdate update = CameraUpdateFactory.newCameraPosition(position);
             map!!.moveCamera(update)
             //        map.animateCamera(update);
         }
     }
 
-    var mListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-        }
+    var mListener: LocationListener =
+        object : LocationListener {
+            override fun onLocationChanged(location: Location) {
+            }
 
-        override fun onStatusChanged(s: String, i: Int, bundle: Bundle) {}
-        override fun onProviderEnabled(s: String) {}
-        override fun onProviderDisabled(s: String) {}
-    }
+            override fun onStatusChanged(
+                s: String,
+                i: Int,
+                bundle: Bundle
+            ) {
+            }
+
+            override fun onProviderEnabled(s: String) {}
+            override fun onProviderDisabled(s: String) {}
+        }
 
     override fun onMapReady(googleMap: GoogleMap) {
         db = FirebaseFirestore.getInstance()
-        db.collection("Matching").document(matchingDocumentId).get()
+        db.collection("Matching").document(matchingDocumentId)
+            .get()
             .addOnSuccessListener {
                 val result = it.toObject<Matching>()
-                mylocation = LatLng(result!!.latitude, result!!.longitude)
+                mylocation = LatLng(
+                    result!!.latitude,
+                    result!!.longitude
+                )
                 map = googleMap
                 map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
                 if (ActivityCompat.checkSelfPermission(
@@ -758,7 +851,11 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         ), 17f
                     )
                 )
-                addMarker(mylocation!!.latitude, mylocation!!.longitude, "")
+                addMarker(
+                    mylocation!!.latitude,
+                    mylocation!!.longitude,
+                    ""
+                )
 
 //        map!!.isMyLocationEnabled = true
                 val mapui = map!!.uiSettings
@@ -768,32 +865,82 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 mapui.isTiltGesturesEnabled = false
                 mapui.isRotateGesturesEnabled = false
                 mapui.isScrollGesturesEnabled = false
-                mapui.isScrollGesturesEnabledDuringRotateOrZoom = false
+                mapui.isScrollGesturesEnabledDuringRotateOrZoom =
+                    false
                 mapui.isCompassEnabled = false
             }
 
     }
 
+    private fun sendNotification(title: String, content: String) {
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+        //calendar.timeInMillis
+
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
+        }
+    }
+
+
     @SuppressLint("MissingPermission")
     private fun getMyLocation(): LatLng {
-        val lm = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val isGPSEnabled: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val isNetworkEnabled: Boolean = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        val lm =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled: Boolean =
+            lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled: Boolean =
+            lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         when {
             isNetworkEnabled -> {
-                val location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                val location =
+                    lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 val getLongtitude = location?.longitude
                 val getLatitude = location?.latitude
                 Log.e(
                     "joo",
                     "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
                 )
-                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+                var currentLocation =
+                    LatLng(getLongtitude!!, getLatitude!!)
 
                 return currentLocation
             }
             isGPSEnabled -> {
-                val location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                val location =
+                    lm.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 val getLongtitude = location?.longitude
                 val getLatitude = location?.latitude
                 Log.e(
@@ -801,7 +948,8 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     "GPSEnabled - 경도 :${getLatitude.toString()}  위도 :${getLongtitude.toString()}"
                 )
 
-                var currentLocation = LatLng(getLongtitude!!, getLatitude!!)
+                var currentLocation =
+                    LatLng(getLongtitude!!, getLatitude!!)
 
                 return currentLocation
             }
@@ -818,7 +966,11 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     var marker: Marker? = null
-    private fun addMarker(lat: Double, lng: Double, title: String) {
+    private fun addMarker(
+        lat: Double,
+        lng: Double,
+        title: String
+    ) {
         if (marker != null) {
             marker!!.remove()
             marker = null
@@ -826,7 +978,11 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val options = MarkerOptions()
         options.position(LatLng(lat, lng))
 //        options.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_mappoint))
-        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+        options.icon(
+            BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_ORANGE
+            )
+        )
         options.title(title)
         options.draggable(true)
         options.snippet("snippet - $title")

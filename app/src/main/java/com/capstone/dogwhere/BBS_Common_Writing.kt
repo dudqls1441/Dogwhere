@@ -20,13 +20,14 @@ import kotlinx.android.synthetic.main.activity_b_b_s__common_writing.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
 class BBS_Common_Writing : AppCompatActivity() {
 
     private val FLAG_GALLERY_CODE: Int = 10
     private val TAG = BBS_Common_Writing::class.java.simpleName
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-    private  var ImagePath ="null"
+    private var ImagePath = "null"
     lateinit var name: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +80,8 @@ class BBS_Common_Writing : AppCompatActivity() {
         val db = Firebase.firestore
         val time = currenttime()
         val doc = db.collection(intent.getStringExtra("tab").toString()).document()
-        Log.e("joo", "doc.id : "+doc.id)
-        if(uri=="null"){
+        Log.e("joo", "doc.id : " + doc.id)
+        if (uri == "null") {
 
             db.collection("users").document(uid).collection("userprofiles").document(uid).get()
                 .addOnSuccessListener { result ->
@@ -88,15 +89,17 @@ class BBS_Common_Writing : AppCompatActivity() {
                     val resultt = result.toObject<UserProfile>()
 
                     name = resultt?.userName.toString()
-                    val post = BBS_Common(uid, title, content,"null", name, time.toString(), doc.id, 0, 0)
-                    Log.d("joo", "tab : "+intent.getStringExtra("tab"))
+                    val post =
+                        BBS_Common(uid, title, content, "null", name, time.toString(), doc.id, 0, 0)
+                    Log.d("joo", "tab : " + intent.getStringExtra("tab"))
                     upload(post)
-                    Log.d("joo", "tab1 : "+intent.getStringExtra("tab"))
+                    Log.d("joo", "tab1 : " + intent.getStringExtra("tab"))
                 }
 
-        }else{
+        } else {
             var file = Uri.fromFile(File(uri))
-            val storageRef: StorageReference = storage.getReference("gs:/dogwhere-ea26c.appspot.com")
+            val storageRef: StorageReference =
+                storage.getReference("gs:/dogwhere-ea26c.appspot.com")
             val ref = storageRef.child("images/${file.lastPathSegment}")
             val uploadTask = ref.putFile(file)
 //        uploadTask.addOnFailureListener {
@@ -124,7 +127,17 @@ class BBS_Common_Writing : AppCompatActivity() {
                             for (document in result) {
                                 name = document.userName
                             }
-                            val post = BBS_Common(uid, title, content,downloadURL.toString(), name, time.toString(), doc.id, 0, 0)
+                            val post = BBS_Common(
+                                uid,
+                                title,
+                                content,
+                                downloadURL.toString(),
+                                name,
+                                time.toString(),
+                                doc.id,
+                                0,
+                                0
+                            )
                             upload(post)
                         }
                 } else {
@@ -138,7 +151,7 @@ class BBS_Common_Writing : AppCompatActivity() {
 
 
     // 게시판 글 업로드
-    private fun upload(post : BBS_Common) {
+    private fun upload(post: BBS_Common) {
         val db = Firebase.firestore
 
         Log.d("joo", "name0 =" + name)
@@ -147,16 +160,17 @@ class BBS_Common_Writing : AppCompatActivity() {
 
         doc.set(post)
             .addOnSuccessListener { documentReference ->
-                Log.d("joo", "tab2 : "+intent.getStringExtra("tab"))
+                Log.d("joo", "tab2 : " + intent.getStringExtra("tab"))
                 val Intent = Intent(this, MainMenuActivity::class.java)
                 Intent.putExtra("state", intent.getStringExtra("tab").toString())
                 startActivity(Intent)
                 finish()
             }
             .addOnFailureListener { e ->
-                Log.w(TAG,  "Error adding document", e)
+                Log.w(TAG, "Error adding document", e)
             }
     }
+
     private fun currenttime(): String? {
 
         val time = System.currentTimeMillis()
@@ -165,8 +179,5 @@ class BBS_Common_Writing : AppCompatActivity() {
 
         return curTime
     }
-
-
 }
-
 

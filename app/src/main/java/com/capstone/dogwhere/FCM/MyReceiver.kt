@@ -36,31 +36,41 @@ class MyReceiver : BroadcastReceiver() {
         content=""
         title =intent.getStringExtra("title").toString()
         content =intent.getStringExtra("content").toString()
+        val senderUid = intent.getStringExtra("senderUid").toString()
+
+        Log.d("ybybyb","받는쪽 senderUid->${senderUid}")
+        Log.d("ybybyb","intent -> ${intent}")
 
         if(intent != null){
             val dateAndtime: LocalDateTime = LocalDateTime.now()
             val onlyDate: LocalDate = LocalDate.now()
-
             val uid = auth.currentUser!!.uid
 
-            val data = Alarm_data(uid,dateAndtime.toString(),"시간 전송")
+            if(!uid.equals(senderUid)){
+                val data = Alarm_data(uid,dateAndtime.toString(),title,content)
 
-            Log.d("ybybyb","ybybyb -> ${intent}")
+                Log.d("ybybyb","ybybyb -> ${intent}")
 
-            db.collection("Alarm").document(uid).collection("내용").add(data).addOnSuccessListener {
-                Log.d("ybybyb","ybybyb 전송 성공")
+                db.collection("Alarm").document(uid).collection("내용").add(data).addOnSuccessListener {
+                    Log.d("ybybyb","ybybyb 받기 성공")
+                    Log.d("ybyby","title ->${title}, content ->${content}")
+                }
+                Log.d("ybybyb알람","Receive 성공"+System.currentTimeMillis().toString())
+
+
+
+                notificationManager = context.getSystemService(
+                    Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                createNotificationChannel()
+                deliverNotification(context)
+            }else{
+                Log.d("ybybyb","같은 uid라 알림 안 옴")
             }
-
-            println("ybybyb알람 온 시간: $dateAndtime")
-            Log.e("ybybyb알람","ybybyb"+System.currentTimeMillis().toString())
-
-
+        }else{
+            Log.d("ybybyb","intent 없음")
         }
-        notificationManager = context.getSystemService(
-            Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        createNotificationChannel()
-        deliverNotification(context)
     }
 
 
