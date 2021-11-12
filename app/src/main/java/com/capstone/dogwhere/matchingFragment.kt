@@ -91,9 +91,14 @@ class MatchingFragment : Fragment() {
             }
             Log.e("joo" , latitude.toString()+ longitude.toString())
 
-            val area = getCurrentAddress(latitude!!, longitude!!)
-            Log.e("joo", "주소 : $area ")
-            areaText.text = area
+
+            try {
+                val area = getCurrentAddress(latitude!!, longitude!!)
+                Log.e("joo", "주소 : $area ")
+                areaText.text = area
+            } catch (e: NullPointerException) {
+                Log.e("ybybyb", "Network Exception!! : " + e)
+            }
 
         }
         return view

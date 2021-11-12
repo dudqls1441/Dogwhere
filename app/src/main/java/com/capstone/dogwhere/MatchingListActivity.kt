@@ -187,7 +187,7 @@ class MatchingListActivity : AppCompatActivity() {
 //        if (condition_group_size.checkedRadioButtonId.toString()=="모두"&&condition_group_neutralization.checkedRadioButtonId.toString()=="모두"
 //            &&condition_group_gender.checkedRadioButtonId.toString()=="모두"){
 //        }
-        db.collection("Matching").get()
+        db.collection("Matching").whereEqualTo("ongoing",true).get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     if (document.get("place").toString()

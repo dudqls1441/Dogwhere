@@ -216,10 +216,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:textStyle="bold"
-                            android:textSize="14dp"
                             android:layout_margin="5dp"
-                            android:text="21"></TextView>
+                            android:text="21"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
 
                         <TextView
                             android:id="@+id/text_year"
@@ -278,7 +278,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/party_year_layout"
-                        android:layout_margin="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center">
 
                         <NumberPicker
@@ -310,8 +313,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_margin="4dp"
+                            android:layout_marginStart="4dp"
                             android:layout_marginLeft="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="4dp"
                             android:layout_toRightOf="@+id/npMinute"
                             android:fontFamily="@font/nanumsquarel"
                             android:text="분 부터"
@@ -321,10 +327,66 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/registration_explain"
+                        android:id="@+id/text_DoneTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/party_time_layout"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="24dp"
+                        android:fontFamily="@font/nanumsquareb"
+                        android:text="산책 시간"
+                        android:textSize="14dp" />
+
+                    <RelativeLayout
+                        android:id="@+id/setting_DoneTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/text_DoneTime"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/DoneTime_minute"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:text="30" />
+
+                        <TextView
+                            android:id="@+id/DoneTime_text"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/DoneTime_minute"
+                            android:gravity="center"
+                            android:text="분" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_toRightOf="@+id/DoneTime_text">
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:id="@+id/btn_time_up"
+                                android:text="업"/>
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:id="@+id/btn_time_down"
+                                android:text="다운"/>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/registration_explain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/setting_DoneTime"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="24dp"
                         android:fontFamily="@font/nanumsquareb"

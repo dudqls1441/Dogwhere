@@ -42,10 +42,13 @@ class CompletedMatchingFragment : Fragment() {
         val matchinglist = mutableListOf<String>()
 
         db.collection("users").document(uid).collection("matching").get().addOnSuccessListener {
+//            for (document in it) {
+//                if (!uid.equals(document["matchingLeaderUid"].toString())) {
+//                    matchinglist.add(document["documentId"].toString())
+//                }
+//            }
             for (document in it) {
-                if (!uid.equals(document["matchingLeaderUid"].toString())) {
                     matchinglist.add(document["documentId"].toString())
-                }
             }
             if(!matchinglist.isEmpty()){
                 //.whereEqualTo("ongoing",false)

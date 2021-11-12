@@ -34,17 +34,17 @@ class CheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check)
 
-        val dateAndtime: LocalDateTime = LocalDateTime.now()
-        val onlyDate: LocalDate = LocalDate.now()
+//        val dateAndtime: LocalDateTime = LocalDateTime.now()
+//        val onlyDate: LocalDate = LocalDate.now()
+//
+//        val date = onlyDate.toString().split("-")
+//        Log.d("ybybyb", "today date ->y : ${date[0]} m : ${date[1]}  d : ${date[2]} ")
 
-        val date = onlyDate.toString().split("-")
-        Log.d("ybybyb", "today date ->y : ${date[0]} m : ${date[1]}  d : ${date[2]} ")
-
-        Log.d("ybybyb", "ybybybCurrent date and time: $dateAndtime")
-        Log.d("ybybyb", "ybybybCurrent date: $onlyDate")
+//        Log.d("ybybyb", "ybybybCurrent date and time: $dateAndtime")
+//        Log.d("ybybyb", "ybybybCurrent date: $onlyDate")
 
 
-        myToken()
+//        myToken()
 
         btn_alarm.setOnClickListener {
             send()
@@ -52,11 +52,27 @@ class CheckActivity : AppCompatActivity() {
     }
 
     private fun send() {
+        var title = "확인_타이틀"
+        var month = 10
+        var day = 12
+        var hour = 15
+        var minute = 28
         try {
-            val title = "확인 제목"
-            val content = "확인 내용"
-            sendNotification(title, content)
-            Log.d("ybybyb", "send 메서드 성공")
+            //매칭 있는 날 아침시간에 "금일은 매칭이 있습니다" 알림 보내기 위함
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.YEAR, 2021)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
+            calendar.set(Calendar.SECOND, 0)
+
+            val content = title + " 매칭 시작 1시간 전입니다."
+
+            sendNotification(title,content,calendar).run {
+                Log.d("ybybyb","sendNotification 함수 실행")
+                text_time.text="보냄"
+            }
 
         } catch (e: Exception) {
             Log.d("ybybyb", "error -> ${e.toString()}")
@@ -64,18 +80,14 @@ class CheckActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendNotification(title: String, content: String) {
-        auth= FirebaseAuth.getInstance()
-        val uid = auth.currentUser!!.uid
-        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
-        //calendar.timeInMillis
-
+    private fun sendNotification(title: String, content: String, calendar: Calendar) {
         val alarmIntent = Intent(this, MyReceiver::class.java).apply {
             action = "com.check.up.setAlarm"
             putExtra("title", title)
             putExtra("content", content)
-            putExtra("senderUid",uid)
         }
+
+        Log.d("ybybyb","calendar -> ${calendar.time}" )
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = PendingIntent.getBroadcast(
@@ -87,27 +99,79 @@ class CheckActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= 23) {
             alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.ELAPSED_REALTIME,
-                sendTime_now,
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
                 pendingIntent
-            )
+            ).let {
+                Log.d("ybybyb", title + "알림 보내기")
+            }
 
         } else {
             if (Build.VERSION.SDK_INT >= 19) {
                 alarmManager.setExact(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
                     pendingIntent
-                )
+                ).let {
+                    Log.d("ybybyb", title + "알림 보내기")
+                }
             } else {
                 alarmManager.set(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
                     pendingIntent
-                )
+                ).let {
+                    Log.d("ybybyb", title + "알림 보내기")
+                }
             }
         }
     }
+
+//
+//    private fun sendNotification(title: String, content: String) {
+//        auth= FirebaseAuth.getInstance()
+//        val uid = auth.currentUser!!.uid
+//        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+//        //calendar.timeInMillis
+//
+//        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+//            action = "com.check.up.setAlarm"
+//            putExtra("title", title)
+//            putExtra("content", content)
+//            putExtra("senderUid",uid)
+//        }
+//        val alarmManager =
+//            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val pendingIntent = PendingIntent.getBroadcast(
+//            this,
+//            0,
+//            alarmIntent,
+//            PendingIntent.FLAG_CANCEL_CURRENT
+//        )
+//
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            alarmManager.setExactAndAllowWhileIdle(
+//                AlarmManager.ELAPSED_REALTIME,
+//                sendTime_now,
+//                pendingIntent
+//            )
+//
+//        } else {
+//            if (Build.VERSION.SDK_INT >= 19) {
+//                alarmManager.setExact(
+//                    AlarmManager.ELAPSED_REALTIME,
+//                    sendTime_now,
+//                    pendingIntent
+//                )
+//            } else {
+//                alarmManager.set(
+//                    AlarmManager.ELAPSED_REALTIME,
+//                    sendTime_now,
+//                    pendingIntent
+//                )
+//            }
+//        }
+//    }
 
     private fun alarm() {
         db = FirebaseFirestore.getInstance()

@@ -28,7 +28,10 @@ class MainMenuActivity : AppCompatActivity(),
         if(intent.getStringExtra("state").toString()!="null"){
             Log.e("yy",intent.getStringExtra("state").toString())
             bottom_nav.selectedItemId= R.id.bbsItem
-
+            if(intent.getStringExtra("state").toString() =="matching"){
+                Log.d("ybybyb","mainmenu state->"+intent.getStringExtra("state").toString())
+                bottom_nav.selectedItemId=R.id.matchingItem
+            }
         }else{
             bottom_nav.selectedItemId= R.id.homeItem
         }

@@ -8,6 +8,8 @@ data class Matching(
     val date: String,
     val startime: String,
     val explanation: String,
+    val matchingTime : String,
+    val doneTime : String,
     val isOngoing : Boolean,
     val documentId :String,
     val condition_dog_size: String,
@@ -18,5 +20,5 @@ data class Matching(
 
 ) {
 
-    constructor() : this("", "","", "", "", "", "",true,"","all","all","all", 0.0, 0.0)
+    constructor() : this("", "","", "", "", "", "","","",true,"","all","all","all", 0.0, 0.0)
 }

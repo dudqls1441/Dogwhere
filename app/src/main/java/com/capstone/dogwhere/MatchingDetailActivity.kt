@@ -19,6 +19,8 @@ import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -69,16 +71,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         matchingDocumentId = intent.getStringExtra("documentId").toString()
         matchingTitle = intent.getStringExtra("title").toString()
-//        auth = FirebaseAuth.getInstance()
-//        val uid = auth.currentUser?.uid.toString()
-
-//        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
-//        val tokenToDevice: String =
-//            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-//        PushNotification(
-//            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
-//            tokenToDevice
-//        ).also { sendNotification(it) }
 
         mLM = getSystemService(LOCATION_SERVICE) as LocationManager
         val fragment = supportFragmentManager
@@ -91,6 +83,10 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
+
+        btn_Done.setOnClickListener {
+            Matching_Done()
+        }
         btn_back.setOnClickListener {
             finish()
         }
@@ -161,6 +157,27 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             btn_participate.visibility = View.GONE
             btnLayout.visibility = View.GONE
 
+            val matchinglist = mutableListOf<String>()
+            db.collection("users").document(uid).collection("matching").get().addOnSuccessListener {
+                for (document in it) {
+                    if (uid.equals(document["matchingLeaderUid"].toString())) {
+                        matchinglist.add(document["documentId"].toString())
+                    }
+                }
+                Log.d("yb", "ybyb matchingList -> ${matchinglist}")
+                if (!matchinglist.isEmpty()) {
+                    //.whereEqualTo("ongoing",false)
+                    db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
+                        .addOnSuccessListener {
+                            for (document in it) {
+                                Log.d("ybybyb", "RegisterdMatching = ${document.id}")
+                                btn_Done.visibility = View.VISIBLE
+                            }
+                        }
+                }
+            }
+
+
             db.collection("users").document(uid).collection("userprofiles")
                 .document(uid).get().addOnSuccessListener {
                     val result = it.toObject<UserProfile>()
@@ -183,7 +200,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (curTime.equals(date)) {
                         val countDownTimer = object : CountDownTimer(200000, 1000) {
                             override fun onTick(millisUntilFinished: Long) {
-                                text_matching_time.setText(
+                                text_matching_time_today.visibility= View.VISIBLE
+                                text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
+                                text_matching_time_today.setText(
                                     "오늘" +
                                             getTime(
                                                 splitedDate[1].toInt(),
@@ -200,6 +219,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         countDownTimer.start()
                     } else {
                         text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
+                        text_matching_time_today.visibility=View.GONE
                     }
                 }
 
@@ -238,7 +258,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 if (curTime.equals(date)) {
                                     val countDownTimer = object : CountDownTimer(200000, 1000) {
                                         override fun onTick(millisUntilFinished: Long) {
-                                            text_matching_time.setText(
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
+                                            text_matching_time_today.visibility=View.VISIBLE
+                                            text_matching_time_today.setText(
                                                 "오늘" +
                                                         getTime(
                                                             splitedDate[1].toInt(),
@@ -254,7 +276,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                     countDownTimer.start()
                                 } else {
+                                    text_matching_time_today.visibility=View.GONE
                                     text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
+
                                 }
                             }
 
@@ -386,10 +410,22 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
             Log.d("yb", "ybyb 매칭 삭제 성공")
             val intent = Intent(this, Search_Region::class.java)
+            intent.putExtra("state", "matching")
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             finish()
         }
+
+        db.collection("users").get().addOnSuccessListener { result ->
+            for (document in result) {
+                val uids = document.get("uid").toString()
+                db.collection("users").document(uids).collection("matching").document(matchingDocumentId).delete().addOnSuccessListener {
+                    Log.d("ybybyb","users의 매칭 삭제")
+                }
+
+            }
+        }
+
     }
 
     //채팅 메서드
@@ -451,12 +487,14 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
             val curTime = dateFormat.format(Date(time))
 
+
             val participant = Participant(matchingLeaderUid, uid, curTime.toString())
             Log.d("Participant", "participant_user - > ${participant_user}")
 
             db.collection("Matching").document(documentId).collection("participant").document(uid)
                 .set(participant)
                 .addOnSuccessListener {
+                    noti_before_1hour()
                     Log.d("Participant", "MatchingDetailActivity_participant  성공")
                 }.addOnFailureListener {
                     Log.d("Participant", "Participant 실패 이유 : ${it}")
@@ -684,19 +722,19 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                             for (doc in value.documentChanges) {
                                 //documet 에 문서가 추가되었을 때
                                 if (doc.type == DocumentChange.Type.ADDED) {
-                                    if (!uid.equals(doc.document["uid"].toString())){
+                                    if (!uid.equals(doc.document["uid"].toString())) {
                                         sendNotification(
                                             document.get("title").toString(),
                                             "함께 산책할 강아지가 추가되었습니다."
                                         )
-                                        Log.d("ybybyb","(추가)전송 보냄")
+                                        Log.d("ybybyb", "(추가)전송 보냄")
                                     }
-                                }else if(doc.type ==DocumentChange.Type.REMOVED){
+                                } else if (doc.type == DocumentChange.Type.REMOVED) {
                                     sendNotification(
                                         document.get("title").toString(),
                                         "산책 매칭에서 강아지가 나갔습니다."
                                     )
-                                    Log.d("ybybyb","(삭제)전송 보냄")
+                                    Log.d("ybybyb", "(삭제)전송 보냄")
                                 }
                             }
                         }
@@ -704,49 +742,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-//
-//
-//        val matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
-//        val matchingDocumentId = intent.getStringExtra("documentId").toString()
-//        val matchingTitle = intent.getStringExtra("title").toString()
-//
-//        val matching =
-//            FirebaseFirestore.getInstance().collection("users").document(uid).collection("matching")
-//                .whereEqualTo("matchingLeaderUid", uid)
-//
-//
-//        matching.get().addOnSuccessListener {
-//            for (document in it) {
-//                documentIdlist.add(document["documentId"].toString())
-//            }
-//            Log.d("matchingAdded", "matchingAdded : documentId -> ${documentIdlist}")
-//
-//            for (i in documentIdlist) {
-//                db.collection("Matching").document(i).collection("participant")
-//                    .addSnapshotListener { snapshot, e ->
-//                        if (e != null) {
-//                            Log.w("MacthingDetail", "matchingadded 메서드 snapshot 에러 : ${e.message}")
-//                            return@addSnapshotListener
-//                        }
-//                        if (snapshot!!.metadata.isFromCache) return@addSnapshotListener
-//                        for (doc in snapshot.documentChanges) {
-//                            //documet 에 문서가 추가되었을 때
-//                            if (doc.type == DocumentChange.Type.ADDED) {
-//                                //내 매칭에 참여한 uid
-//                                val addedUid = doc.document["uid"].toString()
-//                                val addedTime = doc.document["time"].toString()
-//                                Log.d("MatchingDetail", "matchingAdded - addedUid -> ${addedUid}")
-//                                Log.d("MatchingDetail", "matchingAdded - addedTime -> ${addedTime}")
-//
-//
-//                            }
-//                        }
-//                    }
-//            }
-//
-//
-//        }
-//    }
 
     override fun onStart() {
         super.onStart()
@@ -872,6 +867,83 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    private fun noti_before_1hour() {
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        db.collection("Matching").document(matchingDocumentId).get()
+            .addOnSuccessListener {
+                val result = it.toObject<Matching>()
+                //calendar 데이터 전처리
+                val date = result!!.date.split("/")
+                val month: Int = date[1].toInt() - 1
+                val day = date[2].toInt()
+                Log.d("ybybyb", "MatchingDetail__month ->${month} day ->${day}")
+
+                val start_time = result!!.startime.split("/")
+                val hour: Int = start_time[0].toInt() - 1
+                val minute = start_time[1].toInt()
+                Log.d("ybybyb", "MatchingDetail__hour ->${hour} minute ->${minute}")
+
+                //매칭 1시간 전 알림 보내기 위함
+                val calendar = Calendar.getInstance()
+                calendar.set(Calendar.YEAR, 2021)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, day)
+                calendar.set(Calendar.HOUR_OF_DAY, hour)
+                calendar.set(Calendar.MINUTE, minute)
+                calendar.set(Calendar.SECOND, 0)
+
+                val content = result!!.title + " 매칭 시작 1시간 전입니다."
+
+                sendNotification(result!!.title, content, calendar)
+
+
+            }
+    }
+
+    private fun sendNotification(title: String, content: String, calendar: Calendar) {
+        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+        //calendar.timeInMillis
+
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.ELAPSED_REALTIME,
+                sendTime_now,
+                pendingIntent
+            )
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.set(
+                    AlarmManager.ELAPSED_REALTIME,
+                    sendTime_now,
+                    pendingIntent
+                )
+            }
+        }
+    }
+
     private fun sendNotification(title: String, content: String) {
         val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
         //calendar.timeInMillis
@@ -912,6 +984,30 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
         }
+    }
+
+    private fun Matching_Done() {
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        val uid = auth.currentUser!!.uid
+
+        db.collection("Matching").document(matchingDocumentId).update("ongoing", false)
+            .addOnSuccessListener {
+                Log.d("ybybyb", "매칭 완료시킴")
+
+                val intent = Intent(this,MainMenuActivity::class.java)
+                intent.putExtra("state", intent.getStringExtra("matching").toString())
+                finish() //현재 액티비티 종료 실시
+                overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
+                startActivity(intent) //현재
+            }.addOnFailureListener {
+            Log.d("ybybyb", "매칭 완료 실패")
+        }
+
+    }
+
+    private fun settingDoneTime(){
+
     }
 
 
@@ -1009,3 +1105,16 @@ class MatchingPagerAdapter(
 
 
 }
+
+
+//fcm 푸시알림 되면 넣기,,,,,,,,!<,,,,
+//        auth = FirebaseAuth.getInstance()
+//        val uid = auth.currentUser?.uid.toString()
+
+//        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+//        val tokenToDevice: String =
+//            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
+//        PushNotification(
+//            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
+//            tokenToDevice
+//        ).also { sendNotification(it) }

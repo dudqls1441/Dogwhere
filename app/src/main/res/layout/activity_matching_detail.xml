@@ -28,9 +28,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
 
+            android:layout_centerInParent="true"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/sebanggothic"
             android:text="산책매칭 정보"
@@ -117,6 +116,16 @@
                         android:text="글쓴이"
                         android:textSize="16dp"
                         android:textStyle="bold"></TextView>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_Done"
+                        android:text="매칭 종료"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone"/>
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,6 +152,15 @@
                         android:layout_weight="1"
                         android:maxLines="1"
                         android:gravity="left"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textStyle="bold"
+                        android:id="@+id/text_matching_time_today"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:gravity="left"
+                        android:visibility="gone"/>
                 </LinearLayout>
 
                 <LinearLayout
