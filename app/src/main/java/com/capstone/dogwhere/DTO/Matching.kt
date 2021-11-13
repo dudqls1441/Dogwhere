@@ -10,7 +10,7 @@ data class Matching(
     val explanation: String,
     val matchingTime : String,
     val doneTime : String,
-    val isOngoing : Boolean,
+    val ongoing : Boolean,
     val documentId :String,
     val condition_dog_size: String,
     val condition_dog_neutralization :String,

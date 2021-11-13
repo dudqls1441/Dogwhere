@@ -79,6 +79,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="12dp"
+                    android:gravity="center"
                     android:fontFamily="@font/nanumsquareb"
                     android:maxLines="2"
                     android:text="매칭 제목"
@@ -118,14 +119,16 @@
                         android:textStyle="bold"></TextView>
 
                     <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/btn_Done"
-                        android:text="매칭 종료"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
-                        android:visibility="gone"/>
+                        android:background="@drawable/round_mint"
+                        android:text="매칭 종료"
+                        android:textSize="12dp"
+                        android:visibility="visible" />
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,7 +146,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:maxLines="1"
-                        android:gravity="left"/>
+                        android:gravity="center"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -151,7 +154,7 @@
                         android:id="@+id/text_matching_time"
                         android:layout_weight="1"
                         android:maxLines="1"
-                        android:gravity="left"/>
+                        android:gravity="center"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -159,7 +162,7 @@
                         android:id="@+id/text_matching_time_today"
                         android:layout_weight="1"
                         android:maxLines="1"
-                        android:gravity="left"
+                        android:gravity="center"
                         android:visibility="gone"/>
                 </LinearLayout>
 

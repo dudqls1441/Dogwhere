@@ -34,18 +34,6 @@ class CheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check)
 
-//        val dateAndtime: LocalDateTime = LocalDateTime.now()
-//        val onlyDate: LocalDate = LocalDate.now()
-//
-//        val date = onlyDate.toString().split("-")
-//        Log.d("ybybyb", "today date ->y : ${date[0]} m : ${date[1]}  d : ${date[2]} ")
-
-//        Log.d("ybybyb", "ybybybCurrent date and time: $dateAndtime")
-//        Log.d("ybybyb", "ybybybCurrent date: $onlyDate")
-
-
-//        myToken()
-
         btn_alarm.setOnClickListener {
             send()
         }
@@ -70,12 +58,12 @@ class CheckActivity : AppCompatActivity() {
             val content = title + " 매칭 시작 1시간 전입니다."
 
             sendNotification(title,content,calendar).run {
-                Log.d("ybybyb","sendNotification 함수 실행")
+                Log.d("ybyb","sendNotification 함수 실행")
                 text_time.text="보냄"
             }
 
         } catch (e: Exception) {
-            Log.d("ybybyb", "error -> ${e.toString()}")
+            Log.d("ybyb", "error -> ${e.toString()}")
 
         }
     }
@@ -87,7 +75,7 @@ class CheckActivity : AppCompatActivity() {
             putExtra("content", content)
         }
 
-        Log.d("ybybyb","calendar -> ${calendar.time}" )
+        Log.d("ybyb","calendar -> ${calendar.time}" )
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = PendingIntent.getBroadcast(
@@ -103,7 +91,7 @@ class CheckActivity : AppCompatActivity() {
                 calendar.timeInMillis,
                 pendingIntent
             ).let {
-                Log.d("ybybyb", title + "알림 보내기")
+                Log.d("ybyb", title + "알림 보내기")
             }
 
         } else {
@@ -113,7 +101,7 @@ class CheckActivity : AppCompatActivity() {
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             } else {
                 alarmManager.set(
@@ -121,7 +109,7 @@ class CheckActivity : AppCompatActivity() {
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             }
         }
@@ -189,10 +177,10 @@ class CheckActivity : AppCompatActivity() {
             val dateFormat = SimpleDateFormat("yy/MM/dd")
             val curTime = dateFormat.format(Date(time))
 
-            Log.d("ybybyb", "ybybyb curtime ->${curTime}")
+            Log.d("ybyb", "curtime ->${curTime}")
 
 
-            Log.d("yb", "ybybyb matchingList -> ${matchinglist}")
+            Log.d("ybyb", "matchingList -> ${matchinglist}")
             if (!matchinglist.isEmpty()) {
                 //.whereEqualTo("ongoing",false)
                 db.collection("Matching").whereIn("documentId", matchinglist)
@@ -200,26 +188,26 @@ class CheckActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         for (document in it) {
                             val date = document.get("date").toString()
-                            Log.d("ybybyb", "date -> ${date.toString()}")
+                            Log.d("ybyb", "date -> ${date.toString()}")
 
                             val spliteddate = document.get("date").toString().split("/")
-                            Log.d("ybybyb", "ybybyb date -> ${spliteddate}")
+                            Log.d("ybyb", "ybyb date -> ${spliteddate}")
 
                             val year = spliteddate[0]
                             val month: Int = (spliteddate[1]).toInt() - 1
                             val day = spliteddate[2]
 
 
-                            Log.d("ybybyb", "ybybyb  year ${year} month ${month}  day ${day}")
+                            Log.d("ybyb", "year ${year} month ${month}  day ${day}")
 
                             val startime = document.get("startime").toString().split("/")
-                            Log.d("ybybyb", "ybybyb date1 -> ${startime}")
+                            Log.d("ybyb", "date1 -> ${startime}")
 
                             val hour = startime[0]
-                            Log.d("ybybyb", "ybybyb hour -> ${hour}")
+                            Log.d("ybyb", "hour -> ${hour}")
 
                             val minute = startime[1]
-                            Log.d("ybybyb", "ybybyb minute -> ${minute}")
+                            Log.d("ybyb", "minute -> ${minute}")
 
 
                             //매칭 있는 날 아침시간에 "금일은 매칭이 있습니다" 알림 보내기 위함
@@ -291,10 +279,10 @@ class CheckActivity : AppCompatActivity() {
 
         db.collection("users").document(uid).collection("notification").add(data)
             .addOnSuccessListener {
-                Log.d("ybybyb", "알림 등록1 성공함")
+                Log.d("ybyb", "알림 등록1 성공함")
             }
         db.collection("Notification").add(data).addOnSuccessListener {
-            Log.d("ybybyb", "알림 등록2 성공함")
+            Log.d("ybyb", "알림 등록2 성공함")
         }
 
 
@@ -308,12 +296,12 @@ class CheckActivity : AppCompatActivity() {
             try {
                 auth!!.getIdToken(true).addOnCompleteListener(OnCompleteListener { task ->
                     if (!task.isSuccessful) {
-                        Log.i("ybybyb", "getInstanceId failed", task.exception)
+                        Log.i("ybyb", "getInstanceId failed", task.exception)
                         return@OnCompleteListener
                     }
                     val token = task.result?.token
                     text_time.text = token
-                    Log.d("ybybyb", token.toString())
+                    Log.d("ybyb", token.toString())
                 })
             } catch (e: IOException) {
                 e.printStackTrace()

@@ -65,8 +65,8 @@ class BBS_Common_Post : AppCompatActivity() {
             }
         }
 
-        Log.d("ybybyb","tab_name ->${bbs_tabname}")
-        Log.d("ybybyb","WriterUid ->${your_uid}")
+        Log.d("ybyb","tab_name ->${bbs_tabname}")
+        Log.d("ybyb","WriterUid ->${your_uid}")
         changedDocument(bbs_tabname,your_uid)
         // 게시글 작성자 프로필
         getWriterProfile()
@@ -298,12 +298,12 @@ class BBS_Common_Post : AppCompatActivity() {
         db.collection(bbs_tabname).get().addOnSuccessListener {
             for (document in it) {
                 if (writerUid.equals(document.get("uid").toString())) {
-                    Log.d("ybybyb","글쓴이 매칭 document.id->${document.id}")
+                    Log.d("ybyb","글쓴이 매칭 document.id->${document.id}")
                     db.collection(bbs_tabname).document(document.id).collection("Comment")
                         .addSnapshotListener { value, error ->
                             if (error != null) {
                                 Log.w(
-                                    "ybybyb",
+                                    "ybyb",
                                     "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
                                 )
                                 return@addSnapshotListener
@@ -313,7 +313,7 @@ class BBS_Common_Post : AppCompatActivity() {
                                 //documet 에 문서가 추가되었을 때
                                 if (doc.type == DocumentChange.Type.ADDED) {
                                         sendNotification(document.get("title").toString()+" 게시물에 댓글이 달렸습니다.",doc.document["comment"].toString(),doc.document["uid"].toString())
-                                        Log.d("ybybyb","information->알림 보내기 성공")
+                                        Log.d("ybyb","information->알림 보내기 성공")
                                 }
 
                             }
@@ -327,7 +327,7 @@ class BBS_Common_Post : AppCompatActivity() {
 
         //calendar.timeInMillis
 
-        Log.d("ybybyb","보내는 쪽 senderUid->${senderUid}")
+        Log.d("ybyb","보내는 쪽 senderUid->${senderUid}")
         val alarmIntent = Intent(this, MyReceiver::class.java).apply {
             action = "com.check.up.setAlarm"
             putExtra("title", title)

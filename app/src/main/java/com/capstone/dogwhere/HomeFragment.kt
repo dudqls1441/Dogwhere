@@ -424,7 +424,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     private fun matchingList() {
         activity?.let {
-            Log.d("yeongbin", "매칭 리스트 ㄱㄱ")
+            Log.d("ybyb", "매칭 리스트 ㄱㄱ")
             val intent = Intent(activity, Search_Region::class.java)
             startActivity(intent)
             it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
@@ -469,7 +469,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
 
         btn_my_notification.setOnClickListener {
-            Log.e("ybybyb", "알림 리스트 이동")
+            Log.e("ybyb", "알림 리스트 이동")
             val intent = Intent(activity, NotificationListActivity::class.java)
             startActivity(intent)
 

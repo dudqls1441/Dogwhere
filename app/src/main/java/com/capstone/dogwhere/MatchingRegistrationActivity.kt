@@ -156,6 +156,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         npMonth.run {
             minValue = 1
             maxValue = monthStrConvertList.size
+
             wrapSelectorWheel = false
             descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         }
@@ -545,23 +546,22 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val start_time = party_time.split("/")
         val hour: Int = start_time[0].toInt()
         val minute = start_time[1].toInt()
-        Log.d("ybybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
+        Log.d("ybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
 
 
-
-        var Done_hour = hour+ (minute + matchingTime.toInt()) / 60
+        var Done_hour = hour + (minute + matchingTime.toInt()) / 60
         var Done_minute = (minute + matchingTime.toInt()) % 60
-        var DoneTime :String = Done_hour.toString() + "/" + Done_minute.toString()
+        var DoneTime: String = Done_hour.toString() + "/" + Done_minute.toString()
 
-        Log.d("ybybyb","Done_hour -> ${Done_hour} DoneTime ->${DoneTime}")
+        Log.d("ybyb", "Done_hour -> ${Done_hour} DoneTime ->${DoneTime}")
 
         if (Done_hour > 24) {
             day = day + 1
             Done_hour = Done_hour - 24
-            DoneTime = Done_hour.toString() +"/"+ Done_minute.toString()
-            party_date = npYear.text.toString() +"/" + (month +1)+"/"+ day
+            DoneTime = Done_hour.toString() + "/" + Done_minute.toString()
+            party_date = npYear.text.toString() + "/" + (month + 1) + "/" + day
         }
-        Log.d("ybybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
+        Log.d("ybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
 
 
@@ -620,7 +620,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         title: String,
         explain: String,
         matchingTime: String,
-        doneTime : String,
+        doneTime: String,
         ongoing: Boolean,
         documentId: String,
         latitude: Double,
@@ -667,15 +667,15 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             )
 
             val date = party_date.split("/")
-            Log.d("ybybyb", "MatchingRegistration__date ->${date}")
+            Log.d("ybyb", "MatchingRegistration__date ->${date}")
             val month: Int = date[1].toInt() - 1
             var day = date[2].toInt()
-            Log.d("ybybyb", "MatchingRegistration__month ->${month} day ->${day}")
+            Log.d("ybyb", "MatchingRegistration__month ->${month} day ->${day}")
 
             val start_time = party_time.split("/")
             val hour: Int = start_time[0].toInt() - 1
             val minute = start_time[1].toInt()
-            Log.d("ybybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
+            Log.d("ybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
 
             //매칭 있는 날 아침시간에 "금일은 매칭이 있습니다" 알림 보내기 위함
             val calendar = Calendar.getInstance()
@@ -760,7 +760,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 calendar.timeInMillis,
                 pendingIntent
             ).let {
-                Log.d("ybybyb", title + "알림 보내기")
+                Log.d("ybyb", title + "알림 보내기")
             }
 
         } else {
@@ -770,7 +770,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             } else {
                 alarmManager.set(
@@ -778,7 +778,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             }
         }
@@ -850,63 +850,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMarkerDragEnd(p0: Marker) {
     }
-
-
-//    private fun put33(
-//        party_address: String,
-//        party_address_detail: String,
-//        party_date: String,
-//        party_time: String,
-//        title: String,
-//        explain: String,
-//        dog: String,
-//        ongoing : Boolean
-//    ) {
-//        auth = FirebaseAuth.getInstance()
-//        val uid = auth.currentUser!!.uid
-//        val db = FirebaseFirestore.getInstance()
-//        //realtimebase
-//        val rdb = Firebase.database
-//        if (!party_address.equals("") && !party_address_detail.equals("") && !party_date.equals("") && !party_time.equals(
-//                ""
-//            )
-//        ) {
-//            val party = Matching(
-//                uid,
-//                dog,
-//                party_address,
-//                party_address_detail,
-//                title,
-//                party_date,
-//                party_time,
-//                explain,
-//                true
-//            )
-//            Log.d("33 -> ", party.toString())
-//
-//            //db
-//            db.collection("Party").document(uid).set(party).addOnSuccessListener {
-//                Log.d("InsertParty", "InsertParty_성공")
-//
-//                val intent = Intent(this, MatchingDetailActivity::class.java)
-//                intent.putExtra("title", title)
-//                intent.putExtra("explain", explain)
-//                startActivity(intent)
-//                finish()
-//            }.addOnFailureListener {
-//                Log.d("InsertParty", "InsertParty_실패")
-//            }
-//            //realtimebase
-////            ref.setValue(party)
-//
-//
-//        } else {
-//            Toast.makeText(this, "빈 칸을 확인해주세요.", Toast.LENGTH_SHORT)
-//                .show()
-//        }
-//
-//    }
-
 
     var marker: Marker? = null
     private fun addMarker(lat: Double, lng: Double, title: String) {
