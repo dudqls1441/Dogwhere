@@ -82,7 +82,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         btn_Done.setOnClickListener {
-            Matching_Done()
+            DoneDialog()
         }
         btn_back.setOnClickListener {
             finish()
@@ -254,7 +254,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                     override fun onFinish() {}
                                 }
                                 countDownTimer.start()
-                            } else if (now_time_minute >= start_time_minute || now_time_minute <= start_time_minute) {
+                            } else if (now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute) {
                                 text_matching_time_today.visibility = View.VISIBLE
                                 text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                 text_matching_time_today.setText("현재 진행중인 매칭입이다")
@@ -345,7 +345,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                                 override fun onFinish() {}
                                             }
                                             countDownTimer.start()
-                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= start_time_minute) {
+                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute) {
                                             text_matching_time_today.visibility = View.VISIBLE
                                             text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                             text_matching_time_today.setText("현재 진행중인 매칭입이다")
@@ -437,7 +437,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                                 override fun onFinish() {}
                                             }
                                             countDownTimer.start()
-                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= start_time_minute) {
+                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute) {
                                             text_matching_time_today.visibility = View.VISIBLE
                                             text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                             text_matching_time_today.setText("현재 진행중인 매칭입이다")
@@ -512,6 +512,29 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onclickAction() {
                 try {
                     matchingDelete()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onlcickClose() {
+
+            }
+        })
+    }
+
+    //매칭 삭제 다이얼로그
+    private fun DoneDialog() {
+        val dialog = CustomDialog_bbs_delete_check(this)
+        val title = "매칭 종료"
+        val description = "매칭을 종료하시겠습니까?"
+        val action_text = "종료"
+        dialog.mydialog(title, description, action_text)
+        dialog.setOnclickedListener(object :
+            CustomDialog_bbs_delete_check.ButtonClickListener {
+            override fun onclickAction() {
+                try {
+                    Matching_Done()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -1124,11 +1147,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
     }
-
-    private fun settingDoneTime() {
-
-    }
-
 
     @SuppressLint("MissingPermission")
     private fun getMyLocation(): LatLng {

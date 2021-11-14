@@ -52,7 +52,7 @@ class RegisteredMatchingFragment : Fragment() {
             Log.d("yb","ybyb matchingList -> ${matchinglist}")
             if(!matchinglist.isEmpty()){
                 //.whereEqualTo("ongoing",false)
-                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
+                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).orderBy("conversion_date",Query.Direction.DESCENDING).get()
                     .addOnSuccessListener {
                         for (document in it) {
                             Log.d("Registerd", "Registerd:documnet_Id8 = ${document.id}")
@@ -62,9 +62,11 @@ class RegisteredMatchingFragment : Fragment() {
                                     document.get("title").toString(),
                                     document.get("date").toString() + "-" + document.get("startime")
                                         .toString(),
-                                    document.get("place").toString()
+                                    document.get("place").toString(),
+                                    document.get("date").toString(),
+                                    document.get("startime").toString(),
+                                    document.get("doneTime").toString()
                                 )
-
                             )
                             recycler_registered_matching?.adapter = adapter
                         }
@@ -76,6 +78,9 @@ class RegisteredMatchingFragment : Fragment() {
 
 
                         }
+                    }.addOnFailureListener {
+                        Log.d("ybyb","가져오기 실패 -> orderby 때문")
+                        Log.d("ybyb","가져오기 실패 -> orderby 때문 ${it.toString()}")
                     }
             }else{
                 Log.d("yb","yb matchingList 비어있음")

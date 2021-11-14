@@ -563,6 +563,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         }
         Log.d("ybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
+        val Conversion_date = (date[0].toInt() * 60 * 24 * 30 * 12)+ (month * 60 * 24 * 30) + (day * 60 * 24) + (hour * 60) + minute
+
+        Log.d("ybyb","Conversion_date ->${Conversion_date}")
+
 
 
         put33(
@@ -577,7 +581,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             true,
             documentid.id,
             choice_lat.toDouble(),
-            choice_lon.toDouble()
+            choice_lon.toDouble(),
+            Conversion_date
         )
         for (i in dogname) {
             db.collection("users").document(uid).collection("dogprofiles")
@@ -624,7 +629,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         ongoing: Boolean,
         documentId: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        Conversion_date : Int
     ) {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid
@@ -636,16 +642,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             val time = System.currentTimeMillis()
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
             val curTime = dateFormat.format(Date(time))
-
-
-//            var Done_hour = hour + (minute + 180) / 60
-//            var Done_minute = (minute + 180) % 60
-//
-//            if (Done_hour > 24) {
-//                day = day + 1
-//                Done_hour = Done_hour - 24
-//            }
-//            Log.d("ybybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
             val matching = Matching(
                 uid,
@@ -663,7 +659,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 condition_neutralization,
                 condition_owner_gender,
                 latitude,
-                longitude
+                longitude,
+                Conversion_date
             )
 
             val date = party_date.split("/")
