@@ -262,6 +262,10 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 btn_Done.visibility = View.VISIBLE
                                 Writer_profile.setBackgroundResource(R.drawable.round_mint)
                                 text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                            }else{
+                                text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                btn_Done.visibility = View.VISIBLE
                             }
                         } else {
                             text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
@@ -331,6 +335,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                             val countDownTimer = object : CountDownTimer(200000, 1000) {
                                                 override fun onTick(millisUntilFinished: Long) {
                                                     text_matching_time_today.visibility = View.VISIBLE
+                                                    btn_Done.visibility = View.GONE
                                                     text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                                     text_matching_time_today.setText(
                                                         "오늘" +
@@ -346,12 +351,16 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                                 override fun onFinish() {}
                                             }
                                             countDownTimer.start()
-                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute) {
+                                        } else if (now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute) {
                                             text_matching_time_today.visibility = View.VISIBLE
                                             text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                             text_matching_time_today.setText("현재 진행중인 매칭입이다")
                                             Writer_profile.setBackgroundResource(R.drawable.round_mint)
                                             text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                                        }else{
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                            btn_Done.visibility = View.VISIBLE
                                         }
                                     } else {
                                         text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
@@ -438,12 +447,16 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                                 override fun onFinish() {}
                                             }
                                             countDownTimer.start()
-                                        } else if (now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute) {
+                                        } else if (now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute) {
                                             text_matching_time_today.visibility = View.VISIBLE
                                             text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                             text_matching_time_today.setText("현재 진행중인 매칭입이다")
                                             Writer_profile.setBackgroundResource(R.drawable.round_mint)
                                             text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                                        }else{
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                            btn_Done.visibility = View.VISIBLE
                                         }
                                     } else {
                                         text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
@@ -453,8 +466,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 } else {
                                     text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
                                     text_matching_time_today.visibility = View.GONE
-                                }
-                            }
+                                }                            }
                     }
                 }
         }

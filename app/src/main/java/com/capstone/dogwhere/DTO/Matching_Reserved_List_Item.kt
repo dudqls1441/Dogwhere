@@ -89,7 +89,7 @@ class Matching_Reserved_List_Item(
                     override fun onFinish() {}
                 }
                 countDownTimer.start()
-            }else if(now_time_minute >= start_time_minute || now_time_minute <= Done_time_minute){
+            }else if(now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute){
                 viewHolder.itemView.text_title.setTextColor(R.color.main_mint.toInt())
                 viewHolder.itemView.text_place.setTextColor(R.color.main_mint.toInt())
                 viewHolder.itemView.text_time.setTextColor(R.color.main_mint.toInt())

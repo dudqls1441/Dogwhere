@@ -85,6 +85,7 @@ class MatchingRegistration_Choice_Dog_Activity : AppCompatActivity() {
                                     dogs?.photoUrl.toString()
                                 )
                             )
+                            Log.d("ybyb","dog photo -> ${dogs?.photoUrl}")
                             Log.d("ybyb","dog document -> ${document.id}")
                             Log.d("DogProfile읽기 성공", "강아지 이름 : ${dogs?.dogName}")
                         }
