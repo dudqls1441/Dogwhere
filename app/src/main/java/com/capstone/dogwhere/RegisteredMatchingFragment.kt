@@ -52,7 +52,7 @@ class RegisteredMatchingFragment : Fragment() {
             Log.d("yb","ybyb matchingList -> ${matchinglist}")
             if(!matchinglist.isEmpty()){
                 //.whereEqualTo("ongoing",false)
-                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).orderBy("conversion_date",Query.Direction.DESCENDING).get()
+                db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).orderBy("conversion_date",Query.Direction.ASCENDING).get()
                     .addOnSuccessListener {
                         for (document in it) {
                             Log.d("Registerd", "Registerd:documnet_Id8 = ${document.id}")

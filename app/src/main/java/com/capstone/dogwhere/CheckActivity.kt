@@ -1,7 +1,9 @@
 package com.capstone.dogwhere
 
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -10,6 +12,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
+import android.view.Display
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.DTO.MyNotificationList_item
 import com.google.android.gms.tasks.OnCompleteListener
@@ -19,6 +26,9 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_check.*
 import kotlinx.android.synthetic.main.activity_walk__calendar.*
+import org.jetbrains.anko.datePicker
+import org.jetbrains.anko.spinner
+import org.jetbrains.anko.timePicker
 import java.io.IOException
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -30,13 +40,95 @@ import java.util.*
 class CheckActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    var cal = Calendar.getInstance()
+    private var year = 0
+    private var month = 0
+    private var day = 0
+    private var hour = 0
+    private var minute = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check)
 
         btn_alarm.setOnClickListener {
             send()
+
         }
+
+        simple_timepicker.setIs24HourView(true)
+
+
+
+
+
+        Log.d("ybyb", "minute ->${minute}")
+
+        btn_cal.setOnClickListener {
+            showDatePicker()
+        }
+
+        btn_time.setOnClickListener {
+            showTimePicker()
+
+        }
+
+
+        val c: Calendar = Calendar.getInstance();
+        year = c.get(Calendar.YEAR)
+        month = c.get(Calendar.MONTH)
+        day = c.get(Calendar.DAY_OF_MONTH)
+
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yy/MM/dd")
+        val curDate = dateFormat.format(Date(time))
+
+
+        val datePickerDialog = DatePickerDialog(this,
+            { view, year, monthOfYear, dayOfMonth ->
+                val date = SimpleDateFormat("yy/MM/dd").parse("$year/$monthOfYear/$dayOfMonth")
+                val splitedDate = "${year.toString().substring(2)}/${(monthOfYear + 1)}/${dayOfMonth}"
+                Log.d("ybyb",  "date ->${splitedDate.toString()}")
+            }, year, month, day
+        )
+
+        btn_date.setOnClickListener {
+            datePickerDialog.show()
+        }
+
+
+
+
+        year = simple_datepricker.year.toString().substring(2).toInt()
+        month = simple_datepricker.month
+        day = simple_datepricker.dayOfMonth
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            hour = simple_timepicker.getHour();
+        } else {
+            hour = simple_timepicker.getCurrentHour();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            minute = simple_timepicker.getMinute();
+        } else {
+            minute = simple_timepicker.getCurrentMinute();
+        }
+
+    }
+
+    fun showDatePicker() {
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            Log.d("ybyb", "year ->${year} month ->${month + 1}  day ->${day}")
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE)).show();
+    }
+
+    fun showTimePicker() {
+        TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            timePicker.spinner()
+            timePicker.setIs24HourView(true)
+            Log.d("ybyb", "hour ->${hour} minute ->${minute}")
+        }, cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE), true).show()
     }
 
     private fun send() {
@@ -57,9 +149,9 @@ class CheckActivity : AppCompatActivity() {
 
             val content = title + " 매칭 시작 1시간 전입니다."
 
-            sendNotification(title,content,calendar).run {
-                Log.d("ybyb","sendNotification 함수 실행")
-                text_time.text="보냄"
+            sendNotification(title, content, calendar).run {
+                Log.d("ybyb", "sendNotification 함수 실행")
+                text_time.text = "보냄"
             }
 
         } catch (e: Exception) {
@@ -75,7 +167,7 @@ class CheckActivity : AppCompatActivity() {
             putExtra("content", content)
         }
 
-        Log.d("ybyb","calendar -> ${calendar.time}" )
+        Log.d("ybyb", "calendar -> ${calendar.time}")
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = PendingIntent.getBroadcast(

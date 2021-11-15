@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -12,7 +13,6 @@ import android.graphics.Color
 import android.location.*
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -48,6 +48,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
     lateinit var condition_neutralization: String
     lateinit var choice_lat: String
     lateinit var choice_lon: String
+    var matching_year = 0
+    var matching_month = 0
+    var matching_day = 0
     var map: GoogleMap? = null
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
@@ -59,6 +62,43 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_registration)
         mylocation = getMyLocation()
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val curDate = dateFormat.format(Date(time))
+
+        matching_year = curDate.split("/")[0].toInt()
+        matching_month = curDate.split("/")[1].toInt()
+        matching_day = curDate.split("/")[2].toInt()
+
+        Matching_year.setText(matching_year.toString())
+        Matching_month.setText(matching_month.toString())
+        Matching_day.setText(matching_day.toString())
+
+        var cal = Calendar.getInstance()
+        val datePickerDialog = DatePickerDialog(this,
+            { view, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, 10)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                matching_year = year.toString().substring(2).toInt()
+                matching_month = (monthOfYear + 1)
+                matching_day = dayOfMonth
+
+                Log.d("ybyb","matching_year ->${matching_year}  matching_month ->${matching_month}  matching_day ->${matching_day}")
+
+                Matching_year.setText(matching_year.toString())
+                Matching_month.setText(matching_month.toString())
+                Matching_day.setText(matching_day.toString())
+
+
+            }, matching_year, matching_month, matching_day
+        )
+
+
+        matching_year_layout.setOnClickListener {
+            datePickerDialog.show()
+        }
+
         condition_size = "all"
         condition_neutralization = "all"
         condition_owner_gender = "all"
@@ -80,11 +120,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         btn_back.setOnClickListener {
             this.finish()
         }
-//        val yearList = (21..25).toList()
-        val monthList = (1..12).toList()
-        val dayList = (1..31).toList()
-        val hoursList = (1..24).toList()
 
+        val hoursList = (1..24).toList()
         var mList = listOf(
             "00",
             "01",
@@ -148,24 +185,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             "59"
         )
 
-        var monthStrConvertList = monthList.map { it.toString() }
-        var dayStrConvertList = dayList.map { it.toString() }
         var hoursStrCovertList = hoursList.map { it.toString() }
         var minuteStrCovertList = mList.map { it }
 
-        npMonth.run {
-            minValue = 1
-            maxValue = monthStrConvertList.size
-
-            wrapSelectorWheel = false
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        }
-        npDay.run {
-            minValue = 1
-            wrapSelectorWheel = false
-            maxValue = dayStrConvertList.size
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        }
         npHours.run {
             minValue = 0
             maxValue = hoursStrCovertList.size - 1
@@ -528,10 +550,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val dog = "" //얘 나중에 지워도될듯
 
         var party_date =
-            npYear.text.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
-        if (npDay.value.toString().length == 1) {
+            matching_year.toString() + "/" + matching_month.toString() + "/" + matching_day.toString()
+        if (matching_day.toString().length == 1) {
             party_date =
-                npYear.text.toString() + "/" + npMonth.value.toString() + "/" + "0" + npDay.value.toString()
+                matching_year.toString() + "/" + matching_month.toString() + "/" + "0"+matching_day.toString()
         }
 
         val party_time =
@@ -559,7 +581,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             day = day + 1
             Done_hour = Done_hour - 24
             DoneTime = Done_hour.toString() + "/" + Done_minute.toString()
-            party_date = npYear.text.toString() + "/" + (month + 1) + "/" + day
+            party_date = matching_year.toString() + "/" + (month + 1) + "/" + day
         }
         Log.d("ybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
