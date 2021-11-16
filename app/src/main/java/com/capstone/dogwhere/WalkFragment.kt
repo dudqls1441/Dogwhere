@@ -63,6 +63,9 @@ class WalkFragment : Fragment(){
                     write.visibility=View.VISIBLE
                 }else{
                     rating.rating=walkGoal?.percent!!.toFloat()/20
+                    goal_dayy.setText("총 "+ walkGoal?.goal_day.toString()+"일 중 ")
+                    success_dayy.setText(walkGoal?.success_day.toString()+"일 ")
+                    b.visibility=View.VISIBLE
                     goal_day.setText(walkGoal?.goal_day.toString() + "번 ")
                     if(walkGoal?.minute!=null){
                         minute.setText(walkGoal?.minute.toString() + "분씩 ")

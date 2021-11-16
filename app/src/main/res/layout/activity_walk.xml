@@ -204,30 +204,31 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/a"
-                                android:layout_centerHorizontal="true">
+                                android:layout_centerHorizontal="true"
+                                android:visibility="invisible">
 
                                 <TextView
-                                    android:id="@+id/hour_1"
+                                    android:id="@+id/goal_dayy"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="2번 중 "
+                                    android:text=""
                                     android:textColor="@color/main_gray"
-                                    android:textSize="16dp" />
+                                    android:textSize="16dp"/>
 
                                 <TextView
-                                    android:id="@+id/hour_2"
+                                    android:id="@+id/success_dayy"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/hour_1"
-                                    android:text="1번 "
+                                    android:layout_toRightOf="@+id/goal_dayy"
+                                    android:text=""
                                     android:textColor="@color/main_mint"
-                                    android:textSize="16dp" />
+                                    android:textSize="16dp"/>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_toRightOf="@+id/hour_2"
-                                    android:text="산책했어요"
+                                    android:layout_toRightOf="@+id/success_dayy"
+                                    android:text="산책목표에 달성했어요"
                                     android:textColor="@color/main_gray"
                                     android:textSize="16dp" />
                             </RelativeLayout>
