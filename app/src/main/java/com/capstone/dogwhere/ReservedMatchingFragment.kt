@@ -17,6 +17,7 @@ import com.capstone.dogwhere.DTO.Matching_Registered_List_Item
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -78,7 +79,7 @@ class ReservedMatchingFragment : Fragment() {
                 Log.d("ReservedMatching", "documnet_Id6 = ${matchinglist}")
                 Log.d("ReservedMatching", "documnet_Id7 = ${matchinglist.component1()}")
                 db.collection("Matching").whereIn("documentId", matchinglist)
-                    .whereEqualTo("ongoing", true).get()
+                    .whereEqualTo("ongoing", true).orderBy("conversion_date", Query.Direction.DESCENDING).get()
                     .addOnSuccessListener {
                         for (document in it) {
                             Log.d("ReservedMatching", "documnet_Id8 = ${document.id}")
@@ -89,7 +90,10 @@ class ReservedMatchingFragment : Fragment() {
                                     document.get("title").toString(),
                                     document.get("date").toString() + "-" + document.get("startime")
                                         .toString(),
-                                    document.get("place").toString(), "10분 전"
+                                    document.get("place").toString(),
+                                    document.get("date").toString(),
+                                    document.get("startime").toString(),
+                                    document.get("doneTime").toString()
                                 )
                             )
                             recycler_reserved_matching?.adapter = adapter

@@ -38,8 +38,8 @@ class MyReceiver : BroadcastReceiver() {
         content =intent.getStringExtra("content").toString()
         val senderUid = intent.getStringExtra("senderUid").toString()
 
-        Log.d("ybybyb","받는쪽 senderUid->${senderUid}")
-        Log.d("ybybyb","intent -> ${intent}")
+        Log.d("ybyb","받는쪽 senderUid->${senderUid}")
+        Log.d("ybyb","intent -> ${intent}")
 
         if(intent != null){
             val dateAndtime: LocalDateTime = LocalDateTime.now()
@@ -49,13 +49,11 @@ class MyReceiver : BroadcastReceiver() {
             if(!uid.equals(senderUid)){
                 val data = Alarm_data(uid,dateAndtime.toString(),title,content)
 
-                Log.d("ybybyb","ybybyb -> ${intent}")
-
                 db.collection("Alarm").document(uid).collection("내용").add(data).addOnSuccessListener {
-                    Log.d("ybybyb","ybybyb 받기 성공")
-                    Log.d("ybyby","title ->${title}, content ->${content}")
+                    Log.d("ybyb","받기 성공")
+                    Log.d("ybyb","title ->${title}, content ->${content}")
                 }
-                Log.d("ybybyb알람","Receive 성공"+System.currentTimeMillis().toString())
+                Log.d("ybyb알람","Receive 성공"+System.currentTimeMillis().toString())
 
 
 
@@ -65,10 +63,10 @@ class MyReceiver : BroadcastReceiver() {
                 createNotificationChannel()
                 deliverNotification(context)
             }else{
-                Log.d("ybybyb","같은 uid라 알림 안 옴")
+                Log.d("ybyb","같은 uid라 알림 안 옴")
             }
         }else{
-            Log.d("ybybyb","intent 없음")
+            Log.d("ybyb","intent 없음")
         }
 
     }

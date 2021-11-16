@@ -19,8 +19,6 @@ import android.os.CountDownTimer
 import android.os.SystemClock
 import android.util.Log
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -44,7 +42,6 @@ import kotlinx.android.synthetic.main.activity_check.*
 import kotlinx.android.synthetic.main.activity_matching_detail.*
 import kotlinx.android.synthetic.main.activity_matching_detail.btn_back
 import kotlinx.android.synthetic.main.activity_matching_registration.*
-import kotlinx.android.synthetic.main.activity_matching_registration.text_time
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -85,7 +82,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         btn_Done.setOnClickListener {
-            Matching_Done()
+            DoneDialog()
         }
         btn_back.setOnClickListener {
             finish()
@@ -149,7 +146,24 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val dateFormat = SimpleDateFormat("yy/MM/dd")
         val curTime = dateFormat.format(Date(time))
 
-        Log.d("ybybyb", "ybybyb curtime ->${curTime}")
+        val timeFormat = SimpleDateFormat("HH/mm")
+        val curtime2 = timeFormat.format(Date(time))
+
+        val now_hour = curtime2.split("/")[0]
+        val now_minute = curtime2.split("/")[1]
+
+        val now_time_minute = now_hour.toInt() * 60 + now_minute.toInt()
+
+
+
+        Log.d("ybyb", "현재 연월일->${curTime}")
+
+        Log.d(
+            "ybyb", "현재 시분 ->${curtime2}  ,시 ->${now_hour} ,분 ->${now_minute}"
+        )
+
+        Log.d("ybyb", "현재 시분 -> 분 환산분 : ${now_time_minute}")
+
 
         //내가 올린 매칭일 때
         if (uid == matchingLeaderUid) {
@@ -164,14 +178,14 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         matchinglist.add(document["documentId"].toString())
                     }
                 }
-                Log.d("yb", "ybyb matchingList -> ${matchinglist}")
+                Log.d("ybyb", "atchingList -> ${matchinglist}")
                 if (!matchinglist.isEmpty()) {
                     //.whereEqualTo("ongoing",false)
-                    db.collection("Matching").whereIn("documentId", matchinglist).whereEqualTo("ongoing",true).get()
+                    db.collection("Matching").whereIn("documentId", matchinglist)
+                        .whereEqualTo("ongoing", true).get()
                         .addOnSuccessListener {
                             for (document in it) {
-                                Log.d("ybybyb", "RegisterdMatching = ${document.id}")
-                                btn_Done.visibility = View.VISIBLE
+                                Log.d("ybyb", "RegisterdMatching = ${document.id}")
                             }
                         }
                 }
@@ -189,41 +203,80 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 .addOnSuccessListener {
                     val result = it.toObject<Matching>()
                     matching_title.setText(result!!.title)
-                    text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                    text_matching_place.setText("장소 :" + result!!.place + " " + result!!.place_detail)
+
+                    val ongoing = result!!.ongoing
+                    Log.d("ybyb","ongoing -> ${ongoing}")
+
+                    if(ongoing.equals(false)){
+                        btn_Done.visibility =View.GONE
+                    }
                     val date = result!!.date
                     val splitedDate = date.split("/")
-                    Log.d("ybybyb", "date ->${date}")
-                    Log.d("ybybyb", "splitedDate ->${splitedDate}")
-                    val splitedstartime = result!!.startime.split("/")
-                    Log.d("ybybyb", "startime-> ${splitedstartime}")
+                    Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
+
+
+                    //시작 시간
+                    val splitedStartTime = result!!.startime.split("/")
+                    Log.d("ybyb", "startime-> ${splitedStartTime}")
+
+                    val start_time_minute =
+                        splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
+                    Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
+
+                    //종료 시간
+                    val splitedDoneTime = result!!.doneTime.split("/")
+                    Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
+
+                    val Done_time_minute =
+                        splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
+                    Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
+
 
                     if (curTime.equals(date)) {
-                        val countDownTimer = object : CountDownTimer(200000, 1000) {
-                            override fun onTick(millisUntilFinished: Long) {
-                                text_matching_time_today.visibility= View.VISIBLE
-                                text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
-                                text_matching_time_today.setText(
-                                    "오늘" +
-                                            getTime(
-                                                splitedDate[1].toInt(),
-                                                splitedDate[2].toInt(),
-                                                splitedstartime[0].toInt(),
-                                                splitedstartime[1].toInt()
-                                            )
-                                )
+                        if(ongoing.equals(true)){
+                            if (now_time_minute < start_time_minute) {
+                                val countDownTimer = object : CountDownTimer(200000, 1000) {
+                                    override fun onTick(millisUntilFinished: Long) {
+                                        text_matching_time_today.visibility = View.VISIBLE
+                                        btn_Done.visibility = View.GONE
+                                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                        text_matching_time_today.setText(
+                                            "오늘" +
+                                                    getTime(
+                                                        splitedDate[1].toInt(),
+                                                        splitedDate[2].toInt(),
+                                                        splitedStartTime[0].toInt(),
+                                                        splitedStartTime[1].toInt()
+                                                    )
+                                        )
+                                    }
+
+                                    override fun onFinish() {}
+                                }
+                                countDownTimer.start()
+                            } else if (now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute) {
+                                text_matching_time_today.visibility = View.VISIBLE
+                                text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                text_matching_time_today.setText("현재 진행중인 매칭입이다")
+                                btn_Done.visibility = View.VISIBLE
+                                Writer_profile.setBackgroundResource(R.drawable.round_mint)
+                                text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                            }else{
+                                text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                btn_Done.visibility = View.VISIBLE
                             }
-
-                            override fun onFinish() {}
+                        } else {
+                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                            text_matching_time_today.visibility = View.VISIBLE
+                            text_matching_time_today.setText("금일 종료된 매칭입니다.")
                         }
-
-                        countDownTimer.start()
                     } else {
-                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
-                        text_matching_time_today.visibility=View.GONE
+                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                        text_matching_time_today.visibility = View.GONE
                     }
                 }
-
-
         } else {
             //내가 올린 매칭이 아닐 때
             btn_participate.visibility = View.VISIBLE
@@ -247,38 +300,76 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                             .addOnSuccessListener {
                                 val result = it.toObject<Matching>()
                                 matching_title.setText(result!!.title)
-                                text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                                text_matching_place.setText("장소 : " + result!!.place + " " + result!!.place_detail)
+                                val ongoing = result!!.ongoing
+                                Log.d("ybyb","ongoing -> ${ongoing}")
+
+                                if(ongoing.equals(false)){
+                                    btn_Done.visibility =View.GONE
+                                }
                                 val date = result!!.date
                                 val splitedDate = date.split("/")
-                                Log.d("ybybyb", "date ->${date}")
-                                Log.d("ybybyb", "splitedDate ->${splitedDate}")
-                                val splitedstartime = result!!.startime.split("/")
-                                Log.d("ybybyb", "startime-> ${splitedstartime}")
+                                Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
+
+
+                                //시작 시간
+                                val splitedStartTime = result!!.startime.split("/")
+                                Log.d("ybyb", "startime-> ${splitedStartTime}")
+
+                                val start_time_minute =
+                                    splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
+                                Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
+
+                                //종료 시간
+                                val splitedDoneTime = result!!.doneTime.split("/")
+                                Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
+
+                                val Done_time_minute =
+                                    splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
+                                Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
+
 
                                 if (curTime.equals(date)) {
-                                    val countDownTimer = object : CountDownTimer(200000, 1000) {
-                                        override fun onTick(millisUntilFinished: Long) {
-                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
-                                            text_matching_time_today.visibility=View.VISIBLE
-                                            text_matching_time_today.setText(
-                                                "오늘" +
-                                                        getTime(
-                                                            splitedDate[1].toInt(),
-                                                            splitedDate[2].toInt(),
-                                                            splitedstartime[0].toInt(),
-                                                            splitedstartime[1].toInt()
-                                                        )
-                                            )
+                                    if(ongoing.equals(true)){
+                                        if (now_time_minute < start_time_minute) {
+                                            val countDownTimer = object : CountDownTimer(200000, 1000) {
+                                                override fun onTick(millisUntilFinished: Long) {
+                                                    text_matching_time_today.visibility = View.VISIBLE
+                                                    btn_Done.visibility = View.GONE
+                                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                                    text_matching_time_today.setText(
+                                                        "오늘" +
+                                                                getTime(
+                                                                    splitedDate[1].toInt(),
+                                                                    splitedDate[2].toInt(),
+                                                                    splitedStartTime[0].toInt(),
+                                                                    splitedStartTime[1].toInt()
+                                                                )
+                                                    )
+                                                }
+
+                                                override fun onFinish() {}
+                                            }
+                                            countDownTimer.start()
+                                        } else if (now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute) {
+                                            text_matching_time_today.visibility = View.VISIBLE
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("현재 진행중인 매칭입이다")
+                                            Writer_profile.setBackgroundResource(R.drawable.round_mint)
+                                            text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                                        }else{
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                            btn_Done.visibility = View.VISIBLE
                                         }
-
-                                        override fun onFinish() {}
+                                    } else {
+                                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                        text_matching_time_today.visibility = View.VISIBLE
+                                        text_matching_time_today.setText("금일 종료된 매칭입니다.")
                                     }
-
-                                    countDownTimer.start()
                                 } else {
-                                    text_matching_time_today.visibility=View.GONE
-                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
-
+                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                    text_matching_time_today.visibility = View.GONE
                                 }
                             }
 
@@ -306,36 +397,76 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                             .addOnSuccessListener {
                                 val result = it.toObject<Matching>()
                                 matching_title.setText(result!!.title)
-                                text_matching_place.setText(result!!.place + "//" + result!!.place_detail)
+                                text_matching_place.setText("장소 :" + result!!.place + "  " + result!!.place_detail)
+                                val ongoing = result!!.ongoing
+                                Log.d("ybyb","ongoing -> ${ongoing}")
+
+                                if(ongoing.equals(false)){
+                                    btn_Done.visibility =View.GONE
+                                }
                                 val date = result!!.date
                                 val splitedDate = date.split("/")
-                                Log.d("ybybyb", "date ->${date}")
-                                Log.d("ybybyb", "splitedDate ->${splitedDate}")
-                                val splitedstartime = result!!.startime.split("/")
-                                Log.d("ybybyb", "startime-> ${splitedstartime}")
+                                Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
+
+
+                                //시작 시간
+                                val splitedStartTime = result!!.startime.split("/")
+                                Log.d("ybyb", "startime-> ${splitedStartTime}")
+
+                                val start_time_minute =
+                                    splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
+                                Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
+
+                                //종료 시간
+                                val splitedDoneTime = result!!.doneTime.split("/")
+                                Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
+
+                                val Done_time_minute =
+                                    splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
+                                Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
+
 
                                 if (curTime.equals(date)) {
-                                    val countDownTimer = object : CountDownTimer(200000, 1000) {
-                                        override fun onTick(millisUntilFinished: Long) {
-                                            text_matching_time.setText(
-                                                "오늘" +
-                                                        getTime(
-                                                            splitedDate[1].toInt(),
-                                                            splitedDate[2].toInt(),
-                                                            splitedstartime[0].toInt(),
-                                                            splitedstartime[1].toInt()
-                                                        )
-                                            )
+                                    if(ongoing.equals(true)){
+                                        if (now_time_minute < start_time_minute) {
+                                            val countDownTimer = object : CountDownTimer(200000, 1000) {
+                                                override fun onTick(millisUntilFinished: Long) {
+                                                    text_matching_time_today.visibility = View.VISIBLE
+                                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                                    text_matching_time_today.setText(
+                                                        "오늘" +
+                                                                getTime(
+                                                                    splitedDate[1].toInt(),
+                                                                    splitedDate[2].toInt(),
+                                                                    splitedStartTime[0].toInt(),
+                                                                    splitedStartTime[1].toInt()
+                                                                )
+                                                    )
+                                                }
+
+                                                override fun onFinish() {}
+                                            }
+                                            countDownTimer.start()
+                                        } else if (now_time_minute >= start_time_minute && now_time_minute <= Done_time_minute) {
+                                            text_matching_time_today.visibility = View.VISIBLE
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("현재 진행중인 매칭입이다")
+                                            Writer_profile.setBackgroundResource(R.drawable.round_mint)
+                                            text_matching_time_today.setTextColor(R.color.main_mint.toInt())
+                                        }else{
+                                            text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                            text_matching_time_today.setText("금일 종료된 매칭입니다.")
+                                            btn_Done.visibility = View.VISIBLE
                                         }
-
-                                        override fun onFinish() {}
+                                    } else {
+                                        text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                        text_matching_time_today.visibility = View.VISIBLE
+                                        text_matching_time_today.setText("금일 종료된 매칭입니다.")
                                     }
-
-                                    countDownTimer.start()
                                 } else {
-                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedstartime[0] + "시" + splitedstartime[1] + "분")
-                                }
-                            }
+                                    text_matching_time.setText(splitedDate[1] + "월" + splitedDate[2] + "일 " + splitedStartTime[0] + "시" + splitedStartTime[1] + "분   ("+result!!.matchingTime+")분 진행")
+                                    text_matching_time_today.visibility = View.GONE
+                                }                            }
                     }
                 }
         }
@@ -405,6 +536,29 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         })
     }
 
+    //매칭 삭제 다이얼로그
+    private fun DoneDialog() {
+        val dialog = CustomDialog_bbs_delete_check(this)
+        val title = "매칭 종료"
+        val description = "매칭을 종료하시겠습니까?"
+        val action_text = "종료"
+        dialog.mydialog(title, description, action_text)
+        dialog.setOnclickedListener(object :
+            CustomDialog_bbs_delete_check.ButtonClickListener {
+            override fun onclickAction() {
+                try {
+                    Matching_Done()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onlcickClose() {
+
+            }
+        })
+    }
+
     private fun matchingDelete() {
         val matchingDocumentId = intent.getStringExtra("documentId").toString()
         db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
@@ -419,9 +573,10 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         db.collection("users").get().addOnSuccessListener { result ->
             for (document in result) {
                 val uids = document.get("uid").toString()
-                db.collection("users").document(uids).collection("matching").document(matchingDocumentId).delete().addOnSuccessListener {
-                    Log.d("ybybyb","users의 매칭 삭제")
-                }
+                db.collection("users").document(uids).collection("matching")
+                    .document(matchingDocumentId).delete().addOnSuccessListener {
+                        Log.d("ybyb", "users의 매칭 삭제")
+                    }
 
             }
         }
@@ -673,7 +828,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .addSnapshotListener { value, error ->
                             if (error != null) {
                                 Log.w(
-                                    "ybybyb",
+                                    "ybyb",
                                     "${bbs_oid} 메서드 snapshot 에러 : ${error.message}"
                                 )
                                 return@addSnapshotListener
@@ -687,9 +842,9 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                             document.get("title").toString() + " 게시물에 댓글이 달렸습니다.",
                                             doc.document["comment"].toString()
                                         )
-                                        Log.d("ybybyb", "메세지 보내기 성공")
+                                        Log.d("ybyb", "메세지 보내기 성공")
                                     }
-                                    Log.d("ybybyb", "내 게시물의 내 댓글")
+                                    Log.d("ybyb", "내 게시물의 내 댓글")
                                 }
 
                             }
@@ -713,7 +868,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .addSnapshotListener { value, error ->
                             if (error != null) {
                                 Log.w(
-                                    "ybybyb",
+                                    "ybyb",
                                     "매칭 참가 메서드 snapshot 에러 : ${error.message}"
                                 )
                                 return@addSnapshotListener
@@ -727,14 +882,14 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                             document.get("title").toString(),
                                             "함께 산책할 강아지가 추가되었습니다."
                                         )
-                                        Log.d("ybybyb", "(추가)전송 보냄")
+                                        Log.d("ybyb", "(추가)전송 보냄")
                                     }
                                 } else if (doc.type == DocumentChange.Type.REMOVED) {
                                     sendNotification(
                                         document.get("title").toString(),
                                         "산책 매칭에서 강아지가 나갔습니다."
                                     )
-                                    Log.d("ybybyb", "(삭제)전송 보냄")
+                                    Log.d("ybyb", "(삭제)전송 보냄")
                                 }
                             }
                         }
@@ -878,12 +1033,12 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                 val date = result!!.date.split("/")
                 val month: Int = date[1].toInt() - 1
                 val day = date[2].toInt()
-                Log.d("ybybyb", "MatchingDetail__month ->${month} day ->${day}")
+                Log.d("ybyb", "MatchingDetail__month ->${month} day ->${day}")
 
                 val start_time = result!!.startime.split("/")
                 val hour: Int = start_time[0].toInt() - 1
                 val minute = start_time[1].toInt()
-                Log.d("ybybyb", "MatchingDetail__hour ->${hour} minute ->${minute}")
+                Log.d("ybyb", "MatchingDetail__hour ->${hour} minute ->${minute}")
 
                 //매칭 1시간 전 알림 보내기 위함
                 val calendar = Calendar.getInstance()
@@ -993,23 +1148,18 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         db.collection("Matching").document(matchingDocumentId).update("ongoing", false)
             .addOnSuccessListener {
-                Log.d("ybybyb", "매칭 완료시킴")
+                Log.d("ybyb", "매칭 완료시킴")
 
-                val intent = Intent(this,MainMenuActivity::class.java)
+                val intent = Intent(this, MainMenuActivity::class.java)
                 intent.putExtra("state", intent.getStringExtra("matching").toString())
                 finish() //현재 액티비티 종료 실시
                 overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
                 startActivity(intent) //현재
             }.addOnFailureListener {
-            Log.d("ybybyb", "매칭 완료 실패")
-        }
+                Log.d("ybyb", "매칭 완료 실패")
+            }
 
     }
-
-    private fun settingDoneTime(){
-
-    }
-
 
     @SuppressLint("MissingPermission")
     private fun getMyLocation(): LatLng {

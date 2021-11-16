@@ -9,10 +9,10 @@
         android:layout_centerHorizontal="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginTop="10dp"
+            android:id="@+id/img_dog_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/img_dog_profile"
+            android:layout_marginTop="10dp"
             android:src="@drawable/zzarri"></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView

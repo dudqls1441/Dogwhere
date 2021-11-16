@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -12,7 +13,6 @@ import android.graphics.Color
 import android.location.*
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -48,6 +48,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
     lateinit var condition_neutralization: String
     lateinit var choice_lat: String
     lateinit var choice_lon: String
+    var matching_year = 0
+    var matching_month = 0
+    var matching_day = 0
     var map: GoogleMap? = null
     var mLM: LocationManager? = null
     var mProvider = LocationManager.NETWORK_PROVIDER
@@ -59,6 +62,43 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_registration)
         mylocation = getMyLocation()
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val curDate = dateFormat.format(Date(time))
+
+        matching_year = curDate.split("/")[0].toInt()
+        matching_month = curDate.split("/")[1].toInt()
+        matching_day = curDate.split("/")[2].toInt()
+
+        Matching_year.setText(matching_year.toString())
+        Matching_month.setText(matching_month.toString())
+        Matching_day.setText(matching_day.toString())
+
+        var cal = Calendar.getInstance()
+        val datePickerDialog = DatePickerDialog(this,
+            { view, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, 10)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                matching_year = year.toString().substring(2).toInt()
+                matching_month = (monthOfYear + 1)
+                matching_day = dayOfMonth
+
+                Log.d("ybyb","matching_year ->${matching_year}  matching_month ->${matching_month}  matching_day ->${matching_day}")
+
+                Matching_year.setText(matching_year.toString())
+                Matching_month.setText(matching_month.toString())
+                Matching_day.setText(matching_day.toString())
+
+
+            }, matching_year, matching_month, matching_day
+        )
+
+
+        matching_year_layout.setOnClickListener {
+            datePickerDialog.show()
+        }
+
         condition_size = "all"
         condition_neutralization = "all"
         condition_owner_gender = "all"
@@ -80,11 +120,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         btn_back.setOnClickListener {
             this.finish()
         }
-//        val yearList = (21..25).toList()
-        val monthList = (1..12).toList()
-        val dayList = (1..31).toList()
-        val hoursList = (1..24).toList()
 
+        val hoursList = (1..24).toList()
         var mList = listOf(
             "00",
             "01",
@@ -148,23 +185,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             "59"
         )
 
-        var monthStrConvertList = monthList.map { it.toString() }
-        var dayStrConvertList = dayList.map { it.toString() }
         var hoursStrCovertList = hoursList.map { it.toString() }
         var minuteStrCovertList = mList.map { it }
 
-        npMonth.run {
-            minValue = 1
-            maxValue = monthStrConvertList.size
-            wrapSelectorWheel = false
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        }
-        npDay.run {
-            minValue = 1
-            wrapSelectorWheel = false
-            maxValue = dayStrConvertList.size
-            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        }
         npHours.run {
             minValue = 0
             maxValue = hoursStrCovertList.size - 1
@@ -527,10 +550,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val dog = "" //얘 나중에 지워도될듯
 
         var party_date =
-            npYear.text.toString() + "/" + npMonth.value.toString() + "/" + npDay.value.toString()
-        if (npDay.value.toString().length == 1) {
+            matching_year.toString() + "/" + matching_month.toString() + "/" + matching_day.toString()
+        if (matching_day.toString().length == 1) {
             party_date =
-                npYear.text.toString() + "/" + npMonth.value.toString() + "/" + "0" + npDay.value.toString()
+                matching_year.toString() + "/" + matching_month.toString() + "/" + "0"+matching_day.toString()
         }
 
         val party_time =
@@ -545,23 +568,26 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val start_time = party_time.split("/")
         val hour: Int = start_time[0].toInt()
         val minute = start_time[1].toInt()
-        Log.d("ybybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
+        Log.d("ybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
 
 
-
-        var Done_hour = hour+ (minute + matchingTime.toInt()) / 60
+        var Done_hour = hour + (minute + matchingTime.toInt()) / 60
         var Done_minute = (minute + matchingTime.toInt()) % 60
-        var DoneTime :String = Done_hour.toString() + "/" + Done_minute.toString()
+        var DoneTime: String = Done_hour.toString() + "/" + Done_minute.toString()
 
-        Log.d("ybybyb","Done_hour -> ${Done_hour} DoneTime ->${DoneTime}")
+        Log.d("ybyb", "Done_hour -> ${Done_hour} DoneTime ->${DoneTime}")
 
         if (Done_hour > 24) {
             day = day + 1
             Done_hour = Done_hour - 24
-            DoneTime = Done_hour.toString() +"/"+ Done_minute.toString()
-            party_date = npYear.text.toString() +"/" + (month +1)+"/"+ day
+            DoneTime = Done_hour.toString() + "/" + Done_minute.toString()
+            party_date = matching_year.toString() + "/" + (month + 1) + "/" + day
         }
-        Log.d("ybybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
+        Log.d("ybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
+
+        val Conversion_date = (date[0].toInt() * 60 * 24 * 30 * 12)+ (month * 60 * 24 * 30) + (day * 60 * 24) + (hour * 60) + minute
+
+        Log.d("ybyb","Conversion_date ->${Conversion_date}")
 
 
 
@@ -577,7 +603,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             true,
             documentid.id,
             choice_lat.toDouble(),
-            choice_lon.toDouble()
+            choice_lon.toDouble(),
+            Conversion_date
         )
         for (i in dogname) {
             db.collection("users").document(uid).collection("dogprofiles")
@@ -620,11 +647,12 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         title: String,
         explain: String,
         matchingTime: String,
-        doneTime : String,
+        doneTime: String,
         ongoing: Boolean,
         documentId: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        Conversion_date : Int
     ) {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid
@@ -636,16 +664,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             val time = System.currentTimeMillis()
             val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
             val curTime = dateFormat.format(Date(time))
-
-
-//            var Done_hour = hour + (minute + 180) / 60
-//            var Done_minute = (minute + 180) % 60
-//
-//            if (Done_hour > 24) {
-//                day = day + 1
-//                Done_hour = Done_hour - 24
-//            }
-//            Log.d("ybybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
             val matching = Matching(
                 uid,
@@ -663,19 +681,20 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 condition_neutralization,
                 condition_owner_gender,
                 latitude,
-                longitude
+                longitude,
+                Conversion_date
             )
 
             val date = party_date.split("/")
-            Log.d("ybybyb", "MatchingRegistration__date ->${date}")
+            Log.d("ybyb", "MatchingRegistration__date ->${date}")
             val month: Int = date[1].toInt() - 1
             var day = date[2].toInt()
-            Log.d("ybybyb", "MatchingRegistration__month ->${month} day ->${day}")
+            Log.d("ybyb", "MatchingRegistration__month ->${month} day ->${day}")
 
             val start_time = party_time.split("/")
             val hour: Int = start_time[0].toInt() - 1
             val minute = start_time[1].toInt()
-            Log.d("ybybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
+            Log.d("ybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
 
             //매칭 있는 날 아침시간에 "금일은 매칭이 있습니다" 알림 보내기 위함
             val calendar = Calendar.getInstance()
@@ -760,7 +779,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 calendar.timeInMillis,
                 pendingIntent
             ).let {
-                Log.d("ybybyb", title + "알림 보내기")
+                Log.d("ybyb", title + "알림 보내기")
             }
 
         } else {
@@ -770,7 +789,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             } else {
                 alarmManager.set(
@@ -778,7 +797,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                     calendar.timeInMillis,
                     pendingIntent
                 ).let {
-                    Log.d("ybybyb", title + "알림 보내기")
+                    Log.d("ybyb", title + "알림 보내기")
                 }
             }
         }
@@ -850,63 +869,6 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMarkerDragEnd(p0: Marker) {
     }
-
-
-//    private fun put33(
-//        party_address: String,
-//        party_address_detail: String,
-//        party_date: String,
-//        party_time: String,
-//        title: String,
-//        explain: String,
-//        dog: String,
-//        ongoing : Boolean
-//    ) {
-//        auth = FirebaseAuth.getInstance()
-//        val uid = auth.currentUser!!.uid
-//        val db = FirebaseFirestore.getInstance()
-//        //realtimebase
-//        val rdb = Firebase.database
-//        if (!party_address.equals("") && !party_address_detail.equals("") && !party_date.equals("") && !party_time.equals(
-//                ""
-//            )
-//        ) {
-//            val party = Matching(
-//                uid,
-//                dog,
-//                party_address,
-//                party_address_detail,
-//                title,
-//                party_date,
-//                party_time,
-//                explain,
-//                true
-//            )
-//            Log.d("33 -> ", party.toString())
-//
-//            //db
-//            db.collection("Party").document(uid).set(party).addOnSuccessListener {
-//                Log.d("InsertParty", "InsertParty_성공")
-//
-//                val intent = Intent(this, MatchingDetailActivity::class.java)
-//                intent.putExtra("title", title)
-//                intent.putExtra("explain", explain)
-//                startActivity(intent)
-//                finish()
-//            }.addOnFailureListener {
-//                Log.d("InsertParty", "InsertParty_실패")
-//            }
-//            //realtimebase
-////            ref.setValue(party)
-//
-//
-//        } else {
-//            Toast.makeText(this, "빈 칸을 확인해주세요.", Toast.LENGTH_SHORT)
-//                .show()
-//        }
-//
-//    }
-
 
     var marker: Marker? = null
     private fun addMarker(lat: Double, lng: Double, title: String) {

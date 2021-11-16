@@ -204,15 +204,18 @@
                         android:textSize="14dp" />
 
                     <RelativeLayout
-                        android:id="@+id/party_year_layout"
+                        android:id="@+id/matching_year_layout"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/text_time"
-                        android:layout_margin="4dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center">
 
                         <TextView
-                            android:id="@+id/npYear"
+                            android:id="@+id/Matching_year"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -226,20 +229,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_margin="4dp"
+                            android:layout_marginStart="4dp"
                             android:layout_marginLeft="4dp"
-                            android:layout_toRightOf="@+id/npYear"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_toRightOf="@+id/Matching_year"
                             android:fontFamily="@font/nanumsquarel"
                             android:text="년"
                             android:textSize="14dp"></TextView>
 
 
-                        <NumberPicker
-                            android:id="@+id/npMonth"
+                        <TextView
+                            android:id="@+id/Matching_month"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_toRightOf="@+id/text_year"
-                            android:theme="@style/AppTheme.NumberPicker"></NumberPicker>
+                            android:text="21"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
 
                         <TextView
                             android:id="@+id/text_month"
@@ -248,17 +261,21 @@
                             android:layout_centerVertical="true"
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
-                            android:layout_toRightOf="@+id/npMonth"
+                            android:layout_toRightOf="@+id/Matching_month"
                             android:fontFamily="@font/nanumsquarel"
                             android:text="월"
                             android:textSize="14dp"></TextView>
 
-                        <NumberPicker
-                            android:id="@+id/npDay"
+                        <TextView
+                            android:id="@+id/Matching_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="5dp"
                             android:layout_toRightOf="@+id/text_month"
-                            android:theme="@style/AppTheme.NumberPicker"></NumberPicker>
+                            android:text="21"
+                            android:textSize="14dp"
+                            android:textStyle="bold"></TextView>
 
                         <TextView
                             android:id="@+id/text_day"
@@ -267,7 +284,7 @@
                             android:layout_centerVertical="true"
                             android:layout_margin="4dp"
                             android:layout_marginLeft="4dp"
-                            android:layout_toRightOf="@+id/npDay"
+                            android:layout_toRightOf="@+id/Matching_day"
                             android:fontFamily="@font/nanumsquarel"
                             android:text="일"
                             android:textSize="14dp"></TextView>
@@ -277,7 +294,7 @@
                         android:id="@+id/party_time_layout"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_below="@+id/party_year_layout"
+                        android:layout_below="@+id/matching_year_layout"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="4dp"
@@ -364,20 +381,22 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:layout_toRightOf="@+id/DoneTime_text">
+                            android:layout_toRightOf="@+id/DoneTime_text"
+                            android:orientation="vertical">
+
                             <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:layout_weight="1"
                                 android:id="@+id/btn_time_up"
-                                android:text="업"/>
-                            <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
+                                android:text="업" />
+
+                            <Button
                                 android:id="@+id/btn_time_down"
-                                android:text="다운"/>
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="다운" />
                         </LinearLayout>
 
                     </RelativeLayout>

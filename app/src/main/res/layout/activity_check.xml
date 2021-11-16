@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     tools:context=".CheckActivity">
 
     <Button
@@ -13,15 +14,67 @@
         android:id="@+id/btn_alarm"
         android:layout_centerInParent="true"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="날짜 가져오기"
+        android:layout_below="@+id/btn_alarm"
+        android:id="@+id/btn_date"
+        android:layout_centerInParent="true"
+        />
 
     <TextView
         android:id="@+id/text_time"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_alarm"
+        android:layout_below="@+id/btn_date"
         android:gravity="center"
         android:text="시간"
         android:textSize="16dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/date_layout"
+        android:orientation="horizontal"
+        android:layout_below="@+id/text_time">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="2"
+            android:id="@+id/btn_time"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <DatePicker
+        android:id="@+id/simple_datepricker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_layout"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:calendarViewShown="false"
+        android:startYear="2021"
+        android:endYear="2022"
+        android:datePickerMode="spinner"></DatePicker>
+
+
+    <TimePicker
+        android:id="@+id/simple_timepicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/simple_datepricker"
+        android:timePickerMode="spinner"
+        />
+
+    <Button
+        android:id="@+id/btn_cal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="1" />
 
 
 </RelativeLayout>

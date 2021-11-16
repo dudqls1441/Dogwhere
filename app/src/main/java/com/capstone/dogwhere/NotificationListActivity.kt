@@ -39,7 +39,7 @@ class NotificationListActivity : AppCompatActivity() {
                         document.get("list_time").toString()
                     )
                 )
-                Log.d("ybybyb","notifi data -> ${document.data}")
+                Log.d("ybyb","notifi data -> ${document.data}")
                 recycler_notification.adapter=adapter
             }
         }

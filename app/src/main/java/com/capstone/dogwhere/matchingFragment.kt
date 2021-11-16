@@ -97,7 +97,7 @@ class MatchingFragment : Fragment() {
                 Log.e("joo", "주소 : $area ")
                 areaText.text = area
             } catch (e: NullPointerException) {
-                Log.e("ybybyb", "Network Exception!! : " + e)
+                Log.e("ybyb", "Network Exception!! : " + e)
             }
 
         }
