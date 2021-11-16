@@ -19,18 +19,15 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
-import com.capstone.dogwhere.DTO.Matching
-import com.capstone.dogwhere.DTO.UserProfile
-import com.capstone.dogwhere.DTO.DogProfile
-import com.capstone.dogwhere.DTO.home_dogstate_item
-import com.capstone.dogwhere.DTO.Walk_Recommend_Item
-import com.capstone.dogwhere.DTO.home_hot_bbs_Item
+import com.capstone.dogwhere.DTO.*
+import com.google.android.material.datepicker.MaterialDatePicker.Builder.datePicker
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -41,6 +38,7 @@ import com.google.firebase.ktx.Firebase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_matching_list.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -90,6 +88,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     ): View? {
         val view = inflater.inflate(R.layout.activity_home, container, false)
         super.onCreate(savedInstanceState)
+
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting()
         } else {
@@ -188,7 +187,310 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
             }
 
+            var walkGoal:Walk_Goal?=null
+            db.collection("Walk_Goal").document(uid).get()
+                .addOnSuccessListener { result ->
+                    walkGoal =
+                        result.toObject<Walk_Goal>()
+                    if (walkGoal?.uid == null) {
+                        setting1.visibility = View.VISIBLE
+                        write.visibility = View.VISIBLE
+                    } else {
+                        rating.rating=walkGoal?.percent!!.toFloat()/20
+                        goal_day.setText(walkGoal?.goal_day.toString() + "번 ")
+                        if (walkGoal?.minute != null) {
+                            minute.setText(walkGoal?.minute.toString() + "분씩 ")
+                        }
+                        if (walkGoal?.km != null) {
+                            km.setText(walkGoal?.km.toString() + "km씩 ")
+                        }
+                        setting2.visibility = View.VISIBLE
+                        write2.visibility = View.VISIBLE
+                        goal(walkGoal!!)
+                    }
+                }
+            val setting1: TextView = view.findViewById(R.id.setting1)
+            val setting2: TextView = view.findViewById(R.id.setting2)
+            val view = inflater.inflate(R.layout.walk_goal_alert, null)
 
+            val count:EditText=view.findViewById(R.id.counter)
+            val countt:EditText=view.findViewById(R.id.counterr)
+            val minute:EditText=view.findViewById(R.id.minute)
+            val minutee:EditText=view.findViewById(R.id.minutee)
+            val km:EditText=view.findViewById(R.id.km)
+
+            val select_condition_group:RadioGroup=view.findViewById(R.id.select_condition_group)
+            val time_stand_content:RelativeLayout=view.findViewById(R.id.time_stand_content)
+            val boon: TextView =view.findViewById(R.id.boon)
+            val both_stand_content:RelativeLayout=view.findViewById(R.id.both_stand_content)
+
+            setting1.setOnClickListener {
+                var condition="time_stand"
+                time_stand_content.visibility=View.VISIBLE
+                select_condition_group.check(R.id.time_stand)
+                select_condition_group.setOnCheckedChangeListener { group, checkedId ->
+                    when (checkedId) {
+                        R.id.time_stand -> let {
+                            both_stand_content.visibility = View.INVISIBLE
+                            boon.text = "분씩"
+                            time_stand_content.visibility = View.VISIBLE
+                            condition = "time_stand"
+                        }
+                        R.id.dist_stand -> let {
+                            both_stand_content.visibility = View.INVISIBLE
+                            boon.text = "km씩"
+                            time_stand_content.visibility = View.VISIBLE
+                            condition = "dist_stand"
+                        }
+                        R.id.both_stand -> let {
+                            time_stand_content.visibility = View.INVISIBLE
+                            both_stand_content.visibility = View.VISIBLE
+                            condition = "both_stand"
+                        }
+                    }
+                }
+                val alertDialog = AlertDialog.Builder(context)
+                    .setPositiveButton("저장하기") { dialog, which ->
+                            when(condition){
+                                "time_stand" -> {
+                                    if (count.text.toString() != "" && minute.text.toString() != "") {
+                                        db.collection("Walk_Goal").document(uid).set(
+                                            Walk_Goal(
+                                                uid,
+                                                condition,
+                                                count.text.toString().toInt(),
+                                                minute.text.toString().toInt(),
+                                                null,
+                                                0,
+                                                0,
+                                                null
+                                            )
+                                        )
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    context,
+                                                    "목표가 등록되었습니다",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                    } else {
+                                        Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                "dist_stand" -> {
+                                    if (count.text.toString() != "" && minute.text.toString() != "") {
+                                        db.collection("Walk_Goal").document(uid).set(
+                                            Walk_Goal(
+                                                uid,
+                                                condition,
+                                                count.text.toString().toInt(),
+                                                null,
+                                                minute.text.toString().toInt(),
+                                                0,
+                                                0,
+                                                null
+                                            )
+                                        )
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    context,
+                                                    "목표가 등록되었습니다",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                    } else {
+                                        Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                                "both_stand" -> {
+                                    if (countt.text.toString() != "" && minutee.text.toString() != "" && km.text.toString() != "") {
+                                        db.collection("Walk_Goal").document(uid).set(
+                                            Walk_Goal(
+                                                uid,
+                                                condition,
+                                                countt.text.toString().toInt(),
+                                                minutee.text.toString().toInt(),
+                                                km.text.toString().toInt(),
+                                                0,
+                                                0,
+                                                null
+                                            )
+                                        )
+                                            .addOnSuccessListener {
+                                                Toast.makeText(
+                                                    context,
+                                                    "목표가 등록되었습니다",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                    } else {
+                                        Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                }
+                            }
+                        var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
+                        ft?.detach(this)?.attach(this)?.commit()
+                        }
+                    .setNeutralButton("취소", null)
+                    .create()
+                if (view.getParent() != null) (view.getParent() as ViewGroup).removeView(
+                    view
+                )
+                alertDialog.setView(view)
+                alertDialog.show()
+                alertDialog.window?.setLayout(800, 1000)
+            }
+
+            setting2.setOnClickListener {
+                var condition = "time_stand"
+
+                        time_stand_content.visibility = View.VISIBLE
+                        if (condition == walkGoal?.condition) {
+                            minute.setText(walkGoal?.minute.toString())
+                            count.setText(walkGoal?.goal_day.toString())
+                        } else {
+                            minute.setText("")
+                            count.setText("")
+                        }
+                select_condition_group.check(R.id.time_stand)
+                select_condition_group.setOnCheckedChangeListener { group, checkedId ->
+                    when (checkedId) {
+                        R.id.time_stand -> let {
+                            condition = "time_stand"
+                            both_stand_content.visibility = View.INVISIBLE
+                            boon.text = "분씩"
+                            time_stand_content.visibility = View.VISIBLE
+                            if (condition == walkGoal?.condition) {
+                                minute.setText(walkGoal?.minute.toString())
+                                count.setText(walkGoal?.goal_day.toString())
+                            } else {
+                                minute.setText("")
+                                count.setText("")
+                            }
+                        }
+                        R.id.dist_stand -> let {
+                            condition = "dist_stand"
+                            boon.text = "km씩"
+                            time_stand_content.visibility = View.VISIBLE
+                            both_stand_content.visibility = View.INVISIBLE
+                            if (condition == walkGoal?.condition) {
+                                minute.setText(walkGoal?.km.toString())
+                                count.setText(walkGoal?.goal_day.toString())
+                            } else {
+                                minute.setText("")
+                                count.setText("")
+                            }
+                        }
+                        R.id.both_stand -> let {
+                            condition = "both_stand"
+                            time_stand_content.visibility = View.INVISIBLE
+                            both_stand_content.visibility = View.VISIBLE
+                            if (condition == walkGoal?.condition) {
+                                countt.setText(walkGoal?.goal_day.toString())
+                                minutee.setText(walkGoal?.minute.toString())
+                                km.setText(walkGoal?.km.toString())
+                            } else {
+                                countt.setText("")
+                                minutee.setText("")
+                                km.setText("")
+                            }
+                        }
+                    }
+                }
+                val alertDialog = AlertDialog.Builder(context)
+                    .setPositiveButton("수정하기") { dialog, which ->
+                        when(condition){
+                            "time_stand" -> {
+                                if (count.text.toString() != "" && minute.text.toString() != "") {
+                                    db.collection("Walk_Goal").document(uid).set(
+                                        Walk_Goal(
+                                            uid,
+                                            condition,
+                                            count.text.toString().toInt(),
+                                            minute.text.toString().toInt(),
+                                            null,
+                                            0,
+                                            0,
+                                            null
+                                        )
+                                    )
+                                        .addOnSuccessListener {
+                                            Toast.makeText(
+                                                context,
+                                                "목표가 수정되었습니다",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                } else {
+                                    Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            "dist_stand" -> {
+                                if (count.text.toString() != "" && minute.text.toString() != "") {
+                                    db.collection("Walk_Goal").document(uid).set(
+                                        Walk_Goal(
+                                            uid,
+                                            condition,
+                                            count.text.toString().toInt(),
+                                            null,
+                                            minute.text.toString().toInt(),
+                                            0,
+                                            0,
+                                            null
+                                        )
+                                    )
+                                        .addOnSuccessListener {
+                                            Toast.makeText(
+                                                context,
+                                                "목표가 수정되었습니다",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                } else {
+                                    Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            "both_stand" -> {
+                                if (countt.text.toString() != "" && minutee.text.toString() != "" && km.text.toString() != "") {
+                                    db.collection("Walk_Goal").document(uid).set(
+                                        Walk_Goal(
+                                            uid,
+                                            condition,
+                                            countt.text.toString().toInt(),
+                                            minutee.text.toString().toInt(),
+                                            km.text.toString().toInt(),
+                                            0,
+                                            0,
+                                            null
+                                        )
+                                    )
+                                        .addOnSuccessListener {
+                                            Toast.makeText(
+                                                context,
+                                                "목표가 수정되었습니다",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                } else {
+                                    Toast.makeText(context, "입력해주세요", Toast.LENGTH_SHORT).show()
+                                }
+
+                            }
+                        }
+                        var ft: FragmentTransaction? = fragmentManager?.beginTransaction()
+                        ft?.detach(this)?.attach(this)?.commit()
+                    }
+                    .setNeutralButton("취소", null)
+                    .create()
+
+                if (view.getParent() != null) (view.getParent() as ViewGroup).removeView(
+                    view
+                )
+                alertDialog.setView(view)
+                alertDialog.show()
+                alertDialog.window?.setLayout(800, 1000)
+            }
 
             Log.d("거리", "위도 : ${Longitude}, 경도 : ${Latitude}")
             area = getCurrentAddress(Latitude, Longitude)
@@ -209,7 +511,10 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
                         )
 
                     )
-                    Log.d("ybyb","yb home -> ${document.id}//---${result?.dogName.toString()} $$$$$$${result?.dogstate.toString()}")
+                    Log.d(
+                        "ybyb",
+                        "yb home -> ${document.id}//---${result?.dogName.toString()} $$$$$$${result?.dogstate.toString()}"
+                    )
                     recyclerview_dogstate.adapter=adapter3
                 }
             }
@@ -272,6 +577,65 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             }
         }
     }
+    private fun goal(goal: Walk_Goal){
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.uid.toString()
+        currenttime()?.let {
+            db.collection("Walk_Record").document(uid).collection(uid)
+                .document(it).get()
+                .addOnSuccessListener {
+                    Log.e("yy", goal.minute.toString())
+                    if(it["timesec"]!=null){
+                        when(goal.condition){
+                            "time_stand"->{
+                                if (it["timesec"].toString().toInt()/ 1000 % 60 >= 5) {
+                                    goal2(goal,uid)
+                                } //확인용 5초
+                            }
+                            "dist_stand"->{
+                                if (it["distance"].toString().toInt()>= goal.km!!) {
+                                    goal2(goal,uid)
+                                }
+                            }
+                            "both_stand"->{
+                                if (it["timesec"].toString().toInt()/ 1000 / 60 >= goal.minute!!
+                                    && it["distance"].toString().toInt()>= goal.km!!) {
+                                    goal2(goal,uid)
+                                }
+                            }
+                        }
+                    }else{
+                        Log.e("yy", "아직 오늘 기록이 없음")
+                    }
+
+                }
+        }
+
+    }
+    private fun goal2(goal:Walk_Goal, uid:String){
+        if(goal.percent<100 && goal.condition_date!=currenttime()){
+            db.collection("Walk_Goal").document(uid).update("percent",
+                goal.percent+(100/goal.goal_day),
+                "success_day",goal.success_day+1,
+            "condition_date",currenttime())
+                .addOnSuccessListener {
+                            Log.e("yy", "확인해보셍 됨")
+                }
+            }
+
+    }
+    private fun currenttime(): String? {
+        val time = System.currentTimeMillis()
+        val dateFormat = SimpleDateFormat("yyyy-M-d")
+        val curTime = dateFormat.format(Date(time))
+        Log.d("check", curTime)
+        return curTime
+    }
+
+
+
+
+
 
     private fun showDialogForLocationServiceSetting() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
