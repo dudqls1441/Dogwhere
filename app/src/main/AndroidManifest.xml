@@ -113,6 +113,7 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        <activity android:name=".GroupChat.GroupChatRoomActivity" />
 
         <activity android:name=".Chatting_Room_Activity" />
         <activity android:name=".MainMenuActivity" />
