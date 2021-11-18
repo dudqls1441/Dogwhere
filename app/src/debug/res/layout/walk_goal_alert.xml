@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MatchingListActivity">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/sebanggothic"
+            android:text="산책 목표"
+            android:textColor="@color/main_labelText"
+            android:textSize="10dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/standard"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/top_layout"
+        android:background="@drawable/layout_border_mint"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/select_condition_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/time_stand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="산책 시간 기준" />
+
+            <RadioButton
+                android:id="@+id/dist_stand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="거리 기준" />
+
+            <RadioButton
+                android:id="@+id/both_stand"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="둘다" />
+        </RadioGroup>
+    </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/time_stand_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/standard"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="25dp"
+                android:text="일주일에 "
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20dp" />
+            <RelativeLayout
+                android:id="@+id/yy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/text">
+                <EditText
+                    android:id="@+id/counter"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bun"
+                android:layout_toRightOf="@+id/counter"
+                android:text="번, "
+                android:textColor="@color/main_yellow"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/minute"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/bun" />
+
+            <TextView
+                android:id="@+id/boon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/minute"
+                android:text="분씩"
+                android:textColor="@color/main_yellow"
+                android:textSize="24dp" />
+            </RelativeLayout>
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yy"
+                android:text=" 산책하기"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="24dp" />
+        </RelativeLayout>
+
+            <RelativeLayout
+            android:id="@+id/both_stand_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_below="@+id/standard"
+            android:layout_centerHorizontal="true"
+                android:visibility="invisible">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:id="@+id/textt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/date"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="25dp"
+                android:text="일주일에"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20dp" />
+            <RelativeLayout
+                android:id="@+id/yyy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textt">
+                <EditText
+                    android:id="@+id/counterr"
+                    android:text=""
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bunn"
+                android:layout_toRightOf="@+id/counterr"
+                android:text="번, "
+                android:textColor="@color/main_yellow"
+                android:textSize="24dp" />
+
+            <EditText
+                android:id="@+id/minutee"
+                android:layout_width="wrap_content"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/bunn" />
+
+            <TextView
+                android:id="@+id/boonn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/minutee"
+                android:text="분씩, "
+                android:textColor="@color/main_yellow"
+                android:textSize="24dp" />
+                <EditText
+                    android:id="@+id/km"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_toRightOf="@id/boonn" />
+
+                <TextView
+                    android:id="@+id/kmm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/km"
+                    android:text="km씩"
+                    android:textColor="@color/main_yellow"
+                    android:textSize="24dp" />
+            </RelativeLayout>
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/text22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/yyy"
+                    android:text=" 산책하기"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="24dp" />
+
+        </RelativeLayout>
+</RelativeLayout>

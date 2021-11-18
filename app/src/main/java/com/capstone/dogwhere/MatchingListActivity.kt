@@ -165,7 +165,7 @@ class MatchingListActivity : AppCompatActivity() {
                         Log.e(
                             "yy",
                             document.get("place").toString() + " 있음"
-                        ) //조건검색(지역)할때 사용
+                        )
                         Log.d("Matching", "Matching있음")
                         Log.d("Matching", document.get("title").toString())
                         full(document)

@@ -191,21 +191,10 @@ class BBS_Transaction_Writing : AppCompatActivity() {
     }
 
     private fun currenttime(): String? {
-
         val time = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd kk:mm:ss")
         val curTime = dateFormat.format(Date(time))
         Log.d("check", curTime)
-
-//    val current = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//        LocalDateTime.now()
-//    } else {
-//
-//    }
-//    val now = LocalDate.now()
-//    var formatter = DateTimeFormatter.ISO_DATE
-//    val formatted = current.format(formatter)
-
         return curTime
     }
 
