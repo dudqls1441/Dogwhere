@@ -20,6 +20,7 @@ import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.FCM.PushNotification
 import com.capstone.dogwhere.FCM.NotificationData
 import com.capstone.dogwhere.FCM.RetrofitInstance
+import com.firepush.Fire
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
@@ -48,6 +49,7 @@ class BBS_Common_Post : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_b_b_s__common_post)
+        Fire.init("AAAA1P59Tgs:APA91bEuZ_Hp7rsbkRmR0zWrI_uDhd9o3RMXz4oBpOeXHGc_RCJEo_-d1J-_BL5Hl4jk0KmzjZmWzzNeCOJ4n8jsiFo53QNaknXCq4fOwvbkuSpXNF08XMYud8dY8fHPl1PDMj8-_EDU")
 
         val bbs_oid = intent.getStringExtra("oid").toString()
         val bbs_tabname = intent.getStringExtra("tab").toString()
@@ -65,9 +67,9 @@ class BBS_Common_Post : AppCompatActivity() {
             }
         }
 
-        Log.d("ybyb","tab_name ->${bbs_tabname}")
-        Log.d("ybyb","WriterUid ->${your_uid}")
-        changedDocument(bbs_tabname,your_uid)
+        Log.d("ybyb", "tab_name ->${bbs_tabname}")
+        Log.d("ybyb", "WriterUid ->${your_uid}")
+//        changedDocument(bbs_tabname, your_uid)
         // 게시글 작성자 프로필
         getWriterProfile()
         // Like 유무 확인
@@ -77,7 +79,7 @@ class BBS_Common_Post : AppCompatActivity() {
         // 댓글 작성 이벤트
         btn_bbscommon_send.setOnClickListener {
             if (edittext_bbscommon_comment.text.toString() != "") {
-                writeComment(uid, bbs_tabname, bbs_oid)
+                writeComment(your_uid, bbs_tabname, bbs_oid)
             }
         }
         // 게시물 하트 버튼 이벤트
@@ -119,6 +121,7 @@ class BBS_Common_Post : AppCompatActivity() {
             }.run { startActivity(this) }
         }
     }
+
     private fun deleteDialog(bbs_tabname: String, bbs_oid: String) {
         val dialog = CustomDialog_bbs_delete_check(this)
         val title = "게시글 삭제"
@@ -240,8 +243,8 @@ class BBS_Common_Post : AppCompatActivity() {
         }
     }
 
-    private fun writeComment(uid: String, bbs_tabname: String, bbs_oid: String) {
-
+    private fun writeComment(writerUid: String, bbs_tabname: String, bbs_oid: String) {
+        val uid = auth.uid.toString()
         db.collection("users").document(uid).collection("userprofiles").document(uid).get()
             .addOnSuccessListener { result ->
                 val result = result.toObject<UserProfile>()
@@ -251,7 +254,7 @@ class BBS_Common_Post : AppCompatActivity() {
                 Log.e("joo", "nickname,, profile : " + commentProfile + commentnickname)
                 Log.e("joo", "tab:" + bbs_tabname)
 
-                postComment(bbs_tabname, bbs_oid, commentnickname, commentProfile)
+                postComment(writerUid,bbs_tabname, bbs_oid, commentnickname, commentProfile)
 
                 try {
                     refresh()
@@ -263,8 +266,7 @@ class BBS_Common_Post : AppCompatActivity() {
     }
 
     // 게시물 댓글 입력 메서드
-    private fun postComment(bbs_tab: String, bbs_oid: String, nickname: String, profile: String) {
-
+    private fun postComment(writerUid:String,bbs_tab: String, bbs_oid: String, nickname: String, profile: String) {
         val uid = auth.uid.toString()
         val comment = edittext_bbscommon_comment.text.toString()
         val time = currenttime().toString()
@@ -274,7 +276,21 @@ class BBS_Common_Post : AppCompatActivity() {
 
         val doc = db.collection(bbs_tab).document(bbs_oid).collection("Comment").document()
         Log.e("joo", "postComment id :" + doc.id)
-        doc.set(bbscomment)
+        doc.set(bbscomment).addOnSuccessListener {
+            db.collection(bbs_tab).document(bbs_oid).get().addOnSuccessListener {
+                val PostTile = it.get("title").toString()
+                db.collection("users").document(writerUid).collection("userprofiles").document(writerUid).get().addOnSuccessListener {
+                    val userToken = it.get("userToken").toString()
+                    Log.d("ybyb","글쓴이 userToken ->${userToken}")
+                    send_fcm(
+                        PostTile+ " 게시물에 댓글이 달렸습니다.",
+                        comment,
+                        userToken
+                    )
+                }
+            }
+        }
+
     }
 
     private fun currenttime(): String? {
@@ -293,78 +309,47 @@ class BBS_Common_Post : AppCompatActivity() {
         overridePendingTransition(0, 0) //인텐트 애니메이션 없애기
     }
 
-    private fun changedDocument(bbs_tabname: String,writerUid:String) {
-        auth = FirebaseAuth.getInstance()
-        db.collection(bbs_tabname).get().addOnSuccessListener {
-            for (document in it) {
-                if (writerUid.equals(document.get("uid").toString())) {
-                    Log.d("ybyb","글쓴이 매칭 document.id->${document.id}")
-                    db.collection(bbs_tabname).document(document.id).collection("Comment")
-                        .addSnapshotListener { value, error ->
-                            if (error != null) {
-                                Log.w(
-                                    "ybyb",
-                                    "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
-                                )
-                                return@addSnapshotListener
-                            }
-                            if (value!!.metadata.isFromCache) return@addSnapshotListener
-                            for (doc in value.documentChanges) {
-                                //documet 에 문서가 추가되었을 때
-                                if (doc.type == DocumentChange.Type.ADDED) {
-                                        sendNotification(document.get("title").toString()+" 게시물에 댓글이 달렸습니다.",doc.document["comment"].toString(),doc.document["uid"].toString())
-                                        Log.d("ybyb","information->알림 보내기 성공")
-                                }
+    private fun send_fcm(title: String, content: String, receiverToken: String) {
+        Fire.create()
+            .setTitle(title)
+            .setBody(content)
+            .setCallback { pushCallback, exception ->
+                Log.d("ybyb", "push->${pushCallback}")
+                Log.d("ybyb", "보내졌는지: ${pushCallback.isSent}")
+                Log.d("ybyb", "e->${exception.toString()}")
 
-                            }
-                        }
-                }
             }
-        }
+            .toIds(receiverToken)  //toTopic("FOR TOPIC") or toCondition("CONDITION HERE")
+            .push()
     }
-    private fun sendNotification(title: String,content:String,senderUid:String) {
-        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
-
-        //calendar.timeInMillis
-
-        Log.d("ybyb","보내는 쪽 senderUid->${senderUid}")
-        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-            action = "com.check.up.setAlarm"
-            putExtra("title", title)
-            putExtra("content", content)
-            putExtra("senderUid",senderUid)
-        }
-        val alarmManager =
-            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            alarmIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP ,
-                sendTime_now,
-                pendingIntent
-            )
-
-        } else {
-            if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP ,
-                    sendTime_now,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP ,
-                    sendTime_now,
-                    pendingIntent
-                )
-            }
-        }
-    }
-
 }
+
+
+//    private fun changedDocument(bbs_tabname: String, writerUid: String) {
+//        auth = FirebaseAuth.getInstance()
+//        db.collection(bbs_tabname).get().addOnSuccessListener {
+//            for (document in it) {
+//                if (writerUid.equals(document.get("uid").toString())) {
+//                    Log.d("ybyb", "글쓴이 매칭 document.id->${document.id}")
+//                    db.collection(bbs_tabname).document(document.id).collection("Comment")
+//                        .addSnapshotListener { value, error ->
+//                            if (error != null) {
+//                                Log.w(
+//                                    "ybyb",
+//                                    "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
+//                                )
+//                                return@addSnapshotListener
+//                            }
+//                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+//                            for (doc in value.documentChanges) {
+//                                //documet 에 문서가 추가되었을 때
+//                                if (doc.type == DocumentChange.Type.ADDED) {
+//                                    Log.d("ybyb", "information->알림 보내기 성공")
+//                                }
+//
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//    }

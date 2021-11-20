@@ -16,6 +16,7 @@ import android.R.*
 import android.app.NotificationChannel
 import android.app.NotificationManager.IMPORTANCE_HIGH
 import android.graphics.Color
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.capstone.dogwhere.R
 import kotlin.random.Random.*
@@ -53,6 +54,10 @@ class FirebaseService : FirebaseMessagingService() {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = 45
+        Log.d("ybyb","FirebaseServic로부터 옴 data->${message.data}")
+        Log.d("ybyb","FirebaseServic로부터 옴 notification->${message.notification}")
+        Log.d("ybyb","FirebaseServic로부터 옴 messageType->${message.messageType}")
+        Log.d("ybyb","FirebaseServic로부터 옴 sentTime->${message.sentTime.toString()}")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager)
@@ -74,6 +79,8 @@ class FirebaseService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val channelName = "channelName"
+        Log.d("ybyb","FirebaseServic로부터 옴")
+
         val channel = NotificationChannel(CHANNEL_ID, channelName, IMPORTANCE_HIGH).apply {
             description = "My channel description"
             enableLights(true)

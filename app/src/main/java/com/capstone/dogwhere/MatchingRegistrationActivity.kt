@@ -75,7 +75,8 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         Matching_day.setText(matching_day.toString())
 
         var cal = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(this,
+        val datePickerDialog = DatePickerDialog(
+            this,
             { view, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)
                 cal.set(Calendar.MONTH, 10)
@@ -84,7 +85,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
                 matching_month = (monthOfYear + 1)
                 matching_day = dayOfMonth
 
-                Log.d("ybyb","matching_year ->${matching_year}  matching_month ->${matching_month}  matching_day ->${matching_day}")
+                Log.d(
+                    "ybyb",
+                    "matching_year ->${matching_year}  matching_month ->${matching_month}  matching_day ->${matching_day}"
+                )
 
                 Matching_year.setText(matching_year.toString())
                 Matching_month.setText(matching_month.toString())
@@ -553,7 +557,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             matching_year.toString() + "/" + matching_month.toString() + "/" + matching_day.toString()
         if (matching_day.toString().length == 1) {
             party_date =
-                matching_year.toString() + "/" + matching_month.toString() + "/" + "0"+matching_day.toString()
+                matching_year.toString() + "/" + matching_month.toString() + "/" + "0" + matching_day.toString()
         }
 
         val party_time =
@@ -585,9 +589,10 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         }
         Log.d("ybyb", "day -> ${day} Done_hour ->${Done_hour} Done_munute ->${Done_minute}")
 
-        val Conversion_date = (date[0].toInt() * 60 * 24 * 30 * 12)+ (month * 60 * 24 * 30) + (day * 60 * 24) + (hour * 60) + minute
+        val Conversion_date =
+            (date[0].toInt() * 60 * 24 * 30 * 12) + (month * 60 * 24 * 30) + (day * 60 * 24) + (hour * 60) + minute
 
-        Log.d("ybyb","Conversion_date ->${Conversion_date}")
+        Log.d("ybyb", "Conversion_date ->${Conversion_date}")
 
 
 
@@ -652,7 +657,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         documentId: String,
         latitude: Double,
         longitude: Double,
-        Conversion_date : Int
+        Conversion_date: Int
     ) {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser!!.uid
@@ -689,14 +694,22 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             Log.d("ybyb", "MatchingRegistration__date ->${date}")
             val month: Int = date[1].toInt() - 1
             var day = date[2].toInt()
-            Log.d("ybyb", "MatchingRegistration__month ->${month} day ->${day}")
+            Log.d("ybybyb", "캘린더에 들어갈 값 (매칭 한 시간 전)month ->${month} day ->${day}")
 
             val start_time = party_time.split("/")
             val hour: Int = start_time[0].toInt() - 1
             val minute = start_time[1].toInt()
-            Log.d("ybyb", "MatchingRegistration__hour ->${hour} minute ->${minute}")
+            Log.d("ybyb", "캘린더에 들어갈 값 (매칭 한 시간 전)hour->${hour}minute ->${minute}")
 
-            //매칭 있는 날 아침시간에 "금일은 매칭이 있습니다" 알림 보내기 위함
+            //종료 시간
+            val splitedDoneTime = doneTime.split("/")
+            Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
+
+            val Done_hour = splitedDoneTime[0].toInt()
+            val Done_minute = splitedDoneTime[1].toInt()
+            Log.d("ybyb", "Done_hour ->${Done_hour} Done_minute ->${Done_minute}")
+
+            //매칭 있는 날 한 시간 전에 보내기 위함
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.YEAR, 2021)
             calendar.set(Calendar.MONTH, month)
@@ -708,14 +721,29 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             val content = title + " 매칭 시작 1시간 전입니다."
 
 
+            //매칭 종료 시간에 맞춰 종료를 위함 "금일은 매칭이 있습니다" 알림 보내기 위함
+            val Done_calendar = Calendar.getInstance()
+            Done_calendar.set(Calendar.YEAR, 2021)
+            Done_calendar.set(Calendar.MONTH, month)
+            Done_calendar.set(Calendar.DAY_OF_MONTH, day)
+            Done_calendar.set(Calendar.HOUR_OF_DAY, Done_hour)
+            Done_calendar.set(Calendar.MINUTE, Done_minute)
+            Done_calendar.set(Calendar.SECOND, 0)
+
+            val done_content = "매칭종료"
+
+
+
 
             db.collection("Matching").document(documentId).set(matching).addOnSuccessListener {
-                Log.d("InsertMatching", "InsertMatching_성공")
+                Log.d("ybyb", "InsertMatching_성공")
+                sendNotification(title, content, calendar)
+                sendNotification(title, done_content, Done_calendar, documentId)
                 db.collection("Matching").document(documentId).collection("participant")
                     .document(uid)
                     .set(Participant(uid, uid, curTime.toString()))
                     .addOnSuccessListener {
-                        sendNotification(title, content, calendar)
+
                         Log.d("Participant", "MatchingDetailActivity_participant  성공")
                     }.addOnFailureListener {
                         Log.d("Participant", "Participant 실패 이유 : ${it}")
@@ -763,6 +791,59 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
             action = "com.check.up.setAlarm"
             putExtra("title", title)
             putExtra("content", content)
+        }
+        val alarmManager =
+            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            alarmIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            ).let {
+                Log.d("ybyb", title + "알림 보내기")
+            }
+
+        } else {
+            if (Build.VERSION.SDK_INT >= 19) {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                ).let {
+                    Log.d("ybyb", title + "알림 보내기")
+                }
+            } else {
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                ).let {
+                    Log.d("ybyb", title + "알림 보내기")
+                }
+            }
+        }
+    }
+
+    private fun sendNotification(
+        title: String,
+        content: String,
+        calendar: Calendar,
+        documentId: String
+    ) {
+        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+            action = "com.check.up.setAlarm"
+            putExtra("title", title)
+            putExtra("content", content)
+            putExtra("Done_Notification", "Done_Notification")
+            putExtra("documentId", documentId)
+
         }
         val alarmManager =
             this.getSystemService(Context.ALARM_SERVICE) as AlarmManager

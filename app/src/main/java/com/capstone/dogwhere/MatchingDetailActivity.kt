@@ -78,7 +78,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         fragment!!.getMapAsync(this)
 
 
-        matchingAdded()
+       // matchingAdded()
         init()
 
 
@@ -177,17 +177,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val now_time_minute = now_hour.toInt() * 60 + now_minute.toInt()
 
-
-
-        Log.d("ybyb", "현재 연월일->${curTime}")
-
-        Log.d(
-            "ybyb", "현재 시분 ->${curtime2}  ,시 ->${now_hour} ,분 ->${now_minute}"
-        )
-
-        Log.d("ybyb", "현재 시분 -> 분 환산분 : ${now_time_minute}")
-
-
         //내가 올린 매칭일 때
         if (uid == matchingLeaderUid) {
             btn_trash.visibility = View.VISIBLE
@@ -235,26 +224,19 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     if (ongoing.equals(false)) {
                         btn_Done.visibility = View.GONE
                     }
+
                     val date = result!!.date
                     val splitedDate = date.split("/")
-                    Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
-
 
                     //시작 시간
                     val splitedStartTime = result!!.startime.split("/")
-                    Log.d("ybyb", "startime-> ${splitedStartTime}")
-
                     val start_time_minute =
                         splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
-                    Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
 
                     //종료 시간
                     val splitedDoneTime = result!!.doneTime.split("/")
-                    Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
-
                     val Done_time_minute =
                         splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
-                    Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
 
 
                     if (curTime.equals(date)) {
@@ -334,25 +316,17 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 }
                                 val date = result!!.date
                                 val splitedDate = date.split("/")
-                                Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
-
 
                                 //시작 시간
                                 val splitedStartTime = result!!.startime.split("/")
-                                Log.d("ybyb", "startime-> ${splitedStartTime}")
 
                                 val start_time_minute =
                                     splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
-                                Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
 
                                 //종료 시간
                                 val splitedDoneTime = result!!.doneTime.split("/")
-                                Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
-
                                 val Done_time_minute =
                                     splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
-                                Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
-
 
                                 if (curTime.equals(date)) {
                                     if (ongoing.equals(true)) {
@@ -416,7 +390,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 matching_profile_name.setText(result?.userName)
                             }.addOnFailureListener {
                                 Log.d(
-                                    "MatchingDetailActivity",
+                                    "ybyb",
                                     "MatchingDetailActivity ..userprofile 가져오기 실패 : ${it}"
                                 )
                             }
@@ -433,25 +407,16 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                                 }
                                 val date = result!!.date
                                 val splitedDate = date.split("/")
-                                Log.d("ybyb", "date ->${date}   splitedDate ->${splitedDate}")
-
 
                                 //시작 시간
                                 val splitedStartTime = result!!.startime.split("/")
-                                Log.d("ybyb", "startime-> ${splitedStartTime}")
-
                                 val start_time_minute =
                                     splitedStartTime[0].toInt() * 60 + splitedStartTime[1].toInt()
-                                Log.d("ybyb", "시작 시간 분환산 -start_time_minute :${start_time_minute}")
 
                                 //종료 시간
                                 val splitedDoneTime = result!!.doneTime.split("/")
-                                Log.d("ybyb", "splitedDoneTime-> ${splitedDoneTime}")
-
                                 val Done_time_minute =
                                     splitedDoneTime[0].toInt() * 60 + splitedDoneTime[1].toInt()
-                                Log.d("ybyb", "종료 시간 분환산 -Done_time_minute :${Done_time_minute}")
-
 
                                 if (curTime.equals(date)) {
                                     if (ongoing.equals(true)) {
@@ -678,7 +643,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             db.collection("Matching").document(documentId).collection("participant").document(uid)
                 .set(participant)
                 .addOnSuccessListener {
-                    noti_before_1hour()
                     Log.d("Participant", "MatchingDetailActivity_participant  성공")
                 }.addOnFailureListener {
                     Log.d("Participant", "Participant 실패 이유 : ${it}")
@@ -1051,83 +1015,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun noti_before_1hour() {
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-
-        db.collection("Matching").document(matchingDocumentId).get()
-            .addOnSuccessListener {
-                val result = it.toObject<Matching>()
-                //calendar 데이터 전처리
-                val date = result!!.date.split("/")
-                val month: Int = date[1].toInt() - 1
-                val day = date[2].toInt()
-                Log.d("ybyb", "MatchingDetail__month ->${month} day ->${day}")
-
-                val start_time = result!!.startime.split("/")
-                val hour: Int = start_time[0].toInt() - 1
-                val minute = start_time[1].toInt()
-                Log.d("ybyb", "MatchingDetail__hour ->${hour} minute ->${minute}")
-
-                //매칭 1시간 전 알림 보내기 위함
-                val calendar = Calendar.getInstance()
-                calendar.set(Calendar.YEAR, 2021)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minute)
-                calendar.set(Calendar.SECOND, 0)
-
-                val content = result!!.title + " 매칭 시작 1시간 전입니다."
-
-                sendNotification(result!!.title, content, calendar)
-
-
-            }
-    }
-
-    private fun sendNotification(title: String, content: String, calendar: Calendar) {
-        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
-        //calendar.timeInMillis
-
-        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-            action = "com.check.up.setAlarm"
-            putExtra("title", title)
-            putExtra("content", content)
-        }
-        val alarmManager =
-            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            alarmIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.ELAPSED_REALTIME,
-                sendTime_now,
-                pendingIntent
-            )
-
-        } else {
-            if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.set(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
-                    pendingIntent
-                )
-            }
-        }
-    }
-
     private fun sendNotification(title: String, content: String) {
         val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
         //calendar.timeInMillis
@@ -1281,19 +1168,4 @@ class MatchingPagerAdapter(
             else -> return MatchingExplanationFragment()
         }
     }
-
-
 }
-
-
-//fcm 푸시알림 되면 넣기,,,,,,,,!<,,,,
-//        auth = FirebaseAuth.getInstance()
-//        val uid = auth.currentUser?.uid.toString()
-
-//        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
-//        val tokenToDevice: String =
-//            "cf3TmWH2SvSKk9RkOKDZLH:APA91bEqQD4nr73KpaxH7dZIzMhRBjMmEYPAWkoQjds1CgMoQDMw0RbsNNTvPu0RRJ3yg_KD8Em34_UZoiVSQjuwZWFcrQuHPtFHMVtgwl9c7wFS81vUq3JdbviUXMQixPh0fnuK38GN"
-//        PushNotification(
-//            NotificationData("나어디개", "내 매칭에 참여자가 등록되었습니다."),
-//            tokenToDevice
-//        ).also { sendNotification(it) }

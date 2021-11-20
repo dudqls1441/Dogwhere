@@ -8,7 +8,7 @@ import androidx.work.WorkerParameters
 
 class MyWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams){
     override fun doWork(): Result {
-        Log.d("MyWorker","MyWorker -> Performing long running task in scheduled job")
+        Log.d("ybyb","MyWorker -> Performing long running task in scheduled job")
 
         return ListenableWorker.Result.success()
 

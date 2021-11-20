@@ -23,8 +23,9 @@ import com.capstone.dogwhere.DTO.Alarm_data
 class MyReceiver : BroadcastReceiver() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var title :String
-    private lateinit var content :String
+    private lateinit var title: String
+    private lateinit var content: String
+    var Done_Notification = ""
     lateinit var notificationManager: NotificationManager
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -32,48 +33,56 @@ class MyReceiver : BroadcastReceiver() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        title =""
-        content=""
-        title =intent.getStringExtra("title").toString()
-        content =intent.getStringExtra("content").toString()
+        title = ""
+        content = ""
+        title = intent.getStringExtra("title").toString()
+        content = intent.getStringExtra("content").toString()
         val senderUid = intent.getStringExtra("senderUid").toString()
+        Log.d("ybyb","onReceive")
 
-        Log.d("ybyb","받는쪽 senderUid->${senderUid}")
-        Log.d("ybyb","intent -> ${intent}")
 
-        if(intent != null){
+        //매칭 종료시간 되면 자동 매칭 종료
+        if (intent.getStringExtra("Done_Notification") == "Done_Notification") {
+            Log.d("ybyb", "MyReceive -> Done메세지 옴")
+            val document_id = intent.getStringExtra("documentId").toString()
+            db.collection("Matching").document(document_id).update("ongoing", false)
+                .addOnSuccessListener {
+                    Log.d("ybyb", "매칭 완료시킴")
+                }.addOnFailureListener {
+                    Log.d("ybyb", "매칭 완료 실패")
+                }
+
+        }
+
+
+        Log.d("ybyb", "받는쪽 senderUid->${senderUid}")
+        Log.d("ybyb", "intent -> ${intent}")
+
+
+        if (intent != null) {
             val dateAndtime: LocalDateTime = LocalDateTime.now()
             val onlyDate: LocalDate = LocalDate.now()
             val uid = auth.currentUser!!.uid
 
-            if(!uid.equals(senderUid)){
-                val data = Alarm_data(uid,dateAndtime.toString(),title,content)
+            Log.d("ybyb", "받기 성공")
+            Log.d("ybyb", "title ->${title}, content ->${content}")
+            notificationManager = context.getSystemService(
+                Context.NOTIFICATION_SERVICE
+            ) as NotificationManager
 
-                db.collection("Alarm").document(uid).collection("내용").add(data).addOnSuccessListener {
-                    Log.d("ybyb","받기 성공")
-                    Log.d("ybyb","title ->${title}, content ->${content}")
-                }
-                Log.d("ybyb알람","Receive 성공"+System.currentTimeMillis().toString())
+            createNotificationChannel()
+            deliverNotification(context)
 
 
-
-                notificationManager = context.getSystemService(
-                    Context.NOTIFICATION_SERVICE) as NotificationManager
-
-                createNotificationChannel()
-                deliverNotification(context)
-            }else{
-                Log.d("ybyb","같은 uid라 알림 안 옴")
-            }
-        }else{
-            Log.d("ybyb","intent 없음")
+        } else {
+            Log.d("ybyb", "intent 없음")
         }
 
     }
 
 
     // Notification 을 띄우기 위한 Channel 등록
-    fun createNotificationChannel(){
+    fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
                 CHANNEL_ID, // 채널의 아이디
@@ -91,12 +100,13 @@ class MyReceiver : BroadcastReceiver() {
             notificationChannel.enableVibration(true) // 진동 여부
             notificationChannel.description = "채널의 상세정보입니다." // 채널 정보
             notificationManager.createNotificationChannel(
-                notificationChannel)
+                notificationChannel
+            )
         }
     }
 
     // Notification 등록
-    private fun deliverNotification(context: Context){
+    private fun deliverNotification(context: Context) {
         val contentIntent = Intent(context, MainMenuActivity::class.java)
         val contentPendingIntent = PendingIntent.getActivity(
             context,

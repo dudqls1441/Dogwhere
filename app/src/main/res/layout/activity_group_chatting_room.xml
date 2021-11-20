@@ -9,21 +9,21 @@
 
 
     <RelativeLayout
+        android:id="@+id/chatting_room_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentTop="true"
-        android:id="@+id/chatting_room_top"
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/chatting_room_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:layout_alignParentLeft= "true"
-            android:id="@+id/chatting_room_btn_back"
             android:background="@color/white"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/chatting_room_other"
@@ -36,16 +36,7 @@
             android:textColor="@color/main_labelText"
             android:textSize="14dp" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight = "true"
-            android:layout_marginTop="40dp"
-            android:id="@+id/btn_add"
-            android:background="@color/white"
-            android:src="@drawable/ic_check"/>
+
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

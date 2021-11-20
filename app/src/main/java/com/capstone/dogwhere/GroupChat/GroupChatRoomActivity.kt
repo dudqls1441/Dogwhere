@@ -50,6 +50,7 @@ class GroupChatRoomActivity : AppCompatActivity() {
                 val result = it.toObject<UserProfile>()
                 myname = result?.userName.toString()
             }
+
         chatting_room_other.text = matchingTitle
         val database = FirebaseDatabase.getInstance()
         val groupChatRef = database.getReference("group-chat").child(documentId)

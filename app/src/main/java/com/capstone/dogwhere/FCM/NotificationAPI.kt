@@ -1,6 +1,5 @@
 package com.capstone.dogwhere.FCM
 
-import com.capstone.dogwhere.FCM.PushNotification
 import com.capstone.dogwhere.FCM.Constants.Companion.SERVER_KEY
 import com.capstone.dogwhere.FCM.Constants.Companion.CONTENT_TYPE
 import okhttp3.ResponseBody
