@@ -69,7 +69,7 @@ class BBS_Common_Post : AppCompatActivity() {
 
         Log.d("ybyb", "tab_name ->${bbs_tabname}")
         Log.d("ybyb", "WriterUid ->${your_uid}")
-//        changedDocument(bbs_tabname, your_uid)
+
         // 게시글 작성자 프로필
         getWriterProfile()
         // Like 유무 확인
@@ -323,33 +323,3 @@ class BBS_Common_Post : AppCompatActivity() {
             .push()
     }
 }
-
-
-//    private fun changedDocument(bbs_tabname: String, writerUid: String) {
-//        auth = FirebaseAuth.getInstance()
-//        db.collection(bbs_tabname).get().addOnSuccessListener {
-//            for (document in it) {
-//                if (writerUid.equals(document.get("uid").toString())) {
-//                    Log.d("ybyb", "글쓴이 매칭 document.id->${document.id}")
-//                    db.collection(bbs_tabname).document(document.id).collection("Comment")
-//                        .addSnapshotListener { value, error ->
-//                            if (error != null) {
-//                                Log.w(
-//                                    "ybyb",
-//                                    "${bbs_tabname} 메서드 snapshot 에러 : ${error.message}"
-//                                )
-//                                return@addSnapshotListener
-//                            }
-//                            if (value!!.metadata.isFromCache) return@addSnapshotListener
-//                            for (doc in value.documentChanges) {
-//                                //documet 에 문서가 추가되었을 때
-//                                if (doc.type == DocumentChange.Type.ADDED) {
-//                                    Log.d("ybyb", "information->알림 보내기 성공")
-//                                }
-//
-//                            }
-//                        }
-//                }
-//            }
-//        }
-//    }

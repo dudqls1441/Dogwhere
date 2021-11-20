@@ -88,7 +88,10 @@ class joinId : AppCompatActivity() {
                                         intent.flags =
                                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                         startActivity(intent)
-                                        overridePendingTransition(R.anim.slide_up_enter,R.anim.slide_up_eixt)
+                                        overridePendingTransition(
+                                            R.anim.slide_up_enter,
+                                            R.anim.slide_up_eixt
+                                        )
                                     })
                             } else {
                                 try {
@@ -111,5 +114,4 @@ class joinId : AppCompatActivity() {
             }
         }
     }
-
 }

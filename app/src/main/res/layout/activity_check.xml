@@ -7,6 +7,14 @@
     android:gravity="center"
     tools:context=".CheckActivity">
 
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전송"
+        android:id="@+id/list3"
+        android:layout_centerInParent="true"
+        android:layout_above="@+id/btn_alarm"
+        />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

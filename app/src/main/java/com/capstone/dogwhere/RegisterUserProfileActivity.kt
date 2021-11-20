@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.EditText
@@ -16,11 +17,13 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.capstone.dogwhere.DTO.UserProfile
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.theartofdev.edmodo.cropper.CropImage
@@ -43,7 +46,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
     private lateinit var ImagePath: String
     private var usersex: String = ""
-    var Name_FLAG = false
+    var Name_FLAG = true
     val db = Firebase.firestore
 
 
@@ -70,7 +73,8 @@ class RegisterUserProfileActivity : AppCompatActivity() {
         //코루틴 적용 안 될 거예여 CoroutineScope //
 
         btn_check_name.setOnClickListener {
-            check_name2()
+            val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
+            check_name(username)
         }
 
         btn_upload.setOnClickListener {
@@ -83,7 +87,6 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             when (checkedId) {
                 R.id.sex_man -> checked_sex_man()
                 R.id.sex_woman -> checked_sex_woman()
-
 
 
             }
@@ -106,27 +109,11 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun checked_Nondisclosure() {
-
-        sex_man.setBackgroundResource(R.drawable.backgroundgraycircle)
-        sex_man.setTextColor(Color.parseColor("#52443C3C"))
-        sex_woman.setBackgroundResource(R.drawable.backgroundgraycircle)
-        sex_woman.setTextColor(Color.parseColor("#52443C3C"))
-    }
-
-
     private fun selectPhoto() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
         startActivityForResult(intent, FLAG_GALLERY_CODE)
     }
-
-    private fun selectPhoto2() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.setType(MediaStore.Images.Media.CONTENT_TYPE)
-        startActivityForResult(intent, FLAG_GALLERY_CODE2)
-    }
-
 
     // * Glide //
 
@@ -185,21 +172,6 @@ class RegisterUserProfileActivity : AppCompatActivity() {
 
     }
 
-    //aaa0930@naver.com
-
-//    private fun ImageCrop(mImageCaptureUri: Uri) {
-//        val intent = Intent(Intent.ACTION_PICK)
-//        intent.type = "image/*"
-//        intent.setDataAndType(mImageCaptureUri, "image/*")
-//        intent.putExtra("crop", true)
-//        intent.putExtra("aspectX", 1)
-//        intent.putExtra("aspectY", 1)
-//        intent.putExtra("outputX", 280)
-//        intent.putExtra("outputY", 280)
-//        intent.action = Intent.ACTION_GET_CONTENT
-//        startActivityForResult(intent, FLAG_IMAGECROP_CODE)
-//    }
-
     private fun setupPermissions() {
         //스토리지 읽기 퍼미션을 permission 변수에 담는다
         val permission = ContextCompat.checkSelfPermission(
@@ -248,28 +220,47 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                         usersex = "wm"
                     }
                     // 지금 저거 하면 버튼 눌렀을 때 중복 확인은 되는데
-                    val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex,"")
-                    db.collection("users").document(uid).collection("userprofiles").document(uid)
-                        .set(user)
-                        .addOnSuccessListener { documentReference ->
+                    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+                        if (!task.isSuccessful) {
+                            Log.d("ybyb", "Fetching FCM registration token failed", task.exception)
+                            return@OnCompleteListener
                         }
-                        .addOnFailureListener { e ->
-                            Log.w(TAG, "Error adding document", e)
-                        }
+                        // Get new FCM registration token
+                        val token = task.result.toString()
+                        // Log and toast
+                        Log.d("ybyb", "토큰 ->" + token)
 
-                    val intent = Intent(this, DogProfileActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_up_enter,R.anim.slide_up_eixt)
-                    finish()
-                    //} else {
-                    //  Toast.makeText(this, "닉네임 중복 확인 바람", Toast.LENGTH_SHORT).show()
-                    // }
+                        val user = UserProfile(
+                            uid,
+                            downloadUri.toString(),
+                            userage,
+                            username,
+                            usersex,
+                            token
+                        )
+                        db.collection("users").document(uid).collection("userprofiles")
+                            .document(uid)
+                            .set(user)
+                            .addOnSuccessListener { documentReference ->
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("Ybyb", "Error adding document", e)
+                            }
+
+                        val intent = Intent(this, DogProfileActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+                        finish()
+                        //} else {
+                        //  Toast.makeText(this, "닉네임 중복 확인 바람", Toast.LENGTH_SHORT).show()
+                        // }
+                    })
                 } else {
                     Toast.makeText(this, "닉네임 중복 확인 바람", Toast.LENGTH_SHORT)
                         .show() //이거 가능하지 않게냐 ㅇㅇ됨  안된다 ㅋㅋ왜 안되지
                 }
             } else {
-                Log.w("실패", "업로드 실패", task.exception)
+                Log.w("ybyb", "업로드 실패", task.exception)
                 Toast.makeText(
                     baseContext, "유저 프로필 업로드 실패",
                     Toast.LENGTH_SHORT
@@ -277,63 +268,6 @@ class RegisterUserProfileActivity : AppCompatActivity() {
             }
         }
     }
-
-    fun check_name2() {
-        val username = findViewById<EditText>(R.id.userprofileName).getText().toString()
-        check_name3(username)
-
-    }
-
-//    fun check_name3(username: String) {
-//        db.collection("users")
-//            .get()
-//            .addOnSuccessListener { result ->
-//                for (document in result) {
-//
-//                    val uids = document.get("uid").toString()
-//                    db.collection("users").document(uids).collection("userprofiles").get()
-//                        .addOnSuccessListener { result ->
-//                            val names = document.get("userName")
-//                            if (username == names) {
-//                                Log.d(TAG, "해당 닉네임이 이미 존재함")
-//                            } else {
-//                                Name_FLAG = true
-//                                Log.d(TAG, "사용 가능한 닉네임")
-//                            }
-//                        }
-//                }
-//            }
-//        check()
-//    }
-
-    fun check_name3(username: String) = runBlocking {
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-
-                    val uids = document.get("uid").toString()
-                    db.collection("users").document(uids).collection("userprofiles").get()
-                        .addOnSuccessListener { result ->
-                            val names = document.get("userName")
-                            if (username == names) {
-
-                                Log.d(TAG, "해당 닉네임이 이미 존재함")
-                            } else {
-                                Name_FLAG = true
-                                Log.d(TAG, "사용 가능한 닉네임")
-                            }
-                        }
-                }
-            }
-        launch {
-            delay(1000L)
-            check()
-        }
-
-
-    }
-
     private fun check() {
         if (Name_FLAG == true) {
             Toast.makeText(
@@ -347,6 +281,31 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                 "이미 사용중인 닉네임입니다.",
                 Toast.LENGTH_SHORT
             ).show()
+        }
+    }
+
+    fun check_name(username: String) {
+        Name_FLAG = true
+        db.collection("users").get().addOnSuccessListener { result ->
+            for (document in result) {
+                val uids = document.get("uid").toString()
+                db.collection("users").document(uids).collection("userprofiles").document(uids)
+                    .get().addOnSuccessListener { result ->
+                        val names = result.get("userName").toString()
+                        if (username == names) {
+                            Name_FLAG = false
+                            Log.d(
+                                "ybyb",
+                                "이미 사용중이다. Name_FLAG ->${Name_FLAG}---documentId->${document.id}"
+                            )
+                        }
+                    }
+            }
+            val handler = Handler()
+            handler.postDelayed(java.lang.Runnable {
+                Log.d("ybyb", "확인된 Name_FLAG ->${Name_FLAG}")
+                check()
+            }, 1500) //딜레이 타임 조절
         }
     }
 }

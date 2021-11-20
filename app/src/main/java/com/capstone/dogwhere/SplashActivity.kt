@@ -13,22 +13,19 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.kakao.util.helper.Utility.getKeyHash
 
 class SplashActivity : AppCompatActivity() {
-    private lateinit var auth :FirebaseAuth
-    private lateinit var db : FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         var hash_key = getKeyHash(this)
-        Log.i("Logg",hash_key) // 확인
+        Log.i("ybyb", "hash_key"+hash_key) // 확인
 
         db = FirebaseFirestore.getInstance()
         val SPLASH_VIEW_TIME: Long = 1000
 
-        auth= FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         val user = auth.currentUser
-
-
-//        val uid= auth.currentUser.uid
 
         Handler().postDelayed({
 
@@ -37,18 +34,6 @@ class SplashActivity : AppCompatActivity() {
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
-        },SPLASH_VIEW_TIME)
+        }, SPLASH_VIEW_TIME)
     }
 }
-
-//            db.collection("users").whereEqualTo("uid", uid).get()
-//                .addOnSuccessListener { result ->
-//                    val result = result.toObjects<User>()
-//                    if(result!=null){
-//                        val intent = Intent(this, MainMenuActivity::class.java)
-//                        intent.flags =
-//                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                        startActivity(intent)
-//                    }else{
-//                    }
-//                }

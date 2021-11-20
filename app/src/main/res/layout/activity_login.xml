@@ -84,15 +84,15 @@
         android:text="로그인"></Button>
 
     <TextView
-        android:layout_width="match_parent"
-        android:textSize="18dp"
-        android:layout_height="wrap_content"
-        android:text="---------------- OR ----------------"
         android:id="@+id/line"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/btn_login"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"></TextView>
+        android:gravity="center"
+        android:text="---------------- OR ----------------"
+        android:textSize="18dp"></TextView>
 
 
     <com.kakao.usermgmt.LoginButton

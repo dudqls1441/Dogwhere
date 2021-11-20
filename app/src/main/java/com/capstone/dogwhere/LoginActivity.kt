@@ -51,6 +51,12 @@ class LoginActivity : AppCompatActivity() {
         getAppKeyHash()
         btn_join.setOnClickListener {
             startActivity(Intent(this, joinId::class.java))
+            finish()
+            overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+        }
+        line.setOnClickListener {
+            startActivity(Intent(this, joinId::class.java))
+            overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
         }
 
         btn_find_IdPW.setOnClickListener {
@@ -71,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
             val userPwd = findViewById<EditText>(R.id.login_password).getText().toString()
             val user: User
 
-
             auth.signInWithEmailAndPassword(userId, userPwd)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -84,6 +89,7 @@ class LoginActivity : AppCompatActivity() {
                             .get()
                             .addOnSuccessListener { result1 ->
                                 val result = result1.toObject<DogProfile>()
+                                Log.d("ybyb","dogprofile->${result1.exists()}")
                                 if (result != null) {
                                     val intent = Intent(this, MainMenuActivity::class.java)
                                     intent.flags =
@@ -94,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
                                         .document(uid).get()
                                         .addOnSuccessListener { result2 ->
                                             val result = result2.toObject<UserProfile>()
+                                            Log.d("ybyb","userprofile->${result2.exists()}")
                                             if (result != null) {
                                                 val intent =
                                                     Intent(this, DogProfileActivity::class.java)
@@ -249,7 +256,7 @@ class LoginActivity : AppCompatActivity() {
                                                 uid,
                                                 result!!.kakaoAccount.email.toString(),
                                                 result!!.kakaoAccount.profile.nickname.toString(),
-                                                "000",getToken(),
+                                                "000", getToken(),
                                                 false
                                             )
                                             val db =
@@ -307,6 +314,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
     private fun getToken(): String {
         var token = ""
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->

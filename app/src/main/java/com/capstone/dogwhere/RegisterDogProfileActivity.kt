@@ -57,8 +57,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         rdb = FirebaseDatabase.getInstance()
         storage = FirebaseStorage.getInstance()
 
-
-
         DogProfilePhoto.setOnClickListener {
             selectPhoto()
         }
