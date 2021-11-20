@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Gravity
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.FCM.*
@@ -45,6 +49,40 @@ class CheckActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_check)
         getToken2()
+
+        val breeds = arrayOf(
+            "요크셔테리어", "세인트버나드", "푸들", "포메라니안", "웰시코기",
+            "페키니즈", "잉글리쉬 쉽독", "빠삐용", "슈나우저", "말티즈",
+            "이탈리안 골든 리트리버", "저먼 셰퍼드", "달마시안", "닥스훈트", "차우차우",
+            "샤페이", "치와와", "불독", "불 테리어", "복서"
+            , "닥스훈트", "차우차우",
+            "비숑프리제", "비글", "말라뮤트", "시바견"
+        )
+        val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds)
+
+        breedSpinner.adapter = myAdapter
+
+        breedSpinner.prompt = "견종을 선택하세요"
+        breedSpinner.setSelection(5)
+        breedSpinner.gravity = Gravity.CENTER_HORIZONTAL
+        breedSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("ybyb","position ->${position}")
+                Log.d("ybyb","id ->${id}")
+                Log.d("ybyb","view ->${view.toString()}")
+                Log.d("ybyb","이름? ->${breeds[id.toInt()]}")
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d("ybyb","선택 안 됨")
+            }
+        }
         btn_alarm.setOnClickListener {
 //            send()
         }

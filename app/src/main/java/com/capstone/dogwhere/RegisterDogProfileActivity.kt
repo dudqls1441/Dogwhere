@@ -9,11 +9,9 @@ import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.text.Layout
 import android.util.Log
+import android.view.Gravity
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RelativeLayout
+import android.widget.*
 import androidx.core.view.setPadding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -26,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import kotlinx.android.synthetic.main.activity_check.*
 import kotlinx.android.synthetic.main.activity_matching_registration.*
 import kotlinx.android.synthetic.main.activity_register_dog_profile.*
 import kotlinx.android.synthetic.main.activity_register_user_profile.*
@@ -47,7 +46,15 @@ class RegisterDogProfileActivity : AppCompatActivity() {
     private var dogsex: String = ""
     private var dogneneutralization: String = ""
     private var dogSize =""
-
+    val breeds = arrayOf(
+        "요크셔테리어", "세인트버나드", "푸들", "포메라니안", "웰시코기",
+        "페키니즈", "잉글리쉬 쉽독", "빠삐용", "슈나우저", "말티즈",
+        "이탈리안 골든 리트리버", "저먼 셰퍼드", "달마시안", "닥스훈트", "차우차우",
+        "샤페이", "치와와", "불독", "불 테리어", "복서"
+        , "닥스훈트", "차우차우",
+        "비숑프리제", "비글", "말라뮤트", "시바견"
+    )
+    var dogbreed =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +69,31 @@ class RegisterDogProfileActivity : AppCompatActivity() {
         }
         DogProfilePhoto2.setOnClickListener {
             selectPhoto2()
+        }
+
+        val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, breeds)
+        dogprofilebreed.adapter = myAdapter
+        dogprofilebreed.prompt = "견종을 선택하세요"
+        dogprofilebreed.setSelection(5)
+        dogprofilebreed.gravity = Gravity.CENTER_HORIZONTAL
+        dogprofilebreed.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d("ybyb","position ->${position}")
+                Log.d("ybyb","id ->${id}")
+                Log.d("ybyb","view ->${view.toString()}")
+                Log.d("ybyb","이름? ->${breeds[id.toInt()]}")
+                dogbreed = breeds[id.toInt()]
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Log.d("ybyb","선택 안 됨")
+            }
         }
 
         radio_size()
@@ -262,7 +294,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 val uid = auth.currentUser!!.uid
                 val dogname = findViewById<EditText>(R.id.dogprofilename).getText().toString()
                 val dogage = findViewById<EditText>(R.id.dogprofileage).getText().toString()
-                val dogbreed = findViewById<EditText>(R.id.dogprofilebreed).getText().toString()
                 if (sex_male.isChecked) {
                     dogsex = "수컷"
                 } else if (sex_female.isChecked) {
@@ -270,20 +301,6 @@ class RegisterDogProfileActivity : AppCompatActivity() {
                 } else {
                     dogsex = "선택안함"
                 }
-//                dogpprofileneutralization.setOnCheckedChangeListener { group, i ->
-//                    when (i) {
-//                        R.id.neutralization_T -> dogneneutralization = "예"
-//                        R.id.neutralization_F -> dogneneutralization = "아니요"
-//                    }
-//                    Log.e("yy", dogneneutralization)
-//                }
-//                dogprofilesize.setOnCheckedChangeListener { group, i ->
-//                    when (i) {
-//                        R.id.size_small -> dogSize = "small"
-//                        R.id.size_middle -> dogSize = "middle"
-//                        R.id.size_big -> dogSize = "big"
-//                    }
-//                }
                 val dogneu:Boolean = dogneneutralization =="예"
                 Log.e("yy", "true나오라고"+dogneu.toString())
                 val dog = DogProfile(uid, dogname, downloadUri.toString(), dogage, dogbreed, dogsex, dogSize,dogneu)
