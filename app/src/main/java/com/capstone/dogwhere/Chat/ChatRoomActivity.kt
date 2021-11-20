@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.UserProfile
 import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.R
+import com.firepush.Fire
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +34,9 @@ class ChatRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatting_room)
+
+        Fire.init("AAAA1P59Tgs:APA91bEuZ_Hp7rsbkRmR0zWrI_uDhd9o3RMXz4oBpOeXHGc_RCJEo_-d1J-_BL5Hl4jk0KmzjZmWzzNeCOJ4n8jsiFo53QNaknXCq4fOwvbkuSpXNF08XMYud8dY8fHPl1PDMj8-_EDU")
+
 
         auth = FirebaseAuth.getInstance()
         val myUid = auth.uid
@@ -79,7 +83,7 @@ class ChatRoomActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         val result = it.toObject<UserProfile>()
                         val nickname = result?.userName
-                        val profilephoto = result?.profilePhoto
+                        val receiverToken = result?.userToken
                         if (who == "me") {
                             adapter.add(ChatRightMe(msg.toString(), str_date.toString()))
                         } else {
@@ -88,13 +92,10 @@ class ChatRoomActivity : AppCompatActivity() {
                                     nickname.toString(),
                                     msg.toString(),
                                     str_date.toString(),
-                                    profilephoto.toString()
+                                    receiverToken.toString()
                                 )
                             )
-                            sendNotification(nickname.toString()+"님에게 메시지가 도착했습니다.",msg.toString(),yourUid.toString())
                         }
-
-
                         recycler_chatroom_view.scrollToPosition(adapter.itemCount - 1)
                         recycler_chatroom_view.adapter = adapter
                     }
@@ -148,17 +149,24 @@ class ChatRoomActivity : AppCompatActivity() {
             )
             myRef.child(yourUid.toString()).child(myUid.toString()).push().setValue(chat_get)
             myRef_list.child(yourUid.toString()).child(myUid.toString()).setValue(chat_get)
+                .addOnSuccessListener {
+                    Log.d("ybyb", "챗팅 등록 성공")
+                    db.collection("users").document(yourUid.toString())
+                        .collection("userprofiles").document(yourUid.toString())
+                        .get()
+                        .addOnSuccessListener {
+                            val result = it.toObject<UserProfile>()
+                            val receiverToken = result?.userToken
+                            Log.d("ybyb", "상대방 토큰 ->${receiverToken.toString()}")
+                            send_fcm(
+                                myname.toString() + "님에게 메시지가 도착했습니다.",
+                                message.toString(),
+                                receiverToken.toString()
+                            )
+                        }
+                }
             edittext_chatroom_msg.setText("")
-//
-//
-//            db.collection("message")
-//                .add(chat)
-//                .addOnSuccessListener {
-//                    Log.e("joo", "성공")
-//                }
-//                .addOnFailureListener {
-//                    Log.e("joo", "실패")
-//                }
+
         }
 
     }
@@ -168,49 +176,17 @@ class ChatRoomActivity : AppCompatActivity() {
         hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
     }
 
-    private fun sendNotification(title: String,content:String,senderUid:String) {
-        val sendTime_now = (SystemClock.elapsedRealtime()+500)
-        //calendar.timeInMillis
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser!!.uid
+    private fun send_fcm(title: String, content: String, receiverToken: String) {
+        Fire.create()
+            .setTitle(title)
+            .setBody(content)
+            .setCallback { pushCallback, exception ->
+                Log.d("ybyb", "push->${pushCallback}")
+                Log.d("ybyb", "보내졌는지: ${pushCallback.isSent}")
+                Log.d("ybyb", "e->${exception.toString()}")
 
-        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-            action = "com.check.up.setAlarm"
-            putExtra("title", title)
-            putExtra("content", content)
-            putExtra("senderUid", senderUid)
-        }
-        val alarmManager =
-            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            alarmIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP ,
-                sendTime_now,
-                pendingIntent
-            )
-
-        } else {
-            if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP ,
-                    sendTime_now,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP ,
-                    sendTime_now,
-                    pendingIntent
-                )
             }
-        }
+            .toIds(receiverToken)  //toTopic("FOR TOPIC") or toCondition("CONDITION HERE")
+            .push()
     }
-
 }

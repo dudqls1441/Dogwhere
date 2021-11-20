@@ -248,7 +248,7 @@ class RegisterUserProfileActivity : AppCompatActivity() {
                         usersex = "wm"
                     }
                     // 지금 저거 하면 버튼 눌렀을 때 중복 확인은 되는데
-                    val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex)
+                    val user = UserProfile(uid, downloadUri.toString(), userage, username, usersex,"")
                     db.collection("users").document(uid).collection("userprofiles").document(uid)
                         .set(user)
                         .addOnSuccessListener { documentReference ->

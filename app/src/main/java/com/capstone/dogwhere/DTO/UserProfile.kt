@@ -5,8 +5,9 @@ data class UserProfile(
     val profilePhoto: String,
     val userAge: String,
     val userName: String,
-    val userSex: String
+    val userSex: String,
+    val userToken :String
 ) {
-    constructor() : this("","","","","")
+    constructor() : this("","","","","","")
 
 }

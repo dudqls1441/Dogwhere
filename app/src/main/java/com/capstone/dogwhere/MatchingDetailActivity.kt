@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide
 import com.capstone.dogwhere.DTO.*
 import com.capstone.dogwhere.GroupChat.*
 import com.capstone.dogwhere.FCM.MyReceiver
+import com.firepush.Fire
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -68,6 +69,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matching_detail)
+        Fire.init("AAAA1P59Tgs:APA91bEuZ_Hp7rsbkRmR0zWrI_uDhd9o3RMXz4oBpOeXHGc_RCJEo_-d1J-_BL5Hl4jk0KmzjZmWzzNeCOJ4n8jsiFo53QNaknXCq4fOwvbkuSpXNF08XMYud8dY8fHPl1PDMj8-_EDU")
         matchingLeaderUid = intent.getStringExtra("leaderuid").toString()
         matchingDocumentId = intent.getStringExtra("documentId").toString()
         matchingTitle = intent.getStringExtra("title").toString()
@@ -643,17 +645,26 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             db.collection("Matching").document(documentId).collection("participant").document(uid)
                 .set(participant)
                 .addOnSuccessListener {
-                    Log.d("Participant", "MatchingDetailActivity_participant  성공")
+                    Log.d("ybyb", "MatchingDetailActivity_participant  성공")
+
+                    db.collection("users").document(matchingLeaderUid)
+                        .collection("userprofiles").document(matchingLeaderUid)
+                        .get()
+                        .addOnSuccessListener {
+                            val result = it.toObject<UserProfile>()
+                            val receiverToken = result?.userToken
+                            send_fcm(matchingTitle,"매칭 참여자가 발생했습니다.",receiverToken.toString())
+                        }
                 }.addOnFailureListener {
-                    Log.d("Participant", "Participant 실패 이유 : ${it}")
+                    Log.d("ybyb", "Participant 실패 이유 : ${it}")
                 }
 
             db.collection("users").document(uid).collection("matching").document(documentId)
                 .set(participant_user).addOnSuccessListener {
-                    Log.d("Participant_user", "MatchingDetailActivity_participant_user  성공")
+                    Log.d("ybyb", "MatchingDetailActivity_participant_user  성공")
 
                 }.addOnFailureListener {
-                    Log.d("Participant", "Participant_inUser실패 이유 : ${it}")
+                    Log.d("ybyb", "Participant_inUser실패 이유 : ${it}")
                 }
 
             db.collection("users").document(uid).collection("dogprofiles")
@@ -811,84 +822,98 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
-    private fun changedDocument(bbs_oid: String) {
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.uid.toString()
-        db.collection(bbs_oid).get().addOnSuccessListener {
-            for (document in it) {
-                if (uid.equals(document.get("uid").toString())) {
-                    db.collection(bbs_oid).document(document.id).collection("Comment")
-                        .addSnapshotListener { value, error ->
-                            if (error != null) {
-                                Log.w(
-                                    "ybyb",
-                                    "${bbs_oid} 메서드 snapshot 에러 : ${error.message}"
-                                )
-                                return@addSnapshotListener
-                            }
-                            if (value!!.metadata.isFromCache) return@addSnapshotListener
-                            for (doc in value.documentChanges) {
-                                //documet 에 문서가 추가되었을 때
-                                if (doc.type == DocumentChange.Type.ADDED) {
-                                    if (!uid.equals(document.get("uid").toString())) {
-                                        sendNotification(
-                                            document.get("title").toString() + " 게시물에 댓글이 달렸습니다.",
-                                            doc.document["comment"].toString()
-                                        )
-                                        Log.d("ybyb", "메세지 보내기 성공")
-                                    }
-                                    Log.d("ybyb", "내 게시물의 내 댓글")
-                                }
+//    private fun changedDocument(bbs_oid: String) {
+//        auth = FirebaseAuth.getInstance()
+//        val uid = auth.uid.toString()
+//        db.collection(bbs_oid).get().addOnSuccessListener {
+//            for (document in it) {
+//                if (uid.equals(document.get("uid").toString())) {
+//                    db.collection(bbs_oid).document(document.id).collection("Comment")
+//                        .addSnapshotListener { value, error ->
+//                            if (error != null) {
+//                                Log.w(
+//                                    "ybyb",
+//                                    "${bbs_oid} 메서드 snapshot 에러 : ${error.message}"
+//                                )
+//                                return@addSnapshotListener
+//                            }
+//                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+//                            for (doc in value.documentChanges) {
+//                                //documet 에 문서가 추가되었을 때
+//                                if (doc.type == DocumentChange.Type.ADDED) {
+//                                    if (!uid.equals(document.get("uid").toString())) {
+//                                        sendNotification(
+//                                            document.get("title").toString() + " 게시물에 댓글이 달렸습니다.",
+//                                            doc.document["comment"].toString()
+//                                        )
+//                                        Log.d("ybyb", "메세지 보내기 성공")
+//                                    }
+//                                    Log.d("ybyb", "내 게시물의 내 댓글")
+//                                }
+//
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//    }
 
-                            }
-                        }
-                }
+//    //푸시 알림을 위함..--> 아마 안 쓸듯?
+//    //누군가 나의 매칭에 참여했을 때 푸시 알림//
+//    private fun matchingAdded() {
+//        auth = FirebaseAuth.getInstance()
+//        db = FirebaseFirestore.getInstance()
+//        val uid = auth.currentUser?.uid.toString()
+//
+//        db.collection("Matching").get().addOnSuccessListener {
+//            for (document in it) {
+//                if (uid.equals(document.get("uid").toString())) {
+//                    db.collection("Matching").document(document.id).collection("participant")
+//                        .addSnapshotListener { value, error ->
+//                            if (error != null) {
+//                                Log.w(
+//                                    "ybyb",
+//                                    "매칭 참가 메서드 snapshot 에러 : ${error.message}"
+//                                )
+//                                return@addSnapshotListener
+//                            }
+//                            if (value!!.metadata.isFromCache) return@addSnapshotListener
+//                            for (doc in value.documentChanges) {
+//                                //documet 에 문서가 추가되었을 때
+//                                if (doc.type == DocumentChange.Type.ADDED) {
+//                                    if (!uid.equals(doc.document["uid"].toString())) {
+//                                        sendNotification(
+//                                            document.get("title").toString(),
+//                                            "함께 산책할 강아지가 추가되었습니다."
+//                                        )
+//                                        Log.d("ybyb", "(추가)전송 보냄")
+//                                    }
+//                                } else if (doc.type == DocumentChange.Type.REMOVED) {
+//                                    sendNotification(
+//                                        document.get("title").toString(),
+//                                        "산책 매칭에서 강아지가 나갔습니다."
+//                                    )
+//                                    Log.d("ybyb", "(삭제)전송 보냄")
+//                                }
+//                            }
+//                        }
+//                }
+//            }
+//        }
+//    }
+//
+    private fun send_fcm(title: String, content: String, receiverToken: String) {
+        Fire.create()
+            .setTitle(title)
+            .setBody(content)
+            .setCallback { pushCallback, exception ->
+                Log.d("ybyb", "push->${pushCallback}")
+                Log.d("ybyb", "보내졌는지: ${pushCallback.isSent}")
+                Log.d("ybyb", "e->${exception.toString()}")
+
             }
-        }
-    }
-
-    //푸시 알림을 위함..--> 아마 안 쓸듯?
-    //누군가 나의 매칭에 참여했을 때 푸시 알림//
-    private fun matchingAdded() {
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        val uid = auth.currentUser?.uid.toString()
-
-        db.collection("Matching").get().addOnSuccessListener {
-            for (document in it) {
-                if (uid.equals(document.get("uid").toString())) {
-                    db.collection("Matching").document(document.id).collection("participant")
-                        .addSnapshotListener { value, error ->
-                            if (error != null) {
-                                Log.w(
-                                    "ybyb",
-                                    "매칭 참가 메서드 snapshot 에러 : ${error.message}"
-                                )
-                                return@addSnapshotListener
-                            }
-                            if (value!!.metadata.isFromCache) return@addSnapshotListener
-                            for (doc in value.documentChanges) {
-                                //documet 에 문서가 추가되었을 때
-                                if (doc.type == DocumentChange.Type.ADDED) {
-                                    if (!uid.equals(doc.document["uid"].toString())) {
-                                        sendNotification(
-                                            document.get("title").toString(),
-                                            "함께 산책할 강아지가 추가되었습니다."
-                                        )
-                                        Log.d("ybyb", "(추가)전송 보냄")
-                                    }
-                                } else if (doc.type == DocumentChange.Type.REMOVED) {
-                                    sendNotification(
-                                        document.get("title").toString(),
-                                        "산책 매칭에서 강아지가 나갔습니다."
-                                    )
-                                    Log.d("ybyb", "(삭제)전송 보냄")
-                                }
-                            }
-                        }
-                }
-            }
-        }
+            .toIds(receiverToken)  //toTopic("FOR TOPIC") or toCondition("CONDITION HERE")
+            .push()
     }
 
     override fun onStart() {
@@ -1015,47 +1040,47 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    private fun sendNotification(title: String, content: String) {
-        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
-        //calendar.timeInMillis
-
-        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-            action = "com.check.up.setAlarm"
-            putExtra("title", title)
-            putExtra("content", content)
-        }
-        val alarmManager =
-            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            alarmIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.ELAPSED_REALTIME,
-                sendTime_now,
-                pendingIntent
-            )
-
-        } else {
-            if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.set(
-                    AlarmManager.ELAPSED_REALTIME,
-                    sendTime_now,
-                    pendingIntent
-                )
-            }
-        }
-    }
+//    private fun sendNotification(title: String, content: String) {
+//        val sendTime_now = (SystemClock.elapsedRealtime() + 1000)
+//        //calendar.timeInMillis
+//
+//        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
+//            action = "com.check.up.setAlarm"
+//            putExtra("title", title)
+//            putExtra("content", content)
+//        }
+//        val alarmManager =
+//            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val pendingIntent = PendingIntent.getBroadcast(
+//            this,
+//            0,
+//            alarmIntent,
+//            PendingIntent.FLAG_CANCEL_CURRENT
+//        )
+//
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            alarmManager.setExactAndAllowWhileIdle(
+//                AlarmManager.ELAPSED_REALTIME,
+//                sendTime_now,
+//                pendingIntent
+//            )
+//
+//        } else {
+//            if (Build.VERSION.SDK_INT >= 19) {
+//                alarmManager.setExact(
+//                    AlarmManager.ELAPSED_REALTIME,
+//                    sendTime_now,
+//                    pendingIntent
+//                )
+//            } else {
+//                alarmManager.set(
+//                    AlarmManager.ELAPSED_REALTIME,
+//                    sendTime_now,
+//                    pendingIntent
+//                )
+//            }
+//        }
+//    }
 
     private fun Matching_Done() {
         auth = FirebaseAuth.getInstance()

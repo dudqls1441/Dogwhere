@@ -1,18 +1,14 @@
 package com.capstone.dogwhere.GroupChat
 
-import android.app.AlarmManager
-import android.app.PendingIntent
+
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.dogwhere.DTO.UserProfile
-import com.capstone.dogwhere.FCM.MyReceiver
 import com.capstone.dogwhere.R
+import com.firepush.Fire
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -29,17 +25,20 @@ import java.util.*
 class GroupChatRoomActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-
+    var matchingTitle =""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_chatting_room)
 
+        Fire.init("AAAA1P59Tgs:APA91bEuZ_Hp7rsbkRmR0zWrI_uDhd9o3RMXz4oBpOeXHGc_RCJEo_-d1J-_BL5Hl4jk0KmzjZmWzzNeCOJ4n8jsiFo53QNaknXCq4fOwvbkuSpXNF08XMYud8dY8fHPl1PDMj8-_EDU")
+
+        hideKeyboard()
         auth = FirebaseAuth.getInstance()
         val myUid = auth.uid
         val yourUid = intent.getStringExtra("yourUid")
         val name = intent.getStringExtra("name")
         val documentId = intent.getStringExtra("matchingDocumentId").toString()
-        val matchingTitle = intent.getStringExtra("matchingTitle")
+        matchingTitle = intent.getStringExtra("matchingTitle").toString()
         val adapter = GroupAdapter<GroupieViewHolder>()
         var myname: String? = null
         val db = FirebaseFirestore.getInstance()
@@ -49,6 +48,11 @@ class GroupChatRoomActivity : AppCompatActivity() {
             .get().addOnSuccessListener {
                 val result = it.toObject<UserProfile>()
                 myname = result?.userName.toString()
+            }
+        db.collection("Matching").document(documentId)
+            .get().addOnSuccessListener {
+                matchingTitle = it.get("title").toString()
+                chatting_room_other.text = matchingTitle
             }
 
         chatting_room_other.text = matchingTitle
@@ -102,11 +106,6 @@ class GroupChatRoomActivity : AppCompatActivity() {
                                     profilephoto.toString()
                                 )
                             )
-                            sendNotification(
-                                nickname.toString() + "님에게 메시지가 도착했습니다.",
-                                msg.toString(),
-                                yourUid.toString()
-                            )
                         }
                         recycler_chatroom_view.scrollToPosition(adapter.itemCount - 1)
                         recycler_chatroom_view.adapter = adapter
@@ -131,14 +130,8 @@ class GroupChatRoomActivity : AppCompatActivity() {
         }
 
         groupChatRef.addChildEventListener(childEventListener)
-
-        val myRef_list = database.getReference("group-chat").child("ExampleGroupId")
-
         btn_chatroom_send.setOnClickListener {
-
-
             val message = edittext_chatroom_msg.text.toString()
-
             val chat = GroupChatNewModel(
                 myUid.toString(),
                 documentId,
@@ -148,6 +141,19 @@ class GroupChatRoomActivity : AppCompatActivity() {
             )
             groupChatRef.push().setValue(chat)
 
+            db.collection("Matching").document(documentId).collection("participant").get().addOnSuccessListener {
+                for(document in it){
+                    val participantUid = document.get("uid").toString()
+                    db.collection("users").document(participantUid)
+                        .collection("userprofiles").document(participantUid)
+                        .get()
+                        .addOnSuccessListener {
+                            val result = it.toObject<UserProfile>()
+                            val userToken = result?.userToken
+                            send_fcm(matchingTitle, "그룹 메시지가 도착했습니다", userToken.toString())
+                        }
+                }
+            }
             edittext_chatroom_msg.setText("")
         }
 
@@ -158,49 +164,19 @@ class GroupChatRoomActivity : AppCompatActivity() {
         hide.hideSoftInputFromWindow(btn_chatroom_send.windowToken, 0)
     }
 
-    private fun sendNotification(title: String, content: String, senderUid: String) {
-        val sendTime_now = (SystemClock.elapsedRealtime() + 500)
-        //calendar.timeInMillis
-        auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser!!.uid
+    private fun send_fcm(title: String, content: String, receiverToken: String) {
+        Fire.create()
+            .setTitle(title)
+            .setBody(content)
+            .setCallback { pushCallback, exception ->
+                Log.d("ybyb", "push->${pushCallback}")
+                Log.d("ybyb", "보내졌는지: ${pushCallback.isSent}")
+                Log.d("ybyb", "e->${exception.toString()}")
 
-        val alarmIntent = Intent(this, MyReceiver::class.java).apply {
-            action = "com.check.up.setAlarm"
-            putExtra("title", title)
-            putExtra("content", content)
-            putExtra("senderUid", senderUid)
-        }
-        val alarmManager =
-            this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val pendingIntent = PendingIntent.getBroadcast(
-            this,
-            0,
-            alarmIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT
-        )
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                sendTime_now,
-                pendingIntent
-            )
-
-        } else {
-            if (Build.VERSION.SDK_INT >= 19) {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    sendTime_now,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    sendTime_now,
-                    pendingIntent
-                )
             }
-        }
+            .toIds(receiverToken)  //toTopic("FOR TOPIC") or toCondition("CONDITION HERE")
+            .push()
     }
+
 
 }
