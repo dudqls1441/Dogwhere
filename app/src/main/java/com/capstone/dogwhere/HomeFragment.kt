@@ -11,6 +11,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_matching_list.*
 import kotlinx.android.synthetic.main.navi_header.*
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -78,7 +80,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -664,7 +665,6 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
     }
 
     private fun checkRunTimePermission() {
-
         //런타임 퍼미션 처리
         // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
         val hasFineLocationPermission = ContextCompat.checkSelfPermission(
@@ -748,16 +748,11 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.matching_list -> matchingList()
+            R.id.my_profile -> Userprofile()
             R.id.my_matching -> mymatchingList()
             R.id.choker_buy -> checkActivity()
-               // Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
-            R.id.menu_list -> yeongbinFucntion()
-            R.id.notice -> {
-                val intent = Intent(activity, WebView::class.java)
-                startActivity(intent)
-            }
-            R.id.setting -> testmap()
+            R.id.notice -> Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
+            R.id.setting -> Toast.makeText(activity, "서비스 준비중입니다.", Toast.LENGTH_SHORT).show()
             R.id.btn_logout -> clicklogut()
         }
         layout_drawer.closeDrawers()
@@ -773,45 +768,21 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
 
         }
-
-
     }
 
     private fun checkActivity() {
         activity?.let {
-            Log.e("joo", "채팅방으로 이동")
             val intent = Intent(activity, CheckActivity::class.java)
             startActivity(intent)
             it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
         }
     }
 
-    private fun matchingList() {
-        activity?.let {
-            Log.d("ybyb", "매칭 리스트 ㄱㄱ")
-            val intent = Intent(activity, Search_Region::class.java)
-            startActivity(intent)
-            it.overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
-        }
-    }
-
-//    private fun gpsstart() {
-//        Log.e("joo", "gps 이동")
-//        val intent = Intent(activity, GpsActivity::class.java)
-//        startActivity(intent)
-//    }
-
-    private fun yeongbinFucntion() {
+    private fun Userprofile() {
         auth = FirebaseAuth.getInstance()
         val uid = auth.uid.toString()
         val intent = Intent(activity, UserProfileActivity::class.java)
         intent.putExtra("uid", uid)
-        startActivity(intent)
-    }
-
-    private fun testmap() {
-        Log.e("joo", "지도 이동")
-        val intent = Intent(activity, MatchingRegistration_Area::class.java)
         startActivity(intent)
     }
 

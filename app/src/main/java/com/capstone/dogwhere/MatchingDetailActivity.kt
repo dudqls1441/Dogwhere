@@ -559,7 +559,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         val matchingDocumentId = intent.getStringExtra("documentId").toString()
         db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
             Log.d("yb", "ybyb 매칭 삭제 성공")
-            val intent = Intent(this, Search_Region::class.java)
+            val intent = Intent(this, MainMenuActivity::class.java)
             intent.putExtra("state", "matching")
             startActivity(intent)
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)

@@ -27,6 +27,8 @@ class UserProfileActivity : AppCompatActivity() {
 
     lateinit var db: FirebaseFirestore
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
@@ -114,6 +116,13 @@ class UserProfileActivity : AppCompatActivity() {
 
             }
 
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this,MainMenuActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
 

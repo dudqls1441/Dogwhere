@@ -61,10 +61,11 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
                     dog_recyclerview?.adapter = adapter
                 }
                 adapter.setOnItemClickListener { item, view ->
-                    if(profile_uid.equals(uid)){
+                        if(profile_uid.equals(uid)){
                         val intent = Intent(activity,Modify_dog_profile::class.java)
                         intent.putExtra("docid", (item as Dog_Profile_Item).docId)
                         startActivity(intent)
+                        activity?.finish()
                     }
                 }
             }
@@ -75,7 +76,6 @@ class UserProfileFragment(profile_uid : String) : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-
     }
+
 }
