@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.capstone.dogwhere.MainMenuActivity
+import com.capstone.dogwhere.CheckActivity
 import java.util.*
 import android.R.*
 import android.app.NotificationChannel
@@ -48,9 +48,9 @@ class FirebaseService : FirebaseMessagingService() {
     //알람이 온 경우 --> 어떻게 보이게 할 것인지, 누르면 어디로 이동하게 할 것인지 정하는 메소드
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-
+        Log.d("ybyb", "푸시 알림 받음 FirebaseService")
         //알림 팝업 누를 시 MainActivity로 이동
-        val intent = Intent(this, MainMenuActivity::class.java)
+        val intent = Intent(this, CheckActivity::class.java)
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationID = 45

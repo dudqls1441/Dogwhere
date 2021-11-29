@@ -80,7 +80,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
         fragment!!.getMapAsync(this)
 
 
-       // matchingAdded()
+        // matchingAdded()
         init()
 
 
@@ -557,14 +557,6 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun matchingDelete() {
         val matchingDocumentId = intent.getStringExtra("documentId").toString()
-        db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
-            Log.d("yb", "ybyb 매칭 삭제 성공")
-            val intent = Intent(this, MainMenuActivity::class.java)
-            intent.putExtra("state", "matching")
-            startActivity(intent)
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-            finish()
-        }
 
         db.collection("users").get().addOnSuccessListener { result ->
             for (document in result) {
@@ -573,10 +565,18 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                     .document(matchingDocumentId).delete().addOnSuccessListener {
                         Log.d("ybyb", "users의 매칭 삭제")
                     }
-
             }
         }
 
+        db.collection("Matching").document(matchingDocumentId).delete().addOnSuccessListener {
+            Log.d("yb", "ybyb 매칭 삭제 성공")
+            val intent = Intent(this@MatchingDetailActivity, MainMenuActivity::class.java)
+            intent.putExtra("state", "matching")
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_up_enter, R.anim.slide_up_eixt)
+            finish()
+
+        }
     }
 
     //채팅 메서드
@@ -653,7 +653,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
                         .addOnSuccessListener {
                             val result = it.toObject<UserProfile>()
                             val receiverToken = result?.userToken
-                            send_fcm(matchingTitle,"매칭 참여자가 발생했습니다.",receiverToken.toString())
+                            send_fcm(matchingTitle, "매칭 참여자가 발생했습니다.", receiverToken.toString())
                         }
                 }.addOnFailureListener {
                     Log.d("ybyb", "Participant 실패 이유 : ${it}")
@@ -858,7 +858,7 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
 //        }
 //    }
 
-//    //푸시 알림을 위함..--> 아마 안 쓸듯?
+    //    //푸시 알림을 위함..--> 아마 안 쓸듯?
 //    //누군가 나의 매칭에 참여했을 때 푸시 알림//
 //    private fun matchingAdded() {
 //        auth = FirebaseAuth.getInstance()
@@ -1099,6 +1099,16 @@ class MatchingDetailActivity : AppCompatActivity(), OnMapReadyCallback {
             }.addOnFailureListener {
                 Log.d("ybyb", "매칭 완료 실패")
             }
+
+        db.collection("users").get().addOnSuccessListener { result ->
+            for (document in result) {
+                val uids = document.get("uid").toString()
+                db.collection("users").document(uids).collection("matching")
+                    .document(matchingDocumentId).delete().addOnSuccessListener {
+                        Log.d("ybyb", "users의 매칭 삭제")
+                    }
+            }
+        }
 
     }
 

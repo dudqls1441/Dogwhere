@@ -63,7 +63,7 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         setContentView(R.layout.activity_matching_registration)
         mylocation = getMyLocation()
         val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val dateFormat = SimpleDateFormat("yy/MM/dd")
         val curDate = dateFormat.format(Date(time))
 
         matching_year = curDate.split("/")[0].toInt()
