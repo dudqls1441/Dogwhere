@@ -14,6 +14,7 @@ import android.location.*
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.DatePicker
 import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
@@ -78,8 +79,9 @@ class MatchingRegistrationActivity : AppCompatActivity(), OnMapReadyCallback,
         val datePickerDialog = DatePickerDialog(
             this,
             { view, year, monthOfYear, dayOfMonth ->
+
                 cal.set(Calendar.YEAR, year)
-                cal.set(Calendar.MONTH, 10)
+                cal.set(Calendar.MONTH, monthOfYear)
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 matching_year = year.toString().substring(2).toInt()
                 matching_month = (monthOfYear + 1)

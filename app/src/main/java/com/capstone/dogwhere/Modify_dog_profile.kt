@@ -75,9 +75,9 @@ class Modify_dog_profile : AppCompatActivity() {
                     dogprofilesex.check(R.id.sex_female)
                 }
 
-                if (result?.dogSize.equals("소형견")) {
+                if (result?.dogSize.equals("small")) {
                     dogprofilesize.check(R.id.size_small)
-                } else if (result?.dogSize.equals("중형견")) {
+                } else if (result?.dogSize.equals("middle")) {
                     dogprofilesize.check(R.id.size_middle)
                 } else {
                     dogprofilesize.check(R.id.size_big)
@@ -275,9 +275,9 @@ class Modify_dog_profile : AppCompatActivity() {
         }
 
         when(checked_size){
-            R.id.size_small -> size_value ="소형견"
-            R.id.size_middle -> size_value ="중형견"
-            R.id.size_big -> size_value ="대형견"
+            R.id.size_small -> size_value ="small"
+            R.id.size_middle -> size_value ="middle"
+            R.id.size_big -> size_value ="big"
         }
 
         when(checked_neut){
@@ -301,9 +301,9 @@ class Modify_dog_profile : AppCompatActivity() {
         }
         dogprofilesize.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
-                R.id.size_small -> size_value ="소형견"
-                R.id.size_middle -> size_value ="중현견"
-                R.id.size_big -> size_value ="대형견"
+                R.id.size_small -> size_value ="small"
+                R.id.size_middle -> size_value ="middle"
+                R.id.size_big -> size_value ="big"
             }
         }
         dogpprofileneutralization.setOnCheckedChangeListener { group, checkedId ->

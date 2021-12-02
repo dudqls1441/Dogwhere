@@ -190,6 +190,14 @@ class LoginActivity : AppCompatActivity() {
             UserManagement.getInstance().me(object : MeV2ResponseCallback() {
                 override fun onSuccess(result: MeV2Response?) {
                     // 로그인이 성공했을 때
+                    try{
+                        if(!result!!.kakaoAccount.phoneNumber.equals(null)){
+                            Log.d("ybyb","phone ->${result!!.kakaoAccount.phoneNumber}")
+                        }
+                    }catch (e: Exception){
+                        Log.d("ybyb","kakao phone recieve ->${e.toString()}")
+                    }
+
                     auth.signInWithEmailAndPassword(
                         result!!.kakaoAccount.email.toString(),
                         result!!.kakaoAccount.email.toString()
@@ -256,7 +264,7 @@ class LoginActivity : AppCompatActivity() {
                                                 uid,
                                                 result!!.kakaoAccount.email.toString(),
                                                 result!!.kakaoAccount.profile.nickname.toString(),
-                                                "000", getToken(),
+                                                "01062933317", getToken(),
                                                 false
                                             )
                                             val db =
