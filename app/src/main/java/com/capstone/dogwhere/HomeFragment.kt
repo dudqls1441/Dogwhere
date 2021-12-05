@@ -177,7 +177,7 @@ class HomeFragment : Fragment(), NavigationView.OnNavigationItemSelectedListener
             adapter2.setOnItemClickListener { item, view ->
                 item as home_hot_bbs_Item
                 Intent(context, BBS_Common_Post::class.java).apply {
-                    putExtra("tab", "information_bbs")
+                    putExtra("tab", "free_bbs")
                     putExtra("title", (item).title)
                     putExtra("content", (item).content)
                     putExtra("name", (item).username)
