@@ -28,6 +28,7 @@
 · 산책 목표를 설정할 수 있고 달성률을 확인할 수 있도록 제공<br>
 · 산책 캘린더<br>
 · 산책 시간, 거리 측정<br>
+
 ---
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669195-4cf6d0d4-a06e-4ce5-a6f0-b6b42f9393b4.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669213-4aebfadd-d4a6-4aa6-b334-7087be8835cb.jpg" width="200" height="370">
