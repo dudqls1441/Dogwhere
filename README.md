@@ -5,8 +5,8 @@
 
 * ## 개발 환경 및 사용 기술
 > 운영체제 : Android <br>
- 개발 환경 : AndroidStudio, Eclipse
- 개발 언어
+ 개발 환경 : AndroidStudio, Eclipse, Firebase <br>
+ 개발 언어 : Kotlin
 * ## 주요 기능
 
 * ## 차별성
