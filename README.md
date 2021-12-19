@@ -12,9 +12,9 @@
 이용자 상호 간에 정보를 교류할 수 있는 게시판<br>
 반려동물의 사회성과 유대관계에 긍정적인 효과를 주는 산책 모임 매칭
 * ## 주요 기능 구현 화면
-> <img src="https://user-images.githubusercontent.com/71267455/146669283-9bff1393-eda8-4724-a853-e3c973b71c4b.jpg" width="200" height="370">
+<p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669283-9bff1393-eda8-4724-a853-e3c973b71c4b.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669285-2237f871-4d73-43f1-a831-e3364b2f3162.jpg" width="200" height="370">
-<img src="https://user-images.githubusercontent.com/71267455/146669281-183d77ee-114c-4538-989e-69b340543c29.jpg" width="200" height="370"><br>
+<img src="https://user-images.githubusercontent.com/71267455/146669281-183d77ee-114c-4538-989e-69b340543c29.jpg" width="200" height="370"><br></p>
  메인 홈 화면<br>
 · 홈 화면에서는 현재 위치 중심의 산책 모임, 산책 목표 달성률, 인기 게시판 등의 기능을 간략하게 제공<br>
  날씨 정보<br>
