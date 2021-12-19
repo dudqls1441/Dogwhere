@@ -15,10 +15,10 @@
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669283-9bff1393-eda8-4724-a853-e3c973b71c4b.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669285-2237f871-4d73-43f1-a831-e3364b2f3162.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669281-183d77ee-114c-4538-989e-69b340543c29.jpg" width="200" height="370"><br></p>
- 메인 홈 화면<br>
+ 메인 홈 <br>
 · 홈 화면에서는 현재 위치 중심의 산책 모임, 산책 목표 달성률, 인기 게시판 등의 기능을 간략하게 제공<br>
  날씨 정보<br>
-· 날씨, 미세먼지 API로 현재 위치를 기반으로 지역의 날씨와 기온 등의 기상 상태 정보를 제공<br>
+· 날씨, 미세먼지 API로 현재 위치를 기반으로 지역의 날씨와 기온 등의 기상 상태 정보를 제공<br><br>
 
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669246-570956d1-7158-4337-9a89-f72d6d8b0ecd.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669247-d26557de-7788-416e-817f-5b18f8817236.jpg" width="200" height="370">
@@ -27,7 +27,7 @@
  산책<br>
 · 산책 목표를 설정할 수 있고 달성률을 확인할 수 있도록 제공<br>
 · 산책 캘린더<br>
-· 산책 시간, 거리 측정<br>
+· 산책 시간, 거리 측정<br><br>
 
 
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669195-4cf6d0d4-a06e-4ce5-a6f0-b6b42f9393b4.jpg" width="200" height="370">
@@ -41,18 +41,18 @@
 모임 매칭<br>
 · 모임 매칭 등록<br>
 · 지도로 모임 검색<br>
-· 지역 및 조건 모임 검색<br>
+· 지역 및 조건 모임 검색<br><br>
 
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669162-ed459a4c-9a49-49a2-8d03-396dafb782f7.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669170-913829b6-915b-467a-b398-fe60a94a6695.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669180-29aa9d7a-6697-430b-ad95-7352539393d7.jpg" width="200" height="370"><br></p>
 게시판<br>
-· 자유, 정보, 중고, 분양 게시판<br>
+· 자유, 정보, 중고, 분양 게시판<br><br>
 
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669261-f16fcf72-a7c7-4dd6-9814-f696808c964c.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669262-072feb7e-28f8-47ad-9aac-f633abd7ffb5.jpg" width="200" height="370"><br></p>
-* 채팅방<br>
-  * 1:1 채팅, 단체 채팅<br>
+채팅방<br>
+1:1 채팅, 단체 채팅<br><br>
 
 * ## 팀원 소개
 이름 | 연락처 | 이메일
