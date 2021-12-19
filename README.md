@@ -27,11 +27,11 @@
 <img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
 매칭 등록<br>
 
-<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg"width="200" height="370"><br>
+<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
 게시판<br>
 · 자유, 정보, 중고, 분양 게시판<br>
 
-<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg"width="200" height="370"><br>
+<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
 채팅방<br>
 · 1:1 채팅, 단체 채팅<br>
 
