@@ -51,8 +51,8 @@
 
 <p float="left"><img src="https://user-images.githubusercontent.com/71267455/146669261-f16fcf72-a7c7-4dd6-9814-f696808c964c.jpg" width="200" height="370">
 <img src="https://user-images.githubusercontent.com/71267455/146669262-072feb7e-28f8-47ad-9aac-f633abd7ffb5.jpg" width="200" height="370"><br></p>
-*채팅방<br>
-  *1:1 채팅, 단체 채팅<br>
+* 채팅방<br>
+  * 1:1 채팅, 단체 채팅<br>
 
 * ## 팀원 소개
 이름 | 연락처 | 이메일
