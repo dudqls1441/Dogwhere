@@ -15,23 +15,25 @@
 > <img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
  메인 홈 화면<br>
 · 홈 화면에서는 현재 위치 중심의 산책 모임, 산책 목표 달성률, 인기 게시판 등의 기능을 간략하게 제공<br>
-<br>
  날씨 정보<br>
 · 날씨, 미세먼지 API로 현재 위치를 기반으로 지역의 날씨와 기온 등의 기상 상태 정보를 제공<br>
 
 <img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
  산책 홈 <br>
-· 산책 목표를 설정할 수 있고 달성률을 확인할 수 있도록 제공
-· 산책 캘린더 바로 가기 버튼
-· 산책 기록 바로 가기 버튼
-<br>
- 산책 목표 설정 및 수정<br>
-·  목표 방식을 산책 시간 기준, 거리 기준 으로 할지  선택하고 이에 따라 목표를 설정 및 수정할 수 있다.  
+· 산책 목표를 설정할 수 있고 달성률을 확인할 수 있도록 제공<br>
+· 산책 캘린더<br>
+· 산책 시간, 거리 측정<br>
 
 <img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
-매칭 모임<br>
+매칭 등록<br>
 
-<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="100" height="370"><br>채팅<br>
+<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg"width="200" height="370"><br>
+게시판<br>
+· 자유, 정보, 중고, 분양 게시판<br>
+
+<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg"width="200" height="370"><br>
+채팅방<br>
+· 1:1 채팅, 단체 채팅<br>
 
 * ## 팀원 소개
 이름 | 연락처 | 이메일
