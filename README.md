@@ -18,7 +18,9 @@
  날씨 정보<br>
 · 날씨, 미세먼지 API로 현재 위치를 기반으로 지역의 날씨와 기온 등의 기상 상태 정보를 제공<br>
 
-<img src="https://user-images.githubusercontent.com/71267455/146668534-441c4f09-45ea-4eb7-82f5-83bfc4dd6872.jpg" width="200" height="370"><br>
+<img src="https://user-images.githubusercontent.com/71267455/146669283-9bff1393-eda8-4724-a853-e3c973b71c4b.jpg" width="200" height="370">
+<img src="https://user-images.githubusercontent.com/71267455/146669285-2237f871-4d73-43f1-a831-e3364b2f3162.jpg" width="200" height="370">
+<img src="https://user-images.githubusercontent.com/71267455/146669281-183d77ee-114c-4538-989e-69b340543c29.jpg" width="200" height="370"><br>
  산책 홈 <br>
 · 산책 목표를 설정할 수 있고 달성률을 확인할 수 있도록 제공<br>
 · 산책 캘린더<br>
